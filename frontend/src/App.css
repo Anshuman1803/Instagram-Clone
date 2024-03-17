@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto Serif", serif;
+  user-select: none;
+}
+
+/* ! This block holds the design of login, signup, forgot and reset password section */
+.userAuth__container {
+  background-color: rgb(252, 251, 251);
+  width: 100%;
+  min-height: 100dvh;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.authContainer__LeftSideContainer {
+  height: 100%;
+  width: 500px;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2em;
+  justify-content: flex-end;
+}
+
+.LeftSideContainer__PosterBox {
+  width: 500px;
+  height: 750px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-image: url(./Assets/home-phones.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.PosterBox__phonePoster {
+  width: 550px;
+  height: 100%;
+}
+
+.PosterBox__dynamicImages {
+  position: absolute;
+  top: 30px;
+  height: 85%;
+  right: 45px;
+  transition: all 0.3s ease-in-out;
+}
+
+.authContainer__RightSideContainer {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Auth__UserLoginFormContainer {
+  width: 100%;
+  height: 100%;
+  border: 2px soild blue;
+}
+
+.authFormn_Box {
+  border-radius: 3px;
+  border: 2px solid rgb(219, 219, 219);
+  width: 450px;
+}
+
+.LoginForm__Link__Logo {
+  text-decoration: none;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.1em 0em;
+}
+
+.LoginForm__LOGO {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.Auth__LoginForm {
+  width: 90%;
+  margin: 20px auto;
+}
+
+.Auth__formItemBox {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.ItemBox__errorState {
+  border: 2px solid #e5532d !important;
+}
+
+.Auth__formItem {
+  outline: none;
+  width: 100%;
+  height: 50px;
+  padding: 0em 0.6em;
+  border-radius: 5px;
+  border: 1px solid rgb(219, 219, 219);
+  font-size: 16px;
+}
+
+.Auth__formItem:focus {
+  outline: 1px solid rgb(219, 219, 219);
+}
+
+.Auth__formButton {
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color: rgb(0, 149, 246);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: all 0.1s ease-in-out;
+  margin: 20px 0px 10px 0px;
+}
+
+.Auth__formButton:hover {
+  cursor: pointer;
+  background-color: #0866ff;
+}
+
+.unActiveFormButton {
+  pointer-events: none;
+  background-color: rgba(0, 148, 246, 0.74);
+}
+
+.formPassword__showHide {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: rgb(39, 39, 39);
+}
+
+.formPassword__showHide:hover {
+  cursor: pointer;
+  color: rgb(95, 94, 94);
+}
+
+.authForm__hrContainer {
+  width: 95%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0px auto;
+}
+
+.authForm__hrContainer_line {
+  border: 1px solid rgb(219, 219, 219);
+  width: 100%;
+}
+
+.authForm__hrContainerOR_text {
+  width: 50px;
+  text-align: center;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(252, 251, 251);
+  color: rgb(115, 115, 115);
+}
+
+.authForm__googleLoginLINK {
+  margin: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #385185;
+  text-decoration: none;
+}
+
+.googleLoginLOGO {
+  width: 25px;
+}
+
+.authForm__googleLoginText {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.authForm__googleLoginLINK:hover {
+  cursor: pointer;
+  color: #1f57cf;
+  font-weight: 600;
+}
+
+.authForm__forgotPasswordText {
+  margin-top: 35px;
+  text-align: center;
+  color: rgb(0, 55, 107);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.authForm__forgotPasswordText:hover {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.authGotoSignUP_container {
+  border: 2px solid rgb(219, 219, 219);
+  margin-top: 10px;
+  width: 450px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gotoRegisterPageLINK {
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: 600;
+  color: rgb(0, 149, 246);
+  text-align: center;
+}
+
+.Get_App_Container {
+  width: 450px;
+  margin-top: 10px;
+}
+
+.Get_App_Container-Title {
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.platformButton__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.platformButtonImages {
+  height: 40px
+}
+
+.authForm__securityLOGO {
+  display: block;
+  width: 120px;
+  border-radius: 50%;
+  margin: 10px auto;
+}
+
+.authForm__ForgotPassHeading {
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.authForm__ForgotPassSubHeading {
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 0em 0.6em;
+  margin: 20px 0px;
+
+}
+
+.createNewAccountLInk {
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  color: black;
+}
+
+.createNewAccountLInk:hover {
+  cursor: pointer;
+  color: rgb(143, 143, 143);
+}
+
+.getOTP_button {
+  height: 45px;
+}
+
+.getOTP_button.unActiveFormButton {
+  opacity: 0.5;
+}
+
+.backtoLogIN_button {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  height: 44px;
+  background: rgba(218, 217, 217, 0.342);
+  font-weight: 600;
+  font-size: 18px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  cursor: pointer;
+
+}
+
+.forgotPasswordauthBox {
+  position: relative;
+  height: 620px;
+  margin-bottom: 3em;
+  padding-top: 1.5em;
+}
+
+/* ! This block holds the design of login, signup, forgot and reset password section */
+
+
+/* ! This block holds the design of OTP */
+
+.otpVerifier__Container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.19);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+
+.otpVerifier__form {
+  border-radius: 10px;
+  width: 520px;
+  padding: 2em;
+  background-color: rgb(252, 251, 251);
+}
+
+.optVerifierForm__title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.295);
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 5px;
+  padding: 0.6em;
+}
+
+.otpVerifier__inputBox{
+  padding: 0.5em 0em;
+  outline: none;
+  display: block;
+  margin: 25px auto;
+  width: 95%;
+  height: 50px;
+  font-size:55px;
+  text-align: center;
+  letter-spacing: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.363);
+  border-radius: 5px;
+}
+.otpVerifier__buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1em;
+
+}
+.otpVerifier__button{
+  border: none;
+  outline: none;
+  width: 150px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 10px;
+  color: white;
+}
+.otpVerifier__button:nth-child(1){
+  
+  background-color: #ed3548;
+}
+.otpVerifier__button:nth-child(2){
+  background-color: #3bbc6c;
+
+}
+/* ! This block holds the design of OTP */
+
+
+/* Responsive Styles */
+@media screen and (max-width: 990px) {
+  .authContainer__LeftSideContainer {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .otpVerifier__form{
+    padding: 2em 0em;
+    width: 95%;
+  }
+  .otpVerifier__buttonContainer{
+    justify-content: space-between;
+    padding: 0em 1em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .Auth__UserLoginFormContainer {
+    width: 100vw;
+  }
+
+  .authFormn_Box,
+  .authGotoSignUP_container,
+  .Get_App_Container {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .otpVerifier__inputBox{
+    font-size: 20px;
+  }
+  .otpVerifier__button{
+    width: 100px;
+  }
+  .optVerifierForm__title{
+    letter-spacing: normal;
+  }
+}
