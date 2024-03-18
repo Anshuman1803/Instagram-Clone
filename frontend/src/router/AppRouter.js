@@ -18,24 +18,30 @@ function AppRouter() {
   var validate = true
   return (
     <Routes>
-      {
-        validate ?
-          <Route path='/' element={<HomeContainer />} >
-            <Route path='/home' element={<Home />} />
-            <Route path='/search' element={<Search />} />
-            <Route path='/explore' element={<Explore />} />
-            <Route path='/messages' element={<Messages />} />
-            <Route path='/notification' element={<Notification />} />
-            <Route path='/profile' element={<Profile />} />
-          </Route>
-          :
-          <Route path="/" element={<AuthContainer />}>
-            <Route path="/user/auth/signin" element={<Login />} index />
-            <Route path="/user/auth/register" element={<Signup />} />
-            <Route path="/user/auth/password/forgot-password" element={<ForgotPassword />} />
-            <Route path="/user/auth/password/reset-password" element={<ResetPassword />} />
-          </Route>
-      }
+      {validate ? (
+        <Route path="/" element={<HomeContainer />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+      ) : (
+        <Route path="/" element={<AuthContainer />}>
+          <Route path="/user/auth/signin" element={<Login />} index />
+          <Route path="/user/auth/register" element={<Signup />} />
+          <Route
+            path="/user/auth/password/forgot-password"
+            element={<ForgotPassword />}
+          />
+          <Route
+            path="/user/auth/password/reset-password"
+            element={<ResetPassword />}
+          />
+          <Route path="/*" element={<Login />} />
+        </Route>
+      )}
     </Routes>
   );
 }
