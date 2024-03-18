@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UserLoggedIn } from "../../Redux/ReduxSlice";
+import ComponentLoader from "../../components/ComponentLoader";
 function Login() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -57,7 +58,7 @@ function Login() {
       userPasswordref.current.focus();
     } else {
       axios
-        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
+        .post("https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/signin", userDetails)
         .then((response) => {
           if (response.data.msg === "Wrong password") {
             setBtnLoader(false);
@@ -178,6 +179,9 @@ function Login() {
             Forgot password?
           </p>
         </form>
+        {
+          btnLoader && <ComponentLoader/>
+        }
       </div>
 
       <div className="authGotoSignUP_container">
