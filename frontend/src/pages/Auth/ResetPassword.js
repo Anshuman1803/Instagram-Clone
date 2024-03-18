@@ -53,7 +53,7 @@ function ResetPassword() {
     } else {
       axios
         .post(
-          "http://localhost:5000/api/v1/auth/user/password/reset-password",
+          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/password/reset-password",
           userDetails
         )
         .then((response) => {

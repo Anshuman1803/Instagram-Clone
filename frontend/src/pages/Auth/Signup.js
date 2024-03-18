@@ -70,14 +70,13 @@ function SignUp() {
       });
       toast.error("Username at least 6 characters long");
       userNameref.current.focus();
-    }else if(userDetails.userPassword.length < 8){
+    } else if (userDetails.userPassword.length < 8) {
       setErrorState({
         userPasswordError: true,
       });
       toast.error("Password at least 8 character long");
       userPasswordref.current.focus();
-    }
-    else {
+    } else {
       setBtnLoader(true);
       axios
         .post(
@@ -107,7 +106,6 @@ function SignUp() {
           setBtnLoader(false);
         });
     }
-  
   };
 
   return (
@@ -266,10 +264,10 @@ function SignUp() {
           </Link>
         </div>
       </div>
-      
+
       {emailSent && (
         <OtpVerifier
-        type = "EmailVerificationOTP"
+          type="EmailVerificationOTP"
           title={"Verify your email"}
           userDetails={userDetails}
           cbFun={toggleOtpVerifier}

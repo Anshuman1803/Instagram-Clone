@@ -7,6 +7,21 @@ const dotENV = require("dotenv");
 dotENV.config();
 const KEY = process.env.secretKey;
 const saltRound = process.env.saltRound;
+
+// authenticate user
+const authenticateUser = async (request, response) => {
+  const { Token } = request.body;
+  try {
+    const payload = JWT.verify(Token, KEY);
+    return response.send({
+      success: true,
+    });
+  } catch (error) {
+    response.send({
+      success: false,
+    });
+  }
+};
 // Sending  Account verifitying OTP emails
 const otpSender = async (request, response) => {
   const { userEmail, userName } = request.body;
@@ -105,7 +120,7 @@ const userSignIn = async (request, response) => {
     return response.send({
       success: true,
       UserDetails: isUserExists,
-      TOKEN : generatedToken,
+      TOKEN: generatedToken,
     });
   } else {
     return response.send({ msg: "Wrong Password" });
@@ -185,4 +200,5 @@ module.exports = {
   otpSender,
   forgotPassword,
   resetPassword,
+  authenticateUser,
 };

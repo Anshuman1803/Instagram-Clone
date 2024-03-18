@@ -6,7 +6,7 @@ import screenShotThree from "../../Assets/screenshot3.png";
 import screenShotFour from "../../Assets/screenshot4.png";
 
 function AuthContainer() {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const navigateTO = useNavigate();
 
   const images = [
@@ -19,9 +19,10 @@ function AuthContainer() {
   const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
     if (pathname === "/") {
-      navigateTO("/user/auth/signin")
+      navigateTO("/user/auth/signin");
     }
   }, [pathname, navigateTO]);
+  
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (currentIndex === images.length - 1) {
