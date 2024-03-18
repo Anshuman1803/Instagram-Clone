@@ -4,8 +4,15 @@ import instaLOGO from "../../Assets/Logo.png";
 import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
+import ButtonLoader from "../../components/ButtonLoader";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { UserLoggedIn } from "../../Redux/ReduxSlice";
 function Login() {
-  const navigateTO = useNavigate()
+  const dispatch = useDispatch();
+  const navigateTO = useNavigate();
+  const [btnLoader, setBtnLoader] = useState(false);
   const userIDref = useRef();
   const userPasswordref = useRef();
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +35,62 @@ function Login() {
   const handleInputOnChange = (e) => {
     setErrorState({});
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+  };
+
+  const handleSignINClick = (e) => {
+    e.preventDefault();
+    setBtnLoader(true);
+
+    if (userDetails.userID.length < 6) {
+      setBtnLoader(false);
+      setErrorState({
+        userIDError: true,
+      });
+      toast.error("Invalid user ID");
+      userIDref.current.focus();
+    } else if (userDetails.userPassword.length < 8) {
+      setBtnLoader(false);
+      setErrorState({
+        userPasswordError: true,
+      });
+      toast.error("Invalid password");
+      userPasswordref.current.focus();
+    } else {
+      axios
+        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
+        .then((response) => {
+          if (response.data.msg === "Wrong password") {
+            setBtnLoader(false);
+            setErrorState({
+              userPasswordError: true,
+            });
+            toast.error("Wrong password");
+            userPasswordref.current.focus();
+          } else if (response.data.msg === "User not registered") {
+            setBtnLoader(false);
+            toast.error("User not registered");
+            userIDref.current.focus();
+          } else if (response.data.success) {
+            setBtnLoader(false);
+            toast.success("User logged in successfully");
+            dispatch(
+              UserLoggedIn({
+                userID: response.data.UserDetails._id,
+                Token: response.data.TOKEN,
+              })
+            );
+          } else {
+            setBtnLoader(false);
+            toast.error("Try Again");
+            userIDref.current.focus();
+          }
+        })
+        .catch((err) => {
+          setBtnLoader(false);
+          toast.error("Something went wrong! Try again");
+          userIDref.current.focus();
+        });
+    }
   };
 
   return (
@@ -70,6 +133,7 @@ function Login() {
               value={userDetails.userPassword}
               ref={userPasswordref}
               autoComplete="current-password"
+              maxLength={15}
             />
             {userDetails.userPassword && (
               <span
@@ -87,8 +151,9 @@ function Login() {
               (userDetails.userID && userDetails.userPassword) ||
               "unActiveFormButton"
             }`}
+            onClick={handleSignINClick}
           >
-            Log in
+            {btnLoader ? <ButtonLoader /> : "Log in"}
           </button>
 
           <div className="authForm__hrContainer">
@@ -106,7 +171,12 @@ function Login() {
               Log in with google
             </span>
           </Link>
-          <p className="authForm__forgotPasswordText" onClick={()=> navigateTO("/user/auth/password/forgot-password")}>Forgot password?</p>
+          <p
+            className="authForm__forgotPasswordText"
+            onClick={() => navigateTO("/user/auth/password/forgot-password")}
+          >
+            Forgot password?
+          </p>
         </form>
       </div>
 

@@ -64,17 +64,24 @@ function SignUp() {
       });
       toast.error("Invalid name");
       fullNameref.current.focus();
-    } else if (userDetails.userName.length !== 10) {
+    } else if (userDetails.userName.length !== 6) {
       setErrorState({
         userNameError: true,
       });
-      toast.error("Username must be 10 characters long");
+      toast.error("Username at least 6 characters long");
       userNameref.current.focus();
-    } else {
+    }else if(userDetails.userPassword.length < 8){
+      setErrorState({
+        userPasswordError: true,
+      });
+      toast.error("Password at least 8 character long");
+      userPasswordref.current.focus();
+    }
+    else {
       setBtnLoader(true);
       axios
         .post(
-          "http://localhost:5000/api/v1/auth/user/verify-account",
+          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/verify-account",
           userDetails
         )
         .then((response) => {
@@ -100,6 +107,7 @@ function SignUp() {
           setBtnLoader(false);
         });
     }
+  
   };
 
   return (
@@ -160,8 +168,7 @@ function SignUp() {
               value={userDetails.userName}
               ref={userNameref}
               autoComplete="current-userName"
-              maxLength={10}
-              minLength={10}
+              maxLength={15}
             />
           </div>
 
@@ -177,8 +184,7 @@ function SignUp() {
               value={userDetails.userPassword}
               ref={userPasswordref}
               autoComplete="current-password"
-              maxLength={8}
-              minLength={8}
+              maxLength={15}
             />
             {userDetails.userPassword && (
               <span
@@ -260,10 +266,10 @@ function SignUp() {
           </Link>
         </div>
       </div>
-
-      {/* For this component i have to send the mail using node-mail or other 3rd party library */}
+      
       {emailSent && (
         <OtpVerifier
+        type = "EmailVerificationOTP"
           title={"Verify your email"}
           userDetails={userDetails}
           cbFun={toggleOtpVerifier}

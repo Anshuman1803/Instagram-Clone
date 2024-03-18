@@ -3,9 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import lockPNG from "../../Assets/lockPNG.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
+import ButtonLoader from "../../components/ButtonLoader";
+import OtpVerifier from "../../components/OtpVerifier";
+import toast from "react-hot-toast";
+import axios from "axios";
 function ForgotPassword() {
-  const navigateTO= useNavigate()
+  const [emailSent, setEmailsent] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false);
+  const navigateTO = useNavigate();
   const userEmailref = useRef();
+
   const [userDetails, setUserDetails] = useState({
     userEmail: "",
   });
@@ -21,6 +28,38 @@ function ForgotPassword() {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
+  const toggleOtpVerifier = () => {
+    setEmailsent(!emailSent);
+  };
+  const handleGetOtpClick = (e) => {
+    e.preventDefault();
+    if (!userDetails.userEmail.includes("@gmail.com")) {
+      setErrorState({
+        userEmailError: true,
+      });
+      toast.error("Invalid email address");
+      userEmailref.current.focus();
+    } else {
+      setBtnLoader(true);
+      axios
+        .post(
+          "http://localhost:5000/api/v1/auth/user/password/forgot-password",
+          userDetails
+        )
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(`${response.data.msg}`);
+            setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
+            toggleOtpVerifier();
+            setBtnLoader(false);
+          } else {
+            toast.error(`${response.data.msg}`);
+            setBtnLoader(false);
+            userEmailref.current.focus();
+          }
+        });
+    }
+  };
   return (
     <div className="Auth__UserLoginFormContainer">
       <div className="authFormn_Box forgotPasswordauthBox">
@@ -43,7 +82,7 @@ function ForgotPassword() {
               className={`Auth__formItem ${
                 errorState.userEmailError && "ItemBox__errorState"
               }`}
-              placeholder="Username, or email"
+              placeholder="Registered email address"
               onChange={handleInputOnChange}
               value={userDetails.userEmail}
               autoFocus
@@ -57,8 +96,9 @@ function ForgotPassword() {
             className={`Auth__formButton getOTP_button ${
               !userDetails.userEmail && "unActiveFormButton"
             }`}
+            onClick={handleGetOtpClick}
           >
-            Get OTP
+            {btnLoader ? <ButtonLoader /> : "Get OTP"}
           </button>
 
           <div className="authForm__hrContainer">
@@ -71,7 +111,12 @@ function ForgotPassword() {
           </Link>
         </form>
 
-        <button className="backtoLogIN_button" onClick={()=> navigateTO("/user/auth/signin")}>Back to login</button>
+        <button
+          className="backtoLogIN_button"
+          onClick={() => navigateTO("/user/auth/signin")}
+        >
+          Back to login
+        </button>
       </div>
 
       <div className="Get_App_Container">
@@ -105,6 +150,15 @@ function ForgotPassword() {
           </Link>
         </div>
       </div>
+      {/* For this component i have to send the mail using node-mail or other 3rd party library */}
+      {emailSent && (
+        <OtpVerifier
+          type="PasswordReseterOTP"
+          title={"Reset your password"}
+          userDetails={userDetails}
+          cbFun={toggleOtpVerifier}
+        />
+      )}
     </div>
   );
 }

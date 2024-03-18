@@ -9,17 +9,18 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<AuthContainer />}>
-          <Route path="/user/auth/signin" element={<Login />} index />
-          <Route path="/user/auth/register" element={<Signup />} />
-          <Route
-            path="/user/auth/password/forgot-password"
-            element={<ForgotPassword />}
-          />
-          <Route
-            path="/user/auth/password/reset-password"
-            element={<ResetPassword />}
-          />
-        </Route>
+        <Route path="/user/auth/signin" element={<Login />} index />
+        <Route path="/user/auth/register" element={<Signup />} />
+        <Route
+          path="/user/auth/password/forgot-password"
+          element={<ForgotPassword />}
+        />
+        <Route
+          path="/user/auth/password/reset-password"
+          element={<ResetPassword />}
+        />
+        <Route path="/*" element={<Login />} />
+      </Route>
     </Routes>
   );
 }

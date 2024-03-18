@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {Outlet} from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import screenShotOne from "../../Assets/screenshot1.png";
 import screenShotTwo from "../../Assets/screenshot2.png";
 import screenShotThree from "../../Assets/screenshot3.png";
 import screenShotFour from "../../Assets/screenshot4.png";
 
 function AuthContainer() {
+  const {pathname} = useLocation();
+  const navigateTO = useNavigate();
+
   const images = [
     screenShotOne,
     screenShotTwo,
@@ -14,7 +17,11 @@ function AuthContainer() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  useEffect(() => {
+    if (pathname === "/") {
+      navigateTO("/user/auth/signin")
+    }
+  }, [pathname, navigateTO]);
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (currentIndex === images.length - 1) {
@@ -37,9 +44,9 @@ function AuthContainer() {
           />
         </div>
       </div>
-      
+
       <div className="authContainer__RightSideContainer">
-        <Outlet/>
+        <Outlet />
       </div>
     </section>
   );
