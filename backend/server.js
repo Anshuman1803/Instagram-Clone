@@ -4,6 +4,7 @@ const cors = require("cors");
 const appServer = express();
 const dotENV = require("dotenv");
 const { mongooseConnection } = require("./config/mongooseConnection");
+const { emailSender } = require("./helper/Email");
 
 dotENV.config();
 appServer.use(express.json());
@@ -14,6 +15,7 @@ appServer.use(
 );
 
 appServer.use("/api/v1/auth",userRoute);
+
 
 appServer.listen(5000, async () => {
   try {

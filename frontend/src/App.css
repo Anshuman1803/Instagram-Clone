@@ -8,6 +8,92 @@
   user-select: none;
 }
 
+/* Button Loader */
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.loader {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  background: #FFF;
+  box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+  box-sizing: border-box;
+  animation: shadowPulse 2s linear infinite;
+}
+
+@keyframes shadowPulse {
+  33% {
+    background: #FFF;
+    box-shadow: -24px 0 #FF3D00, 24px 0 #FFF;
+  }
+
+  66% {
+    background: #FF3D00;
+    box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+  }
+
+  100% {
+    background: #FFF;
+    box-shadow: -24px 0 #FFF, 24px 0 #FF3D00;
+  }
+}
+
+.componentloaderContainer {
+  background-color: rgba(0, 0, 0, 0.244);
+  backdrop-filter: blur(2px);
+}
+
+.Componentloader {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  background-image:
+    linear-gradient(#FFF 16px, transparent 0),
+    linear-gradient(#FF3D00 16px, transparent 0),
+    linear-gradient(#FF3D00 16px, transparent 0),
+    linear-gradient(#FFF 16px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left top, left bottom, right top, right bottom;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(0deg)
+  }
+
+  50% {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg)
+  }
+
+  100% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(360deg)
+  }
+}
+
+/* Button Loader */
+
 /* ! This block holds the design of login, signup, forgot and reset password section */
 .userAuth__container {
   background-color: rgb(252, 251, 251);
@@ -130,6 +216,7 @@
   border-radius: 10px;
   transition: all 0.1s ease-in-out;
   margin: 20px 0px 10px 0px;
+  position: relative;
 }
 
 .Auth__formButton:hover {
@@ -352,11 +439,13 @@
   backdrop-filter: blur(2px);
 }
 
+
 .otpVerifier__form {
   border-radius: 10px;
   width: 520px;
   padding: 2em;
   background-color: rgb(252, 251, 251);
+  position: relative;
 }
 
 .optVerifierForm__title {
@@ -369,27 +458,29 @@
   padding: 0.6em;
 }
 
-.otpVerifier__inputBox{
+.otpVerifier__inputBox {
   padding: 0.5em 0em;
   outline: none;
   display: block;
   margin: 25px auto;
   width: 95%;
   height: 50px;
-  font-size:55px;
+  font-size: 55px;
   text-align: center;
   letter-spacing: 20px;
   border: 1px solid rgba(0, 0, 0, 0.363);
   border-radius: 5px;
 }
-.otpVerifier__buttonContainer{
+
+.otpVerifier__buttonContainer {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   padding: 1em;
 
 }
-.otpVerifier__button{
+
+.otpVerifier__button {
   border: none;
   outline: none;
   width: 150px;
@@ -398,15 +489,19 @@
   font-weight: 500;
   border-radius: 10px;
   color: white;
+  cursor: pointer;
 }
-.otpVerifier__button:nth-child(1){
-  
+
+.otpVerifier__button:nth-child(1) {
+
   background-color: #ed3548;
 }
-.otpVerifier__button:nth-child(2){
+
+.otpVerifier__button:nth-child(2) {
   background-color: #3bbc6c;
 
 }
+
 /* ! This block holds the design of OTP */
 
 
@@ -418,11 +513,12 @@
 }
 
 @media screen and (max-width: 550px) {
-  .otpVerifier__form{
+  .otpVerifier__form {
     padding: 2em 0em;
     width: 95%;
   }
-  .otpVerifier__buttonContainer{
+
+  .otpVerifier__buttonContainer {
     justify-content: space-between;
     padding: 0em 1em;
   }
@@ -440,13 +536,16 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .otpVerifier__inputBox{
+
+  .otpVerifier__inputBox {
     font-size: 20px;
   }
-  .otpVerifier__button{
+
+  .otpVerifier__button {
     width: 100px;
   }
-  .optVerifierForm__title{
+
+  .optVerifierForm__title {
     letter-spacing: normal;
   }
 }

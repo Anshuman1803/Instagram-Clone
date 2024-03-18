@@ -5,12 +5,16 @@ import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import toast from "react-hot-toast";
-// import OtpVerifier from "../../components/OtpVerifier";
+import axios from "axios";
+import ButtonLoader from "../../components/ButtonLoader";
+import OtpVerifier from "../../components/OtpVerifier";
 function SignUp() {
   const userEmailRef = useRef();
   const fullNameref = useRef();
   const userNameref = useRef();
   const userPasswordref = useRef();
+  const [emailSent, setEmailsent] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [errorState, setErrorState] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [userDetails, setUserDetails] = useState({
@@ -25,9 +29,22 @@ function SignUp() {
     setShowPassword(!showPassword);
   };
 
+  const clearFields = () => {
+    setErrorState({});
+    setUserDetails({
+      userEmail: "",
+      fullName: "",
+      userName: "",
+      userPassword: "",
+    });
+  };
+  const toggleOtpVerifier = () => {
+    setEmailsent(!emailSent);
+  };
+
   const handleInputOnChange = (e) => {
     setErrorState({});
-    setUserDetails({ ...userDetails, [e.target.name]:e.target.value.trim()});
+    setUserDetails({ ...userDetails, [e.target.name]: e.target.value.trim() });
   };
 
   const handleSignUPClick = (e) => {
@@ -47,14 +64,41 @@ function SignUp() {
       });
       toast.error("Invalid name");
       fullNameref.current.focus();
-    } else if (userDetails.userName.length !== 6) {
+    } else if (userDetails.userName.length !== 10) {
       setErrorState({
         userNameError: true,
       });
-      toast.error("Username must be 6 characters long");
+      toast.error("Username must be 10 characters long");
       userNameref.current.focus();
-    }else{
-      console.log(userDetails)
+    } else {
+      setBtnLoader(true);
+      axios
+        .post(
+          "http://localhost:5000/api/v1/auth/user/verify-account",
+          userDetails
+        )
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(`${response.data.msg}`);
+            setBtnLoader(false);
+            setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
+            toggleOtpVerifier();
+          } else if (response.data.msg === "username already taken") {
+            toast.error(`${response.data.msg}`);
+            setBtnLoader(false);
+            userNameref.current.focus();
+          } else {
+            toast.error(`${response.data.msg}`);
+            userEmailRef.current.focus();
+            setBtnLoader(false);
+            clearFields();
+          }
+        })
+        .catch((err) => {
+          toast.error(`Something went wrong! ${err.message}`);
+          userEmailRef.current.focus();
+          setBtnLoader(false);
+        });
     }
   };
 
@@ -97,9 +141,10 @@ function SignUp() {
               onChange={handleInputOnChange}
               value={userDetails.fullName}
               ref={fullNameref}
-              autoComplete="current-fullName"
+              autoComplete="off"
               maxLength={20}
               minLength={3}
+              autoCapitalize="on"
             />
           </div>
 
@@ -115,8 +160,8 @@ function SignUp() {
               value={userDetails.userName}
               ref={userNameref}
               autoComplete="current-userName"
-              maxLength={6}
-              minLength={6}
+              maxLength={10}
+              minLength={10}
             />
           </div>
 
@@ -156,7 +201,7 @@ function SignUp() {
             }`}
             onClick={handleSignUPClick}
           >
-            Sign up
+            {btnLoader ? <ButtonLoader /> : "Sign up"}
           </button>
 
           <div className="authForm__hrContainer">
@@ -216,8 +261,14 @@ function SignUp() {
         </div>
       </div>
 
-{/* For this component i have to send the mail using node-mail or other 3rd party library */}
-      {/* <OtpVerifier title= {"Verify your email"}/> */}
+      {/* For this component i have to send the mail using node-mail or other 3rd party library */}
+      {emailSent && (
+        <OtpVerifier
+          title={"Verify your email"}
+          userDetails={userDetails}
+          cbFun={toggleOtpVerifier}
+        />
+      )}
     </div>
   );
 }
