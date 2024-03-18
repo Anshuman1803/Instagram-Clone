@@ -424,6 +424,96 @@
 /* ! This block holds the design of login, signup, forgot and reset password section */
 
 
+/* ! This block holds the design of the homepage navlinks */
+.homeContainer {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.__outlet {
+  width: calc(100% - 245px);
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.__nav_Header {
+  display: none;
+}
+
+.instaLogo {
+  width: 10em;
+  padding-left: 10px;
+}
+
+.navbar {
+  border-right: 1px solid rgb(175, 175, 175);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100vh;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 245px;
+  gap: 5px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 1em;
+  transition: 400ms;
+  border-radius: 10px;
+  width: 94%;
+  height: 3.5em;
+  margin: auto;
+}
+
+.navLink:hover {
+  background: rgba(0, 0, 0, 0.117);
+}
+
+.navIcon {
+  width: 1.8em;
+}
+
+.moreIcon {
+  width: 2.5em;
+  margin-left: .2em;
+}
+
+.navLink:hover {
+  transform: scale(1.02);
+}
+
+.moreBtn {
+  width: 8em;
+  height: 3em;
+  margin: auto;
+}
+
+.__instaIcon_Hide {
+  display: none;
+}
+
+.__navbar_moreButton {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* --------------------- */
+
+
+
 /* ! This block holds the design of OTP */
 
 .otpVerifier__Container {
@@ -510,7 +600,46 @@
   .authContainer__LeftSideContainer {
     display: none;
   }
+
+  .__outlet {
+    display: inline-block;
+    width: calc(100% - 80px);
+    height: 100vh;
+  }
+
+  .navbar,
+  nav {
+    width: 80px;
+  }
+
+  nav {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navLink {
+    width: 80%;
+  }
+
+  .instaLogo {
+    display: none;
+  }
+
+  .__instaIcon_Hide {
+    display: block;
+    font-size: 5px;
+    margin-left: 1.5em;
+  }
+
+  .__navTitle {
+    display: none;
+  }
 }
+
+/* --------------------------------- */
+
+/* ----------------------------- */
+
 
 @media screen and (max-width: 550px) {
   .otpVerifier__form {
@@ -522,6 +651,87 @@
     justify-content: space-between;
     padding: 0em 1em;
   }
+
+  .homeContainer {
+    flex-direction: column;
+  }
+
+  .__outlet {
+    width: 100%;
+    height: calc(100vh - 130px);
+  }
+
+  /* ! This block holds the Header Component Design */
+  .__nav_Header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid rgb(170, 170, 170);
+    width: 100%;
+    height: 4em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+  }
+
+  .__nav_Logo {
+    width: 9em;
+  }
+
+  .__create_Logo {
+    width: 2em;
+    height: 2em;
+  }
+
+  .__nav_Header_Right {
+    display: flex;
+    align-items: center;
+    padding: 0 .5em;
+    gap: 1em;
+  }
+
+  .search {
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    padding: 0 .5em;
+    border-radius: 5px;
+  }
+
+  .__nav_search {
+    height: 2.5em;
+    width: 80%;
+    padding-left: 1em;
+    border: none;
+    outline: none;
+  }
+
+  .__nav_Header_Right img {
+    width: 2em;
+  }
+
+  /* ---------------------------------------- */
+  .navLink {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .navbar,
+  nav {
+    border-top: 1px solid rgb(179, 179, 179);
+    flex-direction: row;
+    width: 100%;
+    height: 4em;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .__instaIcon_Hide,
+  .__navbar_moreButton {
+    display: none;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
