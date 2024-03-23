@@ -17,6 +17,9 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ComponentLoader from "../components/ComponentLoader";
+import Create from "../pages/Home/Create";
+import ProfilePost from "../pages/Home/ProfilePost";
+import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -26,7 +29,10 @@ function AppRouter() {
     setLoader(true);
     if (Token) {
       axios
-        .post("https://instagram-clone-bsmc.onrender.com/api/v1/auth/verify/token", { Token })
+        .post(
+          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/verify/token",
+          { Token }
+        )
         .then((response) => {
           if (response.data.success) {
             setValidate(true);
@@ -50,7 +56,7 @@ function AppRouter() {
   return (
     <>
       {Loader ? (
-        <ComponentLoader />
+        <ComponentLoader type="initialLoader" />
       ) : (
         <Routes>
           {validate ? (
@@ -60,7 +66,11 @@ function AppRouter() {
               <Route path="/explore" element={<Explore />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/notification" element={<Notification />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/profile" element={<Profile />}>
+                <Route path= "/profile/posts" element={<ProfilePost/>}/>
+                <Route path= "/profile/saved" element={<ProfileSavedPost/>} />
+              </Route>
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (

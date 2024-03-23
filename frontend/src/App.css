@@ -57,6 +57,18 @@
   backdrop-filter: blur(2px);
 }
 
+.initialLoader {
+  background-color: rgb(252, 251, 251);
+}
+
+.initialLoader .Componentloader {
+  background-image:
+    linear-gradient(orange 16px, transparent 0),
+    linear-gradient(#FF3D00 16px, transparent 0),
+    linear-gradient(hsl(14, 100%, 50%) 16px, transparent 0),
+    linear-gradient(orange 16px, transparent 0);
+}
+
 .Componentloader {
   width: 64px;
   height: 64px;
@@ -510,9 +522,7 @@ nav {
   background: transparent;
 }
 
-/* --------------------- */
-
-
+/* ! This block holds the design of the homepage navlinks */
 
 /* ! This block holds the design of OTP */
 
@@ -583,16 +593,123 @@ nav {
 }
 
 .otpVerifier__button:nth-child(1) {
-
   background-color: #ed3548;
 }
 
 .otpVerifier__button:nth-child(2) {
   background-color: #3bbc6c;
-
 }
 
 /* ! This block holds the design of OTP */
+
+/* ! This block holds the design of DASHBOARD PROFILE SECTION */
+.dashboard__ProfileSection {
+  border: 1px solid #000;
+  width: 100%;
+  min-height: 100%;
+}
+
+.dashboard__currentUser__infoContainer {
+  border: 2px solid red;
+  width: 60vw;
+  margin: 20px auto 0px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7em;
+}
+
+.infoContainer__userProfile {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  align-self: flex-start;
+}
+
+.userProile {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
+.infoContainer__userBox {
+  /* border: 2px solid red; */
+  width: calc(100% - 220px);
+  min-height: 275px;
+}
+
+.userBox__userName {
+  text-transform: lowercase;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+  padding: 0.6em;
+}
+
+.userBox__userActivityState {
+  /* border: 2px solid red; */
+  margin: 20px auto;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.userBox__activity {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 10px;
+  word-spacing: 5px;
+}
+
+.userBox__fullName {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.userBox__userBIO {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.812);
+}
+
+.dashboard__currentUser__PostsContainer{
+  border: 2px solid red;
+  border-top: 1px solid rgba(128, 128, 128, 0.848);
+  width: 60vw;
+  margin: 10px auto;
+  min-height: 400px;
+}
+.dashboard__postsContainer_navbar{
+  width: 275px;
+  height: 70px;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.PostsContainer__navItem{
+text-decoration: none;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 20px;
+color: rgba(0, 0, 0, 0.542);
+font-weight: 400;
+text-transform: uppercase;
+}
+.PostsContainer__navItem.active{
+  border-top: 1px solid black;
+  color: black;
+}
+.postsContainer__outLetContainer{
+  border: 2px solid red;
+  min-height: 300px;
+}
+/* ! This block holds the design of DASHBOARD PROFILE SECTION */
 
 
 /* Responsive Styles */
@@ -635,11 +752,6 @@ nav {
     display: none;
   }
 }
-
-/* --------------------------------- */
-
-/* ----------------------------- */
-
 
 @media screen and (max-width: 550px) {
   .otpVerifier__form {

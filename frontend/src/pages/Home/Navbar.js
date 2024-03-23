@@ -34,7 +34,7 @@ export default function Navbar() {
                     <NavLink className='navLink' to='/notification'>
                         <img className='navIcon' src={Notification} alt='' />   <span className='__navTitle'>Notification</span>
                     </NavLink>
-                    <NavLink className='navLink' to='/notification'>
+                    <NavLink className='navLink' to='/create'>
                         <img className='navIcon' src={Create} alt='' />   <span className='__navTitle'>Create</span>
                     </NavLink>
                     <NavLink className='navLink' to='/profile' >

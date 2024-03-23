@@ -1,8 +1,8 @@
 import React from 'react'
 
-function ComponentLoader() {
+function ComponentLoader({type}) {
   return (
-    <div className='loaderContainer componentloaderContainer'>
+    <div className={`loaderContainer componentloaderContainer ${type}`}>
       <span className="Componentloader"></span>
     </div>
   )
