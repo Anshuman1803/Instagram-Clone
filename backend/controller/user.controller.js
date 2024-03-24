@@ -114,7 +114,7 @@ const userSignIn = async (request, response) => {
   if (userAuthenticaticated) {
     // creating json token
     const generatedToken = JWT.sign({ USER: tempUser.userEmail }, KEY, {
-      expiresIn: "3h",
+      expiresIn: "72h",
     });
     isUserExists.userPassword = undefined;
     return response.send({

@@ -68,7 +68,7 @@ function AppRouter() {
               <Route path="/notification" element={<Notification />} />
               <Route path="/create" element={<Create />} />
               <Route path="/profile" element={<Profile />}>
-                <Route path= "/profile/posts" element={<ProfilePost/>}/>
+                <Route path= "/profile/posts" element={<ProfilePost/>} index/>
                 <Route path= "/profile/saved" element={<ProfileSavedPost/>} />
               </Route>
               <Route path="/*" element={<Home />} />
