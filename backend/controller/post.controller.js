@@ -1,21 +1,32 @@
 const { postCollection } = require("../model/post.model");
+const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
 
 const createPost = async (request, response) => {
   const { user, postCreatedAt, postCaption } = request.body;
   try {
     const cloudnaryResponse = await uploadOnCloudnary(request.file.path);
+
     const mongooseResponse = await postCollection.create({
       user: user,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
       postCaption: postCaption,
-      postComments : 0,
-postLikes : 0,
+      postComments: 0,
+      postLikes: 0,
     });
 
     if (mongooseResponse) {
-      response.send({ success: true });
+      const updateResponse = await userCollection.updateOne(
+        { _id: user },
+        {
+          $inc: { userPosts: 1 },
+        }
+      );
+
+      if (updateResponse.acknowledged) {
+        response.send({ success: true });
+      }
     } else {
       response.send({ success: false });
     }

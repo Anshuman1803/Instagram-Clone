@@ -60,7 +60,6 @@ function Login() {
       axios
         .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
         .then((response) => {
-          console.log(response);
           if (response.data.msg === "Wrong password") {
             setBtnLoader(false);
             setErrorState({
@@ -79,9 +78,10 @@ function Login() {
               UserLoggedIn({
                 userID: response.data.UserDetails._id,
                 Token: response.data.TOKEN,
+                userName: response.data.UserDetails.userName,
+                userProfile: response.data.UserDetails.userProfile,
               })
             );
-            localStorage.setItem("instaUserName" ,response.data.UserDetails.userName )
           } else {
             setBtnLoader(false);
             toast.error("Try Again");
@@ -181,9 +181,7 @@ function Login() {
             Forgot password?
           </p>
         </form>
-        {
-          btnLoader && <ComponentLoader/>
-        }
+        {btnLoader && <ComponentLoader />}
       </div>
 
       <div className="authGotoSignUP_container">

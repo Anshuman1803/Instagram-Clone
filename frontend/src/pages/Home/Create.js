@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import PostLoader from "../../components/PostLoader";
 export default function Create() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaUserName, instaProfle } = useSelector(
+    (state) => state.Instagram
+  );
   const [Loading, setLoading] = useState(false);
   const imgRef = useRef();
   const [post, setPost] = useState({
@@ -15,7 +17,6 @@ export default function Create() {
     postCaption: "",
   });
   const [selectedImage, setSelectedImage] = useState(null);
-
   const handleOnChangeInput = (e) => {
     if (e.target.name === "postPoster") {
       if (e.target.files[0].type.split("/")[0] === "image") {
@@ -48,7 +49,6 @@ export default function Create() {
         .post("http://localhost:5000/api/v1/posts/create-post", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
-
         .then((response) => {
           if (response.data.success) {
             toast.success("Post created successfully");
@@ -107,16 +107,18 @@ export default function Create() {
           </h1>
 
           <div className="createPost__currentUserInfo">
-            <img
-              src=""
-              alt="ProfilePicture"
-              className="CreatePost__profilePicture"
-              onError={(e) => {
-                e.target.src = `${defaultProfile}`;
-                e.onerror = null;
-              }}
-            />
-            <h3 className="createPost__currentUserName">{localStorage.getItem("instaUserName")}</h3>
+            <div className="CreatePost__profilePictureBox">
+              <img
+                src={instaProfle ? instaProfle : ""}
+                alt="ProfilePicture"
+                className="CreatePost__profilePicture"
+                onError={(e) => {
+                  e.target.src = `${defaultProfile}`;
+                  e.onerror = null;
+                }}
+              />
+            </div>
+            <h3 className="createPost__currentUserName">{instaUserName}</h3>
           </div>
 
           <textarea

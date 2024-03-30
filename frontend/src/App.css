@@ -928,7 +928,8 @@ nav {
   display: none;
   transition: all 0.4s ease-in-out;
 }
-.profilePostContainer_postInfoBox{
+
+.profilePostContainer_postInfoBox {
   font-size: 28px;
   min-width: 100px;
   color: white;
@@ -938,10 +939,12 @@ nav {
   gap: 10px;
 
 }
-.profilePostcontainer__postInfoICON{
-font-size: 25px;
+
+.profilePostcontainer__postInfoICON {
+  font-size: 25px;
 }
-.profilePostContainer__postCard:hover .profilePostcontainer__postInfo{
+
+.profilePostContainer__postCard:hover .profilePostcontainer__postInfo {
   display: flex;
 }
 
@@ -970,11 +973,13 @@ font-size: 25px;
   flex-direction: column;
   position: relative;
 }
-.CreatePost__box .postLoaderContainer{
+
+.CreatePost__box .postLoaderContainer {
   background-color: rgba(0, 0, 0, 0.164);
   border-radius: 10px;
   backdrop-filter: blur(2px);
 }
+
 .createPost__previewImageBox {
   width: 100%;
   border-radius: 8px;
@@ -1030,9 +1035,16 @@ font-size: 25px;
   padding: 0em 1em;
 }
 
-.CreatePost__profilePicture {
+.CreatePost__profilePictureBox {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+}
+
+.CreatePost__profilePicture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .createPost__currentUserName {

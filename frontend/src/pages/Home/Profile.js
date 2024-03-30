@@ -26,7 +26,6 @@ export default function Profile() {
     navigateTO("/profile/posts");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
-  console.log(currentUser);
   return (
     <section className="dashboard__ProfileSection">
       <div className="dashboard__currentUser__infoContainer">
