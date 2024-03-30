@@ -2,23 +2,24 @@ import { createSlice } from "@reduxjs/toolkit";
 const ReduxSlice = createSlice({
   name: "ReduxSlice",
   initialState: {
-    userID: localStorage.getItem("userID")
-      ? localStorage.getItem("userID")
+    instaUserID: localStorage.getItem("instaUserID")
+      ? localStorage.getItem("instaUserID")
       : [],
-    Token: localStorage.getItem("Token")
-      ? localStorage.getItem("Token")
+    instaTOKEN: localStorage.getItem("instaTOKEN")
+      ? localStorage.getItem("instaTOKEN")
       : "",
   },
   reducers: {
     UserLoggedIn(state, action) {
-      state.userID = action.payload.userID;
-      state.Token = action.payload.Token;
-      localStorage.setItem("userID", state.userID);
-      localStorage.setItem("Token", state.Token);
+      state.instaUserID = action.payload.userID;
+      state.instaTOKEN = action.payload.Token;
+      localStorage.setItem("instaUserID", state.instaUserID);
+      localStorage.setItem("instaTOKEN", state.instaTOKEN);
     },
     UserLoggedOut() {
-      localStorage.removeItem("userID");
-      localStorage.removeItem("Token");
+      localStorage.removeItem("instaUserID");
+      localStorage.removeItem("instaTOKEN");
+      localStorage.removeItem("instaUserName");
     },
   },
 });

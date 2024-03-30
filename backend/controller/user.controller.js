@@ -10,9 +10,9 @@ const saltRound = process.env.saltRound;
 
 // authenticate user
 const authenticateUser = async (request, response) => {
-  const { Token } = request.body;
+  const { instaTOKEN } = request.body;
   try {
-    const payload = JWT.verify(Token, KEY);
+    const payload = JWT.verify(instaTOKEN, KEY);
     return response.send({
       success: true,
     });
@@ -74,7 +74,7 @@ const otpSender = async (request, response) => {
 const userRegister = async (request, response) => {
   let { userName, fullName, userEmail, userPassword } = request.body;
   //hashing password using bcrypt
-  userPassword = bcrypt.hashSync(userPassword, saltRound);
+  userPassword = bcrypt.hashSync(userPassword, 15);
 
   // saving new user in database
   const registredResult = await userCollection.create({
@@ -82,6 +82,11 @@ const userRegister = async (request, response) => {
     fullName: fullName,
     userEmail: userEmail,
     userPassword: userPassword,
+    userFollowers: 0,
+    userFollowing: 0,
+    userPosts: 0,
+    userBio: "",
+    userProfile: "",
   });
   if (registredResult) {
     return response.send({ resMsg: "User Registred Successfully" });
@@ -191,7 +196,27 @@ const resetPassword = async (request, response) => {
 };
 
 // get the registred user using their _id
-const getUser = async (request, response) => {};
+const getUser = async (request, response) => {
+  const { id } = request.params;
+  try {
+    const mongooseResponse = await userCollection.findOne({ _id: id });
+    if (mongooseResponse) {
+      mongooseResponse.userPassword = undefined;
+      return response.send({
+        success: true,
+        user: mongooseResponse,
+      });
+    } else {
+      return response.send({
+        success: false,
+      });
+    }
+  } catch (err) {
+    return response.send({
+      success: false,
+    });
+  }
+};
 
 module.exports = {
   userRegister,

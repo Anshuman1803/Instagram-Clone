@@ -58,8 +58,9 @@ function Login() {
       userPasswordref.current.focus();
     } else {
       axios
-        .post("https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/signin", userDetails)
+        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
         .then((response) => {
+          console.log(response);
           if (response.data.msg === "Wrong password") {
             setBtnLoader(false);
             setErrorState({
@@ -80,6 +81,7 @@ function Login() {
                 Token: response.data.TOKEN,
               })
             );
+            localStorage.setItem("instaUserName" ,response.data.UserDetails.userName )
           } else {
             setBtnLoader(false);
             toast.error("Try Again");

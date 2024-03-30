@@ -23,15 +23,15 @@ import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
-  const { Token } = useSelector((state) => state.Instagram);
+  const { instaTOKEN } = useSelector((state) => state.Instagram);
 
   useEffect(() => {
     setLoader(true);
-    if (Token) {
+    if (instaTOKEN) {
       axios
         .post(
-          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/verify/token",
-          { Token }
+          "http://localhost:5000/api/v1/auth/verify/token",
+          { instaTOKEN }
         )
         .then((response) => {
           if (response.data.success) {
@@ -45,14 +45,14 @@ function AppRouter() {
         })
         .catch((err) => {
           setValidate(false);
-          setLoader(true)(false);
+          setLoader(false);
           toast.error("Invalid or expired token. Please log in again.");
         });
     } else {
       setValidate(false);
       setLoader(false);
     }
-  }, [Token]);
+  }, [instaTOKEN]);
   return (
     <>
       {Loader ? (

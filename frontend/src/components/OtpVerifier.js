@@ -22,7 +22,7 @@ function OtpVerifier({ type, title, userDetails, cbFun }) {
       setBtnLoader(true);
       if (type === "EmailVerificationOTP") {
         axios
-          .post("https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/register", userDetails)
+          .post("http://localhost:5000/api/v1/auth/user/register", userDetails)
           .then((response) => {
             if (response.data.resMsg === "User Registred Successfully") {
               toast.success("User Registred Successfully");
