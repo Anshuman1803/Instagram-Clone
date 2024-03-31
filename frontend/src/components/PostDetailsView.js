@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import defaultProfile from "../Assets/DefaultProfile.png";
 import { BsThreeDots } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
+import { FaRegComment } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa"; // when the user like the post
+import savedPostICON from "../Assets/savedICON.png"
 function PostDetailsView({ postID }) {
   return (
     <section className="postDetailsView__popupContainer">
       <div className="postDetailsview__box">
-
         <div className="postDetailsview__postPOsterContainer">
           <img
             src="https://res.cloudinary.com/project-instagram-clone/image/upload/v1711783253/ghftksvkl8xdllbwuwmh.jpg"
@@ -56,7 +59,10 @@ function PostDetailsView({ postID }) {
 
             {/* All Comments loaded here */}
             <>
-              <div className="postDetailsview__captionBox"   style={{ paddingRight: "5px" }}>
+              <div
+                className="postDetailsview__captionBox"
+                style={{ paddingRight: "5px" }}
+              >
                 <img
                   src={""}
                   alt="ProfilePicture"
@@ -69,7 +75,10 @@ function PostDetailsView({ postID }) {
 
                 <div
                   className="postDetailsView_PostCaption"
-                  style={{ padding: "0px 5px 0px 0px",   width: "calc(100% - 100px)"}}
+                  style={{
+                    padding: "0px 5px 0px 0px",
+                    width: "calc(100% - 100px)",
+                  }}
                 >
                   <p
                     className="postCaption"
@@ -89,17 +98,21 @@ function PostDetailsView({ postID }) {
                   </span>
                 </div>
 
-                <MdDelete className="postDetailsView__deleteCommentICON"/>
+                <MdDelete className="postDetailsView__deleteCommentICON" />
               </div>
-              
             </>
           </div>
 
           <div className="postDetailsview__postICONContainer">
-            
+
+            <div className="iconContainer">
+              <FaRegHeart className="postDetailsview__ICONS" />
+              <FaHeart className="postDetailsview__ICONS postDetailsview__LIKEDICONS" />
+              <FaRegComment className="postDetailsview__ICONS" />
+              <img src={savedPostICON} alt=""  className="postDetailsview__ICONIMG"/>
+            </div>
+
           </div>
-
-
         </div>
       </div>
     </section>

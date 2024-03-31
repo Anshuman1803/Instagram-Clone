@@ -1229,7 +1229,31 @@ nav {
   border: 2px solid red;
   height: 80px;
 }
-
+.iconContainer{
+  border: 2px solid blue;
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.postDetailsview__ICONS{
+  font-size: 25px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+.postDetailsview__LIKEDICONS{
+  color:#ed3548;
+  
+}
+.postDetailsview__ICONIMG{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  cursor: pointer;
+}
 /* ! This block holds the design of  PostDetailsView Popup */
 
 /* Responsive Styles */
