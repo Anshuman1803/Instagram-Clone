@@ -38,7 +38,10 @@ export default function Create() {
 
     if (post.postPoster === "") {
       toast.error("Select an image for post");
-    } else {
+    }else if(post.postCaption.length > 75){
+      toast.error("Caption should be only 75 characters.");
+    }
+    else {
       const formData = new FormData();
       formData.set("user", instaUserID);
       formData.set("postCreatedAt", Date.now());
@@ -120,7 +123,6 @@ export default function Create() {
             </div>
             <h3 className="createPost__currentUserName">{instaUserName}</h3>
           </div>
-
           <textarea
             name="postCaption"
             id="caption"

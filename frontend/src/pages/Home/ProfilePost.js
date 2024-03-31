@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import cameraICON from "../../Assets/CameraICON.png";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
+import { useParams } from "react-router-dom";
 function ProfilePost() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+
+  const {instaUserID} = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
 

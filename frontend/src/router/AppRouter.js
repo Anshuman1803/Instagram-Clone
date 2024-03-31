@@ -29,10 +29,7 @@ function AppRouter() {
     setLoader(true);
     if (instaTOKEN) {
       axios
-        .post(
-          "http://localhost:5000/api/v1/auth/verify/token",
-          { instaTOKEN }
-        )
+        .post("http://localhost:5000/api/v1/auth/verify/token", { instaTOKEN })
         .then((response) => {
           if (response.data.success) {
             setValidate(true);
@@ -67,9 +64,16 @@ function AppRouter() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/create" element={<Create />} />
-              <Route path="/profile" element={<Profile />}>
-                <Route path= "/profile/posts" element={<ProfilePost/>} index/>
-                <Route path= "/profile/saved" element={<ProfileSavedPost/>} />
+              <Route path="/:instaUserID" element={<Profile />}>
+                <Route
+                  path="/:instaUserID/posts"
+                  element={<ProfilePost />}
+                  index
+                />
+                <Route
+                  path="/:instaUserID/saved"
+                  element={<ProfileSavedPost />}
+                />
               </Route>
               <Route path="/*" element={<Home />} />
             </Route>
