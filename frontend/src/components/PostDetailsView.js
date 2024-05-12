@@ -1,19 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import defaultProfile from "../Assets/DefaultProfile.png";
 import { BsThreeDots } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa"; // when the user like the post
-import savedPostICON from "../Assets/savedICON.png"
-function PostDetailsView({ postID }) {
+import savedPostICON_outline from "../Assets/favoutite.png"
+import savedPostICON_Filled from "../Assets/Filled_favoutite.png"
+import { CalculateTimeAgo } from "../utility/TimeAgo";
+import { RxCross2 } from "react-icons/rx";
+function PostDetailsView() {
+  const {state} =useLocation();
+  console.log(state)
+
+  const handleBackClick = (e)=>{
+    e.preventDefault();
+    window.history.back();
+  }
   return (
-    <section className="postDetailsView__popupContainer">
+    <section className="postDetailsView__popupContainer" >
+      <RxCross2 className="postDetailsView__closeButton" onClick={handleBackClick}/>
       <div className="postDetailsview__box">
         <div className="postDetailsview__postPOsterContainer">
           <img
-            src="https://res.cloudinary.com/project-instagram-clone/image/upload/v1711783253/ghftksvkl8xdllbwuwmh.jpg"
+            src={state?.postPoster}
             alt="PostPoster"
             className="postDetailsview__postPOster"
           />
@@ -22,7 +33,7 @@ function PostDetailsView({ postID }) {
         <div className="postDetailsview__postDetails">
           <div className="postDetailsview__ownerDetails">
             <img
-              src={""}
+              src={state?.userProfile}
               alt="ProfilePicture"
               className="postDetailsview__ownerProfile"
               onError={(e) => {
@@ -30,7 +41,7 @@ function PostDetailsView({ postID }) {
                 e.onerror = null;
               }}
             />
-            <Link className="postDetailsview__ownerUserName">UserName</Link>
+            <Link className="postDetailsview__ownerUserName">{state?.userName}</Link>
 
             <BsThreeDots className="postDetailsView__optionButtonICON" />
           </div>
@@ -38,7 +49,7 @@ function PostDetailsView({ postID }) {
           <div className="postDetailsview__Commentbox">
             <div className="postDetailsview__captionBox">
               <img
-                src={""}
+                src={state?.userProfile}
                 alt="ProfilePicture"
                 className="postDetailsview__ownerProfile"
                 onError={(e) => {
@@ -49,11 +60,10 @@ function PostDetailsView({ postID }) {
 
               <div className="postDetailsView_PostCaption">
                 <p className="postCaption">
-                  <Link className="PostCaptions__ownerUserName">UserName</Link>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit
-                  Aperiam aut alias.
+                  <Link className="PostCaptions__ownerUserName">{state?.userName}</Link>
+                 {state?.postCaption}
                 </p>
-                <span className="postDetailsView_PostDate">1w</span>
+                <span className="postDetailsView_PostDate"><CalculateTimeAgo time={state?.postCreatedAt}/></span>
               </div>
             </div>
 
@@ -109,7 +119,8 @@ function PostDetailsView({ postID }) {
               <FaRegHeart className="postDetailsview__ICONS" />
               <FaHeart className="postDetailsview__ICONS postDetailsview__LIKEDICONS" />
               <FaRegComment className="postDetailsview__ICONS" />
-              <img src={savedPostICON} alt=""  className="postDetailsview__ICONIMG"/>
+              <img src={savedPostICON_outline} alt="SavedPost"  className="postDetailsview__ICONIMG"/>
+              <img src={savedPostICON_Filled} alt="Un-SavedPost"  className="postDetailsview__ICONIMG postDetailsview__ICONIMG2"/>
             </div>
 
           </div>

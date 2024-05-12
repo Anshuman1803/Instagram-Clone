@@ -38,12 +38,14 @@ export default function Create() {
 
     if (post.postPoster === "") {
       toast.error("Select an image for post");
-    }else if(post.postCaption.length > 75){
+    } else if (post.postCaption.length > 75) {
       toast.error("Caption should be only 75 characters.");
     }
     else {
       const formData = new FormData();
       formData.set("user", instaUserID);
+      formData.set("userName", instaUserName);
+      formData.set("userProfile", instaProfle);
       formData.set("postCreatedAt", Date.now());
       formData.append("postPoster", selectedImage);
       formData.append("postCaption", post.postCaption);

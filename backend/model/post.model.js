@@ -5,6 +5,12 @@ const postModel = mongoose.Schema({
     ref: "users",
     required: true,
   },
+  userName: {
+    type: String,
+  },
+  userProfile: {
+    type: String,
+  },
   postPoster: {
     type: String,
     required: true,
@@ -15,11 +21,11 @@ const postModel = mongoose.Schema({
   postCreatedAt: {
     type: Number,
   },
-  postComments : {
-    type : Number,
+  postComments: {
+    type: Number,
   },
-  postLikes : {
-    type : Number,
+  postLikes: {
+    type: Number,
   }
 });
 const postCollection = mongoose.model("posts", postModel);

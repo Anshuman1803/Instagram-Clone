@@ -3,12 +3,15 @@ const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
 
 const createPost = async (request, response) => {
-  const { user, postCreatedAt, postCaption } = request.body;
+  const { user, postCreatedAt, postCaption, userName,
+    userProfile } = request.body;
   try {
     const cloudnaryResponse = await uploadOnCloudnary(request.file.path);
 
     const mongooseResponse = await postCollection.create({
       user: user,
+      userName: userName,
+      userProfile: userProfile,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
       postCaption: postCaption,

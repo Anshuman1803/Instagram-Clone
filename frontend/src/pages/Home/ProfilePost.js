@@ -5,12 +5,13 @@ import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 function ProfilePost() {
 
-  const {instaUserID} = useParams();
+  const { instaUserID } = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
+  const navigateTO = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -26,11 +27,15 @@ function ProfilePost() {
       });
   }, [instaUserID]);
 
+  const handleShowPostDetails = (e, posts)=> {
+    e.preventDefault();
+    navigateTO(`/posts/${posts._id}`, {state : posts})
+  }
+
   return (
     <div
-      className={`dashboar__profileSection__ProfilePostsContaine ${
-        ownPosts.length === 0 && "flexContainer"
-      }`}
+      className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"
+        }`}
     >
       <div className="profilePostContainer__PostBox">
         {Loading ? (
@@ -46,7 +51,7 @@ function ProfilePost() {
               <>
                 {ownPosts.map((posts, index) => {
                   return (
-                    <div className="profilePostContainer__postCard" key={index}>
+                    <div onClick={(e)=>handleShowPostDetails(e, posts)} className="profilePostContainer__postCard" key={index}>
                       <img
                         src={posts.postPoster}
                         alt={posts.postPoster}
@@ -55,12 +60,12 @@ function ProfilePost() {
 
                       <div className="profilePostcontainer__postInfo">
                         <p className="profilePostContainer_postInfoBox">
-                          <CiHeart className="profilePostcontainer__postInfoICON" />{" "}
-                          {posts.postLikes}{" "}
+                          <CiHeart className="profilePostcontainer__postInfoICON" />
+                          {posts.postLikes}
                         </p>
                         <p className="profilePostContainer_postInfoBox">
                           <FaComment className="profilePostcontainer__postInfoICON" />
-                          {posts.postComments}{" "}
+                          {posts.postComments}
                         </p>
                       </div>
                     </div>

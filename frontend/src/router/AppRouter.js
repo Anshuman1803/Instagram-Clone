@@ -20,6 +20,7 @@ import ComponentLoader from "../components/ComponentLoader";
 import Create from "../pages/Home/Create";
 import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
+import PostDetailsView from "../components/PostDetailsView";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -65,16 +66,10 @@ function AppRouter() {
               <Route path="/notification" element={<Notification />} />
               <Route path="/create" element={<Create />} />
               <Route path="/:instaUserID" element={<Profile />}>
-                <Route
-                  path="/:instaUserID/posts"
-                  element={<ProfilePost />}
-                  index
-                />
-                <Route
-                  path="/:instaUserID/saved"
-                  element={<ProfileSavedPost />}
-                />
+                <Route path="/:instaUserID/posts" element={<ProfilePost />} index/>
+                <Route path="/:instaUserID/saved" element={<ProfileSavedPost />}/>
               </Route>
+              <Route path="/posts/:postID" element={<PostDetailsView />} />
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (

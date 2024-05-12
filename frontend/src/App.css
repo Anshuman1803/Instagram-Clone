@@ -713,7 +713,8 @@ nav {
 /* ! This block holds the design of DASHBOARD PROFILE SECTION */
 .dashboard__ProfileSection {
   width: 100%;
-  min-height: 90%;
+  min-height: 100%;
+  position: relative;
 }
 
 .dashboard__currentUser__infoContainer {
@@ -1092,9 +1093,20 @@ nav {
   background-color: #00000094;
   display: flex;
   padding: 0.5em;
-  /* display: none; */
 }
 
+.postDetailsView__closeButton {
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+}
+.postDetailsView__closeButton:hover{
+  cursor: pointer;
+  color: #FF3D00;
+}
 .postDetailsview__box {
   border-radius: 5px;
   width: 1024px;
@@ -1162,19 +1174,22 @@ nav {
 }
 
 .postDetailsView__optionButtonICON:hover,
-.postDetailsview__ownerUserName:hover, .PostCaptions__ownerUserName:hover {
+.postDetailsview__ownerUserName:hover,
+.PostCaptions__ownerUserName:hover {
   cursor: pointer;
   color: grey;
 }
 
-.postDetailsview__Commentbox{
+.postDetailsview__Commentbox {
   height: 575px;
   overflow: hidden;
   overflow-y: auto;
 }
-.postDetailsview__Commentbox::-webkit-scrollbar{
+
+.postDetailsview__Commentbox::-webkit-scrollbar {
   width: 0px;
 }
+
 .postDetailsview__captionBox {
   margin: 5px 0px;
   min-height: 70px;
@@ -1184,7 +1199,8 @@ nav {
   justify-content: space-between;
   gap: 5px;
 }
-.postDetailsview__captionBox .postDetailsview__ownerProfile{
+
+.postDetailsview__captionBox .postDetailsview__ownerProfile {
   width: 45px;
   height: 45px;
 }
@@ -1209,51 +1225,62 @@ nav {
 }
 
 .postDetailsView_PostDate {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
   color: gray;
   display: block;
   margin: 10px 0px;
 }
-.postDetailsView__deleteCommentICON{
+
+.postDetailsView__deleteCommentICON {
   font-size: 22px;
   color: grey;
   cursor: pointer;
 }
-.postDetailsView__deleteCommentICON:hover{
+
+.postDetailsView__deleteCommentICON:hover {
   cursor: pointer;
   color: #ed3548;
 }
 
-.postDetailsview__postICONContainer{
+.postDetailsview__postICONContainer {
   border: 2px solid red;
   height: 80px;
 }
-.iconContainer{
+
+.iconContainer {
   border: 2px solid blue;
   position: relative;
-  height: 35px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-.postDetailsview__ICONS{
+
+.postDetailsview__ICONS {
   font-size: 25px;
   margin: 0px 10px;
   cursor: pointer;
 }
-.postDetailsview__LIKEDICONS{
-  color:#ed3548;
-  
+
+.postDetailsview__LIKEDICONS {
+  color: #ed3548;
+
 }
-.postDetailsview__ICONIMG{
-  width: 30px;
-  height: 30px;
+
+.postDetailsview__ICONIMG {
+  width: 28px;
+  height: 28px;
   position: absolute;
-  top: 0;
+  top: 2px;
   right: 10px;
   cursor: pointer;
 }
+
+.postDetailsview__ICONIMG2 {
+  right: 35px;
+}
+
 /* ! This block holds the design of  PostDetailsView Popup */
 
 /* Responsive Styles */
