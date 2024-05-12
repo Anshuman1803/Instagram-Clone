@@ -606,8 +606,8 @@ nav {
 }
 
 .moreIcon {
-  width: 2.5em;
-  margin-left: .2em;
+  width: 2em;
+  /* margin-left: .2em; */
 }
 
 .navLink:hover {

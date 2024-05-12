@@ -66,8 +66,8 @@ function AppRouter() {
               <Route path="/notification" element={<Notification />} />
               <Route path="/create" element={<Create />} />
               <Route path="/:instaUserID" element={<Profile />}>
-                <Route path="/:instaUserID/posts" element={<ProfilePost />} index/>
-                <Route path="/:instaUserID/saved" element={<ProfileSavedPost />}/>
+                <Route path="/:instaUserID/posts" element={<ProfilePost />} index />
+                <Route path="/:instaUserID/saved" element={<ProfileSavedPost />} />
               </Route>
               <Route path="/posts/:postID" element={<PostDetailsView />} />
               <Route path="/*" element={<Home />} />
@@ -76,14 +76,8 @@ function AppRouter() {
             <Route path="/" element={<AuthContainer />}>
               <Route path="/user/auth/signin" element={<Login />} index />
               <Route path="/user/auth/register" element={<Signup />} />
-              <Route
-                path="/user/auth/password/forgot-password"
-                element={<ForgotPassword />}
-              />
-              <Route
-                path="/user/auth/password/reset-password"
-                element={<ResetPassword />}
-              />
+              <Route path="/user/auth/password/forgot-password" element={<ForgotPassword />} />
+              <Route path="/user/auth/password/reset-password" element={<ResetPassword />} />
               <Route path="/*" element={<Login />} />
             </Route>
           )}

@@ -2,18 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const ReduxSlice = createSlice({
   name: "ReduxSlice",
   initialState: {
-    instaUserID: localStorage.getItem("instaUserID")
-      ? localStorage.getItem("instaUserID")
-      : [],
-    instaTOKEN: localStorage.getItem("instaTOKEN")
-      ? localStorage.getItem("instaTOKEN")
-      : "",
-    instaUserName: localStorage.getItem("instaUserName")
-      ? localStorage.getItem("instaUserName")
-      : "",
-    instaProfle: localStorage.getItem("instaProfle")
-      ? localStorage.getItem("instaProfle")
-      : "",
+    currentUser: {
+      profileImage: localStorage.getItem("profileImage") ? localStorage.getItem("profileImage") : "",
+      email: localStorage.getItem("email") ? localStorage.getItem("email") : "",
+      name: localStorage.getItem("name") ? localStorage.getItem("name") : "",
+      instaUserID: localStorage.getItem("instaUserID")
+        ? localStorage.getItem("instaUserID")
+        : [],
+      instaTOKEN: localStorage.getItem("instaTOKEN")
+        ? localStorage.getItem("instaTOKEN")
+        : "",
+      instaUserName: localStorage.getItem("instaUserName")
+        ? localStorage.getItem("instaUserName")
+        : "",
+      instaProfle: localStorage.getItem("instaProfle")
+        ? localStorage.getItem("instaProfle")
+        : "",
+    },
   },
   reducers: {
     UserLoggedIn(state, action) {
@@ -26,11 +31,12 @@ const ReduxSlice = createSlice({
       localStorage.setItem("instaUserName", state.instaUserName);
       localStorage.setItem("instaProfle", state.instaProfle);
     },
-    UserLoggedOut() {
-      localStorage.removeItem("instaUserID");
-      localStorage.removeItem("instaTOKEN");
-      localStorage.removeItem("instaUserName");
-      localStorage.removeItem("instaProfle");
+    UserLoggedOut(state) {
+      state.instaUserID = '';
+      state.instaTOKEN = '';
+      state.instaUserName = '';
+      state.instaProfle = '';
+      localStorage.clear()
     },
   },
 });
