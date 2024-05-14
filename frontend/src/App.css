@@ -1103,10 +1103,12 @@ nav {
   right: 20px;
   font-size: 30px;
 }
-.postDetailsView__closeButton:hover{
+
+.postDetailsView__closeButton:hover {
   cursor: pointer;
   color: #FF3D00;
 }
+
 .postDetailsview__box {
   border-radius: 5px;
   width: 1024px;
@@ -1180,13 +1182,13 @@ nav {
   color: grey;
 }
 
-.postDetailsview__Commentbox {
-  height: 575px;
+.postDetailsview__CommentContainer {
+  height: calc(100% - 200px);
   overflow: hidden;
   overflow-y: auto;
 }
 
-.postDetailsview__Commentbox::-webkit-scrollbar {
+.postDetailsview__CommentContainer::-webkit-scrollbar {
   width: 0px;
 }
 
@@ -1232,6 +1234,21 @@ nav {
   margin: 10px 0px;
 }
 
+.postDetailsview__CommentBox {
+  min-height: 375px;
+  position: relative;
+}
+
+.postDetailsview__NoCommentsMsg {
+  width: 100%;
+  height: 375px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
 .postDetailsView__deleteCommentICON {
   font-size: 22px;
   color: grey;
@@ -1244,14 +1261,23 @@ nav {
 }
 
 .postDetailsview__postICONContainer {
-  border: 2px solid red;
-  height: 80px;
+  border-top: 1px solid rgba(128, 128, 128, 0.167);
+  height: 120px;
 }
 
 .iconContainer {
-  border: 2px solid blue;
   position: relative;
   height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postDetailsview__LikeCounter {
+  height: 30px;
+  padding-left: 15px;
+  font-size: 18px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1265,20 +1291,51 @@ nav {
 
 .postDetailsview__LIKEDICONS {
   color: #ed3548;
+}
+
+.PostDetailsBox__CommentInputOBox {
+  border-top: 1px solid rgba(128, 128, 128, 0.167);
+  width: 100%;
+  height: calc(100% - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.PostDetailsBox__inputBox {
+  width: calc(100% - 100px);
+  height: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  padding: 0.2em 1em;
+}
+
+.PostDetailsBox__PostCommentButton {
+  width: 90px;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: capitalize;
 
 }
 
-.postDetailsview__ICONIMG {
-  width: 28px;
-  height: 28px;
-  position: absolute;
-  top: 2px;
-  right: 10px;
+.PostDetailsBox__unActiveButton {
+  color: #0094f67d;
+  pointer-events: none;
+}
+
+.PostDetailsBox__activeButton {
+  pointer-events: all;
+  color: #0095f6;
+}
+
+.PostDetailsBox__PostCommentButton:hover {
   cursor: pointer;
-}
-
-.postDetailsview__ICONIMG2 {
-  right: 35px;
+  color: darkslategrey;
 }
 
 /* ! This block holds the design of  PostDetailsView Popup */
