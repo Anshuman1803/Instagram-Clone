@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import defaultProfile from "../Assets/DefaultProfile.png";
 import { BsThreeDots } from "react-icons/bs";
@@ -11,22 +12,50 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { CalculateTimeAgo } from "../utility/TimeAgo";
 import { RxCross2 } from "react-icons/rx";
 import PostLoader from "./PostLoader";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 function PostDetailsView() {
+  const { instaUserID } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
-  const [AllComments] = useState([]);
-  const [CommentsLoading] = useState(false);
+  const [AllComments, setAllComments] = useState([]);
+  const [CommentsLoading, setCommentsLoading] = useState(false);
   const [newComment, setNewComment] = useState("");
   const inputRef = useRef();
-  console.log(state);
 
   const handleBackClick = (e) => {
     e.preventDefault();
     window.history.back();
   };
 
+  const handleLoadComments = () => {
+    setCommentsLoading(true);
+    axios
+      .get(
+        `http://localhost:5000/api/v1/comments/get-all-comments/${state?._id}`
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setAllComments(
+            response.data.comments.sort((a, b) => b.createAt - a.createAt)
+          );
+          setCommentsLoading(false);
+        } else {
+          setAllComments(response.data.comments);
+          setCommentsLoading(false);
+        }
+      })
+      .catch((error) => {
+        setCommentsLoading(false);
+        toast.error(`${error.message}`);
+      });
+  };
+  // Load comments
+  useEffect(handleLoadComments, [state._id]);
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
   return (
     <section className="postDetailsView__popupContainer">
       <RxCross2
@@ -97,53 +126,52 @@ function PostDetailsView() {
                     </p>
                   ) : (
                     <>
-                      <div
-                        className="postDetailsview__captionBox"
-                        style={{ paddingRight: "5px" }}
-                      >
-                        <img
-                          src={""}
-                          alt="ProfilePicture"
-                          className="postDetailsview__ownerProfile"
-                          onError={(e) => {
-                            e.target.src = `${defaultProfile}`;
-                            e.onerror = null;
-                          }}
-                        />
-
-                        <div
-                          className="postDetailsView_PostCaption"
-                          style={{
-                            padding: "0px 5px 0px 0px",
-                            width: "calc(100% - 100px)",
-                          }}
-                        >
-                          <p
-                            className="postCaption"
-                            style={{ fontSize: "16px", fontWeight: "300" }}
+                      {AllComments?.map((comment, index) => {
+                        return (
+                          <div
+                            className="postDetailsview__CommentsItem"
+                            style={{ paddingRight: "5px" }}
+                            key={comment._id}
                           >
-                            <Link className="PostCaptions__ownerUserName">
-                              UserName
-                            </Link>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit Aperiam aut alias.
-                          </p>
-                          <span
-                            className="postDetailsView_PostDate"
-                            style={{ fontSize: "14px" }}
-                          >
-                            1w
-                          </span>
-                        </div>
+                            <img
+                              src={comment?.userProfile ?? defaultProfile}
+                              alt="ProfilePicture"
+                              className="CommentsItem_userProfile"
+                              onError={(e) => {
+                                e.target.src = `${defaultProfile}`;
+                                e.onerror = null;
+                              }}
+                            />
 
-                        <MdDelete className="postDetailsView__deleteCommentICON" />
-                      </div>
+                            <div
+                              className="postDetailsView_PostCaption"
+                              style={{
+                                padding: "0px 5px 0px 0px",
+                                width: "calc(100% - 100px)",
+                              }}
+                            >
+                              <p className="CommentsItem__commentText">
+                                <Link className="CommentsItem_userName">
+                                  {" "}
+                                  {comment?.userName}
+                                </Link>
+                                {comment?.commentText}
+                                <span className="CommentsItem_PostDate">
+                                  <CalculateTimeAgo time={comment?.createAt} />
+                                </span>
+                              </p>
+                            </div>
+                            {comment?.userID === instaUserID && (
+                              <MdDelete className="postDetailsView__deleteCommentICON" />
+                            )}
+                          </div>
+                        );
+                      })}
                     </>
                   )}
                 </>
               )}
             </div>
-
           </div>
 
           <div className="postDetailsview__postICONContainer">
@@ -151,7 +179,10 @@ function PostDetailsView() {
               <div>
                 <FaRegHeart className="postDetailsview__ICONS" />
                 {/* <FaHeart className="postDetailsview__ICONS postDetailsview__LIKEDICONS" /> */}
-                <FaRegComment className="postDetailsview__ICONS" onClick={() => inputRef.current.focus()} />
+                <FaRegComment
+                  className="postDetailsview__ICONS"
+                  onClick={() => inputRef.current.focus()}
+                />
               </div>
               <div>
                 {/* <IoBookmark className="postDetailsview__ICONS" /> */}
@@ -176,8 +207,8 @@ function PostDetailsView() {
               <button
                 type="button"
                 className={`PostDetailsBox__PostCommentButton ${newComment.length <= 5
-                  ? "PostDetailsBox__unActiveButton"
-                  : "PostDetailsBox__activeButton"
+                    ? "PostDetailsBox__unActiveButton"
+                    : "PostDetailsBox__activeButton"
                   }`}
               >
                 Post
