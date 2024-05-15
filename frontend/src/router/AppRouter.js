@@ -21,6 +21,7 @@ import Create from "../pages/Home/Create";
 import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
 import PostDetailsView from "../components/PostDetailsView";
+import EditProfile from "../pages/Home/EditProfile";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -70,6 +71,7 @@ function AppRouter() {
                 <Route path="/:instaUserID/saved" element={<ProfileSavedPost />} />
               </Route>
               <Route path="/posts/:postID" element={<PostDetailsView />} />
+              <Route path='/accounts/edit' element={<EditProfile/>} />
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (

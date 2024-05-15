@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import PostLoader from "../../components/PostLoader";
+// import EditProfile from "./EditProfile";
 export default function Profile() {
   const userID = useParams();
   const { pathname } = useLocation();
@@ -17,8 +18,7 @@ export default function Profile() {
   const [Loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(true)
-    axios
-      .get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`)
+    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`)
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);
@@ -39,6 +39,10 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID, pathname]);
 
+  const handleEdit=()=>{
+    navigateTO('/accounts/edit')
+  }
+
   return (
     <>
       <section className="dashboard__ProfileSection">
@@ -56,11 +60,14 @@ export default function Profile() {
                   <h1 className="userBox__userName">
                     <span style={{ marginRight: "10px" }}> {currentUser?.userName}</span>
                     {
-                      userID.instaUserID === instaUserID && <button className="userBox__editProfileButton">
+                      userID.instaUserID === instaUserID && <button className="userBox__editProfileButton" onClick={handleEdit} >
                         Edit profile
                       </button>
                     }
                   </h1>
+                  {/* {
+                    edit ? <EditProfile /> : ''
+                  } */}
 
                   <div className="userBox__userActivityState">
                     <span className="userBox__activity userBox__postActivity">
