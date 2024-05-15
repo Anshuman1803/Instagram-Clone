@@ -4,7 +4,7 @@ import pf from '../../Assets/profile.png'
 export default function EditProfile() {
   return (
     <div className='__editProfilePage'>
-      <h2 style={{ padding: '1em 4em' }}>Edit Profile</h2>
+      <h2 className='__pageHeader'>Edit Profile</h2>
       <form className='__editForm'>
         <div className="__profile">
           <aside className='__left_section' style={{ display: 'flex' }}>
@@ -31,12 +31,6 @@ export default function EditProfile() {
         <div className='__inputBox'>
           <label htmlFor="password">Password</label>
           <input className="__inputs" type="number" placeholder='enter password' />
-        </div>
-
-        <div className='__inputBox'>
-          <label htmlFor="website">Website</label>
-          <input className="__inputs" type="text" placeholder='website' />
-          <p style={{ fontSize: '10px' }}>Editing your links is only available on mobile. Visit the Instagram app and edit your profile to change the websites in your bio.</p>
         </div>
         <div className='__inputBox'>
           <label htmlFor="bio">Bio</label>

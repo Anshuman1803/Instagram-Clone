@@ -1291,7 +1291,9 @@ nav {
 /* .__editProfilePage {
   border: 1px solid green;
 } */
-
+.__pageHeader{
+  padding: 1em 4em;
+}
 .__editForm {
   width: 70%;
   margin: auto;
@@ -1336,7 +1338,7 @@ nav {
 }
 
 .__inputs {
-  height: 40px;
+  height: 45px;
   padding-left: 1em;
   border: 1px solid #00000084;
   outline: none;
@@ -1640,6 +1642,14 @@ select>option {
   .__instaIcon_Hide,
   .__navbar_moreButton {
     display: none;
+  }
+
+  /* This block of code holds the Edit Profle page */
+  .__pageHeader{
+    padding: 1em;
+  }
+  .__editForm{
+    width: 95%;
   }
 
 }
