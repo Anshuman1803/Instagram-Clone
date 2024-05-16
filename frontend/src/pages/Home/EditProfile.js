@@ -18,19 +18,19 @@ export default function EditProfile() {
         </div>
         <div className='__inputBox'>
           <label htmlFor="fullName">Full Name</label>
-          <input className="__inputs" type="text" placeholder='enter full name' />
+          <input className="__inputs" id='fullName' type="text" placeholder='enter full name' />
         </div>
         <div className='__inputBox'>
           <label htmlFor="userName">UserName</label>
-          <input className="__inputs" type="text" placeholder='enter username' />
+          <input className="__inputs" id='userName' type="text" placeholder='enter username' />
         </div>
         <div className='__inputBox'>
           <label htmlFor="email">Email</label>
-          <input className="__inputs" type="text" placeholder='enter e-mail' />
+          <input className="__inputs" id='email' type="text" placeholder='enter e-mail' />
         </div>
         <div className='__inputBox'>
           <label htmlFor="password">Password</label>
-          <input className="__inputs" type="number" placeholder='enter password' />
+          <input className="__inputs" id='password' type="number" placeholder='enter password' />
         </div>
         <div className='__inputBox'>
           <label htmlFor="bio">Bio</label>
@@ -38,7 +38,7 @@ export default function EditProfile() {
         </div>
         <div className='__inputBox'>
           <label htmlFor="gender">Gender</label>
-          <select className="__inputs" name="Gender" id="">
+          <select className="__inputs" name="Gender" id="gender">
             <option value="" disabled>select your gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>

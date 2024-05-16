@@ -9,7 +9,6 @@
 }
 
 /* Button Loader */
-
 .loaderContainer {
   display: flex;
   align-items: center;
@@ -633,7 +632,6 @@ nav {
 /* ! This block holds the design of the homepage navlinks */
 
 /* ! This block holds the design of OTP */
-
 .otpVerifier__Container {
   position: fixed;
   top: 0;
@@ -709,6 +707,31 @@ nav {
 }
 
 /* ! This block holds the design of OTP */
+
+
+/* ! This block holds the design of Dashboard HOME Section */
+.dashboard__homeSection {
+  border: 2px solid red;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeSection__ShowPostContainer {
+  border: 2px solid blue;
+  min-height: 100vh;
+  width: calc(100% - 300px);
+}
+
+.homeSection__currentUserContainer {
+  border: 2px solid blue;
+  min-height: 100vh;
+  width: 300px;
+}
+
+/* ! This block holds the design of Dashboard HOME Section */
+
 
 /* ! This block holds the design of DASHBOARD PROFILE SECTION */
 .dashboard__ProfileSection {
@@ -1093,7 +1116,7 @@ nav {
   background-color: #00000094;
   padding: 0.5em;
   display: flex;
-  gap : 5px
+  gap: 5px
 }
 
 .postDetailsView__closeButton {
@@ -1250,9 +1273,11 @@ nav {
   gap: 5px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.144);
 }
-.postDetailsview__CommentsItem:last-child{
+
+.postDetailsview__CommentsItem:last-child {
   border: none;
 }
+
 .CommentsItem_userProfile {
   width: 35px;
   height: 35px;
@@ -1266,19 +1291,22 @@ nav {
   font-size: 16px;
   margin-right: 10px;
 }
-.CommentsItem__commentText{
+
+.CommentsItem__commentText {
   font-size: 14px;
   font-weight: 400;
   text-align: left;
   padding: 0em 0.7em;
 }
-.CommentsItem_PostDate{
+
+.CommentsItem_PostDate {
   font-size: 14px;
   font-weight: 500;
   color: gray;
   display: block;
   margin-top: 5px;
 }
+
 .postDetailsview__NoCommentsMsg {
   width: 100%;
   height: 375px;
@@ -1386,9 +1414,10 @@ nav {
 /* .__editProfilePage {
   border: 1px solid green;
 } */
-.__pageHeader{
+.__pageHeader {
   padding: 1em 4em;
 }
+
 .__editForm {
   width: 70%;
   margin: auto;
@@ -1492,12 +1521,15 @@ select>option {
   .__navTitle {
     display: none;
   }
-  .postDetailsview__box{
+
+  .postDetailsview__box {
     width: calc(100% - 30px);
   }
+
   .postDetailsview__postPOsterContainer {
     width: 320px;
   }
+
   .postDetailsview__postDetails {
     width: calc(100% - 320px);
   }
@@ -1510,16 +1542,18 @@ select>option {
     width: 100%;
   }
 
-  .postDetailsview__box{
+  .postDetailsview__box {
     flex-direction: column;
     align-items: center;
     overflow: hidden;
     overflow-y: auto;
   }
+
   .postDetailsview__postPOsterContainer {
-    width:100%;
+    width: 100%;
     height: 220px;
   }
+
   .postDetailsview__postDetails {
     width: 100%;
   }
@@ -1762,10 +1796,11 @@ select>option {
   }
 
   /* This block of code holds the Edit Profle page */
-  .__pageHeader{
+  .__pageHeader {
     padding: 1em;
   }
-  .__editForm{
+
+  .__editForm {
     width: 95%;
   }
 
