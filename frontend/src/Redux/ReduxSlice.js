@@ -2,23 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const ReduxSlice = createSlice({
   name: "ReduxSlice",
   initialState: {
-    currentUser: {
       profileImage: localStorage.getItem("profileImage") ? localStorage.getItem("profileImage") : "",
-      email: localStorage.getItem("email") ? localStorage.getItem("email") : "",
-      name: localStorage.getItem("name") ? localStorage.getItem("name") : "",
-      instaUserID: localStorage.getItem("instaUserID")
-        ? localStorage.getItem("instaUserID")
-        : [],
-      instaTOKEN: localStorage.getItem("instaTOKEN")
-        ? localStorage.getItem("instaTOKEN")
-        : "",
-      instaUserName: localStorage.getItem("instaUserName")
-        ? localStorage.getItem("instaUserName")
-        : "",
-      instaProfle: localStorage.getItem("instaProfle")
-        ? localStorage.getItem("instaProfle")
-        : "",
-    },
+      instaUserID: localStorage.getItem("instaUserID")? localStorage.getItem("instaUserID"): [],
+      instaTOKEN: localStorage.getItem("instaTOKEN") ? localStorage.getItem("instaTOKEN"): "",
+      instaUserName: localStorage.getItem("instaUserName")? localStorage.getItem("instaUserName"): "",
+      instaProfle: localStorage.getItem("instaProfle")? localStorage.getItem("instaProfle"): "",
   },
   reducers: {
     UserLoggedIn(state, action) {

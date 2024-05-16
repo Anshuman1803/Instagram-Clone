@@ -45,7 +45,7 @@ function AppRouter() {
         .catch((err) => {
           setValidate(false);
           setLoader(false);
-          toast.error("Invalid or expired token. Please log in again.");
+          toast.error(`Invalid or expired token. Please log in again. ${err.message}`);
         });
     } else {
       setValidate(false);

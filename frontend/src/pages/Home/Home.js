@@ -2,9 +2,14 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div>
-        <h1>Home</h1>
+    <section className="dashboard__homeSection">
+        <div className="homeSection__ShowPostContainer">
+          
+        </div>
+        <div className="homeSection__currentUserContainer">
+          
+        </div>
         
-    </div>
+    </section>
   )
 }
