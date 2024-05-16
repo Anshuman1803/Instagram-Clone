@@ -6,6 +6,6 @@ TimeAgo.addDefaultLocale(en);
 
 export function CalculateTimeAgo({ time }) {
     return (
-        <ReactTimeAgo date={time} locale='en-us' />
+        <ReactTimeAgo date={time} timeStyle="twitter" locale='en-us' />
     )
 }

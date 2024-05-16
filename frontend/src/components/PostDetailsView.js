@@ -221,7 +221,7 @@ function PostDetailsView() {
             <div className="iconContainer">
               <div>
                 <FaRegHeart className="postDetailsview__ICONS" />
-                {/* <FaHeart className="postDetailsview__ICONS postDetailsview__LIKEDICONS" /> */}
+                {/* <FaHeart className="postDetailsview__ICONS post__LIKEDICONS" /> */}
                 <FaRegComment
                   className="postDetailsview__ICONS"
                   onClick={() => inputRef.current.focus()}
