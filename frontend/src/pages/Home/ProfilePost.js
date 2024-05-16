@@ -4,7 +4,7 @@ import axios from "axios";
 import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 function ProfilePost() {
 
@@ -56,7 +56,7 @@ function ProfilePost() {
 
                       <div className="profilePostcontainer__postInfo">
                         <p className="profilePostContainer_postInfoBox">
-                          <CiHeart className="profilePostcontainer__postInfoICON" />
+                          <FaHeart className="profilePostcontainer__postInfoICON" />
                           {posts.postLikes}
                         </p>
                         <p className="profilePostContainer_postInfoBox">
