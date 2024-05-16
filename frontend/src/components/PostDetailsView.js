@@ -104,10 +104,6 @@ function PostDetailsView() {
 
   return (
     <section className="postDetailsView__popupContainer">
-      <RxCross2
-        className="postDetailsView__closeButton"
-        onClick={handleBackClick}
-      />
       <div className="postDetailsview__box">
 
         <div className="postDetailsview__postPOsterContainer">
@@ -248,6 +244,11 @@ function PostDetailsView() {
 
         </div>
       </div>
+      
+      <RxCross2
+        className="postDetailsView__closeButton"
+        onClick={handleBackClick}
+      />
     </section>
   );
 }
