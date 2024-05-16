@@ -20,19 +20,17 @@ import ComponentLoader from "../components/ComponentLoader";
 import Create from "../pages/Home/Create";
 import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
+import PostDetailsView from "../components/PostDetailsView";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
-  const { Token } = useSelector((state) => state.Instagram);
+  const { instaTOKEN } = useSelector((state) => state.Instagram);
 
   useEffect(() => {
     setLoader(true);
-    if (Token) {
+    if (instaTOKEN) {
       axios
-        .post(
-          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/verify/token",
-          { Token }
-        )
+        .post("http://localhost:5000/api/v1/auth/verify/token", { instaTOKEN })
         .then((response) => {
           if (response.data.success) {
             setValidate(true);
@@ -45,14 +43,14 @@ function AppRouter() {
         })
         .catch((err) => {
           setValidate(false);
-          setLoader(true)(false);
+          setLoader(false);
           toast.error("Invalid or expired token. Please log in again.");
         });
     } else {
       setValidate(false);
       setLoader(false);
     }
-  }, [Token]);
+  }, [instaTOKEN]);
   return (
     <>
       {Loader ? (
@@ -67,10 +65,11 @@ function AppRouter() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/create" element={<Create />} />
-              <Route path="/profile" element={<Profile />}>
-                <Route path= "/profile/posts" element={<ProfilePost/>} index/>
-                <Route path= "/profile/saved" element={<ProfileSavedPost/>} />
+              <Route path="/:instaUserID" element={<Profile />}>
+                <Route path="/:instaUserID/posts" element={<ProfilePost />} index/>
+                <Route path="/:instaUserID/saved" element={<ProfileSavedPost />}/>
               </Route>
+              <Route path="/posts/:postID" element={<PostDetailsView />} />
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (

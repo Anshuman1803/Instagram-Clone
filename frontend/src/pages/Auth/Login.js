@@ -58,37 +58,29 @@ function Login() {
       userPasswordref.current.focus();
     } else {
       axios
-        .post("https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/signin", userDetails)
+        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
         .then((response) => {
-          if (response.data.msg === "Wrong password") {
-            setBtnLoader(false);
-            setErrorState({
-              userPasswordError: true,
-            });
-            toast.error("Wrong password");
-            userPasswordref.current.focus();
-          } else if (response.data.msg === "User not registered") {
-            setBtnLoader(false);
-            toast.error("User not registered");
-            userIDref.current.focus();
-          } else if (response.data.success) {
+
+          if (response.data.success) {
             setBtnLoader(false);
             toast.success("User logged in successfully");
             dispatch(
               UserLoggedIn({
                 userID: response.data.UserDetails._id,
                 Token: response.data.TOKEN,
+                userName: response.data.UserDetails.userName,
+                userProfile: response.data.UserDetails.userProfile,
               })
             );
           } else {
             setBtnLoader(false);
-            toast.error("Try Again");
+            toast.error(response.data.msg);
             userIDref.current.focus();
           }
         })
         .catch((err) => {
           setBtnLoader(false);
-          toast.error("Something went wrong! Try again");
+          toast.error(`${err.message}`);
           userIDref.current.focus();
         });
     }
@@ -110,9 +102,8 @@ function Login() {
             <input
               type="text"
               name="userID"
-              className={`Auth__formItem ${
-                errorState.userIDError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userIDError && "ItemBox__errorState"
+                }`}
               placeholder="Username, or email"
               onChange={handleInputOnChange}
               value={userDetails.userID}
@@ -126,9 +117,8 @@ function Login() {
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"
-              className={`Auth__formItem ${
-                errorState.userPasswordError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userPasswordError && "ItemBox__errorState"
+                }`}
               placeholder="Password"
               onChange={handleInputOnChange}
               value={userDetails.userPassword}
@@ -148,10 +138,9 @@ function Login() {
 
           <button
             type="button"
-            className={`Auth__formButton ${
-              (userDetails.userID && userDetails.userPassword) ||
+            className={`Auth__formButton ${(userDetails.userID && userDetails.userPassword) ||
               "unActiveFormButton"
-            }`}
+              }`}
             onClick={handleSignINClick}
           >
             {btnLoader ? <ButtonLoader /> : "Log in"}
@@ -179,9 +168,7 @@ function Login() {
             Forgot password?
           </p>
         </form>
-        {
-          btnLoader && <ComponentLoader/>
-        }
+        {btnLoader && <ComponentLoader />}
       </div>
 
       <div className="authGotoSignUP_container">

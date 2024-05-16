@@ -64,7 +64,7 @@ function SignUp() {
       });
       toast.error("Invalid name");
       fullNameref.current.focus();
-    } else if (userDetails.userName.length !== 6) {
+    } else if (userDetails.userName.length < 6) {
       setErrorState({
         userNameError: true,
       });
@@ -80,7 +80,7 @@ function SignUp() {
       setBtnLoader(true);
       axios
         .post(
-          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/verify-account",
+          "http://localhost:5000/api/v1/auth/user/verify-account",
           userDetails
         )
         .then((response) => {

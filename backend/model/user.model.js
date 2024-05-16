@@ -16,6 +16,21 @@ const userModel = mongoose.Schema({
     type: String,
     required: true,
   },
+  userFollowers: {
+    type: Number,
+  },
+  userFollowing: {
+    type: Number,
+  },
+  userPosts: {
+    type: Number,
+  },
+  userBio : {
+    type : String
+  },
+  userProfile : {
+    type : String
+  }
 });
 const userCollection = mongoose.model("users", userModel);
 

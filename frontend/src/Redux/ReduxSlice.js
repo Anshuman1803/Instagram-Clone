@@ -2,23 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 const ReduxSlice = createSlice({
   name: "ReduxSlice",
   initialState: {
-    userID: localStorage.getItem("userID")
-      ? localStorage.getItem("userID")
+    instaUserID: localStorage.getItem("instaUserID")
+      ? localStorage.getItem("instaUserID")
       : [],
-    Token: localStorage.getItem("Token")
-      ? localStorage.getItem("Token")
+    instaTOKEN: localStorage.getItem("instaTOKEN")
+      ? localStorage.getItem("instaTOKEN")
+      : "",
+    instaUserName: localStorage.getItem("instaUserName")
+      ? localStorage.getItem("instaUserName")
+      : "",
+    instaProfle: localStorage.getItem("instaProfle")
+      ? localStorage.getItem("instaProfle")
       : "",
   },
   reducers: {
     UserLoggedIn(state, action) {
-      state.userID = action.payload.userID;
-      state.Token = action.payload.Token;
-      localStorage.setItem("userID", state.userID);
-      localStorage.setItem("Token", state.Token);
+      state.instaUserID = action.payload.userID;
+      state.instaTOKEN = action.payload.Token;
+      state.instaUserName = action.payload.userName;
+      state.instaProfle = action.payload.userProfile;
+      localStorage.setItem("instaUserID", state.instaUserID);
+      localStorage.setItem("instaTOKEN", state.instaTOKEN);
+      localStorage.setItem("instaUserName", state.instaUserName);
+      localStorage.setItem("instaProfle", state.instaProfle);
     },
     UserLoggedOut() {
-      localStorage.removeItem("userID");
-      localStorage.removeItem("Token");
+      localStorage.removeItem("instaUserID");
+      localStorage.removeItem("instaTOKEN");
+      localStorage.removeItem("instaUserName");
+      localStorage.removeItem("instaProfle");
     },
   },
 });

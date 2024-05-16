@@ -10,9 +10,10 @@ import Notification from '../../Assets/heart.png'
 import Create from '../../Assets/create.png'
 import Profile from '../../Assets/profile.png'
 import Bars from '../../Assets/bars.png'
-
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+    const { instaUserID } = useSelector((state) => state.Instagram);
     return (
         <>
             <div className='navbar'>
@@ -37,7 +38,7 @@ export default function Navbar() {
                     <NavLink className='navLink' to='/create'>
                         <img className='navIcon' src={Create} alt='' />   <span className='__navTitle'>Create</span>
                     </NavLink>
-                    <NavLink className='navLink' to='/profile' >
+                    <NavLink className='navLink' to={`/${instaUserID}`} >
                         <img className='navIcon' src={Profile} alt='' />   <span className='__navTitle'>Profile</span>
                     </NavLink>
                 </nav>

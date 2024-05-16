@@ -10,9 +10,9 @@ const saltRound = process.env.saltRound;
 
 // authenticate user
 const authenticateUser = async (request, response) => {
-  const { Token } = request.body;
+  const { instaTOKEN } = request.body;
   try {
-    const payload = JWT.verify(Token, KEY);
+    const payload = JWT.verify(instaTOKEN, KEY);
     return response.send({
       success: true,
     });
@@ -74,7 +74,7 @@ const otpSender = async (request, response) => {
 const userRegister = async (request, response) => {
   let { userName, fullName, userEmail, userPassword } = request.body;
   //hashing password using bcrypt
-  userPassword = bcrypt.hashSync(userPassword, saltRound);
+  userPassword = bcrypt.hashSync(userPassword, 15);
 
   // saving new user in database
   const registredResult = await userCollection.create({
@@ -82,6 +82,11 @@ const userRegister = async (request, response) => {
     fullName: fullName,
     userEmail: userEmail,
     userPassword: userPassword,
+    userFollowers: 0,
+    userFollowing: 0,
+    userPosts: 0,
+    userBio: "",
+    userProfile: "",
   });
   if (registredResult) {
     return response.send({ resMsg: "User Registred Successfully" });
@@ -92,38 +97,43 @@ const userRegister = async (request, response) => {
 
 // User login controller
 const userSignIn = async (request, response) => {
-  const tempUser = request.body;
+  try {
+    const tempUser = request.body;
 
-  const isUserExists = await userCollection.findOne({
-    $or: [{ userEmail: tempUser.userID }, { userName: tempUser.userID }],
-  });
 
-  if (!isUserExists) {
-    return response.send({
-      success: false,
-      msg: `User not registered`,
+    const isUserExists = await userCollection.findOne({
+      $or: [{ userEmail: tempUser.userID }, { userName: tempUser.userID }],
     });
-  }
-  // matching Password
 
-  const userAuthenticaticated = bcrypt.compareSync(
-    tempUser.userPassword,
-    isUserExists.userPassword
-  );
+    if (!isUserExists) {
+      return response.send({
+        success: false,
+        msg: `User not registered`,
+      });
+    }
+    // matching Password
 
-  if (userAuthenticaticated) {
-    // creating json token
-    const generatedToken = JWT.sign({ USER: tempUser.userEmail }, KEY, {
-      expiresIn: "72h",
-    });
-    isUserExists.userPassword = undefined;
-    return response.send({
-      success: true,
-      UserDetails: isUserExists,
-      TOKEN: generatedToken,
-    });
-  } else {
-    return response.send({ msg: "Wrong Password" });
+    const userAuthenticaticated = bcrypt.compareSync(
+      tempUser.userPassword,
+      isUserExists.userPassword
+    );
+
+    if (userAuthenticaticated) {
+      // creating json token
+      const generatedToken = JWT.sign({ USER: tempUser.userEmail }, KEY, {
+        expiresIn: "72h",
+      });
+      isUserExists.userPassword = undefined;
+      return response.send({
+        success: true,
+        UserDetails: isUserExists,
+        TOKEN: generatedToken,
+      });
+    } else {
+      return response.send({success : false,  msg: "Wrong Password" });
+    }
+  } catch (error) {
+    response.status(500).json({ msg: `Check your internet connect and Try again - ${error.message}` });
   }
 };
 
@@ -191,7 +201,27 @@ const resetPassword = async (request, response) => {
 };
 
 // get the registred user using their _id
-const getUser = async (request, response) => {};
+const getUser = async (request, response) => {
+  const { id } = request.params;
+  try {
+    const mongooseResponse = await userCollection.findOne({ _id: id });
+    if (mongooseResponse) {
+      mongooseResponse.userPassword = undefined;
+      return response.send({
+        success: true,
+        user: mongooseResponse,
+      });
+    } else {
+      return response.send({
+        success: false,
+      });
+    }
+  } catch (err) {
+    return response.send({
+      success: false,
+    });
+  }
+};
 
 module.exports = {
   userRegister,
