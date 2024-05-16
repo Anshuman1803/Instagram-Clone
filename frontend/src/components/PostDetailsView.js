@@ -15,7 +15,7 @@ import PostLoader from "./PostLoader";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 function PostDetailsView() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaProfle, instaUserName } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
   const [AllComments, setAllComments] = useState([]);
   const [CommentsLoading, setCommentsLoading] = useState(false);
@@ -27,17 +27,63 @@ function PostDetailsView() {
     window.history.back();
   };
 
+  //! Creating new comments for the post
+  const handlePostComment = (e) => {
+    e.preventDefault();
+    const tempNewComments = {
+      postID: state?._id,
+      commentText: newComment,
+      userName: instaUserName,
+      userID: instaUserID,
+      userProfile: instaProfle,
+    }
+    axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments).then((response) => {
+      if(response.data.success){
+        toast.success(response.data.msg);
+        handleLoadComments();
+        setNewComment('');
+      }else{
+        toast.error(response.data.msg);
+        handleLoadComments();
+        setNewComment('');
+      }
+    }).catch((error)=>{
+      toast.error(`Something went wrong - ${error.message}`);
+      handleLoadComments();
+      setNewComment('');
+    })
+
+  }
+
+  // ! Delete the comments created by the current user
+  const handleDeleteComment = (e, commentID, postID)=>{
+    e.preventDefault();
+    axios.delete(`http://localhost:5000/api/v1/comments/delete-comment/${commentID}`,{
+      params: {
+        postID: postID
+    }
+    }).then((response) => {
+      if(response.data.success){
+        toast.success(response.data.msg);
+        handleLoadComments();
+      }else{
+        toast.error(response.data.msg);
+        handleLoadComments();
+      }
+    }).catch((error)=>{
+      toast.error(`Something went wrong - ${error.message}`);
+      handleLoadComments();
+    })
+
+
+  }
+  // Load comments
   const handleLoadComments = () => {
     setCommentsLoading(true);
-    axios
-      .get(
-        `http://localhost:5000/api/v1/comments/get-all-comments/${state?._id}`
-      )
+    axios.get(`http://localhost:5000/api/v1/comments/get-all-comments/${state?._id}`)
       .then((response) => {
         if (response.data.success) {
-          setAllComments(
-            response.data.comments.sort((a, b) => b.createAt - a.createAt)
-          );
+          setAllComments(response.data.comments.sort((a, b) => b.createAt - a.createAt));
           setCommentsLoading(false);
         } else {
           setAllComments(response.data.comments);
@@ -49,7 +95,7 @@ function PostDetailsView() {
         toast.error(`${error.message}`);
       });
   };
-  // Load comments
+
   useEffect(handleLoadComments, [state._id]);
 
   useEffect(() => {
@@ -63,6 +109,7 @@ function PostDetailsView() {
         onClick={handleBackClick}
       />
       <div className="postDetailsview__box">
+
         <div className="postDetailsview__postPOsterContainer">
           <img
             src={state?.postPoster}
@@ -121,12 +168,10 @@ function PostDetailsView() {
               ) : (
                 <>
                   {AllComments.length === 0 ? (
-                    <p className="postDetailsview__NoCommentsMsg">
-                      No comments yet.
-                    </p>
+                    <p className="postDetailsview__NoCommentsMsg"> No comments yet.</p>
                   ) : (
                     <>
-                      {AllComments?.map((comment, index) => {
+                      {AllComments?.map((comment) => {
                         return (
                           <div
                             className="postDetailsview__CommentsItem"
@@ -162,8 +207,8 @@ function PostDetailsView() {
                               </p>
                             </div>
                             {comment?.userID === instaUserID && (
-                              <MdDelete className="postDetailsView__deleteCommentICON" />
-                            )}
+                              <MdDelete className="postDetailsView__deleteCommentICON" onClick={(e)=> handleDeleteComment(e, comment?._id, comment?.postID)} />
+                             )}
                           </div>
                         );
                       })}
@@ -172,9 +217,11 @@ function PostDetailsView() {
                 </>
               )}
             </div>
+
           </div>
 
           <div className="postDetailsview__postICONContainer">
+
             <div className="iconContainer">
               <div>
                 <FaRegHeart className="postDetailsview__ICONS" />
@@ -189,32 +236,16 @@ function PostDetailsView() {
                 <IoBookmarkOutline className="postDetailsview__ICONS" />
               </div>
             </div>
-            <p className="postDetailsview__LikeCounter">
-              {state.postLikes > 0 && `Likes ${state.postLikes}`}
-            </p>
+
+            <p className="postDetailsview__LikeCounter"> {state.postLikes > 0 && `Likes ${state.postLikes}`} </p>
 
             <div className="PostDetailsBox__CommentInputOBox">
-              <input
-                type="text"
-                name="newComment"
-                value={newComment}
-                id="newComment_input"
-                className="PostDetailsBox__inputBox"
-                placeholder="Add a comment..."
-                onChange={(e) => setNewComment(e.target.value)}
-                ref={inputRef}
-              />
-              <button
-                type="button"
-                className={`PostDetailsBox__PostCommentButton ${newComment.length <= 5
-                    ? "PostDetailsBox__unActiveButton"
-                    : "PostDetailsBox__activeButton"
-                  }`}
-              >
-                Post
-              </button>
+              <input type="text" name="newComment" value={newComment} id="newComment_input" className="PostDetailsBox__inputBox" placeholder="Add a comment..." onChange={(e) => setNewComment(e.target.value)} ref={inputRef} />
+              <button type="button" className={`PostDetailsBox__PostCommentButton ${newComment.length <= 5 ? "PostDetailsBox__unActiveButton" : "PostDetailsBox__activeButton"}`} onClick={handlePostComment}> Post </button>
             </div>
+
           </div>
+
         </div>
       </div>
     </section>

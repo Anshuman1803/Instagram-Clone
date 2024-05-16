@@ -3,14 +3,14 @@ const { postCollection } = require("../model/post.model")
 
 const createNewComment = async (request, response) => {
     try {
-        const { postID, commentText, userName, userProfile, createAt, userID } = request.body;
+        const { postID, commentText, userName, userProfile, userID } = request.body;
 
         const mongooseResponse = await commentCollection.create({
             postID: postID,
             commentText: commentText,
             userName: userName,
             userProfile: userProfile,
-            createAt: createAt,
+            createAt: Date.now(),
             userID: userID,
         });
         if (mongooseResponse) {
@@ -55,7 +55,30 @@ const getComments = async (request, response) => {
 }
 
 const deleteComment = async (request, response) => {
+    try {
+        const { commentId } = request.params;
+        const {postID} = request.query
 
+        const mongooseResponse = await commentCollection.findOneAndDelete({_id: commentId})
+        if (mongooseResponse) {
+            await postCollection.findOneAndUpdate({ _id: postID }, {
+                $inc: { postComments: -1 },
+            })
+            response.status(200).json({
+                success: true,
+                msg: "Your comment has been deleted",
+            });
+        } else {
+            response.status(400).json({
+                success: false,
+                msg: "Try again later",
+            });
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(500).send(`Server failed to load! Try again ${error}`);
+    }
 }
 
 module.exports = {
