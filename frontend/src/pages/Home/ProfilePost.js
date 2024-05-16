@@ -15,8 +15,7 @@ function ProfilePost() {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`)
+    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`)
       .then((response) => {
         setOwnPosts(response.data.posts);
         setLoading(false);
@@ -27,16 +26,13 @@ function ProfilePost() {
       });
   }, [instaUserID]);
 
-  const handleShowPostDetails = (e, posts)=> {
+  const handleShowPostDetails = (e, posts) => {
     e.preventDefault();
-    navigateTO(`/posts/${posts._id}`, {state : posts})
+    navigateTO(`/posts/${posts._id}`, { state: posts })
   }
 
   return (
-    <div
-      className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"
-        }`}
-    >
+    <div className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"}`}>
       <div className="profilePostContainer__PostBox">
         {Loading ? (
           <PostLoader />
@@ -51,7 +47,7 @@ function ProfilePost() {
               <>
                 {ownPosts.map((posts, index) => {
                   return (
-                    <div onClick={(e)=>handleShowPostDetails(e, posts)} className="profilePostContainer__postCard" key={index}>
+                    <div onClick={(e) => handleShowPostDetails(e, posts)} className="profilePostContainer__postCard" key={index}>
                       <img
                         src={posts.postPoster}
                         alt={posts.postPoster}

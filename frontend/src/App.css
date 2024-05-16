@@ -606,8 +606,8 @@ nav {
 }
 
 .moreIcon {
-  width: 2.5em;
-  margin-left: .2em;
+  width: 2em;
+  /* margin-left: .2em; */
 }
 
 .navLink:hover {
@@ -1380,6 +1380,79 @@ nav {
 
 /* ! This block holds the design of  PostDetailsView Popup */
 
+
+/* This block Holds the Edit Profile Design */
+
+/* .__editProfilePage {
+  border: 1px solid green;
+} */
+.__pageHeader{
+  padding: 1em 4em;
+}
+.__editForm {
+  width: 70%;
+  margin: auto;
+}
+
+.__profile {
+  border: 1px solid #00000070;
+  /* background: rgb(224, 224, 224); */
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+  margin: 0 1em;
+}
+
+.__left_section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.__profileImage_Btn {
+  padding: 8px 15px;
+  background: rgba(15, 78, 238, 0.881);
+  color: white;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.__profileImage_Btn:hover {
+  background: rgb(0, 72, 255);
+}
+
+.__inputBox {
+  padding: 1em;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.__inputs {
+  height: 45px;
+  padding-left: 1em;
+  border: 1px solid #00000084;
+  outline: none;
+  border-radius: 10px;
+}
+
+textarea {
+  padding: 1em;
+  border-radius: 10px;
+}
+
+select>option {
+  padding: 1em;
+  height: 20em;
+}
+
+/* This block Holds the Edit Profile Design */
+
+
 /* Responsive Styles */
 @media screen and (max-width: 990px) {
   .authContainer__LeftSideContainer {
@@ -1686,6 +1759,14 @@ nav {
   .__instaIcon_Hide,
   .__navbar_moreButton {
     display: none;
+  }
+
+  /* This block of code holds the Edit Profle page */
+  .__pageHeader{
+    padding: 1em;
+  }
+  .__editForm{
+    width: 95%;
   }
 
 }

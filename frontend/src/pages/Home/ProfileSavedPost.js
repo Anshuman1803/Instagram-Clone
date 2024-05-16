@@ -3,11 +3,7 @@ import savedPostICON from "../../Assets/savedICON.png";
 function ProfileSavedPost() {
   const [savedPosts, setSavedPosts] = useState([]);
   return (
-    <div
-      className={`dashboar__profileSection__ProfilePostsContaine ${
-        savedPosts.length === 0 && "flexContainer"
-      }`}
-    >
+    <div className={`dashboar__profileSection__ProfilePostsContaine ${savedPosts.length === 0 && "flexContainer"}`}>
       {savedPosts.length === 0 ? (
         <div className="ProfilePostsContainer__NOpostBox">
           <img src={savedPostICON} alt="PostsICON" className="noPostICON" />

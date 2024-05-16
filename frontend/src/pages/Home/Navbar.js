@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../../Assets/Logo.png'
 import instaIcon from '../../Assets/insta_Icon.svg'
 import Home from '../../Assets/home.svg'
@@ -10,10 +10,34 @@ import Notification from '../../Assets/heart.png'
 import Create from '../../Assets/create.png'
 import Profile from '../../Assets/profile.png'
 import Bars from '../../Assets/bars.png'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
+import toast from 'react-hot-toast';
+
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function Navbar() {
-    const { instaUserID } = useSelector((state) => state.Instagram);
+    const navigateTO = useNavigate()
+    const dispatch = useDispatch()
+    const { instaUserID, instaUserName } = useSelector((state) => state.Instagram);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleLogout = () => {
+        dispatch(UserLoggedOut())
+        toast.success(`${instaUserName} Logged out !!`)
+        setTimeout(() => {
+            navigateTO('/user/auth/signin')
+        }, 1000);
+    }
+
     return (
         <>
             <div className='navbar'>
@@ -42,11 +66,26 @@ export default function Navbar() {
                         <img className='navIcon' src={Profile} alt='' />   <span className='__navTitle'>Profile</span>
                     </NavLink>
                 </nav>
-                <button className='__navbar_moreButton'>
+
+                {/* <button className='__navbar_moreButton'>
                     <NavLink className='navLink'>
                         <img className='moreIcon' src={Bars} alt='' />    <span className='__navTitle'>More</span>
                     </NavLink>
-                </button>
+                </button> */}
+
+                <div className='__navbar_moreButton'>
+                    <NavLink className='navLink'>
+                        <img className='moreIcon' src={Bars} alt='' />
+                        <span className='__navTitle' style={{ color: 'black' }} id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+                            More
+                        </span>
+                    </NavLink>
+                    <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                </div>
             </div>
         </>
     )
