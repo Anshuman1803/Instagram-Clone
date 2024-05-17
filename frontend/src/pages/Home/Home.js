@@ -10,7 +10,8 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa"; // when the user like the post
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 export default function Home() {
   const [PostLoading, setPostLoading] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
@@ -53,6 +54,40 @@ export default function Home() {
 }
 
 const HomePostCard = ({ posts }) => {
+  const { instaUserID, instaProfle, instaUserName } = useSelector((state) => state.Instagram);
+  const [newComment, setNewComment] = useState("");
+  const navigateTO = useNavigate()
+
+  //! Creating new comments for the post
+  const handlePostComment = (e, posts) => {
+    e.preventDefault();
+
+    const tempNewComments = {
+      postID: posts?._id,
+      commentText: newComment,
+      userName: instaUserName,
+      userID: instaUserID,
+      userProfile: instaProfle,
+    }
+
+    axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        setNewComment('');
+      } else {
+        toast.error(response.data.msg);
+        setNewComment('');
+      }
+    }).catch((error) => {
+      toast.error(`Something went wrong - ${error.message}`);
+      setNewComment('');
+    })
+
+  }
+  const handleShowPostDetails = (e, posts) => {
+    e.preventDefault();
+    navigateTO(`/posts/${posts._id}`, { state: posts })
+  }
   return <article className='HomeSection__homePostCard'>
     <div className='homePostCard_header'>
       <div className='homePostCard__PostOwner'>
@@ -68,7 +103,7 @@ const HomePostCard = ({ posts }) => {
     <div className='homePostCard__iconButton_Box'>
       <div>
         <FaRegHeart className='homePostCard__iconButton' />
-        <FaRegComment className='homePostCard__iconButton' />
+        <FaRegComment className='homePostCard__iconButton' onClick={(e)=> handleShowPostDetails(e, posts)} />
         {/* <FaHeart className='homePostCard__iconButton post__LIKEDICONS' /> */}
       </div>
       <div>
@@ -79,21 +114,31 @@ const HomePostCard = ({ posts }) => {
     </div>
 
     {
-        //  posts?.postLikes > 0 && 
-   <p className='homePostCard__LikeCounter'> <span className='homePostCard__LikeCount'>{posts?.postLikes} </span> {posts?.postLikes > 1 ? 'likes' : 'like'} </p>
+      posts?.postLikes !== 0 &&
+      <p className='homePostCard__LikeCounter'> <span className='homePostCard__LikeCount'>{posts?.postLikes} </span> {posts?.postLikes > 1 ? 'likes' : 'like'} </p>
 
     }
 
     {
-      //  posts?.postCaption &&
+      posts?.postCaption &&
       <p className='homePostCard__captionBox'>
         <Link className='homePostCard__captionBox_userName'>{posts?.userName} </Link>
         <span className='homePostCard__caption'>{posts?.postCaption}</span>
       </p>
     }
-    <span className='homePostCard__viewAllComment'>
-      View all {posts?.postComments} comments
-    </span>
+
+    {
+      posts?.postComments !== 0 && <Link state={posts} to={`/posts/${posts?._id}`}   className='homePostCard__viewAllComment'>
+        View all {posts?.postComments} comments
+      </Link>
+    }
+
+    <div className='homePostCard__createCommentBox'>
+      <input type="text" name="newComment" value={newComment} autoComplete='off' className='homePostCard__commentInput' placeholder='Add a comment...' onChange={(e) => setNewComment(e.target.value)} />
+      {
+        newComment && <button type="button" className='homePostCard__commentPostButton' onClick={(e) => handlePostComment(e, posts)}>Post</button>
+      }
+    </div>
 
   </article>
 }
