@@ -43,7 +43,7 @@ function ForgotPassword() {
       setBtnLoader(true);
       axios
         .post(
-          "https://instagram-clone-bsmc.onrender.com/api/v1/auth/user/password/forgot-password",
+          "http://localhost:5000/api/v1/auth/user/password/forgot-password",
           userDetails
         )
         .then((response) => {
