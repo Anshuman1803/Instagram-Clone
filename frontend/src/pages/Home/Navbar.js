@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../../Assets/Logo.png'
 import instaIcon from '../../Assets/insta_Icon.svg'
@@ -14,22 +14,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-
 export default function Navbar() {
     const navigateTO = useNavigate()
     const dispatch = useDispatch()
     const { instaUserID, instaUserName } = useSelector((state) => state.Instagram);
+    const [popup, setPopup] = useState(false)
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handlePopupClick = () => {
+        setPopup(!popup)
+    }
+
     const handleLogout = () => {
         dispatch(UserLoggedOut())
         toast.success(`${instaUserName} Logged out !!`)
@@ -37,6 +31,7 @@ export default function Navbar() {
             navigateTO('/user/auth/signin')
         }, 1000);
     }
+
 
     return (
         <>
@@ -67,25 +62,18 @@ export default function Navbar() {
                     </NavLink>
                 </nav>
 
-                {/* <button className='__navbar_moreButton'>
-                    <NavLink className='navLink'>
+                <button className='__navbar_moreButton'>
+                    {
+                        popup && <div className='__popup'>
+                            <p className='__popupOptions'>My Account</p>
+                            <p className='__popupOptions'>Settings</p>
+                            <p className='__popupOptions' onClick={handleLogout}>LogOut</p>
+                        </div>
+                    }
+                    <NavLink className='navLink' onClick={handlePopupClick}>
                         <img className='moreIcon' src={Bars} alt='' />    <span className='__navTitle'>More</span>
                     </NavLink>
-                </button> */}
-
-                <div className='__navbar_moreButton'>
-                    <NavLink className='navLink'>
-                        <img className='moreIcon' src={Bars} alt='' />
-                        <span className='__navTitle' style={{ color: 'black' }} id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-                            More
-                        </span>
-                    </NavLink>
-                    <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
-                </div>
+                </button>
             </div>
         </>
     )

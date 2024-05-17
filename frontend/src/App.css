@@ -605,7 +605,7 @@ nav {
 }
 
 .moreIcon {
-  width: 2em;
+  width: 2.5em;
   /* margin-left: .2em; */
 }
 
@@ -627,6 +627,25 @@ nav {
   border: none;
   outline: none;
   background: transparent;
+  position: relative;
+  transition: 500ms ease;
+}
+.__popup{
+  position: absolute;
+  width: 150px;
+  bottom: 55px;
+  left: 20px;
+  text-align: left;
+  border-radius: 5px;
+  background: rgb(255, 251, 251);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.__popupOptions{
+  padding: 1em 2em;
+}
+.__popupOptions:hover{
+  background: rgb(231, 231, 231);
+  cursor: pointer;
 }
 
 /* ! This block holds the design of the homepage navlinks */
@@ -920,7 +939,7 @@ nav {
   height: 325px;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.151);
-  padding: 0.6em;
+  /* padding: 0.6em; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -958,7 +977,6 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 10px;
-
 }
 
 .profilePostcontainer__postInfoICON {
@@ -1472,6 +1490,8 @@ nav {
 textarea {
   padding: 1em;
   border-radius: 10px;
+  outline: none;
+  resize: none;
 }
 
 select>option {
