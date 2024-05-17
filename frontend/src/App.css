@@ -1675,7 +1675,7 @@ select>option {
 /* This block Holds the Edit Profile Design */
 
 
-/* Responsive Styles */
+/*! Responsive Styles */
 
 @media screen and (max-width: 1200px) {
   .homeSection__currentUserContainer {

@@ -17,7 +17,7 @@ function ProfilePost() {
     setLoading(true);
     axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`)
       .then((response) => {
-        setOwnPosts(response.data.posts);
+        setOwnPosts(response.data.posts.sort((a,b)=> b.postCreatedAt - a.postCreatedAt));
         setLoading(false);
       })
       .catch((error) => {

@@ -46,9 +46,12 @@ export default function Home() {
           </>
         }
       </div>
-      <div className="homeSection__currentUserContainer">
+      <aside className="homeSection__currentUserContainer">
 
-      </div>
+        <div>
+
+        </div>
+      </aside>
 
     </section>
   )
@@ -119,7 +122,6 @@ const HomePostCard = ({ posts }) => {
     {
       posts?.postLikes !== 0 &&
       <p className='homePostCard__LikeCounter'> <span className='homePostCard__LikeCount'>{posts?.postLikes} </span> {posts?.postLikes > 1 ? 'likes' : 'like'} </p>
-
     }
 
     {

@@ -47,7 +47,6 @@ export default function Profile() {
   return (
     <>
       <section className="dashboard__ProfileSection">
-
         {
           Loading ? <PostLoader /> :
             <>
