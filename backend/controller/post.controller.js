@@ -54,7 +54,8 @@ const getPost = async (request, response) => {
 
 const getAllPosts = async (request, response) => {
   try {
-    const mongooseResponse = await postCollection.find({});
+    const {userID} = request.params
+    const mongooseResponse = await postCollection.find({ user: { $ne: userID } });
     if (mongooseResponse) {
       response.send({ success: true, posts: mongooseResponse });
     } else {
@@ -68,7 +69,6 @@ module.exports = {
   createPost,
   // deletePost,
   // updatePost,
-  // getAllPosts,
   getPost,
   getAllPosts,
 };

@@ -38,16 +38,16 @@ function PostDetailsView() {
       userProfile: instaProfle,
     }
     axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments).then((response) => {
-      if(response.data.success){
+      if (response.data.success) {
         toast.success(response.data.msg);
         handleLoadComments();
         setNewComment('');
-      }else{
+      } else {
         toast.error(response.data.msg);
         handleLoadComments();
         setNewComment('');
       }
-    }).catch((error)=>{
+    }).catch((error) => {
       toast.error(`Something went wrong - ${error.message}`);
       handleLoadComments();
       setNewComment('');
@@ -56,21 +56,21 @@ function PostDetailsView() {
   }
 
   // ! Delete the comments created by the current user
-  const handleDeleteComment = (e, commentID, postID)=>{
+  const handleDeleteComment = (e, commentID, postID) => {
     e.preventDefault();
-    axios.delete(`http://localhost:5000/api/v1/comments/delete-comment/${commentID}`,{
+    axios.delete(`http://localhost:5000/api/v1/comments/delete-comment/${commentID}`, {
       params: {
         postID: postID
-    }
+      }
     }).then((response) => {
-      if(response.data.success){
+      if (response.data.success) {
         toast.success(response.data.msg);
         handleLoadComments();
-      }else{
+      } else {
         toast.error(response.data.msg);
         handleLoadComments();
       }
-    }).catch((error)=>{
+    }).catch((error) => {
       toast.error(`Something went wrong - ${error.message}`);
       handleLoadComments();
     })
@@ -125,7 +125,7 @@ function PostDetailsView() {
                 e.onerror = null;
               }}
             />
-            <Link className="postDetailsview__ownerUserName">
+            <Link to={`/${state?.user}`} className="postDetailsview__ownerUserName">
               {state?.userName}
             </Link>
 
@@ -146,7 +146,7 @@ function PostDetailsView() {
 
               <div className="postDetailsView_PostCaption">
                 <p className="postCaption">
-                  <Link className="PostCaptions__ownerUserName">
+                  <Link to={`/${state?.user}`} className="PostCaptions__ownerUserName">
                     {state?.userName}
                   </Link>
                   {state?.postCaption}
@@ -192,8 +192,7 @@ function PostDetailsView() {
                               }}
                             >
                               <p className="CommentsItem__commentText">
-                                <Link className="CommentsItem_userName">
-                                  {" "}
+                                <Link to={`/${comment?.userID}`} className="CommentsItem_userName">
                                   {comment?.userName}
                                 </Link>
                                 {comment?.commentText}
@@ -203,8 +202,8 @@ function PostDetailsView() {
                               </p>
                             </div>
                             {comment?.userID === instaUserID && (
-                              <MdDelete className="postDetailsView__deleteCommentICON" onClick={(e)=> handleDeleteComment(e, comment?._id, comment?.postID)} />
-                             )}
+                              <MdDelete className="postDetailsView__deleteCommentICON" onClick={(e) => handleDeleteComment(e, comment?._id, comment?.postID)} />
+                            )}
                           </div>
                         );
                       })}
@@ -244,7 +243,7 @@ function PostDetailsView() {
 
         </div>
       </div>
-      
+
       <RxCross2
         className="postDetailsView__closeButton"
         onClick={handleBackClick}
