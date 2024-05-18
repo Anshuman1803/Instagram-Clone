@@ -740,18 +740,118 @@ nav {
 }
 
 .homeSection__ShowPostContainer {
-  border: 2px solid red;
   min-height: 100vh;
-  width: calc(100% - 300px);
+  width: calc(100% - 30%);
   position: relative;
 }
 
 .homeSection__currentUserContainer {
-  border: 2px solid red;
   min-height: 90vh;
-  width: 300px;
+  width: 30%;
 }
 
+.currentUserContainer_currentUserBox {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.175);
+  margin: 20px auto 10px auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5em;
+}
+
+.currentUserContainer_currentUser {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.currentUserBox_profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.currentUserBox_userNameBox {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.currentUserBox__userName,
+.SuggestedUserBox__userName {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+  font-size: 16px;
+}
+
+.currentUserBox__userName:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.currentUserBox__userFullName {
+  font-size: 14px;
+  color: grey;
+  font-weight: 500;
+  text-transform: capitalize;
+  cursor: text;
+}
+
+.currentUserBox__userSettingICON {
+  font-size: 22px;
+  color: black;
+}
+
+.currentUserBox__userSettingICON:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.homeSection__suggestedUserContainer {
+  height: 585px
+}
+
+.suggestedUserContainer__heading {
+  font-size: 16px;
+  font-weight: 500;
+  color: #737373;
+  border-bottom: 5px;
+}
+
+.currentUserContainer_SuggestedUserBox {
+  margin: 8px auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5em;
+}
+
+.SuggestedUserBox__suggestText {
+  font-size: 14px;
+  font-weight: 300;
+  color: grey;
+}
+
+.SuggestedUserBox__viewUserButton {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  color: black;
+  text-transform: capitalize;
+}
+
+.SuggestedUserBox__viewUserButton:hover {
+  cursor: pointer;
+  color: grey
+}
+
+/* home postcard */
 .HomeSection__homePostCard {
   width: 575px;
   margin: 20px auto;
@@ -870,6 +970,7 @@ nav {
   font-weight: 500;
   font-size: 16px;
   margin-right: 5px;
+  color: black;
 }
 
 .homePostCard__captionBox_userName:hover {
@@ -1677,7 +1778,7 @@ select>option {
 
 /*! Responsive Styles */
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1247px) {
   .homeSection__currentUserContainer {
     display: none;
   }
@@ -2010,7 +2111,7 @@ select>option {
   .__editForm {
     width: 95%;
   }
-  
+
   .profilePostContainer__PostBox {
     grid-template-columns: repeat(2, 0.8fr);
   }

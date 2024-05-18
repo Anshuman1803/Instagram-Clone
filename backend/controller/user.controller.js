@@ -103,7 +103,7 @@ const userSignIn = async (request, response) => {
 
     const isUserExists = await userCollection.findOne({
       $or: [{ userEmail: tempUser.userID }, { userName: tempUser.userID }],
-    });
+    })
 
     if (!isUserExists) {
       return response.send({
@@ -204,9 +204,8 @@ const resetPassword = async (request, response) => {
 const getUser = async (request, response) => {
   const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.findOne({ _id: id });
+    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-password -__v')
     if (mongooseResponse) {
-      mongooseResponse.userPassword = undefined;
       return response.send({
         success: true,
         user: mongooseResponse,
@@ -223,10 +222,34 @@ const getUser = async (request, response) => {
   }
 };
 
+
+// get the suggestedUser
+const getSuggestedUser =  async (request, response)=>{
+  const { id } = request.params;
+  try {
+    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).limit(7).select('_id userName userProfile ');
+    if (mongooseResponse) {
+      return response.send({
+        success: true,
+        suggestedUser: mongooseResponse,
+      });
+    } else {
+      return response.send({
+        success: false,
+      });
+    }
+  } catch (err) {
+    console.log(err)
+    return response.send({
+      success: false,
+    });
+  }
+}
 module.exports = {
   userRegister,
   userSignIn,
   getUser,
+  getSuggestedUser,
   otpSender,
   forgotPassword,
   resetPassword,

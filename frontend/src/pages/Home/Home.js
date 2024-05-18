@@ -7,14 +7,16 @@ import toast from "react-hot-toast"
 import PostLoader from "../../components/PostLoader";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { RiUserSettingsFill } from "react-icons/ri";
 // import { FaHeart } from "react-icons/fa"; // when the user like the post
 // import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 export default function Home() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaProfle, instaUserName, instaFullName } = useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
+  const [suggestedUser, setSuggestedUser] = useState([])
   const [allPosts, setAllPosts] = useState([]);
 
   const loadAllPosts = () => {
@@ -33,6 +35,19 @@ export default function Home() {
   }
   useEffect(loadAllPosts, [instaUserID]);
 
+  // Load suggested User
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`).then((response) => {
+      if (response.data.success) {
+        setSuggestedUser(response.data.suggestedUser)
+      } else {
+        setSuggestedUser(response.data.suggestedUser)
+      }
+    }).catch((err) => {
+      toast.error(`Try Again ${err.message}`);
+    })
+  }, [instaUserID])
+
   return (
     <section className="dashboard__homeSection">
       <div className="homeSection__ShowPostContainer">
@@ -48,9 +63,35 @@ export default function Home() {
       </div>
       <aside className="homeSection__currentUserContainer">
 
-        <div>
-
+        <div className='currentUserContainer_currentUserBox'>
+          <div className='currentUserContainer_currentUser'>
+            <img src={instaProfle ?? defaultProfile} alt={`${instaUserName}'s profile`} onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} className='currentUserBox_profile' />
+            <p className='currentUserBox_userNameBox'>
+              <Link to={`/${instaUserID}`} className='currentUserBox__userName'>{instaUserName}</Link>
+              <span className='currentUserBox__userFullName'>{instaFullName}</span>
+            </p>
+          </div>
+          <RiUserSettingsFill className='currentUserBox__userSettingICON' />
         </div>
+
+        <div className='homeSection__suggestedUserContainer'>
+          <h2 className="suggestedUserContainer__heading">Suggested for you</h2>
+          {
+            suggestedUser?.map((data, index) => {
+              return <div className='currentUserContainer_SuggestedUserBox' key={index}>
+                <div className='currentUserContainer_currentUser'>
+                  <img src={data?.userProfile ?? defaultProfile} alt={`${instaUserName}'s profile`} onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} className='currentUserBox_profile' />
+                  <p className='currentUserBox_userNameBox'>
+                    <span className='SuggestedUserBox__userName'>{data?.userName}</span>
+                    <span className='SuggestedUserBox__suggestText'>Suggested for you</span>
+                  </p>
+                </div>
+                <Link to={`/${data?._id}`} className='SuggestedUserBox__viewUserButton'>View</Link>
+              </div>
+            })
+          }
+        </div>
+
       </aside>
 
     </section>
