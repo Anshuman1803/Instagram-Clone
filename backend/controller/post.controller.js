@@ -51,10 +51,24 @@ const getPost = async (request, response) => {
     response.send({ success: false, msg: err });
   }
 };
+
+const getAllPosts = async (request, response) => {
+  try {
+    const {userID} = request.params
+    const mongooseResponse = await postCollection.find({ user: { $ne: userID } });
+    if (mongooseResponse) {
+      response.send({ success: true, posts: mongooseResponse });
+    } else {
+      response.send({ success: false, posts: [] });
+    }
+  } catch (err) {
+    response.send({ success: false, msg: err });
+  }
+};
 module.exports = {
   createPost,
   // deletePost,
   // updatePost,
-  // getAllPosts,
   getPost,
+  getAllPosts,
 };

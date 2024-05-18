@@ -630,7 +630,8 @@ nav {
   position: relative;
   transition: 500ms ease;
 }
-.__popup{
+
+.__popup {
   position: absolute;
   width: 150px;
   bottom: 55px;
@@ -640,10 +641,12 @@ nav {
   background: rgb(255, 251, 251);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-.__popupOptions{
+
+.__popupOptions {
   padding: 1em 2em;
 }
-.__popupOptions:hover{
+
+.__popupOptions:hover {
   background: rgb(231, 231, 231);
   cursor: pointer;
 }
@@ -730,23 +733,298 @@ nav {
 
 /* ! This block holds the design of Dashboard HOME Section */
 .dashboard__homeSection {
-  border: 2px solid red;
   min-height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.homeSection__ShowPostContainer {
+  min-height: 100vh;
+  width: calc(100% - 30%);
+  position: relative;
+}
+
+.homeSection__currentUserContainer {
+  min-height: 90vh;
+  width: 30%;
+}
+
+.currentUserContainer_currentUserBox {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.175);
+  margin: 20px auto 10px auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5em;
+}
+
+.currentUserContainer_currentUser {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.currentUserBox_profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.currentUserBox_userNameBox {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.currentUserBox__userName,
+.SuggestedUserBox__userName {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+  font-size: 16px;
+}
+
+.currentUserBox__userName:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.currentUserBox__userFullName {
+  font-size: 14px;
+  color: grey;
+  font-weight: 500;
+  text-transform: capitalize;
+  cursor: text;
+}
+
+.currentUserBox__userSettingICON {
+  font-size: 22px;
+  color: black;
+}
+
+.currentUserBox__userSettingICON:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.homeSection__suggestedUserContainer {
+  height: 585px
+}
+
+.suggestedUserContainer__heading {
+  font-size: 16px;
+  font-weight: 500;
+  color: #737373;
+  border-bottom: 5px;
+}
+
+.currentUserContainer_SuggestedUserBox {
+  margin: 8px auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5em;
+}
+
+.SuggestedUserBox__suggestText {
+  font-size: 14px;
+  font-weight: 300;
+  color: grey;
+}
+
+.SuggestedUserBox__viewUserButton {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  color: black;
+  text-transform: capitalize;
+}
+
+.SuggestedUserBox__viewUserButton:hover {
+  cursor: pointer;
+  color: grey
+}
+
+/* home postcard */
+.HomeSection__homePostCard {
+  width: 575px;
+  margin: 20px auto;
+  border-bottom: 1px solid rgba(119, 136, 153, 0.408);
+}
+
+.homePostCard_header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0em 0.4em;
+}
+
+.homePostCard__PostOwner {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.homeSection__ShowPostContainer {
-  border: 2px solid blue;
-  min-height: 100vh;
-  width: calc(100% - 300px);
+.homePostCard__PostOwnerProfile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 15px;
 }
 
-.homeSection__currentUserContainer {
-  border: 2px solid blue;
-  min-height: 100vh;
-  width: 300px;
+.homePostCard__PostOwnerName {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.homePostCard__blackDOT {
+  width: 5px;
+  height: 5px;
+  display: block;
+  border-radius: 50%;
+  background-color: black;
+  margin: 0px 10px;
+}
+
+.homePostCard__PostDate {
+  font-size: 13px;
+  color: grey;
+  font-weight: 400;
+}
+
+.homePostCard__threeDotOptions {
+  font-size: 25px;
+}
+
+.homePostCard_PostPoster {
+  background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+  border: none;
+  outline: none;
+  margin: 5px auto;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.homePostCard__iconButton_Box {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.homePostCard__iconButton {
+  font-size: 25px;
+  margin-right: 15px;
+}
+
+.homePostCard__iconButton:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.post__LIKEDICONS {
+  color: #ed3548;
+}
+
+.homePostCard__iconButton:last-child {
+  margin-right: 0;
+}
+
+.homePostCard__LikeCounter {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  color: black;
+}
+
+.homePostCard__LikeCount {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.homePostCard__captionBox {
+  min-height: 40px;
+  line-height: 1.2em;
+}
+
+.homePostCard__captionBox_userName {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  margin-right: 5px;
+  color: black;
+}
+
+.homePostCard__captionBox_userName:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.homePostCard__caption {
+  font-weight: 14px;
+  font-weight: 400;
+}
+
+.homePostCard__viewAllComment {
+  text-decoration: none;
+  display: block;
+  margin: 5px 0px;
+  font-size: 14px;
+  font-weight: 500;
+  color: gray;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.homePostCard__viewAllComment:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.homePostCard__createCommentBox {
+  height: 50px;
+}
+
+.homePostCard__commentInput {
+  border: none;
+  outline: none;
+  height: 100%;
+  width: calc(100% - 80px);
+  font-size: 16px;
+
+}
+
+.homePostCard__commentPostButton {
+  background-color: transparent;
+  width: 80px;
+  font-size: 16px;
+  color: #0095F6;
+  font-weight: 500;
+  border: none;
+  height: 100%;
+}
+
+.homePostCard__commentPostButton:hover {
+  cursor: pointer;
+  color: #385185;
 }
 
 /* ! This block holds the design of Dashboard HOME Section */
@@ -939,7 +1217,7 @@ nav {
   height: 325px;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.151);
-  /* padding: 0.6em; */
+  padding: 0.3em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1375,10 +1653,6 @@ nav {
   cursor: pointer;
 }
 
-.postDetailsview__LIKEDICONS {
-  color: #ed3548;
-}
-
 .PostDetailsBox__CommentInputOBox {
   border-top: 1px solid rgba(128, 128, 128, 0.167);
   width: 100%;
@@ -1502,7 +1776,23 @@ select>option {
 /* This block Holds the Edit Profile Design */
 
 
-/* Responsive Styles */
+/*! Responsive Styles */
+
+@media screen and (max-width: 1247px) {
+  .homeSection__currentUserContainer {
+    display: none;
+  }
+
+  .homeSection__ShowPostContainer {
+    width: 100%;
+  }
+
+  .profilePostContainer__PostBox {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media screen and (max-width: 990px) {
   .authContainer__LeftSideContainer {
     display: none;
@@ -1652,6 +1942,12 @@ select>option {
   }
 }
 
+@media screen and (max-width: 681px) {
+  .HomeSection__homePostCard {
+    width: 98%;
+  }
+}
+
 @media screen and (max-width: 641px) {
   .dashboard__currentUser__infoContainer {
     min-height: 375px;
@@ -1713,14 +2009,6 @@ select>option {
 
   .createPost__selectImageICON {
     margin-left: 0em;
-  }
-
-  .profilePostContainer__PostBox {
-    grid-template-columns: repeat(auto-fit, minmax(275px, 275px));
-  }
-
-  .profilePostContainer__postCard {
-    height: 275px;
   }
 }
 
@@ -1824,6 +2112,14 @@ select>option {
     width: 95%;
   }
 
+  .profilePostContainer__PostBox {
+    grid-template-columns: repeat(2, 0.8fr);
+  }
+
+  .profilePostContainer__postCard {
+    height: 275px;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
@@ -1882,5 +2178,11 @@ select>option {
 
   .PostsContainer__navItem {
     width: 80px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .profilePostContainer__PostBox {
+    grid-template-columns: repeat(1, 0.9fr);
   }
 }

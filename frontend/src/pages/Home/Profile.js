@@ -15,7 +15,8 @@ export default function Profile() {
   const { instaUserID } = useSelector((state) => state.Instagram);
   const navigateTO = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
-  const [Loading, setLoading] = useState(false)
+  const [Loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true)
     axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`)
@@ -33,20 +34,19 @@ export default function Profile() {
         setLoading(false)
       });
 
-    if (pathname === `/${instaUserID}`) {
-      navigateTO(`/${instaUserID}/posts`);
+    if (pathname === `/${userID?.instaUserID}`) {
+      navigateTO(`/${userID?.instaUserID}/posts`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [instaUserID, pathname]);
+  }, [userID, pathname]);
 
-  const handleEdit=()=>{
+  const handleEdit = () => {
     navigateTO('/accounts/edit')
   }
 
   return (
     <>
       <section className="dashboard__ProfileSection">
-
         {
           Loading ? <PostLoader /> :
             <>
@@ -101,7 +101,7 @@ export default function Profile() {
               <div className="dashboard__currentUser__PostsContainer">
                 <nav className="dashboard__postsContainer_navbar">
                   <NavLink
-                    to={`/${instaUserID}/posts`}
+                    to={`/${userID?.instaUserID}/posts`}
                     className="PostsContainer__navItem"
                   >
                     <img
@@ -114,7 +114,7 @@ export default function Profile() {
 
                   {userID.instaUserID === instaUserID && (
                     <NavLink
-                      to={`/${instaUserID}/saved`}
+                      to={`/${userID?.instaUserID}/saved`}
                       className="PostsContainer__navItem"
                     >
                       <img

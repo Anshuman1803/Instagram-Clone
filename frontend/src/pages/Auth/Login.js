@@ -70,6 +70,7 @@ function Login() {
                 Token: response.data.TOKEN,
                 userName: response.data.UserDetails.userName,
                 userProfile: response.data.UserDetails.userProfile,
+                userFullName: response.data.UserDetails.fullName,
               })
             );
           } else {
