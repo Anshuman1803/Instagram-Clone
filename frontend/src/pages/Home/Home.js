@@ -20,6 +20,7 @@ export default function Home() {
   const [allPosts, setAllPosts] = useState([]);
 
   const loadAllPosts = () => {
+    setPostLoading(true)
     axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`).then((response) => {
       if (response.data.success) {
         setAllPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
