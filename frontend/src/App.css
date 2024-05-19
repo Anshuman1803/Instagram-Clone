@@ -741,7 +741,7 @@ nav {
 
 .homeSection__ShowPostContainer {
   min-height: 100vh;
-  width: calc(100% - 30%);
+  width: calc(100% - 40%);
   position: relative;
 }
 
@@ -853,7 +853,7 @@ nav {
 
 /* home postcard */
 .HomeSection__homePostCard {
-  width: 575px;
+  width: 500px;
   margin: 20px auto;
   border-bottom: 1px solid rgba(119, 136, 153, 0.408);
 }
