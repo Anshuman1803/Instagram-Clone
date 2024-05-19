@@ -17,6 +17,7 @@ export default function Profile() {
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
 
+  // load the current USer
   useEffect(() => {
     setLoading(true)
     axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`)
@@ -34,6 +35,9 @@ export default function Profile() {
         setLoading(false)
       });
 
+  }, [userID.instaUserID])
+
+  useEffect(() => {
     if (pathname === `/${userID?.instaUserID}`) {
       navigateTO(`/${userID?.instaUserID}/posts`);
     }
