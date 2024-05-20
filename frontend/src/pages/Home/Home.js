@@ -11,7 +11,7 @@ import { RiUserSettingsFill } from "react-icons/ri";
 // import { FaHeart } from "react-icons/fa"; // when the user like the post
 // import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useSelector } from "react-redux";
 export default function Home() {
   const { instaUserID, instaProfle, instaUserName, instaFullName } = useSelector((state) => state.Instagram);
@@ -100,9 +100,8 @@ export default function Home() {
 }
 
 const HomePostCard = ({ posts }) => {
-  const { instaUserID, instaProfle, instaUserName } = useSelector((state) => state.Instagram);
+  const { instaUserID} = useSelector((state) => state.Instagram);
   const [newComment, setNewComment] = useState("");
-  const navigateTO = useNavigate()
 
   //! Creating new comments for the post
   const handlePostComment = (e, posts) => {
@@ -111,9 +110,7 @@ const HomePostCard = ({ posts }) => {
     const tempNewComments = {
       postID: posts?._id,
       commentText: newComment,
-      userName: instaUserName,
       userID: instaUserID,
-      userProfile: instaProfle,
     }
 
     axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments).then((response) => {
@@ -131,16 +128,12 @@ const HomePostCard = ({ posts }) => {
 
   }
 
-  const handleShowPostDetails = (e, posts) => {
-    e.preventDefault();
-    navigateTO(`/posts/${posts._id}`, { state: posts })
-  }
 
   return <article className='HomeSection__homePostCard'>
     <div className='homePostCard_header'>
       <div className='homePostCard__PostOwner'>
-        <img src={posts?.userProfile ?? defaultProfile} alt={`${posts?.userName}'s profile`} className='homePostCard__PostOwnerProfile' onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} />
-        <Link to={`/${posts?.user}`} className='homePostCard__PostOwnerName'>{posts?.userName}</Link>
+        <img src={posts?.user?.userProfile ?? defaultProfile} alt={`${posts?.user?.userName}'s profile`} className='homePostCard__PostOwnerProfile' onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} />
+        <Link to={`/${posts?.user?._id}`} className='homePostCard__PostOwnerName'>{posts?.user?.userName}</Link>
         <span className='homePostCard__blackDOT'></span>
         <span className='homePostCard__PostDate'><CalculateTimeAgo time={posts?.postCreatedAt} /> </span>
       </div>
@@ -151,7 +144,7 @@ const HomePostCard = ({ posts }) => {
     <div className='homePostCard__iconButton_Box'>
       <div>
         <FaRegHeart className='homePostCard__iconButton' />
-        <FaRegComment className='homePostCard__iconButton' onClick={(e) => handleShowPostDetails(e, posts)} />
+        <FaRegComment className='homePostCard__iconButton' />
         {/* <FaHeart className='homePostCard__iconButton post__LIKEDICONS' /> */}
       </div>
       <div>
@@ -175,9 +168,9 @@ const HomePostCard = ({ posts }) => {
     }
 
     {
-      posts?.postComments !== 0 && <Link state={posts} to={`/posts/${posts?._id}`} className='homePostCard__viewAllComment'>
+      posts?.postComments !== 0 && <span  className='homePostCard__viewAllComment'>
         View all {posts?.postComments} comments
-      </Link>
+      </span>
     }
 
     <div className='homePostCard__createCommentBox'>

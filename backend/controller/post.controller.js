@@ -3,15 +3,12 @@ const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
 
 const createPost = async (request, response) => {
-  const { user, postCreatedAt, postCaption, userName,
-    userProfile } = request.body;
+  const { user, postCreatedAt, postCaption, } = request.body;
   try {
     const cloudnaryResponse = await uploadOnCloudnary(request.file.path);
 
     const mongooseResponse = await postCollection.create({
       user: user,
-      userName: userName,
-      userProfile: userProfile,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
       postCaption: postCaption,
@@ -41,7 +38,7 @@ const createPost = async (request, response) => {
 const getPost = async (request, response) => {
   try {
     const { userID } = request.params;
-    const mongooseResponse = await postCollection.find({ user: userID });
+    const mongooseResponse = await postCollection.find({ user: userID }).populate('user', '_id userName userProfile');
     if (mongooseResponse) {
       response.send({ success: true, posts: mongooseResponse });
     } else {
@@ -54,8 +51,8 @@ const getPost = async (request, response) => {
 
 const getAllPosts = async (request, response) => {
   try {
-    const {userID} = request.params
-    const mongooseResponse = await postCollection.find({ user: { $ne: userID } });
+    const { userID } = request.params
+    const mongooseResponse = await postCollection.find({ user: { $ne: userID } }).populate('user', '_id userName userProfile');
     if (mongooseResponse) {
       response.send({ success: true, posts: mongooseResponse });
     } else {

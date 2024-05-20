@@ -5,13 +5,12 @@ import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 function ProfilePost() {
 
   const { instaUserID } = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
-  const navigateTO = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -26,10 +25,6 @@ function ProfilePost() {
       });
   }, [instaUserID]);
 
-  const handleShowPostDetails = (e, posts) => {
-    e.preventDefault();
-    navigateTO(`/posts/${posts._id}`, { state: posts })
-  }
 
   return (
     <div className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"}`}>
@@ -47,7 +42,7 @@ function ProfilePost() {
               <>
                 {ownPosts.map((posts, index) => {
                   return (
-                    <div onClick={(e) => handleShowPostDetails(e, posts)} className="profilePostContainer__postCard" key={index}>
+                    <div className="profilePostContainer__postCard" key={index}>
                       <img
                         src={posts.postPoster}
                         alt={posts.postPoster}

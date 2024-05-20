@@ -8,17 +8,12 @@ const commentModel = mongoose.Schema({
         type: String,
         required: true,
     },
-    userName: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
         required: true,
     },
-    userID:{
-        type: String,
-        required: true,
-    },
-    userProfile: {
-        type: String,
-    },
+
     createAt: {
         type: Number,
         required: true,
