@@ -24,10 +24,9 @@ function ProfilePost() {
         setLoading(false);
       });
   }, [instaUserID]);
-
-
+  
   return (
-    <div className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"}`}>
+    <div className={`dashboard__profileSection__ProfilePostsContainer ${ownPosts.length === 0 && "flexContainer"}`}>
       <div className="profilePostContainer__PostBox">
         {Loading ? (
           <PostLoader />
@@ -48,7 +47,6 @@ function ProfilePost() {
                         alt={posts.postPoster}
                         className="profilePostContainer__postPoster"
                       />
-
                       <div className="profilePostcontainer__postInfo">
                         <p className="profilePostContainer_postInfoBox">
                           <FaHeart className="profilePostcontainer__postInfoICON" />

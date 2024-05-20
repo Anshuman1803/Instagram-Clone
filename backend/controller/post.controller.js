@@ -63,11 +63,62 @@ const getAllPosts = async (request, response) => {
   }
 };
 
+const savePost = async (request, response) => {
+  try {
+    const { postID } = request.params;
+    const { instaUserID } = request.body;
+    const mongooseUserUpdate = await userCollection.findOneAndUpdate({ _id: instaUserID }, { $push: { savedPost: { post: postID } } });
+
+    if (mongooseUserUpdate) {
+      response.status(200).json({
+        success: true,
+        msg: "Post saved successfully"
+      })
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "Post not found"
+      })
+    }
+
+  } catch (err) {
+    console.log(err)
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to load, Try again later - ${err.message}`,
+    })
+  }
+}
+
+const getSavePost = async (request, response)=>{
+  try {
+    const { instaUserID } = request.params;
+    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost.post', '_id postPoster postComments postLikes').select("savedPost");
+
+    if (mongooseResponse) {
+      response.status(200).json({
+        success: true,
+        savePosts : mongooseResponse.savedPost
+      })
+    } else {
+      response.status(404).json({
+        success: false,
+        savePosts : mongooseResponse.savedPost
+      })
+    }
+
+  } catch (err) {
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to load, Try again later - ${err.message}`,
+    })
+  }
+}
 
 module.exports = {
   createPost,
-  // deletePost,
-  // updatePost,
   getPost,
   getAllPosts,
+  savePost,
+  getSavePost
 };

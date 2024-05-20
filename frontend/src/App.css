@@ -1166,19 +1166,14 @@ nav {
   min-height: 300px;
 }
 
-.dashboar__profileSection__ProfilePostsContaine {
+.dashboard__profileSection__ProfilePostsContainer {
   width: 100%;
   min-height: 300px;
 }
 
-.flexContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .ProfilePostsContainer__NOpostBox {
-  width: fit-content;
+  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1206,13 +1201,20 @@ nav {
 }
 
 .profilePostContainer__PostBox {
+  width: 100%;
   min-height: 350px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   position: relative;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profilePostContainer__postCard {
@@ -1492,6 +1494,7 @@ select>option {
   .profilePostContainer__PostBox {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
   }
 }
 

@@ -128,6 +128,20 @@ const HomePostCard = ({ posts }) => {
 
   }
 
+  // Saving the post
+  const handleSavePost = (e, postID) => {
+    e.preventDefault();
+    axios.patch(`http://localhost:5000/api/v1/posts/save-post/${postID}`,{instaUserID}).then((response) => {
+      if (response.data.success) {
+        console.log(response)
+        toast.success(response.data.msg);
+      } else {
+        toast.error(response.data.msg);
+      }
+    }).catch((error) => {
+      toast.error(`Something went wrong - ${error.message}`);
+    })
+  }
 
   return <article className='HomeSection__homePostCard'>
     <div className='homePostCard_header'>
@@ -149,7 +163,7 @@ const HomePostCard = ({ posts }) => {
       </div>
       <div>
         {/* <IoBookmark className='homePostCard__iconButton' /> */}
-        <IoBookmarkOutline className='homePostCard__iconButton' />
+        <IoBookmarkOutline className='homePostCard__iconButton' onClick={(e)=> handleSavePost(e, posts?._id)} />
       </div>
 
     </div>
