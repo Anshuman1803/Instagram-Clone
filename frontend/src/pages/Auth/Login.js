@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UserLoggedIn } from "../../Redux/ReduxSlice";
-import ComponentLoader from "../../components/ComponentLoader";
 function Login() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -152,7 +151,7 @@ function Login() {
             <span className="authForm__hrContainerOR_text">OR</span>
           </div>
 
-          <Link className="authForm__googleLoginLINK">
+          <Link className={`authForm__googleLoginLINK ${btnLoader && 'Unactive'}`}>
             <img
               src={googleLOGO}
               alt="googleLOGO"
@@ -163,18 +162,17 @@ function Login() {
             </span>
           </Link>
           <p
-            className="authForm__forgotPasswordText"
+            className={`authForm__forgotPasswordText ${btnLoader && 'Unactive'}`}
             onClick={() => navigateTO("/user/auth/password/forgot-password")}
           >
             Forgot password?
           </p>
         </form>
-        {btnLoader && <ComponentLoader />}
       </div>
 
       <div className="authGotoSignUP_container">
         Don't have an account?{" "}
-        <Link className="gotoRegisterPageLINK" to={"/user/auth/register"}>
+        <Link className={`gotoRegisterPageLINK ${btnLoader && 'Unactive'}`} to={"/user/auth/register"}>
           Sign up
         </Link>
       </div>

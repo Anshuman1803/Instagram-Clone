@@ -124,9 +124,8 @@ function SignUp() {
             <input
               type="text"
               name="userEmail"
-              className={`Auth__formItem ${
-                errorState.userEmailError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userEmailError && "ItemBox__errorState"
+                }`}
               placeholder="Email address"
               onChange={handleInputOnChange}
               value={userDetails.userEmail}
@@ -140,9 +139,8 @@ function SignUp() {
             <input
               type="text"
               name="fullName"
-              className={`Auth__formItem ${
-                errorState.fullNameError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.fullNameError && "ItemBox__errorState"
+                }`}
               placeholder="Name"
               onChange={handleInputOnChange}
               value={userDetails.fullName}
@@ -158,9 +156,8 @@ function SignUp() {
             <input
               type="text"
               name="userName"
-              className={`Auth__formItem ${
-                errorState.userNameError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userNameError && "ItemBox__errorState"
+                }`}
               placeholder="Username"
               onChange={handleInputOnChange}
               value={userDetails.userName}
@@ -174,9 +171,8 @@ function SignUp() {
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"
-              className={`Auth__formItem ${
-                errorState.userPasswordError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userPasswordError && "ItemBox__errorState"
+                }`}
               placeholder="Password"
               onChange={handleInputOnChange}
               value={userDetails.userPassword}
@@ -196,13 +192,12 @@ function SignUp() {
 
           <button
             type="button"
-            className={`Auth__formButton ${
-              (userDetails.userEmail &&
+            className={`Auth__formButton ${(userDetails.userEmail &&
                 userDetails.userPassword &&
                 userDetails.fullName &&
                 userDetails.userName) ||
               "unActiveFormButton"
-            }`}
+              }`}
             onClick={handleSignUPClick}
           >
             {btnLoader ? <ButtonLoader /> : "Sign up"}
@@ -213,7 +208,7 @@ function SignUp() {
             <span className="authForm__hrContainerOR_text">OR</span>
           </div>
 
-          <Link className="authForm__googleLoginLINK">
+          <Link className={`authForm__googleLoginLINK ${btnLoader && 'Unactive'}`}>
             <img
               src={googleLOGO}
               alt="googleLOGO"
@@ -228,7 +223,7 @@ function SignUp() {
 
       <div className="authGotoSignUP_container">
         Have an account?
-        <Link className="gotoRegisterPageLINK" to={"/user/auth/signin"}>
+        <Link className={`gotoRegisterPageLINK ${btnLoader && 'Unactive'}`} to={"/user/auth/signin"}>
           Log in
         </Link>
       </div>
