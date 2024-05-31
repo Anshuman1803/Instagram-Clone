@@ -4,7 +4,6 @@ import lockPNG from "../../Assets/lockPNG.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import ButtonLoader from "../../components/ButtonLoader";
-import OtpVerifier from "../../components/OtpVerifier";
 import toast from "react-hot-toast";
 import axios from "axios";
 function ForgotPassword() {
@@ -150,15 +149,14 @@ function ForgotPassword() {
           </Link>
         </div>
       </div>
-      {/* For this component i have to send the mail using node-mail or other 3rd party library */}
-      {emailSent && (
+      {/* {emailSent && (
         <OtpVerifier
           type="PasswordReseterOTP"
           title={"Reset your password"}
           userDetails={userDetails}
           cbFun={toggleOtpVerifier}
         />
-      )}
+      )} */}
     </div>
   );
 }

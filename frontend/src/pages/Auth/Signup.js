@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import instaLOGO from "../../Assets/Logo.png";
 import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
@@ -7,13 +7,12 @@ import microSoft from "../../Assets/Microsoft.png";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
-import OtpVerifier from "../../components/OtpVerifier";
 function SignUp() {
+  const navigateTO = useNavigate();
   const userEmailRef = useRef();
   const fullNameref = useRef();
   const userNameref = useRef();
   const userPasswordref = useRef();
-  const [emailSent, setEmailsent] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const [errorState, setErrorState] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +37,7 @@ function SignUp() {
       userPassword: "",
     });
   };
-  const toggleOtpVerifier = () => {
-    setEmailsent(!emailSent);
-  };
+
 
   const handleInputOnChange = (e) => {
     setErrorState({});
@@ -87,8 +84,8 @@ function SignUp() {
           if (response.data.success) {
             toast.success(`${response.data.msg}`);
             setBtnLoader(false);
+            navigateTO(`/user/auth/OTP/EmailVerification`, {state : userDetails})
             setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
-            toggleOtpVerifier();
           } else if (response.data.msg === "username already taken") {
             toast.error(`${response.data.msg}`);
             setBtnLoader(false);
@@ -259,15 +256,6 @@ function SignUp() {
           </Link>
         </div>
       </div>
-
-      {emailSent && (
-        <OtpVerifier
-          type="EmailVerificationOTP"
-          title={"Verify your email"}
-          userDetails={userDetails}
-          cbFun={toggleOtpVerifier}
-        />
-      )}
     </div>
   );
 }

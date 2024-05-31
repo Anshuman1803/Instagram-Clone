@@ -11,17 +11,22 @@ import { RiUserSettingsFill } from "react-icons/ri";
 // import { FaHeart } from "react-icons/fa"; // when the user like the post
 // import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 export default function Home() {
-  const { instaUserID, instaProfle, instaUserName, instaFullName } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } = useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([])
   const [allPosts, setAllPosts] = useState([]);
 
   const loadAllPosts = () => {
     setPostLoading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`, {
+      headers: {
+        Authorization: `Bearer ${instaTOKEN}`
+      }
+    }).then((response) => {
+      console.log(response)
       if (response.data.success) {
         setAllPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
         setPostLoading(false)
@@ -30,24 +35,37 @@ export default function Home() {
         setPostLoading(false)
       }
     }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        setPostLoading(false);
+        return;
+      }
       toast.error(`Server error : ${error.message}`);
       setPostLoading(false)
     })
   }
-  useEffect(loadAllPosts, [instaUserID]);
+  useEffect(loadAllPosts, [instaUserID, instaTOKEN]);
 
   // Load suggested User
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`, {
+      headers: {
+        Authorization: `Bearer ${instaTOKEN}`
+      }
+    }).then((response) => {
       if (response.data.success) {
         setSuggestedUser(response.data.suggestedUser)
       } else {
         setSuggestedUser(response.data.suggestedUser)
       }
     }).catch((err) => {
+      if (!err.response.data.success) {
+        toast.error(err.response.data.msg);
+        return;
+      }
       toast.error(`Try Again ${err.message}`);
     })
-  }, [instaUserID])
+  }, [instaUserID, instaTOKEN])
 
   return (
     <section className="dashboard__homeSection">
@@ -100,7 +118,7 @@ export default function Home() {
 }
 
 const HomePostCard = ({ posts }) => {
-  const { instaUserID} = useSelector((state) => state.Instagram);
+  const { instaUserID } = useSelector((state) => state.Instagram);
   const [newComment, setNewComment] = useState("");
 
   //! Creating new comments for the post
@@ -131,7 +149,7 @@ const HomePostCard = ({ posts }) => {
   // Saving the post
   const handleSavePost = (e, postID) => {
     e.preventDefault();
-    axios.patch(`http://localhost:5000/api/v1/posts/save-post/${postID}`,{instaUserID}).then((response) => {
+    axios.patch(`http://localhost:5000/api/v1/posts/save-post/${postID}`, { instaUserID }).then((response) => {
       if (response.data.success) {
         console.log(response)
         toast.success(response.data.msg);
@@ -163,7 +181,7 @@ const HomePostCard = ({ posts }) => {
       </div>
       <div>
         {/* <IoBookmark className='homePostCard__iconButton' /> */}
-        <IoBookmarkOutline className='homePostCard__iconButton' onClick={(e)=> handleSavePost(e, posts?._id)} />
+        <IoBookmarkOutline className='homePostCard__iconButton' onClick={(e) => handleSavePost(e, posts?._id)} />
       </div>
 
     </div>
@@ -182,7 +200,7 @@ const HomePostCard = ({ posts }) => {
     }
 
     {
-      posts?.postComments !== 0 && <span  className='homePostCard__viewAllComment'>
+      posts?.postComments !== 0 && <span className='homePostCard__viewAllComment'>
         View all {posts?.postComments} comments
       </span>
     }

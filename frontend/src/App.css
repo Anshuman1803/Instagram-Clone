@@ -7,10 +7,12 @@
   font-family: "Roboto Serif", serif;
   user-select: none;
 }
-.Unactive{
+
+.Unactive {
   pointer-events: none;
-  
+
 }
+
 /* Button Loader */
 .loaderContainer {
   display: flex;
@@ -658,6 +660,105 @@ nav {
 
 
 /* ! This block holds the design of OTP */
+.otpVerifier__Form {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 450px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.otpVerifier__Form_heading {
+  width: 75px;
+  height: 75px;
+  margin: 10px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  color: white;
+}
+
+.otpVerifier__Form_heading_ICON {
+  font-size: 35px;
+}
+
+.otpVerifier__Form_Secondaryheading {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.otpVerifier__mailSentTo {
+  display: block;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.OTPForm__inputboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 4em auto 0px auto;
+  width: 95%;
+}
+
+.OTPForm__input {
+  outline: none;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  border: 1px solid rgba(128, 128, 128, 0.6);
+  border-radius: 4px;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.OTPForm__input:focus {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7) border-box;
+  border: 2px solid transparent;
+}
+
+.OTP_Form_ButtonContainer {
+  margin: 20px auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 0em;
+}
+
+.OTP__buttons {
+  width: 145px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  transition: all 500ms ease-in-out;
+}
+
+.OTPForn__clearButton {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7) border-box;
+  border: 1.5px solid transparent;
+}
+
+
+.OTPForn__verifyButton {
+  background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+  color: white;
+}
+
+.OTP__buttons:hover {
+  cursor: pointer;
+  transform: scale(0.95);
+}
 
 /* ! This block holds the design of OTP */
 
@@ -870,7 +971,8 @@ nav {
 .post__LIKEDICONS {
   color: #ed3548;
 }
-.post__LIKEDICONS:hover{
+
+.post__LIKEDICONS:hover {
   color: #ed3548;
 }
 
@@ -1649,15 +1751,6 @@ select>option {
 }
 
 @media screen and (max-width: 550px) {
-  .otpVerifier__form {
-    padding: 2em 0em;
-    width: 95%;
-  }
-
-  .otpVerifier__buttonContainer {
-    justify-content: space-between;
-    padding: 0em 1em;
-  }
 
   .homeContainer {
     flex-direction: column;
@@ -1756,6 +1849,9 @@ select>option {
     height: 275px;
   }
 
+  .otpVerifier__Form {
+    width: 95vw;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1769,18 +1865,6 @@ select>option {
     width: 95%;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .otpVerifier__inputBox {
-    font-size: 20px;
-  }
-
-  .otpVerifier__button {
-    width: 100px;
-  }
-
-  .optVerifierForm__title {
-    letter-spacing: normal;
   }
 
   .infoContainer__userProfile {
@@ -1815,10 +1899,31 @@ select>option {
   .PostsContainer__navItem {
     width: 80px;
   }
+
+  .OTPForm__input {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .OTP_Form_ButtonContainer {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+
+  .OTP__buttons {
+    width: 95%;
+  }
 }
 
 @media screen and (max-width: 376px) {
   .profilePostContainer__PostBox {
     grid-template-columns: repeat(1, 0.9fr);
   }
+
+  .OTPForm__input {
+    width: 40px;
+    height: 40px;
+  }
+
 }

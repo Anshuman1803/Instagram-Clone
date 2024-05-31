@@ -21,6 +21,7 @@ import Create from "../pages/Home/Create";
 import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
 import EditProfile from "../pages/Home/EditProfile";
+import { OTP } from "../components/OTP";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -38,13 +39,13 @@ function AppRouter() {
           } else {
             setValidate(false);
             setLoader(false);
-            toast.error("Invalid or expired token. Please log in again.");
+            toast.error("Access denied! Login Again");
           }
         })
         .catch((err) => {
           setValidate(false);
           setLoader(false);
-          toast.error(`Invalid or expired token. Please log in again. ${err.message}`);
+          toast.error(`Invalid or expired token. ${err.message}`);
         });
     } else {
       setValidate(false);
@@ -69,13 +70,14 @@ function AppRouter() {
                 <Route path="/:instaUserID/posts" element={<ProfilePost />} index />
                 <Route path="/:instaUserID/saved" element={<ProfileSavedPost />} />
               </Route>
-              <Route path='/accounts/edit' element={<EditProfile/>} />
+              <Route path='/accounts/edit' element={<EditProfile />} />
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (
             <Route path="/" element={<AuthContainer />}>
               <Route path="/user/auth/signin" element={<Login />} index />
               <Route path="/user/auth/register" element={<Signup />} />
+              <Route path="/user/auth/OTP/:Type" element={<OTP />} />
               <Route path="/user/auth/password/forgot-password" element={<ForgotPassword />} />
               <Route path="/user/auth/password/reset-password" element={<ResetPassword />} />
               <Route path="/*" element={<Login />} />
