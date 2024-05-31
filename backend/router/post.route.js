@@ -5,7 +5,7 @@ const postRoute = require("express").Router();
 
 
 
-postRoute.post("/create-post", userAuthenticate,upload.single('postPoster'), createPost);
+postRoute.post("/create-post", userAuthenticate, upload.single('postPoster'), createPost);
 postRoute.patch("/save-post/:postID", userAuthenticate, savePost)
 postRoute.get("/get-save-post/:instaUserID", userAuthenticate, getSavePost)
 postRoute.get("/post/:userID", userAuthenticate, getPost)

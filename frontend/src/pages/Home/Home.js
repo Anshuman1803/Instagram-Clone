@@ -11,64 +11,53 @@ import { RiUserSettingsFill } from "react-icons/ri";
 // import { FaHeart } from "react-icons/fa"; // when the user like the post
 // import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 export default function Home() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigateTO = useNavigate();
   const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } = useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([])
   const [allPosts, setAllPosts] = useState([]);
 
-  const loadAllPosts = () => {
-    setPostLoading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`, {
-      headers: {
-        Authorization: `Bearer ${instaTOKEN}`
-      }
-    }).then((response) => {
-      if (response.data.success) {
-        setAllPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
-        setPostLoading(false)
-      } else {
-        setAllPosts(response.data.posts);
-        setPostLoading(false)
-      }
-    }).catch((error) => {
-      if (!error.response.data.success) {
-        toast.error(error.response.data.msg);
-        setPostLoading(false);
-        dispatch(UserLoggedOut())
-        return;
-      }
-      toast.error(`Server error : ${error.message}`);
-      setPostLoading(false)
-    })
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadAllPosts, [instaUserID, instaTOKEN]);
+  const loadAllData = () => {
+    setPostLoading(true);
+    const headers = {
+      Authorization: `Bearer ${instaTOKEN}`
+    };
 
-  // Load suggested User
-  useEffect(() => {
-    axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`, {
-      headers: {
-        Authorization: `Bearer ${instaTOKEN}`
-      }
-    }).then((response) => {
-      if (response.data.success) {
-        setSuggestedUser(response.data.suggestedUser)
+    Promise.all([
+      axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`, { headers }),
+      axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`, { headers })
+    ]).then(([postsResponse, suggestedUsersResponse]) => {
+      if (postsResponse.data.success) {
+        setAllPosts(postsResponse.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
       } else {
-        setSuggestedUser(response.data.suggestedUser)
+        setAllPosts(postsResponse.data.posts);
       }
-    }).catch((err) => {
-      if (!err.response.data.success) {
-        toast.error(err.response.data.msg);
-        return;
+
+      if (suggestedUsersResponse.data.success) {
+        setSuggestedUser(suggestedUsersResponse.data.suggestedUser);
+      } else {
+        setSuggestedUser(suggestedUsersResponse.data.suggestedUser);
       }
-      toast.error(`Try Again ${err.message}`);
-    })
-  }, [instaUserID, instaTOKEN])
+      setPostLoading(false);
+    }).catch((error) => {
+      if (error.response && !error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin")
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+      setPostLoading(false);
+    });
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(loadAllData, [instaUserID, instaTOKEN]);
 
   return (
     <section className="dashboard__homeSection">

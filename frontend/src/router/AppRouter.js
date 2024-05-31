@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import AuthContainer from "../pages/Auth/AuthContainer";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
@@ -26,7 +26,7 @@ function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
   const { instaTOKEN } = useSelector((state) => state.Instagram);
-
+  const navigateTO = useNavigate();
   useEffect(() => {
     setLoader(true);
     if (instaTOKEN) {
@@ -40,17 +40,20 @@ function AppRouter() {
             setValidate(false);
             setLoader(false);
             toast.error("Access denied! Login Again");
+            navigateTO("/user/auth/signin")
           }
         })
         .catch((err) => {
           setValidate(false);
           setLoader(false);
           toast.error(`Invalid or expired token. ${err.message}`);
+          navigateTO("/user/auth/signin")
         });
     } else {
       setValidate(false);
       setLoader(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaTOKEN]);
   return (
     <>

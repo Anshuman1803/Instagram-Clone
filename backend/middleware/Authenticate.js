@@ -29,7 +29,7 @@ const userAuthenticate = (req, res, next) => {
         } catch (err) {
             return res.status(401).json({
                 status: false,
-                msg: "Invalid or expired token"
+                msg: "Expired Token, Login Again"
             });
         }
 

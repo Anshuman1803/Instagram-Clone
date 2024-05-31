@@ -130,7 +130,7 @@ const userSignIn = async (request, response) => {
         TOKEN: generatedToken,
       });
     } else {
-      return response.send({success : false,  msg: "Wrong Password" });
+      return response.send({ success: false, msg: "Wrong Password" });
     }
   } catch (error) {
     response.status(500).json({ msg: `Check your internet connect and Try again - ${error.message}` });
@@ -224,7 +224,7 @@ const getUser = async (request, response) => {
 
 
 // get the suggestedUser
-const getSuggestedUser =  async (request, response)=>{
+const getSuggestedUser = async (request, response) => {
   const { id } = request.params;
   try {
     const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).limit(7).select('_id userName userProfile ');

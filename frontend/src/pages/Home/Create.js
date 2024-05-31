@@ -7,11 +7,13 @@ import selectImageICON from "../../Assets/selectImageICON.png";
 import toast from "react-hot-toast";
 import axios from "axios";
 import PostLoader from "../../components/PostLoader";
+import { useNavigate } from "react-router-dom";
 export default function Create() {
   const { instaUserID, instaUserName, instaProfle } = useSelector(
     (state) => state.Instagram
   );
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigateTO = useNavigate();
   const [Loading, setLoading] = useState(false);
   const imgRef = useRef();
   const [post, setPost] = useState({
@@ -78,6 +80,7 @@ export default function Create() {
         .catch((err) => {
           if (!err.response.data.success) {
             toast.error(err.response.data.msg);
+            navigateTO("/user/auth/signin");
             dispatch(UserLoggedOut())
             return;
           }
