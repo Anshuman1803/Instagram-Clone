@@ -12,8 +12,10 @@ import { RiUserSettingsFill } from "react-icons/ri";
 // import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
 export default function Home() {
+  const dispatch = useDispatch()
   const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } = useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([])
@@ -26,7 +28,6 @@ export default function Home() {
         Authorization: `Bearer ${instaTOKEN}`
       }
     }).then((response) => {
-      console.log(response)
       if (response.data.success) {
         setAllPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
         setPostLoading(false)
@@ -38,12 +39,14 @@ export default function Home() {
       if (!error.response.data.success) {
         toast.error(error.response.data.msg);
         setPostLoading(false);
+        dispatch(UserLoggedOut())
         return;
       }
       toast.error(`Server error : ${error.message}`);
       setPostLoading(false)
     })
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(loadAllPosts, [instaUserID, instaTOKEN]);
 
   // Load suggested User

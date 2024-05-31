@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import noPreviewPoster from "../../Assets/noPreviewPoster.png";
 import defaultProfile from "../../Assets/DefaultProfile.png";
 import selectImageICON from "../../Assets/selectImageICON.png";
@@ -10,6 +11,7 @@ export default function Create() {
   const { instaUserID, instaUserName, instaProfle } = useSelector(
     (state) => state.Instagram
   );
+  const dispatch = useDispatch()
   const [Loading, setLoading] = useState(false);
   const imgRef = useRef();
   const [post, setPost] = useState({
@@ -74,6 +76,11 @@ export default function Create() {
           }
         })
         .catch((err) => {
+          if (!err.response.data.success) {
+            toast.error(err.response.data.msg);
+            dispatch(UserLoggedOut())
+            return;
+          }
           toast.error(`${err.message}`);
           setPost({
             postPoster: "",
