@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import defaultProfile from "../../Assets/DefaultProfile.png";
 import { BsThreeDots } from "react-icons/bs";
 import { CalculateTimeAgo } from "../../utility/TimeAgo"
-import axios from "../../utility/customAxios"
+import axios from "axios"
 import toast from "react-hot-toast"
 import PostLoader from "../../components/PostLoader";
 import { FaRegComment } from "react-icons/fa";
@@ -17,16 +17,20 @@ import { UserLoggedOut } from '../../Redux/ReduxSlice';
 export default function Home() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
-  const { instaUserID, instaProfle, instaUserName, instaFullName } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } = useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([])
   const [allPosts, setAllPosts] = useState([]);
 
   const loadAllData = () => {
     setPostLoading(true);
+    const headers = {
+      Authorization: `Bearer ${instaTOKEN}`
+    };
+
     Promise.all([
-      axios.get(`/posts/get-all/${instaUserID}`),
-      axios.get(`/auth/user/suggested-users/${instaUserID}`)
+      axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`, { headers }),
+      axios.get(`http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`, { headers })
     ]).then(([postsResponse, suggestedUsersResponse]) => {
       if (postsResponse.data.success) {
         setAllPosts(postsResponse.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));

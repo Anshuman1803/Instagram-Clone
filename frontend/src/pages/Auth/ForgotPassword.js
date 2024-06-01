@@ -5,7 +5,7 @@ import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import ButtonLoader from "../../components/ButtonLoader";
 import toast from "react-hot-toast";
-import axios from "../../utility/customAxios"
+import axios from "axios";
 function ForgotPassword() {
   const [btnLoader, setBtnLoader] = useState(false);
   const navigateTO = useNavigate();
@@ -38,13 +38,13 @@ function ForgotPassword() {
       setBtnLoader(true);
       axios
         .post(
-          "/auth/user/password/forgot-password",
+          "http://localhost:5000/api/v1/auth/user/password/forgot-password",
           userDetails
         )
         .then((response) => {
           if (response.data.success) {
             toast.success(`${response.data.msg}`);
-            navigateTO(`/user/auth/OTP/Account-verification-forgot-password`, { state: { userEmail: userDetails.userEmail } })
+            navigateTO(`/user/auth/OTP/Account-verification-forgot-password`, { state: {userEmail : userDetails.userEmail} })
             setBtnLoader(false);
           } else {
             toast.error(`${response.data.msg}`);

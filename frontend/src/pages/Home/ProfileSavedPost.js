@@ -2,21 +2,24 @@ import React, { useEffect, useState } from "react";
 import savedPostICON from "../../Assets/savedICON.png";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
-import axios from "../../utility/customAxios"
+import axios from "axios";
 import toast from "react-hot-toast";
 import PostLoader from "../../components/PostLoader";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 function ProfileSavedPost() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID,instaTOKEN} = useSelector((state) => state.Instagram);
   const [Loading, setLoading] = useState(false);
   const [savedPosts, setSavedPosts] = useState([]);
   const navigateTO = useNavigate();
   const dispatch = useDispatch()
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`
+  };
   useEffect(() => {
     setLoading(true)
-    axios.get(`/posts/get-save-post/${instaUserID}`).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/posts/get-save-post/${instaUserID}`,{headers}).then((response) => {
       if (response.data.success) {
         setSavedPosts(response.data.savePosts);
         setLoading(false);
@@ -34,7 +37,7 @@ function ProfileSavedPost() {
       }
       setLoading(false);
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
 
   return (

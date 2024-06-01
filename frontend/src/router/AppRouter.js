@@ -14,6 +14,7 @@ import Messages from "../pages/Home/Messages";
 import Notification from "../pages/Home/Notification";
 import Profile from "../pages/Home/Profile";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import toast from "react-hot-toast";
 import ComponentLoader from "../components/ComponentLoader";
 import Create from "../pages/Home/Create";
@@ -21,7 +22,6 @@ import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
 import EditProfile from "../pages/Home/EditProfile";
 import { OTP } from "../components/OTP";
-import axios from "../utility/customAxios"
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -31,7 +31,7 @@ function AppRouter() {
     setLoader(true);
     if (instaTOKEN) {
       axios
-        .post("/auth/verify/token", { instaTOKEN })
+        .post("http://localhost:5000/api/v1/auth/verify/token", { instaTOKEN })
         .then((response) => {
           if (response.data.success) {
             setValidate(true);

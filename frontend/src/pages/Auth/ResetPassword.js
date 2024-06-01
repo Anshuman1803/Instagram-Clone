@@ -6,7 +6,7 @@ import microSoft from "../../Assets/Microsoft.png";
 import ButtonLoader from "../../components/ButtonLoader";
 import ComponentLoader from "../../components/ComponentLoader";
 import toast from "react-hot-toast";
-import axios from "../../utility/customAxios"
+import axios from "axios";
 function ResetPassword() {
   const userEmail = useLocation().state;
   const navigateTO = useNavigate();
@@ -53,7 +53,7 @@ function ResetPassword() {
     } else {
       axios
         .post(
-          "auth/user/password/reset-password",
+          "http://localhost:5000/api/v1/auth/user/password/reset-password",
           userDetails
         )
         .then((response) => {
@@ -98,8 +98,9 @@ function ResetPassword() {
             <input
               type={showPassword ? "text" : "password"}
               name="newPassword"
-              className={`Auth__formItem ${errorState.newPasswordError && "ItemBox__errorState"
-                }`}
+              className={`Auth__formItem ${
+                errorState.newPasswordError && "ItemBox__errorState"
+              }`}
               placeholder="New password"
               onChange={handleInputOnChange}
               value={userDetails.newPassword}
@@ -122,8 +123,9 @@ function ResetPassword() {
             <input
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
-              className={`Auth__formItem ${errorState.confirmPasswordError && "ItemBox__errorState"
-                }`}
+              className={`Auth__formItem ${
+                errorState.confirmPasswordError && "ItemBox__errorState"
+              }`}
               placeholder="Confirm password"
               onChange={handleInputOnChange}
               value={userDetails.confirmPassword}
@@ -135,9 +137,10 @@ function ResetPassword() {
 
           <button
             type="button"
-            className={`Auth__formButton ${(userDetails.newPassword && userDetails.confirmPassword) ||
+            className={`Auth__formButton ${
+              (userDetails.newPassword && userDetails.confirmPassword) ||
               "unActiveFormButton"
-              }`}
+            }`}
             onClick={handleResetPasswordClick}
           >
             {btnLoader ? <ButtonLoader /> : "Reset Password"}

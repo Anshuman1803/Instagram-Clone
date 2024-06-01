@@ -4,7 +4,7 @@ import microSoft from "../Assets/Microsoft.png";
 import playStore from "../Assets/Play-Store.png";
 import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import axios from "../utility/customAxios"
+import axios from "axios";
 import ButtonLoader from "./ButtonLoader";
 
 export function OTP() {
@@ -53,7 +53,7 @@ export function OTP() {
     setButtonLoading(true);
     try {
       const response = await axios.post(
-        "/verify-OTP",
+        "http://localhost:5000/api/v1/verify-OTP",
         {
           OTP: Number(otp.join("")),
           userEmail: state?.userEmail,
@@ -66,7 +66,7 @@ export function OTP() {
           toast.success("Now, Reset your password");
         } else {
           const registerResponse = await axios.post(
-            "/auth/user/register",
+            "http://localhost:5000/api/v1/auth/user/register",
             {
               userName: state?.userName,
               fullName: state?.fullName,

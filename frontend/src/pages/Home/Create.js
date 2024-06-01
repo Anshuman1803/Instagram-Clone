@@ -5,9 +5,9 @@ import noPreviewPoster from "../../Assets/noPreviewPoster.png";
 import defaultProfile from "../../Assets/DefaultProfile.png";
 import selectImageICON from "../../Assets/selectImageICON.png";
 import toast from "react-hot-toast";
+import axios from "axios";
 import PostLoader from "../../components/PostLoader";
 import { useNavigate } from "react-router-dom";
-import axios from "../../utility/customAxios"
 export default function Create() {
   const { instaUserID, instaUserName, instaProfle } = useSelector(
     (state) => state.Instagram
@@ -55,7 +55,7 @@ export default function Create() {
       formData.append("postCaption", post.postCaption);
       setLoading(true);
       axios
-        .post("/posts/create-post", formData, {
+        .post("http://localhost:5000/api/v1/posts/create-post", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {

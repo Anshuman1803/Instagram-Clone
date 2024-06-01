@@ -5,7 +5,7 @@ import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import toast from "react-hot-toast";
-import axios from "../../utility/customAxios"
+import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
 function SignUp() {
   const navigateTO = useNavigate();
@@ -77,7 +77,7 @@ function SignUp() {
       setBtnLoader(true);
       axios
         .post(
-          "/auth/user/verify-account",
+          "http://localhost:5000/api/v1/auth/user/verify-account",
           userDetails
         )
         .then((response) => {
