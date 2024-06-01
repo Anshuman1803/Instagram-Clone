@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 function ProfilePost() {
-const navigateTO = useNavigate();
+  const navigateTO = useNavigate();
   const { instaUserID } = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
@@ -21,9 +21,9 @@ const navigateTO = useNavigate();
   };
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`,{headers})
+    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`, { headers })
       .then((response) => {
-        setOwnPosts(response.data.posts.sort((a,b)=> b.postCreatedAt - a.postCreatedAt));
+        setOwnPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
         setLoading(false);
       })
       .catch((error) => {
@@ -36,9 +36,9 @@ const navigateTO = useNavigate();
         }
         setLoading(false);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
-  
+
   return (
     <div className={`dashboard__profileSection__ProfilePostsContainer ${ownPosts.length === 0 && "flexContainer"}`}>
       <div className="profilePostContainer__PostBox">
