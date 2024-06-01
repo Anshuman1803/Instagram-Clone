@@ -6,10 +6,10 @@ import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from 'axios'
 export function OTP() {
-    const navigateTO= useNavigate();
+    const navigateTO = useNavigate();
     useParams();
     const { state } = useLocation();
-    const { Type } = useParams();
+    // const { Type } = useParams();
     const firstInputRef = useRef();
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -40,64 +40,45 @@ export function OTP() {
     };
 
 
-    // const handleVerifyOTPClick = (e) => {
-    //     e.preventDefault();
-    //     if (Number(otp) === Number(userDetails.sendOTP)) {
-    //         setButtonLoading(true);
-    //         if ("type" === "EmailVerificationOTP") {
-    //             axios
-    //                 .post("http://localhost:5000/api/v1/auth/user/register", {
-    //                     userName: state?.userName,
-    //                     fullName: state?.fullName,
-    //                     userEmail: state?.userEmail,
-    //                     userPassword: state?.userPassword
-    //                 })
-    //                 .then((response) => {
-    //                     if (response.data.resMsg === "User Registred Successfully") {
-    //                         toast.success("User Registred Successfully");
-    //                         navigateTO("/user/auth/signin");
-    //                         setOtp("");
-    //                         setButtonLoading(false);
-    //                     } else {
-    //                         toast.error("Try Again");
-    //                         setButtonLoading(false);
-    //                         navigateTO("/user/auth/register");
-    //                     }
-    //                 })
-    //                 .catch((err) => {
-    //                     toast.error(`Something went wrong! ${err.message}`);
-    //                     navigateTO("/user/auth/register");
-    //                     setButtonLoading(false);
-    //                 });
-    //         } else if (type === "PasswordReseterOTP") {
-    //             navigateTO("/user/auth/password/reset-password", { "state": userDetails.userEmail });
-    //             toast.success("Now! Reset your password");
-    //         }
-    //     } else {
-    //         toast.error("Invalid OTP");
-    //         firstInputRef.current.focus();
-    //         setOtp("");
-    //     }
-    // };
-
     const handleVerifyOTP = (e) => {
         e.preventDefault();
         setButtonLoading(true);
-        if (state?.otp === otp.join("")) {
-            setTimeout(() => {
-                setButtonLoading(false);
-                toast.success("OTP matched")
-            }, 1500);
-        } else {
-            toast.error("OTP not matched")
-        }
-
+        axios
+            .post("http://localhost:5000/api/v1/auth/user/register", {
+                userName: state?.userName,
+                fullName: state?.fullName,
+                userEmail: state?.userEmail,
+                userPassword: state?.userPassword,
+                OTP: Number(otp.join(""))
+            })
+            .then((response) => {
+                if (response.data.resMsg === "User Registred Successfully") {
+                    toast.success("User Registred Successfully");
+                    setOtp(new Array(6).fill(""));
+                    navigateTO("/user/auth/signin");
+                    setButtonLoading(false);
+                } else {
+                    toast.error("Try Again");
+                    setButtonLoading(false);
+                }
+            })
+            .catch((error) => {
+                if (error.response && !error.response.data.success) {
+                    toast.error(error.response.data.msg);
+                    setButtonLoading(false);
+                    setOtp(new Array(6).fill(""));
+                } else {
+                    toast.error(`Server error: ${error.message}`);
+                    setOtp(new Array(6).fill(""));
+                    setButtonLoading(false);
+                }
+            });
     };
 
     useEffect(() => {
-        // if (!state?.otp) {
-        //     navigateTO("/user/register")
-        // }
+        if (!state?.userEmail) {
+            navigateTO("/user/auth/register")
+        }
         firstInputRef.current.focus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
@@ -113,8 +94,7 @@ export function OTP() {
                 <h4 className="otpVerifier__Form_Secondaryheading">
                     Enter one time password sent to
                     <span className="otpVerifier__mailSentTo">
-                        mahianshuman491@gmail.com
-                        {state?.userDetails?.userEmail}
+                        {state?.userEmail}
                     </span>
                 </h4>
 
@@ -154,23 +134,10 @@ export function OTP() {
                         {buttonLoading ? "NAME" : "Verify"}
                     </button>
                 </div>
-
-                {/* <div className="flex items-center justify-center absolute bottom-0 w-full h-[120px] border-t-[1px]">
-                <button
-                    className={`${buttonLoading && 'pointer-events-none'} continueWithButtons text-brand-red rounded-[10px] text-[16px] font-semibold flex items-center justify-start gap-5 mx-auto border w-[95%] h-[50px] md:w-[420px]`}
-                    style={{ backgroundColor: "whiteSmoke" }}
-                    onClick={handleChangeEmailAddress}
-                >
-                    <span className="border-r-[1px] border-brand-red w-[60px] h-[100%] rounded-tl-[10px] rounded-bl-[10px] flex items-center justify-center text-[20px]">
-                        <SiGmail />
-                    </span>
-                    Change Your Email address
-                </button>
-            </div> */}
             </form>
 
             <div className="authGotoSignUP_container">
-                <Link className={`gotoRegisterPageLINK `} to={"/user/auth/register"}>
+                <Link className={`gotoRegisterPageLINK `} to={"/user/auth/register"} state={state}>
                     Change Email address
                 </Link>
             </div>

@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import instaLOGO from "../../Assets/Logo.png";
 import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
@@ -9,6 +9,7 @@ import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
 function SignUp() {
   const navigateTO = useNavigate();
+  const { state } = useLocation();
   const userEmailRef = useRef();
   const fullNameref = useRef();
   const userNameref = useRef();
@@ -84,7 +85,7 @@ function SignUp() {
           if (response.data.success) {
             toast.success(`${response.data.msg}`);
             setBtnLoader(false);
-            navigateTO(`/user/auth/OTP/EmailVerification`, {state : userDetails})
+            navigateTO(`/user/auth/OTP/EmailVerification`, { state: userDetails })
             setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
           } else if (response.data.msg === "username already taken") {
             toast.error(`${response.data.msg}`);
@@ -105,6 +106,16 @@ function SignUp() {
     }
   };
 
+  useEffect(() => {
+    if (state) {
+      setUserDetails({
+        userEmail: state?.userEmail,
+        fullName: state?.fullName,
+        userName: state?.userName,
+        userPassword: state?.userPassword,
+      })
+    }
+  }, [state])
   return (
     <div className="Auth__UserLoginFormContainer">
       <div className="authFormn_Box">
@@ -190,9 +201,9 @@ function SignUp() {
           <button
             type="button"
             className={`Auth__formButton ${(userDetails.userEmail &&
-                userDetails.userPassword &&
-                userDetails.fullName &&
-                userDetails.userName) ||
+              userDetails.userPassword &&
+              userDetails.fullName &&
+              userDetails.userName) ||
               "unActiveFormButton"
               }`}
             onClick={handleSignUPClick}
