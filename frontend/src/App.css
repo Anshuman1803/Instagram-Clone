@@ -735,6 +735,7 @@ nav {
 }
 
 .OTP__buttons {
+  position: relative;
   width: 145px;
   height: 40px;
   font-size: 16px;

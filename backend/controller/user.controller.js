@@ -173,8 +173,13 @@ const forgotPassword = async (request, response) => {
   );
 
   if (emailResponse.messageId) {
+    await otpCollection.create({
+      userEmail: userEmail,
+      OTP: OTP,
+      otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+    });
+    
     return response.send({
-      sendOTP: OTP,
       success: true,
       msg: "Otp Sent successfully",
     });

@@ -7,7 +7,6 @@ import ButtonLoader from "../../components/ButtonLoader";
 import toast from "react-hot-toast";
 import axios from "axios";
 function ForgotPassword() {
-  const [emailSent, setEmailsent] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const navigateTO = useNavigate();
   const userEmailref = useRef();
@@ -27,9 +26,6 @@ function ForgotPassword() {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
-  const toggleOtpVerifier = () => {
-    setEmailsent(!emailSent);
-  };
   const handleGetOtpClick = (e) => {
     e.preventDefault();
     if (!userDetails.userEmail.includes("@gmail.com")) {
@@ -48,8 +44,7 @@ function ForgotPassword() {
         .then((response) => {
           if (response.data.success) {
             toast.success(`${response.data.msg}`);
-            setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
-            toggleOtpVerifier();
+            navigateTO(`/user/auth/OTP/Account-verification-forgot-password`, { state: {userEmail : userDetails.userEmail} })
             setBtnLoader(false);
           } else {
             toast.error(`${response.data.msg}`);
@@ -78,9 +73,8 @@ function ForgotPassword() {
             <input
               type="text"
               name="userEmail"
-              className={`Auth__formItem ${
-                errorState.userEmailError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userEmailError && "ItemBox__errorState"
+                }`}
               placeholder="Registered email address"
               onChange={handleInputOnChange}
               value={userDetails.userEmail}
@@ -92,9 +86,8 @@ function ForgotPassword() {
 
           <button
             type="button"
-            className={`Auth__formButton getOTP_button ${
-              !userDetails.userEmail && "unActiveFormButton"
-            }`}
+            className={`Auth__formButton getOTP_button ${!userDetails.userEmail && "unActiveFormButton"
+              }`}
             onClick={handleGetOtpClick}
           >
             {btnLoader ? <ButtonLoader /> : "Get OTP"}
@@ -105,13 +98,13 @@ function ForgotPassword() {
             <span className="authForm__hrContainerOR_text">OR</span>
           </div>
 
-          <Link to="/user/auth/register" className="createNewAccountLInk">
+          <Link to="/user/auth/register" className={`createNewAccountLInk ${btnLoader && 'Unactive'}`}>
             Create new account
           </Link>
         </form>
 
         <button
-          className="backtoLogIN_button"
+          className={`backtoLogIN_button  ${btnLoader && 'Unactive'}`}
           onClick={() => navigateTO("/user/auth/signin")}
         >
           Back to login
@@ -149,14 +142,6 @@ function ForgotPassword() {
           </Link>
         </div>
       </div>
-      {/* {emailSent && (
-        <OtpVerifier
-          type="PasswordReseterOTP"
-          title={"Reset your password"}
-          userDetails={userDetails}
-          cbFun={toggleOtpVerifier}
-        />
-      )} */}
     </div>
   );
 }

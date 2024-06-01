@@ -57,7 +57,7 @@ export default function Home() {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadAllData, [instaUserID, instaTOKEN]);
+  useEffect(loadAllData, []);
 
   return (
     <section className="dashboard__homeSection">
