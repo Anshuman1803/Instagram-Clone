@@ -8,6 +8,11 @@
   user-select: none;
 }
 
+.Unactive {
+  pointer-events: none;
+
+}
+
 /* Button Loader */
 .loaderContainer {
   display: flex;
@@ -653,79 +658,108 @@ nav {
 
 /* ! This block holds the design of the homepage navlinks */
 
+
 /* ! This block holds the design of OTP */
-.otpVerifier__Container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.19);
+.otpVerifier__Form {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  width: 450px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.otpVerifier__Form_heading {
+  width: 75px;
+  height: 75px;
+  margin: 10px auto;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(2px);
+  background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+  color: white;
 }
 
-
-.otpVerifier__form {
-  border-radius: 10px;
-  width: 520px;
-  padding: 2em;
-  background-color: rgb(252, 251, 251);
-  position: relative;
+.otpVerifier__Form_heading_ICON {
+  font-size: 35px;
 }
 
-.optVerifierForm__title {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.295);
-  width: 100%;
+.otpVerifier__Form_Secondaryheading {
   text-align: center;
-  font-weight: 600;
-  text-transform: capitalize;
-  letter-spacing: 5px;
-  padding: 0.6em;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 400;
 }
 
-.otpVerifier__inputBox {
-  padding: 0.5em 0em;
-  outline: none;
+.otpVerifier__mailSentTo {
   display: block;
-  margin: 25px auto;
-  width: 95%;
-  height: 50px;
-  font-size: 55px;
-  text-align: center;
-  letter-spacing: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.363);
-  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
+  font-weight: 500;
 }
 
-.otpVerifier__buttonContainer {
+.OTPForm__inputboxContainer {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 1em;
-
+  margin: 4em auto 0px auto;
+  width: 95%;
 }
 
-.otpVerifier__button {
+.OTPForm__input {
+  outline: none;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  border: 1px solid rgba(128, 128, 128, 0.6);
+  border-radius: 4px;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.OTPForm__input:focus {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7) border-box;
+  border: 2px solid transparent;
+}
+
+.OTP_Form_ButtonContainer {
+  margin: 20px auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 0em;
+}
+
+.OTP__buttons {
+  position: relative;
+  width: 145px;
+  height: 40px;
+  font-size: 16px;
   border: none;
   outline: none;
-  width: 150px;
-  height: 50px;
-  font-size: 18px;
-  font-weight: 500;
-  border-radius: 10px;
+  border-radius: 20px;
+  transition: all 500ms ease-in-out;
+}
+
+.OTPForn__clearButton {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7) border-box;
+  border: 1.5px solid transparent;
+}
+
+
+.OTPForn__verifyButton {
+  background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
   color: white;
+}
+
+.OTP__buttons:hover {
   cursor: pointer;
-}
-
-.otpVerifier__button:nth-child(1) {
-  background-color: #ed3548;
-}
-
-.otpVerifier__button:nth-child(2) {
-  background-color: #3bbc6c;
+  transform: scale(0.95);
 }
 
 /* ! This block holds the design of OTP */
@@ -741,7 +775,7 @@ nav {
 
 .homeSection__ShowPostContainer {
   min-height: 100vh;
-  width: calc(100% - 30%);
+  width: calc(100% - 40%);
   position: relative;
 }
 
@@ -767,8 +801,8 @@ nav {
 }
 
 .currentUserBox_profile {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
@@ -853,7 +887,7 @@ nav {
 
 /* home postcard */
 .HomeSection__homePostCard {
-  width: 575px;
+  width: 500px;
   margin: 20px auto;
   border-bottom: 1px solid rgba(119, 136, 153, 0.408);
 }
@@ -937,6 +971,10 @@ nav {
 }
 
 .post__LIKEDICONS {
+  color: #ed3548;
+}
+
+.post__LIKEDICONS:hover {
   color: #ed3548;
 }
 
@@ -1163,19 +1201,14 @@ nav {
   min-height: 300px;
 }
 
-.dashboar__profileSection__ProfilePostsContaine {
+.dashboard__profileSection__ProfilePostsContainer {
   width: 100%;
   min-height: 300px;
 }
 
-.flexContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .ProfilePostsContainer__NOpostBox {
-  width: fit-content;
+  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1203,13 +1236,20 @@ nav {
 }
 
 .profilePostContainer__PostBox {
+  width: 100%;
   min-height: 350px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   position: relative;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profilePostContainer__postCard {
@@ -1400,307 +1440,6 @@ nav {
 
 /* ! This block holds the design of DASHBOARD Create Post SECTION */
 
-
-
-/* ! This block holds the design of PostDetailsView Popup */
-.postDetailsView__popupContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #00000094;
-  padding: 0.5em;
-  display: flex;
-  gap: 5px
-}
-
-.postDetailsView__closeButton {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  color: white;
-  font-size: 30px;
-}
-
-.postDetailsView__closeButton:hover {
-  cursor: pointer;
-  color: #FF3D00;
-}
-
-.postDetailsview__box {
-  border-radius: 5px;
-  width: 1024px;
-  height: 100%;
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-}
-
-.postDetailsview__postPOsterContainer {
-  width: 400px;
-  height: 100%;
-  background-color: rgba(0, 0, 25, 0.39);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  padding: 0em 0.1em;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.postDetailsview__postPOster {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.postDetailsview__postDetails {
-  width: calc(100% - 400px);
-  background-color: white;
-}
-
-.postDetailsview__ownerDetails {
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  position: relative;
-  background-color: white;
-}
-
-.postDetailsview__ownerProfile {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  margin-left: 10px;
-}
-
-.postDetailsview__ownerUserName {
-  margin: 0px 5px 0px 15px;
-  text-decoration: none;
-  color: black;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.postDetailsView__optionButtonICON {
-  font-size: 22px;
-  color: black;
-  position: absolute;
-  right: 20px;
-}
-
-.postDetailsView__optionButtonICON:hover,
-.postDetailsview__ownerUserName:hover,
-.PostCaptions__ownerUserName:hover,
-.CommentsItem_userName:hover {
-  cursor: pointer;
-  color: grey;
-}
-
-.postDetailsview__CommentContainer {
-  height: calc(100% - 200px);
-  overflow: hidden;
-  overflow-y: auto;
-}
-
-.postDetailsview__CommentContainer::-webkit-scrollbar {
-  width: 0px;
-}
-
-.postDetailsview__captionBox {
-  margin: 5px 0px;
-  min-height: 70px;
-  padding: 0.5em 0em;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 5px;
-}
-
-.postDetailsview__captionBox .postDetailsview__ownerProfile {
-  width: 45px;
-  height: 45px;
-}
-
-.postDetailsView_PostCaption {
-  width: calc(100% - 75px);
-}
-
-.PostCaptions__ownerUserName {
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
-  font-size: 18px;
-  margin-right: 10px;
-}
-
-.postCaption {
-  font-size: 16px;
-  font-weight: 500;
-  color: black;
-  line-height: 1.5em;
-}
-
-.postDetailsView_PostDate {
-  font-size: 14px;
-  font-weight: 500;
-  color: gray;
-  display: block;
-  margin: 10px 0px;
-}
-
-.postDetailsview__CommentBox {
-  min-height: 375px;
-  position: relative;
-}
-
-.postDetailsview__CommentsItem {
-  margin: 5px 0px;
-  min-height: 70px;
-  padding: 0.5em;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.144);
-}
-
-.postDetailsview__CommentsItem:last-child {
-  border: none;
-}
-
-.CommentsItem_userProfile {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
-
-.CommentsItem_userName {
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
-  font-size: 16px;
-  margin-right: 10px;
-}
-
-.CommentsItem__commentText {
-  font-size: 14px;
-  font-weight: 400;
-  text-align: left;
-  padding: 0em 0.7em;
-}
-
-.CommentsItem_PostDate {
-  font-size: 14px;
-  font-weight: 500;
-  color: gray;
-  display: block;
-  margin-top: 5px;
-}
-
-.postDetailsview__NoCommentsMsg {
-  width: 100%;
-  height: 375px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  font-weight: 500;
-}
-
-.postDetailsView__deleteCommentICON {
-  font-size: 22px;
-  color: grey;
-  cursor: pointer;
-}
-
-.postDetailsView__deleteCommentICON:hover {
-  cursor: pointer;
-  color: #ed3548;
-}
-
-.postDetailsview__postICONContainer {
-  border-top: 1px solid rgba(128, 128, 128, 0.167);
-  height: 120px;
-}
-
-.iconContainer {
-  position: relative;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.postDetailsview__LikeCounter {
-  height: 30px;
-  padding-left: 15px;
-  font-size: 18px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.postDetailsview__ICONS {
-  font-size: 25px;
-  margin: 0px 10px;
-  cursor: pointer;
-}
-
-.PostDetailsBox__CommentInputOBox {
-  border-top: 1px solid rgba(128, 128, 128, 0.167);
-  width: 100%;
-  height: calc(100% - 70px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.PostDetailsBox__inputBox {
-  width: calc(100% - 100px);
-  height: 100%;
-  font-size: 16px;
-  font-weight: 400;
-  border: none;
-  outline: none;
-  padding: 0.2em 1em;
-}
-
-.PostDetailsBox__PostCommentButton {
-  width: 90px;
-  border: none;
-  background-color: transparent;
-  font-size: 20px;
-  font-weight: 500;
-  text-transform: capitalize;
-
-}
-
-.PostDetailsBox__unActiveButton {
-  color: #0094f67d;
-  pointer-events: none;
-}
-
-.PostDetailsBox__activeButton {
-  pointer-events: all;
-  color: #0095f6;
-}
-
-.PostDetailsBox__PostCommentButton:hover {
-  cursor: pointer;
-  color: darkslategrey;
-}
-
-/* ! This block holds the design of  PostDetailsView Popup */
-
-
 /* This block Holds the Edit Profile Design */
 
 /* .__editProfilePage {
@@ -1790,6 +1529,7 @@ select>option {
   .profilePostContainer__PostBox {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
   }
 }
 
@@ -2013,15 +1753,6 @@ select>option {
 }
 
 @media screen and (max-width: 550px) {
-  .otpVerifier__form {
-    padding: 2em 0em;
-    width: 95%;
-  }
-
-  .otpVerifier__buttonContainer {
-    justify-content: space-between;
-    padding: 0em 1em;
-  }
 
   .homeContainer {
     flex-direction: column;
@@ -2120,6 +1851,9 @@ select>option {
     height: 275px;
   }
 
+  .otpVerifier__Form {
+    width: 95vw;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -2133,18 +1867,6 @@ select>option {
     width: 95%;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .otpVerifier__inputBox {
-    font-size: 20px;
-  }
-
-  .otpVerifier__button {
-    width: 100px;
-  }
-
-  .optVerifierForm__title {
-    letter-spacing: normal;
   }
 
   .infoContainer__userProfile {
@@ -2179,10 +1901,31 @@ select>option {
   .PostsContainer__navItem {
     width: 80px;
   }
+
+  .OTPForm__input {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .OTP_Form_ButtonContainer {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+
+  .OTP__buttons {
+    width: 95%;
+  }
 }
 
 @media screen and (max-width: 376px) {
   .profilePostContainer__PostBox {
     grid-template-columns: repeat(1, 0.9fr);
   }
+
+  .OTPForm__input {
+    width: 40px;
+    height: 40px;
+  }
+
 }

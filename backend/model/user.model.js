@@ -25,12 +25,21 @@ const userModel = mongoose.Schema({
   userPosts: {
     type: Number,
   },
-  userBio : {
-    type : String
+  userBio: {
+    type: String
   },
-  userProfile : {
-    type : String
-  }
+  userProfile: {
+    type: String
+  },
+  savedPost: [
+    {
+      post: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts",
+      },
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
+    }
+  ]
 });
 const userCollection = mongoose.model("users", userModel);
 

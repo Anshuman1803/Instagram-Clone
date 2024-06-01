@@ -6,6 +6,7 @@ const cors = require("cors");
 const appServer = express();
 const dotENV = require("dotenv");
 const { mongooseConnection } = require("./config/mongooseConnection");
+const { verifyOTP } = require("./controller/otpController");
 
 dotENV.config();
 appServer.use(express.json());
@@ -19,6 +20,7 @@ appServer.use(
 appServer.use("/api/v1/auth",userRoute);
 appServer.use("/api/v1/posts",postRoute);
 appServer.use("/api/v1/comments",commentsRoute);
+appServer.post("/api/v1/verify-OTP", verifyOTP)
 
 
 appServer.listen(5000, async () => {

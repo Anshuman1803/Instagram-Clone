@@ -3,15 +3,13 @@ const { postCollection } = require("../model/post.model")
 
 const createNewComment = async (request, response) => {
     try {
-        const { postID, commentText, userName, userProfile, userID } = request.body;
+        const { postID, commentText, userID } = request.body;
 
         const mongooseResponse = await commentCollection.create({
             postID: postID,
             commentText: commentText,
-            userName: userName,
-            userProfile: userProfile,
             createAt: Date.now(),
-            userID: userID,
+            user: userID,
         });
         if (mongooseResponse) {
             await postCollection.findOneAndUpdate({ _id: postID }, {
@@ -36,7 +34,7 @@ const createNewComment = async (request, response) => {
 const getComments = async (request, response) => {
     try {
         const { postId } = request.params;
-        const mongooseResponse = await commentCollection.find({ postID: postId });
+        const mongooseResponse = await commentCollection.find({ postID: postId }).populate('user', '_id userName userProfile');
         if (mongooseResponse) {
             response.status(200).json({
                 success: true,

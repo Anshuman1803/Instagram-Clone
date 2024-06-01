@@ -5,12 +5,6 @@ const postModel = mongoose.Schema({
     ref: "users",
     required: true,
   },
-  userName: {
-    type: String,
-  },
-  userProfile: {
-    type: String,
-  },
   postPoster: {
     type: String,
     required: true,

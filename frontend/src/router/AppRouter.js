@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import AuthContainer from "../pages/Auth/AuthContainer";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
@@ -20,13 +20,13 @@ import ComponentLoader from "../components/ComponentLoader";
 import Create from "../pages/Home/Create";
 import ProfilePost from "../pages/Home/ProfilePost";
 import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
-import PostDetailsView from "../components/PostDetailsView";
 import EditProfile from "../pages/Home/EditProfile";
+import { OTP } from "../components/OTP";
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
   const { instaTOKEN } = useSelector((state) => state.Instagram);
-
+  const navigateTO = useNavigate();
   useEffect(() => {
     setLoader(true);
     if (instaTOKEN) {
@@ -39,18 +39,21 @@ function AppRouter() {
           } else {
             setValidate(false);
             setLoader(false);
-            toast.error("Invalid or expired token. Please log in again.");
+            toast.error("Access denied! Login Again");
+            navigateTO("/user/auth/signin")
           }
         })
         .catch((err) => {
           setValidate(false);
           setLoader(false);
-          toast.error(`Invalid or expired token. Please log in again. ${err.message}`);
+          toast.error(`Invalid or expired token. ${err.message}`);
+          navigateTO("/user/auth/signin")
         });
     } else {
       setValidate(false);
       setLoader(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaTOKEN]);
   return (
     <>
@@ -70,14 +73,14 @@ function AppRouter() {
                 <Route path="/:instaUserID/posts" element={<ProfilePost />} index />
                 <Route path="/:instaUserID/saved" element={<ProfileSavedPost />} />
               </Route>
-              <Route path="/posts/:postID" element={<PostDetailsView />} />
-              <Route path='/accounts/edit' element={<EditProfile/>} />
+              <Route path='/accounts/edit' element={<EditProfile />} />
               <Route path="/*" element={<Home />} />
             </Route>
           ) : (
             <Route path="/" element={<AuthContainer />}>
               <Route path="/user/auth/signin" element={<Login />} index />
               <Route path="/user/auth/register" element={<Signup />} />
+              <Route path="/user/auth/OTP/:Type" element={<OTP />} />
               <Route path="/user/auth/password/forgot-password" element={<ForgotPassword />} />
               <Route path="/user/auth/password/reset-password" element={<ResetPassword />} />
               <Route path="/*" element={<Login />} />

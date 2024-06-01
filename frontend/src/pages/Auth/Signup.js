@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import instaLOGO from "../../Assets/Logo.png";
 import googleLOGO from "../../Assets/googleLOGO.png";
 import playStore from "../../Assets/Play-Store.png";
@@ -7,13 +7,12 @@ import microSoft from "../../Assets/Microsoft.png";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
-import OtpVerifier from "../../components/OtpVerifier";
 function SignUp() {
+  const navigateTO = useNavigate();
   const userEmailRef = useRef();
   const fullNameref = useRef();
   const userNameref = useRef();
   const userPasswordref = useRef();
-  const [emailSent, setEmailsent] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const [errorState, setErrorState] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +37,7 @@ function SignUp() {
       userPassword: "",
     });
   };
-  const toggleOtpVerifier = () => {
-    setEmailsent(!emailSent);
-  };
+
 
   const handleInputOnChange = (e) => {
     setErrorState({});
@@ -87,8 +84,8 @@ function SignUp() {
           if (response.data.success) {
             toast.success(`${response.data.msg}`);
             setBtnLoader(false);
+            navigateTO(`/user/auth/OTP/Email-verification`, { state: userDetails })
             setUserDetails({ ...userDetails, sendOTP: response.data.sendOTP });
-            toggleOtpVerifier();
           } else if (response.data.msg === "username already taken") {
             toast.error(`${response.data.msg}`);
             setBtnLoader(false);
@@ -124,9 +121,8 @@ function SignUp() {
             <input
               type="text"
               name="userEmail"
-              className={`Auth__formItem ${
-                errorState.userEmailError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userEmailError && "ItemBox__errorState"
+                }`}
               placeholder="Email address"
               onChange={handleInputOnChange}
               value={userDetails.userEmail}
@@ -140,9 +136,8 @@ function SignUp() {
             <input
               type="text"
               name="fullName"
-              className={`Auth__formItem ${
-                errorState.fullNameError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.fullNameError && "ItemBox__errorState"
+                }`}
               placeholder="Name"
               onChange={handleInputOnChange}
               value={userDetails.fullName}
@@ -158,9 +153,8 @@ function SignUp() {
             <input
               type="text"
               name="userName"
-              className={`Auth__formItem ${
-                errorState.userNameError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userNameError && "ItemBox__errorState"
+                }`}
               placeholder="Username"
               onChange={handleInputOnChange}
               value={userDetails.userName}
@@ -174,9 +168,8 @@ function SignUp() {
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"
-              className={`Auth__formItem ${
-                errorState.userPasswordError && "ItemBox__errorState"
-              }`}
+              className={`Auth__formItem ${errorState.userPasswordError && "ItemBox__errorState"
+                }`}
               placeholder="Password"
               onChange={handleInputOnChange}
               value={userDetails.userPassword}
@@ -196,13 +189,12 @@ function SignUp() {
 
           <button
             type="button"
-            className={`Auth__formButton ${
-              (userDetails.userEmail &&
-                userDetails.userPassword &&
-                userDetails.fullName &&
-                userDetails.userName) ||
+            className={`Auth__formButton ${(userDetails.userEmail &&
+              userDetails.userPassword &&
+              userDetails.fullName &&
+              userDetails.userName) ||
               "unActiveFormButton"
-            }`}
+              }`}
             onClick={handleSignUPClick}
           >
             {btnLoader ? <ButtonLoader /> : "Sign up"}
@@ -213,7 +205,7 @@ function SignUp() {
             <span className="authForm__hrContainerOR_text">OR</span>
           </div>
 
-          <Link className="authForm__googleLoginLINK">
+          <Link className={`authForm__googleLoginLINK ${btnLoader && 'Unactive'}`}>
             <img
               src={googleLOGO}
               alt="googleLOGO"
@@ -228,7 +220,7 @@ function SignUp() {
 
       <div className="authGotoSignUP_container">
         Have an account?
-        <Link className="gotoRegisterPageLINK" to={"/user/auth/signin"}>
+        <Link className={`gotoRegisterPageLINK ${btnLoader && 'Unactive'}`} to={"/user/auth/signin"}>
           Log in
         </Link>
       </div>
@@ -264,15 +256,6 @@ function SignUp() {
           </Link>
         </div>
       </div>
-
-      {emailSent && (
-        <OtpVerifier
-          type="EmailVerificationOTP"
-          title={"Verify your email"}
-          userDetails={userDetails}
-          cbFun={toggleOtpVerifier}
-        />
-      )}
     </div>
   );
 }

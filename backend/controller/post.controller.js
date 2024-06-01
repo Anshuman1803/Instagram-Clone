@@ -3,15 +3,12 @@ const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
 
 const createPost = async (request, response) => {
-  const { user, postCreatedAt, postCaption, userName,
-    userProfile } = request.body;
+  const { user, postCreatedAt, postCaption, } = request.body;
   try {
     const cloudnaryResponse = await uploadOnCloudnary(request.file.path);
 
     const mongooseResponse = await postCollection.create({
       user: user,
-      userName: userName,
-      userProfile: userProfile,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
       postCaption: postCaption,
@@ -41,7 +38,7 @@ const createPost = async (request, response) => {
 const getPost = async (request, response) => {
   try {
     const { userID } = request.params;
-    const mongooseResponse = await postCollection.find({ user: userID });
+    const mongooseResponse = await postCollection.find({ user: userID })
     if (mongooseResponse) {
       response.send({ success: true, posts: mongooseResponse });
     } else {
@@ -54,8 +51,8 @@ const getPost = async (request, response) => {
 
 const getAllPosts = async (request, response) => {
   try {
-    const {userID} = request.params
-    const mongooseResponse = await postCollection.find({ user: { $ne: userID } });
+    const { userID } = request.params
+    const mongooseResponse = await postCollection.find({ user: { $ne: userID } }).populate('user', '_id userName userProfile');
     if (mongooseResponse) {
       response.send({ success: true, posts: mongooseResponse });
     } else {
@@ -65,10 +62,63 @@ const getAllPosts = async (request, response) => {
     response.send({ success: false, msg: err });
   }
 };
+
+const savePost = async (request, response) => {
+  try {
+    const { postID } = request.params;
+    const { instaUserID } = request.body;
+    const mongooseUserUpdate = await userCollection.findOneAndUpdate({ _id: instaUserID }, { $push: { savedPost: { post: postID } } });
+
+    if (mongooseUserUpdate) {
+      response.status(200).json({
+        success: true,
+        msg: "Post saved successfully"
+      })
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "Post not found"
+      })
+    }
+
+  } catch (err) {
+    console.log(err)
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to load, Try again later - ${err.message}`,
+    })
+  }
+}
+
+const getSavePost = async (request, response)=>{
+  try {
+    const { instaUserID } = request.params;
+    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost.post', '_id postPoster postComments postLikes').select("savedPost");
+
+    if (mongooseResponse) {
+      response.status(200).json({
+        success: true,
+        savePosts : mongooseResponse.savedPost
+      })
+    } else {
+      response.status(404).json({
+        success: false,
+        savePosts : mongooseResponse.savedPost
+      })
+    }
+
+  } catch (err) {
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to load, Try again later - ${err.message}`,
+    })
+  }
+}
+
 module.exports = {
   createPost,
-  // deletePost,
-  // updatePost,
   getPost,
   getAllPosts,
+  savePost,
+  getSavePost
 };

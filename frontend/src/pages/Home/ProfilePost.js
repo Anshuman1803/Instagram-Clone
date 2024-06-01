@@ -6,33 +6,41 @@ import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
 function ProfilePost() {
-
+const navigateTO = useNavigate();
   const { instaUserID } = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
-  const navigateTO = useNavigate();
+  const dispatch = useDispatch()
+  const { instaTOKEN } = useSelector((state) => state.Instagram);
 
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`
+  };
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`)
+    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`,{headers})
       .then((response) => {
         setOwnPosts(response.data.posts.sort((a,b)=> b.postCreatedAt - a.postCreatedAt));
         setLoading(false);
       })
       .catch((error) => {
-        toast.error(`${error.message}`);
+        if (error.response && !error.response.data.success) {
+          toast.error(error.response.data.msg);
+          navigateTO("/user/auth/signin")
+          dispatch(UserLoggedOut());
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
         setLoading(false);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
-
-  const handleShowPostDetails = (e, posts) => {
-    e.preventDefault();
-    navigateTO(`/posts/${posts._id}`, { state: posts })
-  }
-
+  
   return (
-    <div className={`dashboar__profileSection__ProfilePostsContaine ${ownPosts.length === 0 && "flexContainer"}`}>
+    <div className={`dashboard__profileSection__ProfilePostsContainer ${ownPosts.length === 0 && "flexContainer"}`}>
       <div className="profilePostContainer__PostBox">
         {Loading ? (
           <PostLoader />
@@ -47,13 +55,12 @@ function ProfilePost() {
               <>
                 {ownPosts.map((posts, index) => {
                   return (
-                    <div onClick={(e) => handleShowPostDetails(e, posts)} className="profilePostContainer__postCard" key={index}>
+                    <div className="profilePostContainer__postCard" key={index}>
                       <img
                         src={posts.postPoster}
                         alt={posts.postPoster}
                         className="profilePostContainer__postPoster"
                       />
-
                       <div className="profilePostcontainer__postInfo">
                         <p className="profilePostContainer_postInfoBox">
                           <FaHeart className="profilePostcontainer__postInfoICON" />

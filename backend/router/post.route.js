@@ -1,11 +1,14 @@
-const { createPost, getPost,getAllPosts } = require("../controller/post.controller");
+const { createPost, getPost, getAllPosts, savePost, getSavePost } = require("../controller/post.controller");
 const { upload } = require("../middleware/uploadImage");
+const { userAuthenticate } = require("../middleware/Authenticate")
 const postRoute = require("express").Router();
 
 
 
-postRoute.post("/create-post", upload.single('postPoster'), createPost);
-postRoute.get("/post/:userID", getPost)
-postRoute.get("/get-all/:userID", getAllPosts)
+postRoute.post("/create-post", userAuthenticate, upload.single('postPoster'), createPost);
+postRoute.patch("/save-post/:postID", userAuthenticate, savePost)
+postRoute.get("/get-save-post/:instaUserID", userAuthenticate, getSavePost)
+postRoute.get("/post/:userID", userAuthenticate, getPost)
+postRoute.get("/get-all/:userID", userAuthenticate, getAllPosts)
 
-module.exports = {postRoute}
+module.exports = { postRoute }

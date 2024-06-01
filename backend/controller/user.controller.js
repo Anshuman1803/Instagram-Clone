@@ -1,6 +1,7 @@
 const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
+const { otpCollection } = require("../model/otp.model")
 const otpGenerator = require("otp-generator");
 const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
@@ -22,6 +23,7 @@ const authenticateUser = async (request, response) => {
     });
   }
 };
+
 // Sending  Account verifitying OTP emails
 const otpSender = async (request, response) => {
   const { userEmail, userName } = request.body;
@@ -57,11 +59,17 @@ const otpSender = async (request, response) => {
   );
 
   if (emailResponse.messageId) {
+    await otpCollection.create({
+      userEmail: userEmail,
+      OTP: OTP,
+      otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+    });
+
     return response.send({
-      sendOTP: OTP,
       success: true,
       msg: "Otp Sent successfully",
     });
+
   } else {
     return response.send({
       success: false,
@@ -73,7 +81,7 @@ const otpSender = async (request, response) => {
 // User registration controller
 const userRegister = async (request, response) => {
   let { userName, fullName, userEmail, userPassword } = request.body;
-  //hashing password using bcrypt
+  // hashing password using bcrypt
   userPassword = bcrypt.hashSync(userPassword, 15);
 
   // saving new user in database
@@ -130,7 +138,7 @@ const userSignIn = async (request, response) => {
         TOKEN: generatedToken,
       });
     } else {
-      return response.send({success : false,  msg: "Wrong Password" });
+      return response.send({ success: false, msg: "Wrong Password" });
     }
   } catch (error) {
     response.status(500).json({ msg: `Check your internet connect and Try again - ${error.message}` });
@@ -165,8 +173,13 @@ const forgotPassword = async (request, response) => {
   );
 
   if (emailResponse.messageId) {
+    await otpCollection.create({
+      userEmail: userEmail,
+      OTP: OTP,
+      otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+    });
+    
     return response.send({
-      sendOTP: OTP,
       success: true,
       msg: "Otp Sent successfully",
     });
@@ -224,7 +237,7 @@ const getUser = async (request, response) => {
 
 
 // get the suggestedUser
-const getSuggestedUser =  async (request, response)=>{
+const getSuggestedUser = async (request, response) => {
   const { id } = request.params;
   try {
     const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).limit(7).select('_id userName userProfile ');

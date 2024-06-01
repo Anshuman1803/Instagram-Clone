@@ -4,22 +4,28 @@ import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../Assets/PostICON.png";
 import savedICON from "../../Assets/savedICON.png";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import PostLoader from "../../components/PostLoader";
 // import EditProfile from "./EditProfile";
 export default function Profile() {
+  const dispatch = useDispatch()
   const userID = useParams();
   const { pathname } = useLocation();
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
   const navigateTO = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`
+  };
 
+  // load the current USer
   useEffect(() => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`)
+    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);
@@ -29,11 +35,21 @@ export default function Profile() {
           setLoading(false)
         }
       })
-      .catch((err) => {
-        toast.error(`Try Again ${err.message}`);
-        setLoading(false)
+      .catch((error) => {
+        if (error.response && !error.response.data.success) {
+          toast.error(error.response.data.msg);
+          navigateTO("/user/auth/signin");
+          dispatch(UserLoggedOut());
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
+        setLoading(false);
       });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userID.instaUserID])
+
+  useEffect(() => {
     if (pathname === `/${userID?.instaUserID}`) {
       navigateTO(`/${userID?.instaUserID}/posts`);
     }
