@@ -3,7 +3,7 @@ import defaultProfile from "../../Assets/DefaultProfile.png";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../Assets/PostICON.png";
 import savedICON from "../../Assets/savedICON.png";
-import axios from "axios";
+import axios from "../../utility/customAxios"
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
@@ -14,18 +14,15 @@ export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
   const { pathname } = useLocation();
-  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
+  const { instaUserID } = useSelector((state) => state.Instagram);
   const navigateTO = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
-  const headers = {
-    Authorization: `Bearer ${instaTOKEN}`
-  };
 
   // load the current USer
   useEffect(() => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
+    axios.get(`/auth/user/${userID.instaUserID}`)
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);

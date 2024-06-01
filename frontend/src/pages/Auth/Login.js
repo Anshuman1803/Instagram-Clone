@@ -6,9 +6,9 @@ import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import ButtonLoader from "../../components/ButtonLoader";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UserLoggedIn } from "../../Redux/ReduxSlice";
+import axios from "../../utility/customAxios"
 function Login() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -57,7 +57,7 @@ function Login() {
       userPasswordref.current.focus();
     } else {
       axios
-        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
+        .post("/auth/user/signin", userDetails)
         .then((response) => {
 
           if (response.data.success) {

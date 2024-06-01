@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import cameraICON from "../../Assets/CameraICON.png";
-import axios from "axios";
+import axios from "../../utility/customAxios"
 import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 function ProfilePost() {
   const navigateTO = useNavigate();
@@ -14,14 +14,10 @@ function ProfilePost() {
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
   const dispatch = useDispatch()
-  const { instaTOKEN } = useSelector((state) => state.Instagram);
 
-  const headers = {
-    Authorization: `Bearer ${instaTOKEN}`
-  };
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`, { headers })
+    axios.get(`/posts/post/${instaUserID}`)
       .then((response) => {
         setOwnPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
         setLoading(false);
