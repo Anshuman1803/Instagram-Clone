@@ -82,7 +82,6 @@ const savePost = async (request, response) => {
     }
 
   } catch (err) {
-    console.log(err)
     response.status(500).json({
       success: false,
       msg: `Server failed to load, Try again later - ${err.message}`,

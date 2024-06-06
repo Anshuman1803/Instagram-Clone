@@ -110,9 +110,11 @@ export default function Home() {
 }
 
 const HomePostCard = ({ posts }) => {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
   const [newComment, setNewComment] = useState("");
-
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`
+  };
   //! Creating new comments for the post
   const handlePostComment = (e, posts) => {
     e.preventDefault();
@@ -123,7 +125,7 @@ const HomePostCard = ({ posts }) => {
       userID: instaUserID,
     }
 
-    axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments).then((response) => {
+    axios.post(`http://localhost:5000/api/v1/comments/create-new-comments`, tempNewComments, { headers },).then((response) => {
       if (response.data.success) {
         toast.success(response.data.msg);
         setNewComment('');
@@ -141,7 +143,7 @@ const HomePostCard = ({ posts }) => {
   // Saving the post
   const handleSavePost = (e, postID) => {
     e.preventDefault();
-    axios.patch(`http://localhost:5000/api/v1/posts/save-post/${postID}`, { instaUserID }).then((response) => {
+    axios.patch(`http://localhost:5000/api/v1/posts/save-post/${postID}`, { instaUserID }, { headers }).then((response) => {
       if (response.data.success) {
         console.log(response)
         toast.success(response.data.msg);
