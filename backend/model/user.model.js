@@ -31,6 +31,9 @@ const userModel = mongoose.Schema({
   userProfile: {
     type: String
   },
+  createdAt: {
+    type: Number,
+  },
   savedPost: [
     {
       post: {
@@ -39,7 +42,8 @@ const userModel = mongoose.Schema({
       },
       _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
     }
-  ]
+  ],
+
 });
 const userCollection = mongoose.model("users", userModel);
 
