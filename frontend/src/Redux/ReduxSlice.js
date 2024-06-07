@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const ReduxSlice = createSlice({
   name: "ReduxSlice",
   initialState: {
-    instaUserID: localStorage.getItem("instaUserID") ? localStorage.getItem("instaUserID") : [],
+    instaUserID: localStorage.getItem("instaUserID") ? localStorage.getItem("instaUserID") : "",
     instaTOKEN: localStorage.getItem("instaTOKEN") ? localStorage.getItem("instaTOKEN") : "",
     instaUserName: localStorage.getItem("instaUserName") ? localStorage.getItem("instaUserName") : "",
     instaProfle: localStorage.getItem("instaProfle") ? localStorage.getItem("instaProfle") : "",
@@ -27,7 +27,7 @@ const ReduxSlice = createSlice({
     },
 
     userSavePost(state, action) {
-      state.instaSavedPost.push(action.payload)
+      state.instaSavedPost = [...state.instaSavedPost, action.payload];
       localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
     },
 
@@ -51,7 +51,7 @@ const ReduxSlice = createSlice({
       localStorage.removeItem("instaFullName");
       localStorage.removeItem("instaSavedPost");
     },
-    
+
   },
 });
 export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost } = ReduxSlice.actions;
