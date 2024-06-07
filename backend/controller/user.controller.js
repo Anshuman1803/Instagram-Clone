@@ -7,7 +7,6 @@ const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
 dotENV.config();
 const KEY = process.env.secretKey;
-const saltRound = process.env.saltRound;
 
 // authenticate user
 const authenticateUser = async (request, response) => {
@@ -96,6 +95,7 @@ const userRegister = async (request, response) => {
     userBio: "",
     userProfile: "",
     createdAt : Date.now(),
+    savedPost : [],
   });
   if (registredResult) {
     return response.send({ resMsg: "User Registred Successfully" });
@@ -259,6 +259,7 @@ const getSuggestedUser = async (request, response) => {
     });
   }
 }
+
 module.exports = {
   userRegister,
   userSignIn,

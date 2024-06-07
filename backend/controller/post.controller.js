@@ -67,7 +67,18 @@ const savePost = async (request, response) => {
   try {
     const { postID } = request.params;
     const { instaUserID } = request.body;
-    const mongooseUserUpdate = await userCollection.findOneAndUpdate({ _id: instaUserID }, { $push: { savedPost: { post: postID } } });
+
+    const existingPost = await userCollection.findOne({ _id: instaUserID, "savedPost": postID });
+
+    if (existingPost) {
+      response.status(200).json({
+        success: false,
+        msg: "Already saved in your collection."
+      });
+      return;
+    }
+
+    const mongooseUserUpdate = await userCollection.findOneAndUpdate({ _id: instaUserID }, { $push: { savedPost: postID } });
 
     if (mongooseUserUpdate) {
       response.status(200).json({
@@ -89,7 +100,33 @@ const savePost = async (request, response) => {
   }
 }
 
-const getSavePost = async (request, response)=>{
+const deleteSavePostFromCollection = async (request, response) => {
+  try {
+    const { postID } = request.params;
+    const { instaUserID } = request.body;
+    const mongooseUserUpdate = await userCollection.findOneAndUpdate({ _id: instaUserID }, { $pull: { savedPost: postID } });
+
+    if (mongooseUserUpdate) {
+      response.status(200).json({
+        success: true,
+        msg: "Post removed from saved collection"
+      })
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "Post is not found in your saved collection."
+      })
+    }
+
+  } catch (err) {
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to load, Try again later - ${err.message}`,
+    })
+  }
+}
+
+const getSavePost = async (request, response) => {
   try {
     const { instaUserID } = request.params;
     const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost.post', '_id postPoster postComments postLikes').select("savedPost");
@@ -97,12 +134,12 @@ const getSavePost = async (request, response)=>{
     if (mongooseResponse) {
       response.status(200).json({
         success: true,
-        savePosts : mongooseResponse.savedPost
+        savePosts: mongooseResponse.savedPost
       })
     } else {
       response.status(404).json({
         success: false,
-        savePosts : mongooseResponse.savedPost
+        savePosts: mongooseResponse.savedPost
       })
     }
 
@@ -119,5 +156,6 @@ module.exports = {
   getPost,
   getAllPosts,
   savePost,
+  deleteSavePostFromCollection,
   getSavePost
 };
