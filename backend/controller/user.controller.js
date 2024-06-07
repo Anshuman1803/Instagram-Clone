@@ -241,7 +241,7 @@ const getUser = async (request, response) => {
 const getSuggestedUser = async (request, response) => {
   const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).sort({ createdAt: -1 }).limit(7).select('_id userName userProfile ');
+    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).sort({ createdAt: -1 }).limit(5).select('_id userName userProfile ');
     if (mongooseResponse) {
       return response.send({
         success: true,
