@@ -129,7 +129,7 @@ const deleteSavePostFromCollection = async (request, response) => {
 const getSavePost = async (request, response) => {
   try {
     const { instaUserID } = request.params;
-    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost.post', '_id postPoster postComments postLikes').select("savedPost");
+    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost', '_id postPoster postComments postLikes').select("savedPost");
 
     if (mongooseResponse) {
       response.status(200).json({

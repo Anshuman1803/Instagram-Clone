@@ -9,7 +9,7 @@ import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 function ProfileSavedPost() {
-  const { instaUserID,instaTOKEN} = useSelector((state) => state.Instagram);
+  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
   const [Loading, setLoading] = useState(false);
   const [savedPosts, setSavedPosts] = useState([]);
   const navigateTO = useNavigate();
@@ -19,7 +19,7 @@ function ProfileSavedPost() {
   };
   useEffect(() => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-save-post/${instaUserID}`,{headers}).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/posts/get-save-post/${instaUserID}`, { headers }).then((response) => {
       if (response.data.success) {
         setSavedPosts(response.data.savePosts);
         setLoading(false);
@@ -37,7 +37,7 @@ function ProfileSavedPost() {
       }
       setLoading(false);
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
 
   return (
@@ -60,18 +60,18 @@ function ProfileSavedPost() {
                   return (
                     <div className="profilePostContainer__postCard" key={index}>
                       <img
-                        src={posts?.post.postPoster}
-                        alt={posts?.post.postPoster}
+                        src={posts?.postPoster}
+                        alt={posts?.postPoster}
                         className="profilePostContainer__postPoster"
                       />
                       <div className="profilePostcontainer__postInfo">
                         <p className="profilePostContainer_postInfoBox">
                           <FaHeart className="profilePostcontainer__postInfoICON" />
-                          {posts?.post.postLikes}
+                          {posts?.postLikes}
                         </p>
                         <p className="profilePostContainer_postInfoBox">
                           <FaComment className="profilePostcontainer__postInfoICON" />
-                          {posts?.post.postComments}
+                          {posts?.postComments}
                         </p>
                       </div>
                     </div>
