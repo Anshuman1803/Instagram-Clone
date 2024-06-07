@@ -70,6 +70,7 @@ function Login() {
                 userName: response.data.UserDetails.userName,
                 userProfile: response.data.UserDetails.userProfile,
                 userFullName: response.data.UserDetails.fullName,
+                savedPost: response.data.UserDetails.savedPost,
               })
             );
           } else {
