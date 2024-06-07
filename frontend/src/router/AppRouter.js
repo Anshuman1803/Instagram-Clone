@@ -16,6 +16,7 @@ const Create = lazy(() => import('../pages/Home/Create'));
 const Profile = lazy(() => import('../pages/Home/Profile'));
 const ProfilePost = lazy(() => import('../pages/Home/ProfilePost'));
 const ProfileSavedPost = lazy(() => import('../pages/Home/ProfileSavedPost'));
+const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
 
 // Auth Routes elements
 const AuthContainer = lazy(() => import("../pages/Auth/AuthContainer"));
@@ -76,19 +77,6 @@ function AppRouter() {
 }
 
 
-const AuthRoute = () => {
-  return <Routes>
-    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <AuthContainer /> </Suspense>} >
-      <Route path="/user/auth/signin" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
-      <Route path="/user/auth/register" element={<Suspense fallback={<ComponentLoader />}> <Signup /> </Suspense>} />
-      <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<ComponentLoader />}> <OTP /> </Suspense>} />
-      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
-      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
-      <Route path="/*" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
-    </Route>
-  </Routes>
-}
-
 const HomeRoute = () => {
   return <Routes>
     <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <HomeContainer /> </Suspense>} >
@@ -102,7 +90,25 @@ const HomeRoute = () => {
         <Route path="/:instaUserID/posts" element={<Suspense fallback={<ComponentLoader />}> <ProfilePost /> </Suspense>} index />
         <Route path="/:instaUserID/saved" element={<Suspense fallback={<ComponentLoader />}> <ProfileSavedPost /> </Suspense>} />
       </Route>
+      <Route path="/Accout/setting" element={<Suspense fallback={<ComponentLoader />}> <SettingContainer /> </Suspense>}>
+       
+      </Route>
 
+    </Route>
+  </Routes>
+}
+
+
+
+const AuthRoute = () => {
+  return <Routes>
+    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <AuthContainer /> </Suspense>} >
+      <Route path="/user/auth/signin" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
+      <Route path="/user/auth/register" element={<Suspense fallback={<ComponentLoader />}> <Signup /> </Suspense>} />
+      <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<ComponentLoader />}> <OTP /> </Suspense>} />
+      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
+      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
+      <Route path="/*" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
     </Route>
   </Routes>
 }

@@ -577,6 +577,7 @@
   flex-direction: column;
   justify-content: space-around;
   height: 100vh;
+  position: relative;
 }
 
 nav {
@@ -601,59 +602,103 @@ nav {
   margin: auto;
 }
 
-.navLink:hover {
-  background: rgba(0, 0, 0, 0.117);
-}
 
 .navIcon {
   width: 1.8em;
 }
 
-.moreIcon {
-  width: 2.5em;
-  /* margin-left: .2em; */
-}
-
-.navLink:hover {
-  transform: scale(1.02);
-}
-
-.moreBtn {
-  width: 8em;
-  height: 3em;
-  margin: auto;
-}
 
 .__instaIcon_Hide {
   display: none;
 }
 
 .__navbar_moreButton {
+  height: 3.5em;
   border: none;
   outline: none;
+  transition: 400ms;
+  border-radius: 10px;
+  width: 94%;
+  height: 3.3em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 1em;
   background: transparent;
-  position: relative;
   transition: 500ms ease;
+  margin: 0px auto;
+  font-size: 15px;
 }
 
-.__popup {
-  position: absolute;
-  width: 150px;
-  bottom: 55px;
-  left: 20px;
-  text-align: left;
-  border-radius: 5px;
-  background: rgb(255, 251, 251);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+.moreIcon {
+  width: 2.2em;
 }
 
-.__popupOptions {
-  padding: 1em 2em;
-}
-
-.__popupOptions:hover {
-  background: rgb(231, 231, 231);
+.navLink:hover,
+.__navbar_moreButton:hover,
+.__popupLinkItem:hover,
+.__popupLogoutButton:hover {
   cursor: pointer;
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.02);
+}
+
+.__popupContainer {
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  width: 275px;
+  height: 325px;
+  position: absolute;
+  bottom: 95px;
+  right: -16%;
+  z-index: 2;
+  background-color: white;
+}
+
+.__popupLinkItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  color: black;
+  margin: 10px auto;
+  height: 50px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  width: 94%;
+  padding-left: 1em;
+  border-radius: 10px;
+  background: transparent;
+  transition: 500ms ease;
+
+}
+
+.__popupLinkItem_ICON {
+  font-size: 22px;
+}
+
+.__popupDividerLINE {
+  display: block;
+  margin: 5px auto 10px auto;
+  border: 1px solid rgba(175, 175, 175, 0.341);
+  width: 100%;
+}
+
+.__popupLogoutButton {
+  border: none;
+  outline: none;
+  display: block;
+  border-radius: 10px;
+  height: 45px;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: transparent;
+  width: 94%;
+  text-align: left;
+  padding-left: 1em;
+  margin: 15px auto 0px auto;
+  transition: 500ms ease;
 }
 
 /* ! This block holds the design of the homepage navlinks */
@@ -1571,17 +1616,9 @@ select>option {
   .__navTitle {
     display: none;
   }
-
-  .postDetailsview__box {
-    width: calc(100% - 30px);
-  }
-
-  .postDetailsview__postPOsterContainer {
-    width: 320px;
-  }
-
-  .postDetailsview__postDetails {
-    width: calc(100% - 320px);
+  .__popupContainer{
+    bottom: 30px;
+    right: -260px;
   }
 }
 
@@ -1592,21 +1629,6 @@ select>option {
     width: 100%;
   }
 
-  .postDetailsview__box {
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    overflow-y: auto;
-  }
-
-  .postDetailsview__postPOsterContainer {
-    width: 100%;
-    height: 220px;
-  }
-
-  .postDetailsview__postDetails {
-    width: 100%;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1677,9 +1699,6 @@ select>option {
     width: 95%;
   }
 
-  .postDetailsview__box {
-    width: 100%;
-  }
 }
 
 @media screen and (max-width: 681px) {
@@ -1830,7 +1849,7 @@ select>option {
   }
 
   .__instaIcon_Hide,
-  .__navbar_moreButton {
+  .__navbar_moreButton, .__popupContainer {
     display: none;
   }
 
@@ -1854,6 +1873,7 @@ select>option {
   .otpVerifier__Form {
     width: 95vw;
   }
+  
 }
 
 @media screen and (max-width: 500px) {
