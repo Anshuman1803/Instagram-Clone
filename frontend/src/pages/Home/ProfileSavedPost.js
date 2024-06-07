@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import savedPostICON from "../../Assets/savedICON.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import axios from "axios";
 import toast from "react-hot-toast";
 import PostLoader from "../../components/PostLoader";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 function ProfileSavedPost() {
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID,instaTOKEN} = useSelector((state) => state.Instagram);
   const [Loading, setLoading] = useState(false);
   const [savedPosts, setSavedPosts] = useState([]);
-
+  const navigateTO = useNavigate();
+  const dispatch = useDispatch()
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`
+  };
   useEffect(() => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-save-post/${instaUserID}`).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/posts/get-save-post/${instaUserID}`,{headers}).then((response) => {
       if (response.data.success) {
         setSavedPosts(response.data.savePosts);
         setLoading(false);
@@ -22,9 +28,16 @@ function ProfileSavedPost() {
         setLoading(false);
       }
     }).catch((error) => {
-      toast.error(`Server failed : ${error.message}`);
+      if (error.response && !error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin")
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
       setLoading(false);
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
 
   return (
