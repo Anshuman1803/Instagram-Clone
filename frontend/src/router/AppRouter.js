@@ -106,8 +106,8 @@ const AuthRoute = () => {
       <Route path="/user/auth/signin" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
       <Route path="/user/auth/register" element={<Suspense fallback={<ComponentLoader />}> <Signup /> </Suspense>} />
       <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<ComponentLoader />}> <OTP /> </Suspense>} />
-      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
-      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
+      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
+      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
       <Route path="/*" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
     </Route>
   </Routes>
