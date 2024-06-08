@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../../Assets/Logo.png'
 import instaIcon from '../../Assets/insta_Icon.svg'
 import Home from '../../Assets/home.svg'
@@ -13,10 +13,7 @@ import Bars from '../../Assets/bars.png'
 import { useSelector, useDispatch } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
-import { IoSettingsOutline } from "react-icons/io5";
-import { GoReport } from "react-icons/go";
-import { IoMdAnalytics } from "react-icons/io";
-import { IoBookmark } from "react-icons/io5";
+import MorePopup from '../../components/MorePopup'
 
 export default function Navbar() {
     const navigateTO = useNavigate()
@@ -65,26 +62,10 @@ export default function Navbar() {
                 </NavLink>
             </nav>
             {
-                popup && <PopupContainer CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} />
+                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} />
             }
             <button type="button" onClick={handleTogglePopup} className='__navbar_moreButton'><img className='moreIcon' src={Bars} alt='MoreButtonICON' /> <span className='__navTitle'>More</span></button>
         </div>
     )
-}
-
-const PopupContainer = ({ CBLogOut, CBClosePopup, PropInstaID }) => {
-    return <div className='__popupContainer'>
-        <Link onClick={CBClosePopup} to={"/Accout/setting"} className='__popupLinkItem'> <IoSettingsOutline className='__popupLinkItem_ICON' /> Setting</Link>
-
-        <Link onClick={CBClosePopup} to={`/${PropInstaID}/saved`} className='__popupLinkItem'> <IoBookmark className='__popupLinkItem_ICON' /> saved</Link>
-
-        <Link onClick={CBClosePopup} to={"/Accout/Activity"} className='__popupLinkItem'> <IoMdAnalytics className='__popupLinkItem_ICON' /> Activity</Link>
-
-        <p onClick={CBClosePopup} className='__popupLinkItem'> <GoReport className='__popupLinkItem_ICON' /> Report a problem</p>
-
-        <span className='__popupDividerLINE'></span>
-
-        <button className='__popupLogoutButton' onClick={CBLogOut}>Log out</button>
-    </div>
 }
 

@@ -1616,7 +1616,8 @@ select>option {
   .__navTitle {
     display: none;
   }
-  .__popupContainer{
+
+  .__popupContainer {
     bottom: 30px;
     right: -260px;
   }
@@ -1794,45 +1795,13 @@ select>option {
     justify-content: space-between;
     align-items: center;
     padding: 0 1em;
+    z-index: 2;
   }
 
   .__nav_Logo {
     width: 9em;
   }
 
-  .__create_Logo {
-    width: 2em;
-    height: 2em;
-  }
-
-  .__nav_Header_Right {
-    display: flex;
-    align-items: center;
-    padding: 0 .5em;
-    gap: 1em;
-  }
-
-  .search {
-    border: 1px solid;
-    display: flex;
-    align-items: center;
-    padding: 0 .5em;
-    border-radius: 5px;
-  }
-
-  .__nav_search {
-    height: 2.5em;
-    width: 80%;
-    padding-left: 1em;
-    border: none;
-    outline: none;
-  }
-
-  .__nav_Header_Right img {
-    width: 2em;
-  }
-
-  /* ---------------------------------------- */
   .navLink {
     padding: 0;
     justify-content: center;
@@ -1849,17 +1818,24 @@ select>option {
   }
 
   .__instaIcon_Hide,
-  .__navbar_moreButton, .__popupContainer {
+  .__navbar_moreButton,
+  .__popupContainer {
     display: none;
   }
 
-  /* This block of code holds the Edit Profle page */
-  .__pageHeader {
-    padding: 1em;
+  .__SecondaryPopupContainer {
+    display: block;
+    top: 110%;
+    right: 10px;
   }
 
-  .__editForm {
-    width: 95%;
+  .__secondaryMoreButton {
+    padding: 0;
+    margin: 0;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .profilePostContainer__PostBox {
@@ -1873,7 +1849,7 @@ select>option {
   .otpVerifier__Form {
     width: 95vw;
   }
-  
+
 }
 
 @media screen and (max-width: 500px) {
