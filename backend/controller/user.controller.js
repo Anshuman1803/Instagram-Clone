@@ -94,8 +94,8 @@ const userRegister = async (request, response) => {
     userPosts: 0,
     userBio: "",
     userProfile: "",
-    createdAt : Date.now(),
-    savedPost : [],
+    createdAt: Date.now(),
+    savedPost: [],
   });
   if (registredResult) {
     return response.send({ resMsg: "User Registred Successfully" });
@@ -179,7 +179,7 @@ const forgotPassword = async (request, response) => {
       OTP: OTP,
       otpExpireAt: Date.now() + 300000 // 5-minute expiration,
     });
-    
+
     return response.send({
       success: true,
       msg: "Otp Sent successfully",
@@ -194,23 +194,36 @@ const forgotPassword = async (request, response) => {
 
 // Reset the verified user password
 const resetPassword = async (request, response) => {
-  let { userEmail, newPassword } = request.body;
+  try {
+    let { userEmail, newPassword, instaUserID } = request.body;
+    newPassword = bcrypt.hashSync(newPassword, 15);
+    const mongooseResponse = await userCollection.updateOne(
+      {
+        $or: [{ userEmail: userEmail }, { _id: instaUserID }]
+      },
+      {
+        $set: { userPassword: newPassword }
+      }
+    );
 
-  newPassword = bcrypt.hashSync(newPassword, 15);
-  const mongooseResponse = await userCollection.updateOne(
-    { userEmail: userEmail },
-    { userPassword: newPassword }
-  );
-  if (mongooseResponse.acknowledged) {
-    return response.send({
-      success: true,
-      msg: "Password reset successfully",
-    });
-  } else {
-    return response.send({
+    if (mongooseResponse.acknowledged) {
+      return response.send({
+        success: true,
+        msg: "Password update successfully",
+      });
+    } else {
+      return response.send({
+        success: false,
+        msg: "Try Again",
+      });
+    }
+  }
+  catch (error) {
+    console.log(error)
+    response.status(500).json({
       success: false,
-      msg: "Try Again",
-    });
+      msg: `Server failed to load, Try again later - ${error.message}`,
+    })
   }
 };
 
@@ -218,7 +231,7 @@ const resetPassword = async (request, response) => {
 const getUser = async (request, response) => {
   const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-password -__v')
+    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-userPassword -__v')
     if (mongooseResponse) {
       return response.send({
         success: true,

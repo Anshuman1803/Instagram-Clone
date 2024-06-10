@@ -1737,6 +1737,12 @@
 background-color: rgba(0, 0, 0, 0.05);
 }
 
+.__Setting__UpdatePasswordContainer{
+  box-shadow: none;
+  border: none;
+  height: fit-content;
+}
+
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
