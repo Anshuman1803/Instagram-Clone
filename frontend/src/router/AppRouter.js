@@ -17,6 +17,9 @@ const Profile = lazy(() => import('../pages/Home/Profile'));
 const ProfilePost = lazy(() => import('../pages/Home/ProfilePost'));
 const ProfileSavedPost = lazy(() => import('../pages/Home/ProfileSavedPost'));
 const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
+const EditProfile = lazy(()=> import('../pages/Home/setting/EditProfile'));
+const UpdatePassword = lazy(()=> import('../pages/Home/setting/UpdatePassword'));
+const Privacy = lazy(()=> import('../pages/Home/setting/Privacy'));
 
 // Auth Routes elements
 const AuthContainer = lazy(() => import("../pages/Auth/AuthContainer"));
@@ -90,8 +93,13 @@ const HomeRoute = () => {
         <Route path="/:instaUserID/posts" element={<Suspense fallback={<ComponentLoader />}> <ProfilePost /> </Suspense>} index />
         <Route path="/:instaUserID/saved" element={<Suspense fallback={<ComponentLoader />}> <ProfileSavedPost /> </Suspense>} />
       </Route>
+
       <Route path="/Accout/setting" element={<Suspense fallback={<ComponentLoader />}> <SettingContainer /> </Suspense>}>
-       
+
+      <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<ComponentLoader />}> <EditProfile /> </Suspense>} />
+      <Route path="/Accout/setting/update-password" element={<Suspense fallback={<ComponentLoader />}> <UpdatePassword /> </Suspense>} />
+      <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<ComponentLoader />}> <Privacy /> </Suspense>} />
+      
       </Route>
 
     </Route>

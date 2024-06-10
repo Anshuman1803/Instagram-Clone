@@ -38,7 +38,7 @@ export default function Navbar() {
         <div className='navbar'>
             <img className='instaLogo' src={Logo} alt='insta logo' />
             <img className='instaLogo __instaIcon_Hide' src={instaIcon} alt='insta logo' />
-            <nav className='primary__navbar'>
+            <nav className='primary__navbar nav'>
                 <NavLink className='navLink' to='/home'>
                     <img className='navIcon' src={Home} alt='' />  <span className='__navTitle'>Home</span>
                 </NavLink>

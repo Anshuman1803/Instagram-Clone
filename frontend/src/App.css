@@ -580,7 +580,7 @@
   position: relative;
 }
 
-nav {
+.nav {
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -1485,80 +1485,257 @@ nav {
 
 /* ! This block holds the design of DASHBOARD Create Post SECTION */
 
-/* This block Holds the Edit Profile Design */
-
-/* .__editProfilePage {
-  border: 1px solid green;
-} */
-.__pageHeader {
-  padding: 1em 4em;
-}
-
-.__editForm {
-  width: 70%;
-  margin: auto;
-}
-
-.__profile {
-  border: 1px solid #00000070;
-  /* background: rgb(224, 224, 224); */
-  border-radius: 20px;
+/* Setting page container */
+.__settingSection__mainContainer {
+  width: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1em;
-  margin: 0 1em;
+  justify-content: center;
+  padding: 1em 0em;
 }
 
-.__left_section {
+.__settingSection__settingBOX {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  width: 95%;
+  min-height: 95vh;
+  border-radius: 10px;
+}
+
+.__settingSection__nav {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.209);
+  width: 100%;
+  height: 60px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-start;
+  padding: 0em 1em;
+  gap: 25px;
 }
 
-.__profileImage_Btn {
-  padding: 8px 15px;
-  background: rgba(15, 78, 238, 0.881);
-  color: white;
-  border-radius: 8px;
+.__settingSection__navItems {
+  text-decoration: none;
+  color: black;
+  padding: 0.7em 1.5em;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 2px;
+  transition: 400ms ease;
+}
+
+.__settingSection__navItems:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.02);
+}
+
+.__settingSection__navItems.active {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.__settingSection__outletContainer {
+  width: 100%;
+  min-height: calc(95vh - 60px);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em;
+  position: relative;
+}
+
+.__EditProfile_form {
+  width: 550px;
+}
+
+.__EditProfile__profilePicture_box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0em 0.3em;
+  height: 80px;
+}
+
+.__EditProfile_userProfileBox {
+  width: 80px;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.__EditPrfoile_userProfile {
+  width: 100%;
+  height: 100%;
+}
+
+.__EditProfile_buttonBox {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 1em;
+  gap: 10px;
+}
+
+.__editProfile__userName {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.__changeProfilePopupButton {
   border: none;
   outline: none;
+  background-color: transparent;
+  color: #0866ff;
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.__changeProfilePopupButton:hover {
   cursor: pointer;
+  color: black;
 }
 
-.__profileImage_Btn:hover {
-  background: rgb(0, 72, 255);
+.__EditProfile__formRow {
+  margin-top: 1em;
 }
 
-.__inputBox {
-  padding: 1em;
-  display: flex;
-  gap: 5px;
-  flex-direction: column;
+.__EditProfile_formLabel {
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  display: block;
+  padding-left: 0.5em;
 }
 
-.__inputs {
+.__EditProfile_formInputItem {
+  border: none;
+  outline: none;
+  border: 1px solid rgba(128, 128, 128, 0.537);
+  display: block;
+  width: 100%;
   height: 45px;
-  padding-left: 1em;
-  border: 1px solid #00000084;
-  outline: none;
-  border-radius: 10px;
+  margin-top: 8px;
+  border-radius: 5px;
+  padding: 0em 1em;
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: capitalize;
 }
 
-textarea {
-  padding: 1em;
-  border-radius: 10px;
+.__EditProfile_formTextArea {
+  border: none;
   outline: none;
+  border: 1px solid rgba(128, 128, 128, 0.537);
+  display: block;
+  width: 100%;
   resize: none;
-}
-
-select>option {
+  height: 150px;
+  margin-top: 8px;
+  border-radius: 5px;
   padding: 1em;
-  height: 20em;
+  font-weight: 500;
+  font-size: 16px;
 }
 
-/* This block Holds the Edit Profile Design */
+.__EditProfile__selectOPTION {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500;
+}
 
+.__EditProfile__buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.__EditProfile_saveButton{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #0866ff;
+  width: 275px;
+  padding: 0.8em 1em;
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 10px;
+}
+.__EditProfile_saveButton:hover{
+  cursor: pointer;
+  background-color: #1f57cf;
+}
+.__EditProfile__UpdatePicturePopup_Container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  height: 100%;
+  z-index: 2;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.__Setting__UpdatePicturePopup{
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  width: 425px;
+  background-color: white;
+  border-radius: 10px;
+}
+.__popupUserProfile{
+  display: block;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 20px auto;
+}
+.__UpdatePicturePopup_Heading{
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+  font-size: 22px;
+  margin-bottom: 2em;
+}
+
+.__UpdatePicturePopupButtons{
+  border: none;
+  outline: none;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  height: 55px;
+  margin: 0px auto;
+  background-color: transparent;
+  border-top: 1px solid rgba(128, 128, 128, 0.479);
+}
+.__UpdatePicturePopupButtons:last-child{
+  margin-bottom: 0px;
+  border-bottom: none;
+}
+.__UpdatePictureButton{
+  font-weight: 600;
+  color: #0095F6;
+  font-size: 18px;
+}
+.__RemoveCurrentPictureButton{
+  font-size: 17px;
+  font-weight: 600;
+  color: #e5532d;
+}
+.__UpdatePicturePopupButtons:hover{
+  cursor: pointer;
+background-color: rgba(0, 0, 0, 0.05);
+}
 
 /*! Responsive Styles */
 
@@ -1590,11 +1767,11 @@ select>option {
   }
 
   .navbar,
-  nav {
+  .nav {
     width: 80px;
   }
 
-  nav {
+  .nav {
     align-items: center;
     justify-content: center;
   }
@@ -1706,6 +1883,10 @@ select>option {
   .HomeSection__homePostCard {
     width: 98%;
   }
+  .__EditProfile_form {
+    width: 100%;
+    padding: 1em 0em;
+  }
 }
 
 @media screen and (max-width: 641px) {
@@ -1770,6 +1951,16 @@ select>option {
   .createPost__selectImageICON {
     margin-left: 0em;
   }
+  .__settingSection__nav {
+    padding: 0em 0.5em;
+    gap: 10px;
+  }
+  
+  .__settingSection__navItems {
+    padding: 0.7em 1.2em;
+    font-size: 14px;
+  }
+  
 }
 
 @media screen and (max-width: 550px) {
@@ -1849,7 +2040,6 @@ select>option {
   .otpVerifier__Form {
     width: 95vw;
   }
-
 }
 
 @media screen and (max-width: 500px) {
