@@ -10,11 +10,11 @@ function EditProfile() {
   const [ShowPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch()
   const navigateTO = useNavigate();
-  const [useDetails, setUserDetails] = useState({
+  const [userDetails, setUserDetails] = useState({
     userName: "",
     fullName: "",
     gender: "",
-    bio: "",
+    userBio: "",
     profilePicture: ""
   });
 
@@ -27,6 +27,19 @@ function EditProfile() {
     setShowPopup(!ShowPopup)
   }
 
+  // onChange event 
+  const handleInputOnChange = (e)=>{
+    setUserDetails({...userDetails, [e.target.name]: e.target.value })
+  }
+
+  // Saved updated details
+  const handleSaveChanges = (e)=>{
+    e.preventDefault();
+    axios.patch(`http://localhost:5000/api/v1/auth/user/update-user-details/${instaUserID}`, userDetails).then((response)=>{
+      console.log(response)
+    })
+  }
+  // /user/update-user-details/:userEmail
   const loaduserDetails = () => {
     axios.get(`http://localhost:5000/api/v1/auth/user/${instaUserID}`, { headers }).then((response) => {
       if (response.data.success) {
@@ -34,7 +47,7 @@ function EditProfile() {
           userName: response.data.user.userName,
           fullName: response.data.user.fullName,
           gender: response.data.user.gender ?? "",
-          bio: response.data.user.bio ?? "N/A",
+          userBio: response.data.user.userBio ?? "N/A",
           profilePicture: response.data.user.userProfile,
         })
       } else {
@@ -60,7 +73,7 @@ function EditProfile() {
 
       <div className='__EditProfile__profilePicture_box'>
         <div className='__EditProfile_userProfileBox'>
-          <img src={useDetails?.profilePicture ?? defaultPicture} alt='Username profile' className='__EditPrfoile_userProfile' />
+          <img src={userDetails?.profilePicture ?? defaultPicture} alt='Username profile' className='__EditPrfoile_userProfile' />
         </div>
         <div className='__EditProfile_buttonBox'>
           <p className='__editProfile__userName'>{instaUserName}</p>
@@ -70,17 +83,17 @@ function EditProfile() {
 
       <div className='__EditProfile__formRow'>
         <label htmlFor='userName' className='__EditProfile_formLabel'>User name</label>
-        <input type="text" id='userName' value={useDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' />
+        <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' />
       </div>
 
       <div className='__EditProfile__formRow'>
         <label htmlFor='fullName' className='__EditProfile_formLabel'>Full Name</label>
-        <input type="text" id='fullName' value={useDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' />
+        <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' />
       </div>
 
       <div className='__EditProfile__formRow'>
         <label htmlFor='gender' className='__EditProfile_formLabel'>Gender</label>
-        <select id='gender' name='gender' value={useDetails?.gender} className='__EditProfile_formInputItem' >
+        <select id='gender' name='gender' onChange={handleInputOnChange} value={userDetails?.gender} className='__EditProfile_formInputItem' >
           <option value="">select your gender</option>
           <option className='__EditProfile__selectOPTION' value="male">male</option>
           <option className='__EditProfile__selectOPTION' value="female">female</option>
@@ -89,15 +102,15 @@ function EditProfile() {
       </div>
 
       <div className='__EditProfile__formRow'>
-        <label htmlFor='bio' className='__EditProfile_formLabel'>Bio</label>
-        <textarea name='bio' id='bio' value={useDetails?.bio} className='__EditProfile_formTextArea' placeholder='bio'></textarea>
+        <label htmlFor='userBio' className='__EditProfile_formLabel'>userBio</label>
+        <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className='__EditProfile_formTextArea' placeholder='userBio'></textarea>
       </div>
 
       <div className='__EditProfile__formRow __EditProfile__buttonContainer'>
-        <button className='__EditProfile_saveButton'>Save Changes</button>
+        <button type='submit' className='__EditProfile_saveButton' onClick={handleSaveChanges}>Save Changes</button>
       </div>
       {
-        ShowPopup && <ProfileUpdatePopup CbTogglePopup={handleTogglePopup} CbProfile={useDetails.profilePicture}/>
+        ShowPopup && <ProfileUpdatePopup CbTogglePopup={handleTogglePopup} CbProfile={userDetails.profilePicture}/>
       }
     </form>
   )

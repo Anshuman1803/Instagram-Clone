@@ -227,6 +227,49 @@ const resetPassword = async (request, response) => {
   }
 };
 
+
+const updateUserDetails = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const updateFields = {};
+    // const result = request.file && (await uploadonCloudinary(request.file.path));
+    // request.body.userProfile = result && result?.secure_url;
+
+    for (const key in request.body) {
+      if (
+        request.body[key] !== "null" &&
+        request.body[key] !== "" &&
+        request.body[key] !== " " &&
+        request.body[key]
+      ) {
+        updateFields[key] = request.body[key];
+      }
+    }
+
+    const findUser = await userCollection.findOneAndUpdate(
+      { _id : userID },
+      updateFields,
+      { new: true }
+    );
+
+    if (findUser) {
+      response.status(200).json({
+        success: true,
+        msg: "User details updated successfully",
+        update : findUser
+      });
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "No user found to update",
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    return response.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 // get the registred user using their _id
 const getUser = async (request, response) => {
   const { id } = request.params;
@@ -276,6 +319,7 @@ const getSuggestedUser = async (request, response) => {
 module.exports = {
   userRegister,
   userSignIn,
+  updateUserDetails,
   getUser,
   getSuggestedUser,
   otpSender,

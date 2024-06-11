@@ -12,6 +12,9 @@ const userModel = mongoose.Schema({
     type: String,
     required: true,
   },
+  gender: {
+    type: String,
+  },
   userPassword: {
     type: String,
     required: true,
@@ -41,7 +44,9 @@ const userModel = mongoose.Schema({
       _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
     }
   ],
-
+  gender: {
+    type: String,
+  },
 });
 const userCollection = mongoose.model("users", userModel);
 

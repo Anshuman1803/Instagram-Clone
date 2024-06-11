@@ -57,7 +57,7 @@ export default function Profile() {
   }, [userID, pathname]);
 
   const handleEdit = () => {
-    navigateTO('/accounts/edit')
+    navigateTO('/Accout/setting/edit-profile')
   }
 
   return (
@@ -81,10 +81,6 @@ export default function Profile() {
                       </button>
                     }
                   </h1>
-                  {/* {
-                    edit ? <EditProfile /> : ''
-                  } */}
-
                   <div className="userBox__userActivityState">
                     <span className="userBox__activity userBox__postActivity">
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
