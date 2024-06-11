@@ -7,6 +7,7 @@ const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
 dotENV.config();
 const KEY = process.env.secretKey;
+const { uploadOnCloudnary } = require("../service/cloudinary");
 
 // authenticate user
 const authenticateUser = async (request, response) => {
@@ -219,54 +220,10 @@ const resetPassword = async (request, response) => {
     }
   }
   catch (error) {
-    console.log(error)
     response.status(500).json({
       success: false,
       msg: `Server failed to load, Try again later - ${error.message}`,
     })
-  }
-};
-
-
-const updateUserDetails = async (request, response) => {
-  try {
-    const { userID } = request.params;
-    const updateFields = {};
-    // const result = request.file && (await uploadonCloudinary(request.file.path));
-    // request.body.userProfile = result && result?.secure_url;
-
-    for (const key in request.body) {
-      if (
-        request.body[key] !== "null" &&
-        request.body[key] !== "" &&
-        request.body[key] !== " " &&
-        request.body[key]
-      ) {
-        updateFields[key] = request.body[key];
-      }
-    }
-
-    const findUser = await userCollection.findOneAndUpdate(
-      { _id : userID },
-      updateFields,
-      { new: true }
-    );
-
-    if (findUser) {
-      response.status(200).json({
-        success: true,
-        msg: "User details updated successfully",
-        update : findUser
-      });
-    } else {
-      response.status(404).json({
-        success: false,
-        msg: "No user found to update",
-      });
-    }
-  } catch (error) {
-    console.log(error)
-    return response.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -309,10 +266,73 @@ const getSuggestedUser = async (request, response) => {
       });
     }
   } catch (err) {
-    console.log(err)
     return response.send({
       success: false,
     });
+  }
+}
+
+const updateUserDetails = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const updateFields = {};
+    const result = request.file && (await uploadOnCloudnary(request.file.path));
+    request.body.userProfile = result && result?.secure_url;
+
+    for (const key in request.body) {
+      if (
+        request.body[key] !== "null" &&
+        request.body[key] !== "" &&
+        request.body[key] !== " " &&
+        request.body[key]
+      ) {
+        updateFields[key] = request.body[key];
+      }
+    }
+
+    const findUser = await userCollection.findOneAndUpdate(
+      { _id: userID },
+      updateFields,
+      { new: true }
+    );
+
+    if (findUser) {
+      response.status(200).json({
+        success: true,
+        msg: "User details updated successfully",
+      });
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "No user found to update",
+      });
+    }
+  } catch (error) {
+    return  response.send({ success: false, err: err });
+  }
+};
+
+// Remove current user profile 
+const removeProfilePicture = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const mongooseResponse = await userCollection.findOneAndUpdate({ _id: userID }, {
+      userProfile: ""
+    });
+    if (mongooseResponse) {
+      response.status(200).json({
+        success: true,
+        msg: "Profile picture removed successfully",
+
+      });
+    } else {
+      response.send({
+        success: false,
+        msg: "No user found to update",
+      });
+    }
+  } catch (error) {
+   return  response.send({ success: false, err: err });
   }
 }
 
@@ -326,4 +346,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   authenticateUser,
+  removeProfilePicture
 };

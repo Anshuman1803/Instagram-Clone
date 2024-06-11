@@ -37,6 +37,10 @@ const ReduxSlice = createSlice({
       localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
     },
 
+    userUpdateDetails(state, actions){
+
+    },
+
     UserLoggedOut(state) {
       state.instaUserID = '';
       state.instaTOKEN = '';

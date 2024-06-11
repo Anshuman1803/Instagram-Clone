@@ -1661,10 +1661,11 @@
   color: white;
   background-color: #0866ff;
   width: 275px;
-  padding: 0.8em 1em;
+  height: 45px;
   font-weight: 400;
   font-size: 16px;
   border-radius: 10px;
+  position: relative;
 }
 .__EditProfile_saveButton:hover{
   cursor: pointer;
@@ -1707,6 +1708,7 @@
 }
 
 .__UpdatePicturePopupButtons{
+  position: relative;
   border: none;
   outline: none;
   font-size: 16px;
