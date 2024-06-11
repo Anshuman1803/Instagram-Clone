@@ -7,6 +7,7 @@ const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
 dotENV.config();
 const KEY = process.env.secretKey;
+const { uploadOnCloudnary } = require("../service/cloudinary");
 
 // authenticate user
 const authenticateUser = async (request, response) => {
@@ -94,8 +95,8 @@ const userRegister = async (request, response) => {
     userPosts: 0,
     userBio: "",
     userProfile: "",
-    createdAt : Date.now(),
-    savedPost : [],
+    createdAt: Date.now(),
+    savedPost: [],
   });
   if (registredResult) {
     return response.send({ resMsg: "User Registred Successfully" });
@@ -179,7 +180,7 @@ const forgotPassword = async (request, response) => {
       OTP: OTP,
       otpExpireAt: Date.now() + 300000 // 5-minute expiration,
     });
-    
+
     return response.send({
       success: true,
       msg: "Otp Sent successfully",
@@ -194,23 +195,35 @@ const forgotPassword = async (request, response) => {
 
 // Reset the verified user password
 const resetPassword = async (request, response) => {
-  let { userEmail, newPassword } = request.body;
+  try {
+    let { userEmail, newPassword, instaUserID } = request.body;
+    newPassword = bcrypt.hashSync(newPassword, 15);
+    const mongooseResponse = await userCollection.updateOne(
+      {
+        $or: [{ userEmail: userEmail }, { _id: instaUserID }]
+      },
+      {
+        $set: { userPassword: newPassword }
+      }
+    );
 
-  newPassword = bcrypt.hashSync(newPassword, 15);
-  const mongooseResponse = await userCollection.updateOne(
-    { userEmail: userEmail },
-    { userPassword: newPassword }
-  );
-  if (mongooseResponse.acknowledged) {
-    return response.send({
-      success: true,
-      msg: "Password reset successfully",
-    });
-  } else {
-    return response.send({
+    if (mongooseResponse.acknowledged) {
+      return response.send({
+        success: true,
+        msg: "Password update successfully",
+      });
+    } else {
+      return response.send({
+        success: false,
+        msg: "Try Again",
+      });
+    }
+  }
+  catch (error) {
+    response.status(500).json({
       success: false,
-      msg: "Try Again",
-    });
+      msg: `Server failed to load, Try again later - ${error.message}`,
+    })
   }
 };
 
@@ -218,7 +231,7 @@ const resetPassword = async (request, response) => {
 const getUser = async (request, response) => {
   const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-password -__v')
+    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-userPassword -__v')
     if (mongooseResponse) {
       return response.send({
         success: true,
@@ -253,20 +266,86 @@ const getSuggestedUser = async (request, response) => {
       });
     }
   } catch (err) {
-    console.log(err)
     return response.send({
       success: false,
     });
   }
 }
 
+const updateUserDetails = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const updateFields = {};
+    const result = request.file && (await uploadOnCloudnary(request.file.path));
+    request.body.userProfile = result && result?.secure_url;
+
+    for (const key in request.body) {
+      if (
+        request.body[key] !== "null" &&
+        request.body[key] !== "" &&
+        request.body[key] !== " " &&
+        request.body[key]
+      ) {
+        updateFields[key] = request.body[key];
+      }
+    }
+
+    const findUser = await userCollection.findOneAndUpdate(
+      { _id: userID },
+      updateFields,
+      { new: true }
+    ).select("fullName userProfile userName")
+
+    if (findUser) {
+      response.status(200).json({
+        success: true,
+        msg: "User details updated successfully",
+        updatedUser : findUser
+      });
+    } else {
+      response.status(404).json({
+        success: false,
+        msg: "No user found to update",
+      });
+    }
+  } catch (error) {
+    return  response.send({ success: false, err: err });
+  }
+};
+
+// Remove current user profile 
+const removeProfilePicture = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const mongooseResponse = await userCollection.findOneAndUpdate({ _id: userID }, {
+      userProfile: ""
+    });
+    if (mongooseResponse) {
+      response.status(200).json({
+        success: true,
+        msg: "Profile picture removed successfully",
+
+      });
+    } else {
+      response.send({
+        success: false,
+        msg: "No user found to update",
+      });
+    }
+  } catch (error) {
+   return  response.send({ success: false, err: err });
+  }
+}
+
 module.exports = {
   userRegister,
   userSignIn,
+  updateUserDetails,
   getUser,
   getSuggestedUser,
   otpSender,
   forgotPassword,
   resetPassword,
   authenticateUser,
+  removeProfilePicture
 };

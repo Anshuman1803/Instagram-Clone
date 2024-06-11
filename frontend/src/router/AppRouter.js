@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import AuthContainer from "../pages/Auth/AuthContainer";
-import Login from "../pages/Auth/Login";
-import Signup from "../pages/Auth/Signup";
-import ResetPassword from "../pages/Auth/ResetPassword";
-import ForgotPassword from "../pages/Auth/ForgotPassword";
-
-import HomeContainer from "../pages/Home/HomeContainer";
-import Home from "../pages/Home/Home";
-import Search from "../pages/Home/Search";
-import Explore from "../pages/Home/Explore";
-import Messages from "../pages/Home/Messages";
-import Notification from "../pages/Home/Notification";
-import Profile from "../pages/Home/Profile";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import toast from "react-hot-toast";
 import ComponentLoader from "../components/ComponentLoader";
-import Create from "../pages/Home/Create";
-import ProfilePost from "../pages/Home/ProfilePost";
-import ProfileSavedPost from "../pages/Home/ProfileSavedPost";
-import EditProfile from "../pages/Home/EditProfile";
-import { OTP } from "../components/OTP";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import axios from "axios";
+
+// Home Routes elements
+const HomeContainer = lazy(() => import('../pages/Home/HomeContainer'));
+const Home = lazy(() => import('../pages/Home/Home'));
+const Search = lazy(() => import('../pages/Home/Search'));
+const Explore = lazy(() => import('../pages/Home/Explore'));
+const Messages = lazy(() => import('../pages/Home/Messages'));
+const Notification = lazy(() => import('../pages/Home/Notification'));
+const Create = lazy(() => import('../pages/Home/Create'));
+const Profile = lazy(() => import('../pages/Home/Profile'));
+const ProfilePost = lazy(() => import('../pages/Home/ProfilePost'));
+const ProfileSavedPost = lazy(() => import('../pages/Home/ProfileSavedPost'));
+const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
+const EditProfile = lazy(()=> import('../pages/Home/setting/EditProfile'));
+const UpdatePassword = lazy(()=> import('../pages/Home/setting/UpdatePassword'));
+const Privacy = lazy(()=> import('../pages/Home/setting/Privacy'));
+
+// Auth Routes elements
+const AuthContainer = lazy(() => import("../pages/Auth/AuthContainer"));
+const Login = lazy(() => import("../pages/Auth/Login"));
+const Signup = lazy(() => import("../pages/Auth/Signup"));
+const ResetPassword = lazy(() => import("../pages/Auth/ResetPassword"))
+const ForgotPassword = lazy(() => import("../pages/Auth/ForgotPassword"))
+const OTP = lazy(() => import("../components/OTP").then(module => ({ default: module.OTP })));
+
+
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
   const { instaTOKEN } = useSelector((state) => state.Instagram);
   const navigateTO = useNavigate();
+
   useEffect(() => {
     setLoader(true);
     if (instaTOKEN) {
@@ -53,43 +62,63 @@ function AppRouter() {
       setValidate(false);
       setLoader(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaTOKEN]);
+
   return (
     <>
-      {Loader ? (
-        <ComponentLoader type="initialLoader" />
-      ) : (
-        <Routes>
-          {validate ? (
-            <Route path="/" element={<HomeContainer />}>
-              <Route path="/home" element={<Home />} index />
-              <Route path="/search" element={<Search />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/notification" element={<Notification />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/:instaUserID" element={<Profile />}>
-                <Route path="/:instaUserID/posts" element={<ProfilePost />} index />
-                <Route path="/:instaUserID/saved" element={<ProfileSavedPost />} />
-              </Route>
-              <Route path='/accounts/edit' element={<EditProfile />} />
-              <Route path="/*" element={<Home />} />
-            </Route>
-          ) : (
-            <Route path="/" element={<AuthContainer />}>
-              <Route path="/user/auth/signin" element={<Login />} index />
-              <Route path="/user/auth/register" element={<Signup />} />
-              <Route path="/user/auth/OTP/:Type" element={<OTP />} />
-              <Route path="/user/auth/password/forgot-password" element={<ForgotPassword />} />
-              <Route path="/user/auth/password/reset-password" element={<ResetPassword />} />
-              <Route path="/*" element={<Login />} />
-            </Route>
-          )}
-        </Routes>
-      )}
+
+      {
+        Loader ? <ComponentLoader /> : <>
+          {
+            validate ? <HomeRoute /> : <AuthRoute />
+          }
+        </>
+      }
     </>
   );
+}
+
+
+const HomeRoute = () => {
+  return <Routes>
+    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <HomeContainer /> </Suspense>} >
+      <Route path="/home" element={<Suspense fallback={<ComponentLoader />}> <Home /> </Suspense>} />
+      <Route path="/search" element={<Suspense fallback={<ComponentLoader />}> <Search /> </Suspense>} />
+      <Route path="/explore" element={<Suspense fallback={<ComponentLoader />}> <Explore /> </Suspense>} />
+      <Route path="/messages" element={<Suspense fallback={<ComponentLoader />}> <Messages /> </Suspense>} />
+      <Route path="/notification" element={<Suspense fallback={<ComponentLoader />}> <Notification /> </Suspense>} />
+      <Route path="/create" element={<Suspense fallback={<ComponentLoader />}> <Create /> </Suspense>} />
+      <Route path="/:instaUserID" element={<Suspense fallback={<ComponentLoader />}> <Profile /> </Suspense>}>
+        <Route path="/:instaUserID/posts" element={<Suspense fallback={<ComponentLoader />}> <ProfilePost /> </Suspense>} index />
+        <Route path="/:instaUserID/saved" element={<Suspense fallback={<ComponentLoader />}> <ProfileSavedPost /> </Suspense>} />
+      </Route>
+
+      <Route path="/Accout/setting" element={<Suspense fallback={<ComponentLoader />}> <SettingContainer /> </Suspense>}>
+
+      <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<ComponentLoader />}> <EditProfile /> </Suspense>} />
+      <Route path="/Accout/setting/update-password" element={<Suspense fallback={<ComponentLoader />}> <UpdatePassword /> </Suspense>} />
+      <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<ComponentLoader />}> <Privacy /> </Suspense>} />
+      
+      </Route>
+
+    </Route>
+  </Routes>
+}
+
+
+
+const AuthRoute = () => {
+  return <Routes>
+    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <AuthContainer /> </Suspense>} >
+      <Route path="/user/auth/signin" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
+      <Route path="/user/auth/register" element={<Suspense fallback={<ComponentLoader />}> <Signup /> </Suspense>} />
+      <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<ComponentLoader />}> <OTP /> </Suspense>} />
+      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
+      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
+      <Route path="/*" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
+    </Route>
+  </Routes>
 }
 
 export default AppRouter;

@@ -62,7 +62,7 @@ export function OTP() {
 
       if (response.data.success) {
         if (Type === "Account-verification-forgot-password") {
-          navigate("/user/auth/password/reset-password");
+          navigate("/user/auth/password/reset-password", { state: {userEmail : state?.userEmail} });
           toast.success("Now, Reset your password");
         } else {
           const registerResponse = await axios.post(

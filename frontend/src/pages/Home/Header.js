@@ -1,25 +1,45 @@
-import React from 'react'
-// import { NavLink } from 'react-router-dom'
+
 import Logo from '../../Assets/Logo.png'
-// import Search from '../../Assets/search.svg'
-// import Notification from '../../Assets/heart.png'
-// import create from '../../Assets/create.png'
-
+import Bars from '../../Assets/bars.png'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
+import { UserLoggedOut } from '../../Redux/ReduxSlice';
+import toast from 'react-hot-toast';
+import MorePopup from '../../components/MorePopup';
 export default function Header() {
-    return (
-        <header className='__nav_Header'>
-            <img className='__nav_Logo' src={Logo} alt='insta logo' />
-            {/* <img className='__create_Logo' src={create} alt='create logo' /> */}
+    const navigateTO = useNavigate()
+    const dispatch = useDispatch()
+    const { instaUserID, instaUserName } = useSelector((state) => state.Instagram);
+    const [popup, setPopup] = useState(false)
 
-            {/* <div className="__nav_Header_Right">
-                <div className="search">
-                    <img src={Search} alt='' />
-                    <input className='__nav_search' type="text" placeholder='search' />
-                </div>
-                <NavLink className='' to='/notification'>
-                    <img className='' src={Notification} alt='' />
-                </NavLink>
-            </div> */}
+    const handleHidePopup = (e) => {
+        e.stopPropagation();
+        if(popup){
+
+            setPopup(false)
+        }
+    }
+    const handleTogglePopup = () => {
+        setPopup(!popup)
+    }
+
+    const handleLogout = () => {
+        dispatch(UserLoggedOut())
+        toast.success(`${instaUserName} Logged out !!`)
+        setTimeout(() => {
+            navigateTO('/user/auth/signin')
+        }, 1000);
+    }
+    return (
+        <header className='__nav_Header' onClick={handleHidePopup}>
+            <img className='__nav_Logo' src={Logo} alt='insta logo' />
+            {
+                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass="__SecondaryPopupContainer" />
+            }
+
+            <button type="button" onClick={handleTogglePopup} className='__navbar_moreButton __secondaryMoreButton'><img className='moreIcon' src={Bars} alt='MoreButtonICON' /> <span className='__navTitle'>More</span></button>
+
         </header>
     )
 }

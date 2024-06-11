@@ -62,6 +62,7 @@ function Login() {
 
           if (response.data.success) {
             setBtnLoader(false);
+            navigateTO("/")
             toast.success("User logged in successfully");
             dispatch(
               UserLoggedIn({
