@@ -2,19 +2,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import defaultPicture from '../../../Assets/DefaultProfile.png'
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut } from '../../../Redux/ReduxSlice';
+import { UserLoggedOut, userUpdateDetails } from '../../../Redux/ReduxSlice';
 import axios from "axios"
 import toast from "react-hot-toast"
 import ComponentLoader from "../../../components/ComponentLoader"
 import ButtonLoader from "../../../components/ButtonLoader"
 function EditProfile() {
   const imageInputRef = useRef();
-  const { instaUserID, instaUserName, instaTOKEN } = useSelector((state) => (state.Instagram));
+  const { instaUserID, instaTOKEN } = useSelector((state) => (state.Instagram));
   const [ShowPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch()
   const navigateTO = useNavigate();
   const [Loading, setLoading] = useState(false);
-    const [buttonLoading, setButtonLoading] = useState(false)
+  const [buttonLoading, setButtonLoading] = useState(false)
   const [userDetails, setUserDetails] = useState({
     userName: "",
     fullName: "",
@@ -77,6 +77,7 @@ function EditProfile() {
       }
     })
   }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(loaduserDetails, [])
 
@@ -95,6 +96,11 @@ function EditProfile() {
     axios.patch(`http://localhost:5000/api/v1/auth/user/update-user-details/${instaUserID}`, formData, { headers }).then((response) => {
       setButtonLoading(false)
       if (response.data.success) {
+        dispatch(userUpdateDetails({
+          instaFullName: response.data.updatedUser.fullName,
+          instaProfle: response.data.updatedUser.userProfile,
+          instaUserName: response.data.updatedUser.userName,
+        }))
         toast.success(`${response.data.msg}`);
         loaduserDetails()
       } else {
@@ -124,19 +130,20 @@ function EditProfile() {
               <img src={userDetails?.profilePicture ?? defaultPicture} alt='Username profile' className='__EditPrfoile_userProfile' onError={(e) => { e.target.src = `${defaultPicture}`; e.onError = null; }} />
             </div>
             <div className='__EditProfile_buttonBox'>
-              <p className='__editProfile__userName'>{instaUserName}</p>
+              <p className='__editProfile__userName'>{userDetails.userName}</p>
               <button type="button" className='__changeProfilePopupButton' onClick={handleTogglePopup}>Change profile photo</button>
             </div>
           </div>
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='userName' className='__EditProfile_formLabel'>User name</label>
-            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' autoComplete='off' />
+            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' autoComplete='off' maxLength={15}/>
           </div>
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='fullName' className='__EditProfile_formLabel'>Full Name</label>
-            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' autoComplete='off' />
+            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' autoComplete='off'  maxLength={20}
+              minLength={3} />
           </div>
 
           <div className='__EditProfile__formRow'>
@@ -151,15 +158,15 @@ function EditProfile() {
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='userBio' className='__EditProfile_formLabel'>userBio</label>
-            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className='__EditProfile_formTextArea' placeholder='userBio'></textarea>
+            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className='__EditProfile_formTextArea' placeholder='userBio' maxLength={150} minLength={4}></textarea>
           </div>
 
           <div className='__EditProfile__formRow __EditProfile__buttonContainer'>
             <button type='submit' className='__EditProfile_saveButton' onClick={handleSaveChanges}>
               {
-                buttonLoading ? <ButtonLoader/> : ' Save Changes'
+                buttonLoading ? <ButtonLoader /> : ' Save Changes'
               }
-              </button>
+            </button>
           </div>
         </>
       }

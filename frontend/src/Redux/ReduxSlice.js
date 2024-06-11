@@ -37,8 +37,13 @@ const ReduxSlice = createSlice({
       localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
     },
 
-    userUpdateDetails(state, actions){
-
+    userUpdateDetails(state, action) {
+      state.instaUserName = action.payload.instaUserName ?? state.instaUserName;
+      state.instaProfle = action.payload.instaProfle ?? state.instaProfle;
+      state.instaFullName = action.payload.instaFullName ?? state.instaFullName;
+      localStorage.setItem("instaUserName", state.instaUserName);
+      localStorage.setItem("instaProfle", state.instaProfle);
+      localStorage.setItem("instaFullName", state.instaFullName);
     },
 
     UserLoggedOut(state) {
@@ -58,5 +63,5 @@ const ReduxSlice = createSlice({
 
   },
 });
-export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost } = ReduxSlice.actions;
+export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost, userUpdateDetails } = ReduxSlice.actions;
 export default ReduxSlice.reducer;

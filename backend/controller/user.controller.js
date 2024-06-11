@@ -294,12 +294,13 @@ const updateUserDetails = async (request, response) => {
       { _id: userID },
       updateFields,
       { new: true }
-    );
+    ).select("fullName userProfile userName")
 
     if (findUser) {
       response.status(200).json({
         success: true,
         msg: "User details updated successfully",
+        updatedUser : findUser
       });
     } else {
       response.status(404).json({
