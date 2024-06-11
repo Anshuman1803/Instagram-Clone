@@ -9,7 +9,7 @@ import { UserLoggedOut } from '../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import PostLoader from "../../components/PostLoader";
-// import EditProfile from "./EditProfile";
+
 export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
@@ -81,6 +81,7 @@ export default function Profile() {
                       </button>
                     }
                   </h1>
+
                   <div className="userBox__userActivityState">
                     <span className="userBox__activity userBox__postActivity">
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
@@ -101,6 +102,7 @@ export default function Profile() {
                       following
                     </span>
                   </div>
+
                   <p className="userBox__fullName">{currentUser?.fullName}</p>
 
                   <p className="userBox__userBIO">

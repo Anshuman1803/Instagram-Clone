@@ -218,6 +218,56 @@
 
 /* Button Loader */
 
+/*! Lazy Loader */
+.__lazyLoader {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(./Assets/instaLOGOLoader.png);
+  background-repeat: no-repeat;
+  background-size: 80px;
+  background-position: top right;
+}
+
+.__lazyLoader_title {
+  font-weight: 700;
+  font-size: 32px;
+  -webkit-text-stroke: 2px #6228d7;
+  color: transparent;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+}
+
+.__lazyLoader_title::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  white-space: nowrap;
+  color: #ee2a7b;
+  -webkit-text-stroke: 0px transparent;
+  overflow: hidden;
+  transition: width 500ms ease-in-out;
+  animation: text-fill 3s ease-in-out alternate infinite;
+}
+
+@keyframes text-fill {
+  100% {
+    width: 100%;
+  }
+}
+
+/*! lazy Loader */
+
 /* ! This block holds the design of login, signup, forgot and reset password section */
 .userAuth__container {
   background-color: rgb(252, 251, 251);
@@ -1146,6 +1196,7 @@
 .infoContainer__userBox {
   width: calc(100% - 230px);
   min-height: 275px;
+
 }
 
 .userBox__userName {
@@ -1199,6 +1250,7 @@
   font-size: 16px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.812);
+  margin-top: 10px;
 }
 
 .dashboard__currentUser__PostsContainer {
@@ -1650,12 +1702,13 @@
   font-weight: 500;
 }
 
-.__EditProfile__buttonContainer{
+.__EditProfile__buttonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.__EditProfile_saveButton{
+
+.__EditProfile_saveButton {
   border: none;
   outline: none;
   color: white;
@@ -1667,11 +1720,13 @@
   border-radius: 10px;
   position: relative;
 }
-.__EditProfile_saveButton:hover{
+
+.__EditProfile_saveButton:hover {
   cursor: pointer;
   background-color: #1f57cf;
 }
-.__EditProfile__UpdatePicturePopup_Container{
+
+.__EditProfile__UpdatePicturePopup_Container {
   position: absolute;
   top: 0;
   left: 0;
@@ -1686,20 +1741,22 @@
   justify-content: center;
 }
 
-.__Setting__UpdatePicturePopup{
+.__Setting__UpdatePicturePopup {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   width: 425px;
   background-color: white;
   border-radius: 10px;
 }
-.__popupUserProfile{
+
+.__popupUserProfile {
   display: block;
   border-radius: 50%;
   width: 80px;
   height: 80px;
   margin: 20px auto;
 }
-.__UpdatePicturePopup_Heading{
+
+.__UpdatePicturePopup_Heading {
   width: 100%;
   text-align: center;
   font-weight: 400;
@@ -1707,7 +1764,7 @@
   margin-bottom: 2em;
 }
 
-.__UpdatePicturePopupButtons{
+.__UpdatePicturePopupButtons {
   position: relative;
   border: none;
   outline: none;
@@ -1719,26 +1776,30 @@
   background-color: transparent;
   border-top: 1px solid rgba(128, 128, 128, 0.479);
 }
-.__UpdatePicturePopupButtons:last-child{
+
+.__UpdatePicturePopupButtons:last-child {
   margin-bottom: 0px;
   border-bottom: none;
 }
-.__UpdatePictureButton{
+
+.__UpdatePictureButton {
   font-weight: 600;
   color: #0095F6;
   font-size: 18px;
 }
-.__RemoveCurrentPictureButton{
+
+.__RemoveCurrentPictureButton {
   font-size: 17px;
   font-weight: 600;
   color: #e5532d;
 }
-.__UpdatePicturePopupButtons:hover{
+
+.__UpdatePicturePopupButtons:hover {
   cursor: pointer;
-background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-.__Setting__UpdatePasswordContainer{
+.__Setting__UpdatePasswordContainer {
   box-shadow: none;
   border: none;
   height: fit-content;
@@ -1890,6 +1951,7 @@ background-color: rgba(0, 0, 0, 0.05);
   .HomeSection__homePostCard {
     width: 98%;
   }
+
   .__EditProfile_form {
     width: 100%;
     padding: 1em 0em;
@@ -1913,6 +1975,7 @@ background-color: rgba(0, 0, 0, 0.05);
   }
 
   .userBox__userBIO {
+    margin: 0;
     width: 100%;
     padding-left: 1em;
     position: absolute;
@@ -1921,6 +1984,7 @@ background-color: rgba(0, 0, 0, 0.05);
     font-size: 20px;
     font-weight: 400;
     padding: 0 1.2em;
+    word-wrap: break-word;
   }
 
   .infoContainer__userBox {
@@ -1958,16 +2022,17 @@ background-color: rgba(0, 0, 0, 0.05);
   .createPost__selectImageICON {
     margin-left: 0em;
   }
+
   .__settingSection__nav {
     padding: 0em 0.5em;
     gap: 10px;
   }
-  
+
   .__settingSection__navItems {
     padding: 0.7em 1.2em;
     font-size: 14px;
   }
-  
+
 }
 
 @media screen and (max-width: 550px) {
@@ -2047,6 +2112,11 @@ background-color: rgba(0, 0, 0, 0.05);
   .otpVerifier__Form {
     width: 95vw;
   }
+
+  .__lazyLoader_title {
+    font-size: 28px;
+    letter-spacing: normal;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -2084,7 +2154,11 @@ background-color: rgba(0, 0, 0, 0.05);
   }
 
   .userBox__userBIO {
-    top: 47%;
+    width: 100%;
+    padding-left: 0.9em;
+    top: 50%;
+    font-size: 16px;
+    line-height: 25px;
   }
 
   .userBox__activity {
@@ -2109,7 +2183,8 @@ background-color: rgba(0, 0, 0, 0.05);
   .OTP__buttons {
     width: 95%;
   }
-  .__Setting__UpdatePicturePopup{
+
+  .__Setting__UpdatePicturePopup {
     width: 95%;
   }
 }
@@ -2123,5 +2198,4 @@ background-color: rgba(0, 0, 0, 0.05);
     width: 40px;
     height: 40px;
   }
-
 }
