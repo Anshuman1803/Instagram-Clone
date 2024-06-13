@@ -47,6 +47,13 @@ const userModel = mongoose.Schema({
   gender: {
     type: String,
   },
+  website: {
+    type: String,
+  },
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
 });
 const userCollection = mongoose.model("users", userModel);
 

@@ -930,6 +930,7 @@
   cursor: text;
 }
 
+
 .currentUserBox__userSettingICON {
   font-size: 22px;
   color: black;
@@ -1262,6 +1263,20 @@
   font-weight: 400;
   color: rgba(0, 0, 0, 0.812);
   margin-top: 10px;
+}
+
+.userBox__websiteLINK {
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: black;
+}
+.userBox__websiteLINK:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .dashboard__currentUser__PostsContainer {
@@ -1689,7 +1704,6 @@
   padding: 0em 1em;
   font-weight: 500;
   font-size: 16px;
-  text-transform: capitalize;
 }
 
 .__EditProfile_formTextArea {
@@ -1988,7 +2002,6 @@
   .userBox__userBIO {
     margin: 0;
     width: 100%;
-    padding-left: 1em;
     position: absolute;
     top: 55%;
     left: 0;
@@ -2209,7 +2222,8 @@
     width: 40px;
     height: 40px;
   }
-  .userBox__editProfileButton{
+
+  .userBox__editProfileButton {
     margin-left: 0;
   }
 }

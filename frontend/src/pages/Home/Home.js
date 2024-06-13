@@ -105,7 +105,7 @@ export default function Home() {
               </span>
             </p>
           </div>
-          <RiUserSettingsFill className="currentUserBox__userSettingICON" />
+          <RiUserSettingsFill className="currentUserBox__userSettingICON" onClick={()=> navigateTO("/Accout/setting/edit-profile")} />
         </div>
 
         <div className="homeSection__suggestedUserContainer">

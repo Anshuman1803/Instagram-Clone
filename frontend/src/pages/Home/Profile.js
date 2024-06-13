@@ -3,6 +3,7 @@ import defaultProfile from "../../Assets/DefaultProfile.png";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../Assets/PostICON.png";
 import savedICON from "../../Assets/savedICON.png";
+import { PiLinkSimple } from "react-icons/pi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
@@ -76,14 +77,14 @@ export default function Profile() {
                   <h1 className="userBox__userName">
                     <span style={{ marginRight: "10px" }}> {currentUser?.userName}</span>
                     {
-                      userID.instaUserID === instaUserID ?  <button className="userBox__editProfileButton" onClick={handleEdit} >
-                      Edit profile
-                    </button> :<>
-                    
-                    <button className="userBox__editProfileButton userBox__followButton"  >
-                        Follow
-                      </button>
-                    </>
+                      userID.instaUserID === instaUserID ? <button className="userBox__editProfileButton" onClick={handleEdit} >
+                        Edit profile
+                      </button> : <>
+
+                        <button className="userBox__editProfileButton userBox__followButton"  >
+                          Follow
+                        </button>
+                      </>
                     }
                   </h1>
 
@@ -112,6 +113,9 @@ export default function Profile() {
 
                   <p className="userBox__userBIO">
                     {currentUser?.userBio ? `${currentUser.userBio}` : ""}
+                    {
+                      currentUser?.website && <a className="userBox__websiteLINK" target="_blank" rel="noreferrer" href={currentUser?.website}> <PiLinkSimple className="userBox__websitelinkICON"/> { currentUser?.website.split("/")[2]}</a>
+                    }
                   </p>
                 </div>
 
