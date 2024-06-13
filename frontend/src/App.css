@@ -1220,9 +1220,20 @@
   margin-left: 20px;
 }
 
+.userBox__followButton {
+  background-color: #0095F6;
+  color: white;
+  font-weight: 600;
+}
+
 .userBox__editProfileButton:hover {
   cursor: pointer;
   background-color: rgba(119, 136, 153, 0.5);
+}
+
+.userBox__followButton:hover {
+  cursor: pointer;
+  background-color: #0866ff;
 }
 
 .userBox__userActivityState {
@@ -2197,5 +2208,8 @@
   .OTPForm__input {
     width: 40px;
     height: 40px;
+  }
+  .userBox__editProfileButton{
+    margin-left: 0;
   }
 }

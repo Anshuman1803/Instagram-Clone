@@ -76,9 +76,14 @@ export default function Profile() {
                   <h1 className="userBox__userName">
                     <span style={{ marginRight: "10px" }}> {currentUser?.userName}</span>
                     {
-                      userID.instaUserID === instaUserID && <button className="userBox__editProfileButton" onClick={handleEdit} >
-                        Edit profile
+                      userID.instaUserID === instaUserID ?  <button className="userBox__editProfileButton" onClick={handleEdit} >
+                      Edit profile
+                    </button> :<>
+                    
+                    <button className="userBox__editProfileButton userBox__followButton"  >
+                        Follow
                       </button>
+                    </>
                     }
                   </h1>
 
