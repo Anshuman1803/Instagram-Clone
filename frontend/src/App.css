@@ -802,7 +802,6 @@
   margin: 4em auto 0px auto;
   width: 95%;
 }
-
 .OTPForm__input {
   outline: none;
   width: 60px;
@@ -2033,6 +2032,11 @@
   cursor: pointer;
   transform: scale(0.97);
 }
+.__DeleteAccountPopup__OTPContainer{
+  width: 100%;
+  margin: 20px auto 40px auto;
+}
+
 
 /*! Responsive Styles */
 

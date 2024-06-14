@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import ButtonLoader from "../../../components/ButtonLoader"
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ function Privacy() {
 export default Privacy
 
 
+//  In this user can confirm their current password
 function UserDeleteComponent() {
   const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
   const passRef = useRef()
@@ -29,7 +30,7 @@ function UserDeleteComponent() {
   const [togglePass, setTogglePass] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [toggleConfirmPass, setTogglConfirmPass] = useState(false);
-  const [togglePopup, setTogglePopup] = useState(false);
+  const [togglePopup, setTogglePopup] = useState(true);
   const [userDetails, setUserDetails] = useState({
     userPassword: "",
     confirmPassword: ""
@@ -42,7 +43,7 @@ function UserDeleteComponent() {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value.trim() });
   }
 
-  const handleDeleteAccount = (e) => {
+  const handleClickSendOTP = (e) => {
     e.preventDefault();
     setButtonLoading(true)
     if (userDetails.userPassword !== userDetails.confirmPassword) {
@@ -57,9 +58,17 @@ function UserDeleteComponent() {
         if (response.data.success) {
           toast.success(response.data.msg)
           setButtonLoading(false);
-          setTogglePopup(true)
+          setTogglePopup(true);
+          setUserDetails({
+            userPassword: "",
+            confirmPassword: ""
+          })
         } else {
-          toast.error(response.data.msg)
+          toast.error(response.data.msg);
+          setUserDetails({
+            userPassword: "",
+            confirmPassword: ""
+          })
           setButtonLoading(false);
         }
 
@@ -75,6 +84,7 @@ function UserDeleteComponent() {
       })
     }
   }
+
   return <>
     <h1 className='__DeleteAccountBox__heading'>Delete Account</h1>
 
@@ -105,9 +115,9 @@ function UserDeleteComponent() {
       </div>
 
       <div className='__DeleteForm__buttonContainer'>
-        <button type="button" onClick={handleDeleteAccount} className={`__Deleteform__deleteButton ${(userDetails.userPassword.length === 0 || userDetails.confirmPassword.length === 0) && 'Unactive'} ${buttonLoading && 'Unactive'}`}>
+        <button type="button" onClick={handleClickSendOTP} className={`__Deleteform__deleteButton ${(userDetails.userPassword.length === 0 || userDetails.confirmPassword.length === 0) && 'Unactive'} ${buttonLoading && 'Unactive'}`}>
           {
-            buttonLoading ? <ButtonLoader /> : 'Delete'
+            buttonLoading ? <ButtonLoader /> : 'Send OTP'
           }
         </button>
       </div>
@@ -115,14 +125,45 @@ function UserDeleteComponent() {
     </form>
 
     {
-      togglePopup && <DeleteAccoutPopup CbTogglePopup={setTogglePopup} propsUserDetails={userDetails} />
+      togglePopup && <DeleteAccoutPopup CbTogglePopup={setTogglePopup} />
     }
 
   </>
 }
 
-function DeleteAccoutPopup({ CbTogglePopup, propsUserDetails }) {
-  const [buttonLoading] = useState(false)
+//  After confirming their password user get OTP and here they will verify their OTP and permanently delete their accounts.
+function DeleteAccoutPopup({ CbTogglePopup }) {
+  const firstInputRef = useRef();
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [buttonLoading] = useState(false);
+
+  useEffect(() => {
+    firstInputRef.current.focus();
+  }, []);
+
+  const handleOTPChange = (e, index) => {
+    const value = e.target.value;
+    if (isNaN(value) || value.includes(" ")) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && e.target.nextSibling) {
+      e.target.nextSibling.focus();
+    }
+  };
+
+  const handleOTPkeydown = (e, index) => {
+    if (e.keyCode === 8 && !otp[index] && index > 0) {
+      e.preventDefault();
+      const newOtp = [...otp];
+      newOtp[index - 1] = "";
+      setOtp(newOtp);
+      e.target.previousSibling.focus();
+    }
+  };
+
   const handleDeleteAccount = (e) => {
     e.preventDefault();
 
@@ -140,15 +181,32 @@ function DeleteAccoutPopup({ CbTogglePopup, propsUserDetails }) {
         <li className='__DeleteAccountPopup__listITEM'>- messages</li>
         <li className='__DeleteAccountPopup__listITEM'>- Posts</li>
       </ul>
+      <div className='OTPForm__inputboxContainer __DeleteAccountPopup__OTPContainer'>
+        {otp.map((data, index) => (
+          <input
+            key={index}
+            id={index}
+            type="text"
+            maxLength={1}
+            className="OTPForm__input"
+            value={data}
+            onChange={(e) => handleOTPChange(e, index)}
+            onKeyDown={(e) => handleOTPkeydown(e, index)}
+            onFocus={(e) => e.target.select()}
+            ref={index === 0 ? firstInputRef : null}
+            readOnly={buttonLoading}
+          />
+        ))}
+      </div>
       <div className='__DeleteAccoutPopup_ButtonContainer'>
         <button type='button' onClick={() => CbTogglePopup(false)} className={`__DeleteAccoutPopup_Buttons ${buttonLoading && 'Unactive'}`}>Cancle</button>
         <button type='button' onClick={handleDeleteAccount} className={`__DeleteAccoutPopup_Buttons ${buttonLoading && 'Unactive'}`}>
-
           {
             buttonLoading ? <ButtonLoader /> : ' Delete Account'
           }
         </button>
       </div>
+
     </div>
   </section>
 
