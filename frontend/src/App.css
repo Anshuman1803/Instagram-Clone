@@ -10,6 +10,7 @@
 
 .Unactive {
   pointer-events: none;
+  opacity: 0.8;
 
 }
 
@@ -1274,7 +1275,8 @@
   gap: 2px;
   color: black;
 }
-.userBox__websiteLINK:hover{
+
+.userBox__websiteLINK:hover {
   cursor: pointer;
   text-decoration: underline;
 }
@@ -1562,7 +1564,8 @@
 
 /* ! This block holds the design of DASHBOARD Create Post SECTION */
 
-/* Setting page container */
+
+/* ! This block holds the design of Setting PAGE */
 .__settingSection__mainContainer {
   width: 100%;
   min-height: 100%;
@@ -1830,6 +1833,102 @@
   height: fit-content;
 }
 
+.__Setting__PrivacyContainer {
+  width: 100%;
+  min-height: calc(95vh - 110px);
+}
+.__PrivacyContainer__DeleteAccoutBox{
+  border: 2px solid red;
+  margin-bottom: 25px;
+}
+.__DeleteAccountBox__heading {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.__DeleteAccountBox_Deleteform {
+  padding: 0em 2em;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 5px auto;
+}
+
+.__Deleteform_Row {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  flex: 450px;
+  position: relative;
+}
+.__DeleteForm__ShowPassbtn{
+  display: block;
+ border: none;
+ outline: none;
+  position: absolute;
+  right: 2px;
+  height: 35px;
+  bottom: 12.5px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: white;
+  width: 90px;
+}
+.__DeleteForm__ShowPassbtn:hover{
+  cursor: pointer;
+  color: #737373;
+}
+.__Deleteform__label {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.__DeleteformRow__inputBox {
+  margin-top: 10px;
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 40px;
+  border-radius: 2px;
+  border: 1px solid rgba(128, 128, 128, 0.394);
+  padding: 0em 1em;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.__DeleteForm__buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 100%;
+}
+
+.__Deleteform__deleteButton {
+  border: none;
+  outline: none;
+  width: 225px;
+  padding: 0.9em 1em;
+  background-color: #d43f3a;
+  font-size: 14px;
+  color: white;
+  border-radius: 3px;
+}
+
+.__Deleteform__deleteButton:hover {
+  cursor: pointer;
+  background-color: #d9534f;
+}
+
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
@@ -1980,6 +2079,9 @@
   .__EditProfile_form {
     width: 100%;
     padding: 1em 0em;
+  }
+  .__DeleteAccountBox_Deleteform{
+    padding: 0em;
   }
 }
 
