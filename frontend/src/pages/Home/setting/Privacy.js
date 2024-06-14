@@ -30,7 +30,7 @@ function UserDeleteComponent() {
   const [togglePass, setTogglePass] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [toggleConfirmPass, setTogglConfirmPass] = useState(false);
-  const [togglePopup, setTogglePopup] = useState(true);
+  const [togglePopup, setTogglePopup] = useState(false);
   const [userDetails, setUserDetails] = useState({
     userPassword: "",
     confirmPassword: ""
@@ -133,9 +133,16 @@ function UserDeleteComponent() {
 
 //  After confirming their password user get OTP and here they will verify their OTP and permanently delete their accounts.
 function DeleteAccoutPopup({ CbTogglePopup }) {
+  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
+  const navigateTO = useNavigate();
+  const dispatch = useDispatch();
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`,
+  };
+
   const firstInputRef = useRef();
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [buttonLoading] = useState(false);
+  const [buttonLoading, setbuttonLoading] = useState(false);
 
   useEffect(() => {
     firstInputRef.current.focus();
@@ -166,8 +173,24 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
 
   const handleDeleteAccount = (e) => {
     e.preventDefault();
+    setbuttonLoading(true);
+    axios.delete("/user/delete-user-account", {
+      OTP: Number(otp.join("")),
+      userID: instaUserID
+    }, { headers }).then((response) => {
 
+    }).catch((error) => {
+      if (error.response && !error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+      setbuttonLoading(false);
+    })
   }
+
   return <section className='__DeleteAccoutPopupContainer'>
 
     <div className='__DeleteAccoutPopup'>

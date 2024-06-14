@@ -400,6 +400,11 @@ const verifyUserPassword = async (request, response) => {
   }
 }
 
+// delete user accounts and their related datas
+const deleteUserAccount = async(request, response)=>{
+
+}
+
 module.exports = {
   userRegister,
   userSignIn,
@@ -411,5 +416,6 @@ module.exports = {
   resetPassword,
   authenticateUser,
   removeProfilePicture,
-  verifyUserPassword
+  verifyUserPassword,
+  deleteUserAccount
 };
