@@ -110,6 +110,7 @@ export function OTP() {
             <input
               key={index}
               type="text"
+              id={index}
               maxLength={1}
               className="OTPForm__input"
               value={data}

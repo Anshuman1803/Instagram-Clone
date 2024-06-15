@@ -20,7 +20,8 @@ function EditProfile() {
     fullName: "",
     gender: "",
     userBio: "",
-    profilePicture: ""
+    profilePicture: "",
+    website : "",
   });
   const [selectedImgPath, setSelectedImg] = useState(null)
   const headers = {
@@ -61,6 +62,7 @@ function EditProfile() {
           gender: response.data.user.gender ?? "",
           userBio: response.data.user.userBio ?? "N/A",
           profilePicture: response.data.user.userProfile,
+          website: response.data.user.website ?? "N/A",
         })
       } else {
         setLoading(false);
@@ -91,8 +93,8 @@ function EditProfile() {
     formData.append("fullName", userDetails?.fullName);
     formData.append("gender", userDetails?.gender);
     formData.append("userBio", userDetails?.userBio);
+    formData.append("website", userDetails?.website);
     formData.append("profilePicture", selectedImgPath);
-
     axios.patch(`http://localhost:5000/api/v1/auth/user/update-user-details/${instaUserID}`, formData, { headers }).then((response) => {
       setButtonLoading(false)
       if (response.data.success) {
@@ -137,28 +139,32 @@ function EditProfile() {
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='userName' className='__EditProfile_formLabel'>User name</label>
-            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' autoComplete='off' maxLength={15}/>
+            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className='__EditProfile_formInputItem' autoComplete='off' maxLength={15} />
           </div>
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='fullName' className='__EditProfile_formLabel'>Full Name</label>
-            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' autoComplete='off'  maxLength={20}
+            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className='__EditProfile_formInputItem' autoComplete='off' maxLength={20}  autoCapitalize="on"
               minLength={3} />
           </div>
 
           <div className='__EditProfile__formRow'>
             <label htmlFor='gender' className='__EditProfile_formLabel'>Gender</label>
-            <select id='gender' name='gender' onChange={handleInputOnChange} value={userDetails?.gender} className='__EditProfile_formInputItem' autoComplete='off' >
+            <select  autoCapitalize="on" id='gender' name='gender' onChange={handleInputOnChange} value={userDetails?.gender} className='__EditProfile_formInputItem' autoComplete='off' >
               <option value="">select your gender</option>
               <option className='__EditProfile__selectOPTION' value="male">male</option>
               <option className='__EditProfile__selectOPTION' value="female">female</option>
               <option className='__EditProfile__selectOPTION' value="other">other</option>
             </select>
           </div>
+          <div className='__EditProfile__formRow'>
+            <label htmlFor='website' className='__EditProfile_formLabel'>website</label>
+            <input type="text" id='website' onChange={handleInputOnChange} value={userDetails?.website} name='website' placeholder='Your Website' className='__EditProfile_formInputItem' autoComplete='off' />
+          </div>
 
           <div className='__EditProfile__formRow'>
-            <label htmlFor='userBio' className='__EditProfile_formLabel'>userBio</label>
-            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className='__EditProfile_formTextArea' placeholder='userBio' maxLength={150} minLength={4}></textarea>
+            <label htmlFor='userBio' className='__EditProfile_formLabel'>Bio</label>
+            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className='__EditProfile_formTextArea' placeholder='userBio'  autoCapitalize="on" maxLength={150} minLength={4}></textarea>
           </div>
 
           <div className='__EditProfile__formRow __EditProfile__buttonContainer'>

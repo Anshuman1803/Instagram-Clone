@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import ComponentLoader from "../components/ComponentLoader";
+import LazyLoader from "../components/LazyLoader";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -69,7 +69,7 @@ function AppRouter() {
     <>
 
       {
-        Loader ? <ComponentLoader /> : <>
+        Loader ? <LazyLoader /> : <>
           {
             validate ? <HomeRoute /> : <AuthRoute />
           }
@@ -82,23 +82,23 @@ function AppRouter() {
 
 const HomeRoute = () => {
   return <Routes>
-    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <HomeContainer /> </Suspense>} >
-      <Route path="/home" element={<Suspense fallback={<ComponentLoader />}> <Home /> </Suspense>} />
-      <Route path="/search" element={<Suspense fallback={<ComponentLoader />}> <Search /> </Suspense>} />
-      <Route path="/explore" element={<Suspense fallback={<ComponentLoader />}> <Explore /> </Suspense>} />
-      <Route path="/messages" element={<Suspense fallback={<ComponentLoader />}> <Messages /> </Suspense>} />
-      <Route path="/notification" element={<Suspense fallback={<ComponentLoader />}> <Notification /> </Suspense>} />
-      <Route path="/create" element={<Suspense fallback={<ComponentLoader />}> <Create /> </Suspense>} />
-      <Route path="/:instaUserID" element={<Suspense fallback={<ComponentLoader />}> <Profile /> </Suspense>}>
-        <Route path="/:instaUserID/posts" element={<Suspense fallback={<ComponentLoader />}> <ProfilePost /> </Suspense>} index />
-        <Route path="/:instaUserID/saved" element={<Suspense fallback={<ComponentLoader />}> <ProfileSavedPost /> </Suspense>} />
+    <Route path="/" element={<Suspense fallback={<LazyLoader />}> <HomeContainer /> </Suspense>} >
+      <Route path="/home" element={<Suspense fallback={<LazyLoader />}> <Home /> </Suspense>} />
+      <Route path="/search" element={<Suspense fallback={<LazyLoader />}> <Search /> </Suspense>} />
+      <Route path="/explore" element={<Suspense fallback={<LazyLoader />}> <Explore /> </Suspense>} />
+      <Route path="/messages" element={<Suspense fallback={<LazyLoader />}> <Messages /> </Suspense>} />
+      <Route path="/notification" element={<Suspense fallback={<LazyLoader />}> <Notification /> </Suspense>} />
+      <Route path="/create" element={<Suspense fallback={<LazyLoader />}> <Create /> </Suspense>} />
+      <Route path="/:instaUserID" element={<Suspense fallback={<LazyLoader />}> <Profile /> </Suspense>}>
+        <Route path="/:instaUserID/posts" element={<Suspense fallback={<LazyLoader />}> <ProfilePost /> </Suspense>} index />
+        <Route path="/:instaUserID/saved" element={<Suspense fallback={<LazyLoader />}> <ProfileSavedPost /> </Suspense>} />
       </Route>
 
-      <Route path="/Accout/setting" element={<Suspense fallback={<ComponentLoader />}> <SettingContainer /> </Suspense>}>
+      <Route path="/Accout/setting" element={<Suspense fallback={<LazyLoader />}> <SettingContainer /> </Suspense>}>
 
-      <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<ComponentLoader />}> <EditProfile /> </Suspense>} />
-      <Route path="/Accout/setting/update-password" element={<Suspense fallback={<ComponentLoader />}> <UpdatePassword /> </Suspense>} />
-      <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<ComponentLoader />}> <Privacy /> </Suspense>} />
+      <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<LazyLoader />}> <EditProfile /> </Suspense>} />
+      <Route path="/Accout/setting/update-password" element={<Suspense fallback={<LazyLoader />}> <UpdatePassword /> </Suspense>} />
+      <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<LazyLoader />}> <Privacy /> </Suspense>} />
       
       </Route>
 
@@ -110,13 +110,13 @@ const HomeRoute = () => {
 
 const AuthRoute = () => {
   return <Routes>
-    <Route path="/" element={<Suspense fallback={<ComponentLoader />}> <AuthContainer /> </Suspense>} >
-      <Route path="/user/auth/signin" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
-      <Route path="/user/auth/register" element={<Suspense fallback={<ComponentLoader />}> <Signup /> </Suspense>} />
-      <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<ComponentLoader />}> <OTP /> </Suspense>} />
-      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<ComponentLoader />}> <ForgotPassword /> </Suspense>} />
-      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<ComponentLoader />}> <ResetPassword /> </Suspense>} />
-      <Route path="/*" element={<Suspense fallback={<ComponentLoader />}> <Login /> </Suspense>} />
+    <Route path="/" element={<Suspense fallback={<LazyLoader />}> <AuthContainer /> </Suspense>} >
+      <Route path="/user/auth/signin" element={<Suspense fallback={<LazyLoader />}> <Login /> </Suspense>} />
+      <Route path="/user/auth/register" element={<Suspense fallback={<LazyLoader />}> <Signup /> </Suspense>} />
+      <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<LazyLoader />}> <OTP /> </Suspense>} />
+      <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<LazyLoader />}> <ForgotPassword /> </Suspense>} />
+      <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<LazyLoader />}> <ResetPassword /> </Suspense>} />
+      <Route path="/*" element={<Suspense fallback={<LazyLoader />}> <Login /> </Suspense>} />
     </Route>
   </Routes>
 }

@@ -2,6 +2,8 @@ const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
 const { otpCollection } = require("../model/otp.model")
+const { postCollection } = require("../model/post.model");
+const { commentCollection } = require("../model/comment.model");
 const otpGenerator = require("otp-generator");
 const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
@@ -55,7 +57,7 @@ const otpSender = async (request, response) => {
   const emailResponse = await emailSender(
     userEmail,
     "Verify your email address",
-    `Hi ${userName},\n Thank you for signing up for Instagram-Clone. To verify your email address, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n Once you have entered the OTP, your email address will be verified and you will be able to log in to Instagram-Clone. If you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101, +917718676559`
+    `Hi ${userName},\n Thank you for signing up for Instagram-Clone. To verify your email address, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n Once you have entered the OTP, your email address will be verified and you will be able to log in to Instagram-Clone. If you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101`
   );
 
   if (emailResponse.messageId) {
@@ -171,7 +173,7 @@ const forgotPassword = async (request, response) => {
   const emailResponse = await emailSender(
     userEmail,
     "Account - Reset password",
-    `Hi ${isUserExists?.userName},\nYou are receiving this email because you (or someone else) have requested the reset the password of your account.\n\n To reset your password, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\nIf you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101, +917718676559`
+    `Hi ${isUserExists?.userName},\nYou are receiving this email because you (or someone else) have requested the reset the password of your account.\n\n To reset your password, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\nIf you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101`
   );
 
   if (emailResponse.messageId) {
@@ -272,6 +274,7 @@ const getSuggestedUser = async (request, response) => {
   }
 }
 
+// Update user details
 const updateUserDetails = async (request, response) => {
   try {
     const { userID } = request.params;
@@ -300,7 +303,7 @@ const updateUserDetails = async (request, response) => {
       response.status(200).json({
         success: true,
         msg: "User details updated successfully",
-        updatedUser : findUser
+        updatedUser: findUser
       });
     } else {
       response.status(404).json({
@@ -309,7 +312,7 @@ const updateUserDetails = async (request, response) => {
       });
     }
   } catch (error) {
-    return  response.send({ success: false, err: err });
+    return response.send({ success: false, err: err });
   }
 };
 
@@ -333,7 +336,101 @@ const removeProfilePicture = async (request, response) => {
       });
     }
   } catch (error) {
-   return  response.send({ success: false, err: err });
+    return response.send({ success: false, err: err });
+  }
+}
+
+// Verify user passwords for account deletion
+const verifyUserPassword = async (request, response) => {
+  try {
+    const { userID, userPassword } = request.body;
+
+    const isUserExists = await userCollection.findOne({ _id: userID })
+
+    if (!isUserExists) {
+      return response.send({
+        success: false,
+        msg: `User not found`,
+      });
+    }
+
+    // matching Password
+    const userAuthenticaticated = bcrypt.compareSync(
+      userPassword,
+      isUserExists.userPassword
+    );
+
+    if (!userAuthenticaticated) {
+      return response.send({ success: false, msg: "Wrong Password" });
+    }
+
+    // Generate the verification otp
+    const OTP = otpGenerator.generate(6, {
+      digits: true,
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    // emailSender
+    const emailResponse = await emailSender(
+      isUserExists?.userEmail,
+      "Confirmation of Account Deletion Request",
+      `Dear ${isUserExists?.userName},\n\nWe have received your request to delete your account from Instagram-CLONE. To ensure the security and accuracy of this process, we need to verify your request.\n\n Please find your One-Time Password (OTP) for verification below:\n\n${OTP}\n\nIf you did not request this account deletion, please ignore this email and contact our support team immediately.If you have any others questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101`
+    );
+
+    if (emailResponse.messageId) {
+      await otpCollection.create({
+        userEmail: isUserExists?.userEmail,
+        OTP: OTP,
+        otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+      });
+
+      return response.send({
+        success: true,
+        msg: "Otp Sent successfully",
+      });
+    } else {
+      return response.send({
+        success: false,
+        msg: "Something went wrong, Try Again",
+      });
+    }
+
+  } catch (error) {
+    return response.send({ success: false, err: err });
+  }
+}
+
+// delete user accounts and their related datas
+const deleteUserAccount = async (request, response) => {
+  try {
+    const { OTP, userID } = request.body;
+
+    const findUser = await userCollection.findOne({ _id: userID });
+    const otpEntry = await otpCollection.find({ userEmail: findUser?.userEmail }).sort({ otpExpireAt: -1 }).limit(1);
+
+    if (otpEntry.length === 0) {
+      return response.send({ success: false, msg: 'Invalid OTP' });
+    }
+
+    const now = Date.now();
+    if (now > otpEntry[0].otpExpireAt) {
+      await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
+      return response.send({ success: false, msg: 'OTP has expired' });
+    }
+
+    if (OTP !== otpEntry[0].OTP) {
+      return response.send({ success: false, msg: 'Incorrect OTP' });
+    } else {
+      await userCollection.deleteOne({ _id: userID });
+      await postCollection.deleteOne({ user: userID });
+      await commentCollection.deleteOne({ user: userID });
+      await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
+      return response.status(200).json({ success: true, msg: "Account deleted successfully."});
+    }
+  } catch (err) {
+    return response.send({ success: false, err: err.message });
   }
 }
 
@@ -347,5 +444,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   authenticateUser,
-  removeProfilePicture
+  removeProfilePicture,
+  verifyUserPassword,
+  deleteUserAccount
 };
