@@ -174,11 +174,22 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
   const handleDeleteAccount = (e) => {
     e.preventDefault();
     setbuttonLoading(true);
-    axios.delete("/user/delete-user-account", {
-      OTP: Number(otp.join("")),
-      userID: instaUserID
-    }, { headers }).then((response) => {
-
+    axios.delete("http://localhost:5000/api/v1/auth/user/delete-user-account", {
+      headers,
+      data: {
+        OTP: Number(otp.join("")),
+        userID: instaUserID
+      }
+    }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+        setbuttonLoading(false);
+      } else {
+        toast.error(response.data.msg);
+        setbuttonLoading(false);
+      }
     }).catch((error) => {
       if (error.response && !error.response.data.success) {
         toast.error(error.response.data.msg);

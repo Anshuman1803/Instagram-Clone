@@ -2,6 +2,8 @@ const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
 const { otpCollection } = require("../model/otp.model")
+const { postCollection } = require("../model/post.model");
+const { commentCollection } = require("../model/comment.model");
 const otpGenerator = require("otp-generator");
 const JWT = require("jsonwebtoken");
 const dotENV = require("dotenv");
@@ -401,8 +403,35 @@ const verifyUserPassword = async (request, response) => {
 }
 
 // delete user accounts and their related datas
-const deleteUserAccount = async(request, response)=>{
+const deleteUserAccount = async (request, response) => {
+  try {
+    const { OTP, userID } = request.body;
 
+    const findUser = await userCollection.findOne({ _id: userID });
+    const otpEntry = await otpCollection.find({ userEmail: findUser?.userEmail }).sort({ otpExpireAt: -1 }).limit(1);
+
+    if (otpEntry.length === 0) {
+      return response.send({ success: false, msg: 'Invalid OTP' });
+    }
+
+    const now = Date.now();
+    if (now > otpEntry[0].otpExpireAt) {
+      await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
+      return response.send({ success: false, msg: 'OTP has expired' });
+    }
+
+    if (OTP !== otpEntry[0].OTP) {
+      return response.send({ success: false, msg: 'Incorrect OTP' });
+    } else {
+      await userCollection.deleteOne({ _id: userID });
+      await postCollection.deleteOne({ user: userID });
+      await commentCollection.deleteOne({ user: userID });
+      await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
+      return response.status(200).json({ success: true, msg: "Account deleted successfully."});
+    }
+  } catch (err) {
+    return response.send({ success: false, err: err.message });
+  }
 }
 
 module.exports = {
