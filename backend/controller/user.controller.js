@@ -236,12 +236,9 @@ const getUser = async (request, response) => {
     const { id } = request.params;
 
     const userData = await userCollection.aggregate([
-      // First stage, where matching or filter the user based on _id
       {
         $match: { '_id': new Mongoose.Types.ObjectId(id) }
       },
-
-      // 2nd stage, getting data from posts collection based on user's _id
       {
         $lookup: {
           from: "posts",
@@ -249,9 +246,7 @@ const getUser = async (request, response) => {
           foreignField: "user",
           as: "posts"
         }
-      },
-
-      // 3rd stage, getting data from posts collection based on user's _id for saved posts collection
+      }, 
       {
         $lookup: {
           from: "posts",
@@ -260,8 +255,6 @@ const getUser = async (request, response) => {
           as: "savedPost"
         }
       },
-
-      // 4th stage, add one userPosts counter 
       {
         $addFields: {
           userPostsCount: {
@@ -269,7 +262,6 @@ const getUser = async (request, response) => {
           },
         },
       },
-      // 5th stage, projecting or selecting only required data
       {
         $project: {
           _id: 1,
@@ -284,7 +276,6 @@ const getUser = async (request, response) => {
           website: 1,
           posts: 1,
           userPostsCount: 1,
-
         }
       }
     ]);
