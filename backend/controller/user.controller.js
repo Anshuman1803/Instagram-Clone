@@ -1,3 +1,4 @@
+const Mongoose = require("mongoose")
 const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
@@ -231,13 +232,67 @@ const resetPassword = async (request, response) => {
 
 // get the registred user using their _id
 const getUser = async (request, response) => {
-  const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.findOne({ _id: id }).select('-userPassword -__v')
-    if (mongooseResponse) {
+    const { id } = request.params;
+
+    const userData = await userCollection.aggregate([
+      // First stage, where matching or filter the user based on _id
+      {
+        $match: { '_id': new Mongoose.Types.ObjectId(id) }
+      },
+
+      // 2nd stage, getting data from posts collection based on user's _id
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts"
+        }
+      },
+
+      // 3rd stage, getting data from posts collection based on user's _id for saved posts collection
+      {
+        $lookup: {
+          from: "posts",
+          localField: "savedPost",
+          foreignField: "_id",
+          as: "savedPost"
+        }
+      },
+
+      // 4th stage, add one userPosts counter 
+      {
+        $addFields: {
+          userPostsCount: {
+            $size: "$posts"
+          },
+        },
+      },
+      // 5th stage, projecting or selecting only required data
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          fullName: 1,
+          userEmail: 1,
+          userFollowers: 1,
+          userFollowing: 1,
+          userBio: 1,
+          userProfile: 1,
+          savedPost: 1,
+          website: 1,
+          posts: 1,
+          userPostsCount: 1,
+
+        }
+      }
+    ]);
+
+    if (userData.length > 0) {
       return response.send({
         success: true,
-        user: mongooseResponse,
+        user: userData[0],
       });
     } else {
       return response.send({
@@ -245,6 +300,7 @@ const getUser = async (request, response) => {
       });
     }
   } catch (err) {
+    console.log(err)
     return response.send({
       success: false,
     });
@@ -427,7 +483,7 @@ const deleteUserAccount = async (request, response) => {
       await postCollection.deleteOne({ user: userID });
       await commentCollection.deleteOne({ user: userID });
       await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
-      return response.status(200).json({ success: true, msg: "Account deleted successfully."});
+      return response.status(200).json({ success: true, msg: "Account deleted successfully." });
     }
   } catch (err) {
     return response.send({ success: false, err: err.message });

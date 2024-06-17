@@ -23,6 +23,18 @@ export default function Profile() {
     Authorization: `Bearer ${instaTOKEN}`
   };
 
+  useEffect(() => {
+    if (pathname === `/${userID?.instaUserID}`) {
+      navigateTO(`/${userID?.instaUserID}/posts`, {state : currentUser?.posts});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userID,pathname]);
+
+  const handleEdit = () => {
+    navigateTO('/Accout/setting/edit-profile')
+  }
+
+  
   // load the current USer
   useEffect(() => {
     setLoading(true)
@@ -48,19 +60,7 @@ export default function Profile() {
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID.instaUserID])
-
-  useEffect(() => {
-    if (pathname === `/${userID?.instaUserID}`) {
-      navigateTO(`/${userID?.instaUserID}/posts`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID, pathname]);
-
-  const handleEdit = () => {
-    navigateTO('/Accout/setting/edit-profile')
-  }
-
+  }, [userID.instaUserID]);
   return (
     <>
       <section className="dashboard__ProfileSection">
@@ -91,7 +91,7 @@ export default function Profile() {
                   <div className="userBox__userActivityState">
                     <span className="userBox__activity userBox__postActivity">
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
-                        {currentUser?.userPosts}
+                        {currentUser?.userPostsCount}
                       </strong>
                       posts
                     </span>
@@ -125,6 +125,7 @@ export default function Profile() {
                 <nav className="dashboard__postsContainer_navbar">
                   <NavLink
                     to={`/${userID?.instaUserID}/posts`}
+                    state={currentUser?.posts}
                     className="PostsContainer__navItem"
                   >
                     <img
@@ -139,6 +140,7 @@ export default function Profile() {
                     <NavLink
                       to={`/${userID?.instaUserID}/saved`}
                       className="PostsContainer__navItem"
+                      state={currentUser?.savedPost}
                     >
                       <img
                         src={savedICON}

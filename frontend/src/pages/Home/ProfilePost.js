@@ -5,25 +5,27 @@ import PostLoader from "../../components/PostLoader";
 import toast from "react-hot-toast";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../Redux/ReduxSlice';
 function ProfilePost() {
-const navigateTO = useNavigate();
+  const {state} = useLocation();
+  const navigateTO = useNavigate();
   const { instaUserID } = useParams();
   const [ownPosts, setOwnPosts] = useState([]);
   const [Loading, setLoading] = useState(false);
   const dispatch = useDispatch()
   const { instaTOKEN } = useSelector((state) => state.Instagram);
-
+  
   const headers = {
     Authorization: `Bearer ${instaTOKEN}`
   };
   useEffect(() => {
+    console.log(state)
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`,{headers})
+    axios.get(`http://localhost:5000/api/v1/posts/post/${instaUserID}`, { headers })
       .then((response) => {
-        setOwnPosts(response.data.posts.sort((a,b)=> b.postCreatedAt - a.postCreatedAt));
+        setOwnPosts(response.data.posts.sort((a, b) => b.postCreatedAt - a.postCreatedAt));
         setLoading(false);
       })
       .catch((error) => {
@@ -36,9 +38,9 @@ const navigateTO = useNavigate();
         }
         setLoading(false);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instaUserID]);
-  
+
   return (
     <div className={`dashboard__profileSection__ProfilePostsContainer ${ownPosts.length === 0 && "flexContainer"}`}>
       <div className="profilePostContainer__PostBox">
