@@ -35,20 +35,6 @@ const createPost = async (request, response) => {
   }
 };
 
-const getPost = async (request, response) => {
-  try {
-    const { userID } = request.params;
-    const mongooseResponse = await postCollection.find({ user: userID })
-    if (mongooseResponse) {
-      response.send({ success: true, posts: mongooseResponse });
-    } else {
-      response.send({ success: false, posts: [] });
-    }
-  } catch (err) {
-    response.send({ success: false, msg: err });
-  }
-};
-
 const getAllPosts = async (request, response) => {
   try {
     const { userID } = request.params
@@ -126,36 +112,10 @@ const deleteSavePostFromCollection = async (request, response) => {
   }
 }
 
-const getSavePost = async (request, response) => {
-  try {
-    const { instaUserID } = request.params;
-    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost', '_id postPoster postComments postLikes').select("savedPost");
-
-    if (mongooseResponse) {
-      response.status(200).json({
-        success: true,
-        savePosts: mongooseResponse.savedPost
-      })
-    } else {
-      response.status(404).json({
-        success: false,
-        savePosts: mongooseResponse.savedPost
-      })
-    }
-
-  } catch (err) {
-    response.status(500).json({
-      success: false,
-      msg: `Server failed to load, Try again later - ${err.message}`,
-    })
-  }
-}
 
 module.exports = {
   createPost,
-  getPost,
   getAllPosts,
   savePost,
   deleteSavePostFromCollection,
-  getSavePost
 };

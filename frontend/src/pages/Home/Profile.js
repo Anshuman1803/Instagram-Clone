@@ -23,18 +23,11 @@ export default function Profile() {
     Authorization: `Bearer ${instaTOKEN}`
   };
 
-  useEffect(() => {
-    if (pathname === `/${userID?.instaUserID}`) {
-      navigateTO(`/${userID?.instaUserID}/posts`, {state : currentUser?.posts});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID,pathname]);
-
   const handleEdit = () => {
     navigateTO('/Accout/setting/edit-profile')
   }
 
-  
+
   // load the current USer
   useEffect(() => {
     setLoading(true)
@@ -42,7 +35,8 @@ export default function Profile() {
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);
-          setLoading(false)
+          setLoading(false);
+          navigateTO(`/${userID?.instaUserID}/posts`, { state: response.data.user.posts });
         } else {
           toast.error(`Try Again`);
           setLoading(false)
@@ -61,6 +55,15 @@ export default function Profile() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID.instaUserID]);
+
+
+  useEffect(() => {
+    if (pathname === `/${userID?.instaUserID}`) {
+      navigateTO(`/${userID?.instaUserID}/posts`, { state: currentUser?.posts });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userID, pathname]);
+
   return (
     <>
       <section className="dashboard__ProfileSection">
@@ -114,7 +117,7 @@ export default function Profile() {
                   <p className="userBox__userBIO">
                     {currentUser?.userBio ? `${currentUser.userBio}` : ""}
                     {
-                      currentUser?.website && <a className="userBox__websiteLINK" target="_blank" rel="noreferrer" href={currentUser?.website}> <PiLinkSimple className="userBox__websitelinkICON"/> { currentUser?.website.split("/")[2]}</a>
+                      currentUser?.website && <a className="userBox__websiteLINK" target="_blank" rel="noreferrer" href={currentUser?.website}> <PiLinkSimple className="userBox__websitelinkICON" /> {currentUser?.website.split("/")[2]}</a>
                     }
                   </p>
                 </div>
