@@ -249,34 +249,16 @@ const getUser = async (request, response) => {
             {
               $lookup: {
                 from: "comments",
-                localField: "savedPost._id",
+                localField: "_id",
                 foreignField: "postID",
                 as: "comments"
               }
             },
+            
           ]
         }
       },
-      {
-        $unwind: {
-          path: "$savedPost",
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
-        $group: {
-          _id: "$_id",
-          userName: { $first: "$userName" },
-          fullName: { $first: "$fullName" },
-          userEmail: { $first: "$userEmail" },
-          userFollowers: { $first: "$userFollowers" },
-          userFollowing: { $first: "$userFollowing" },
-          userBio: { $first: "$userBio" },
-          userProfile: { $first: "$userProfile" },
-          website: { $first: "$website" },
-          savedPost: { $push: "$savedPost" },
-        }
-      },
+  
       {
         $lookup: {
           from: "posts",
@@ -287,34 +269,12 @@ const getUser = async (request, response) => {
             {
               $lookup: {
                 from: "comments",
-                localField: "posts._id",
+                localField: "_id",
                 foreignField: "postID",
                 as: "comments"
               }
             },
           ]
-        }
-      },
-      {
-        $unwind: {
-          path: "$posts",
-          preserveNullAndEmptyArrays: true
-        }
-      },
-
-      {
-        $group: {
-          _id: "$_id",
-          userName: { $first: "$userName" },
-          fullName: { $first: "$fullName" },
-          userEmail: { $first: "$userEmail" },
-          userFollowers: { $first: "$userFollowers" },
-          userFollowing: { $first: "$userFollowing" },
-          userBio: { $first: "$userBio" },
-          userProfile: { $first: "$userProfile" },
-          website: { $first: "$website" },
-          posts: { $push: "$posts" },
-          savedPost: { $first: "$savedPost" },
         }
       },
       {
