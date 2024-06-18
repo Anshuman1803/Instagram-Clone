@@ -1,6 +1,7 @@
 const { postCollection } = require("../model/post.model");
 const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
+const Mongoose = require("mongoose");
 
 const createPost = async (request, response) => {
   const { user, postCreatedAt, postCaption, } = request.body;
@@ -12,21 +13,11 @@ const createPost = async (request, response) => {
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
       postCaption: postCaption,
-      postComments: 0,
       postLikes: 0,
     });
 
     if (mongooseResponse) {
-      const updateResponse = await userCollection.updateOne(
-        { _id: user },
-        {
-          $inc: { userPosts: 1 },
-        }
-      );
-
-      if (updateResponse.acknowledged) {
         response.send({ success: true });
-      }
     } else {
       response.send({ success: false });
     }
@@ -35,31 +26,62 @@ const createPost = async (request, response) => {
   }
 };
 
-const getPost = async (request, response) => {
-  try {
-    const { userID } = request.params;
-    const mongooseResponse = await postCollection.find({ user: userID })
-    if (mongooseResponse) {
-      response.send({ success: true, posts: mongooseResponse });
-    } else {
-      response.send({ success: false, posts: [] });
-    }
-  } catch (err) {
-    response.send({ success: false, msg: err });
-  }
-};
-
 const getAllPosts = async (request, response) => {
   try {
     const { userID } = request.params
-    const mongooseResponse = await postCollection.find({ user: { $ne: userID } }).populate('user', '_id userName userProfile');
-    if (mongooseResponse) {
-      response.send({ success: true, posts: mongooseResponse });
+    const postData = await postCollection.aggregate([
+      {
+        $match: {
+          user: { $ne: new Mongoose.Types.ObjectId(userID) }
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      {
+        $unwind: "$user"
+      },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postID",
+          as: "comments"
+        }
+      },
+      {
+        $addFields: {
+          postCommentsCount: {
+            $size: "$comments"
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          "user._id": 1,
+          "user.userName": 1,
+          "user.userProfile": 1,
+          postPoster: 1,
+          postCaption: 1,
+          postCreatedAt: 1,
+          postCommentsCount: 1,
+          postLikes: 1,
+        }
+      }
+    ])
+    if (postData.length > 0) {
+      response.send({ success: true, posts: postData });
     } else {
-      response.send({ success: false, posts: [] });
+      response.send({ success: false, posts: postData });
     }
   } catch (err) {
-    response.send({ success: false, msg: err });
+    response.send({ success: false, msg: err.message });
   }
 };
 
@@ -126,36 +148,10 @@ const deleteSavePostFromCollection = async (request, response) => {
   }
 }
 
-const getSavePost = async (request, response) => {
-  try {
-    const { instaUserID } = request.params;
-    const mongooseResponse = await userCollection.findOne({ _id: instaUserID }).populate('savedPost', '_id postPoster postComments postLikes').select("savedPost");
-
-    if (mongooseResponse) {
-      response.status(200).json({
-        success: true,
-        savePosts: mongooseResponse.savedPost
-      })
-    } else {
-      response.status(404).json({
-        success: false,
-        savePosts: mongooseResponse.savedPost
-      })
-    }
-
-  } catch (err) {
-    response.status(500).json({
-      success: false,
-      msg: `Server failed to load, Try again later - ${err.message}`,
-    })
-  }
-}
 
 module.exports = {
   createPost,
-  getPost,
   getAllPosts,
   savePost,
   deleteSavePostFromCollection,
-  getSavePost
 };

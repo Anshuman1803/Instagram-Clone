@@ -12,9 +12,6 @@ const createNewComment = async (request, response) => {
             user: userID,
         });
         if (mongooseResponse) {
-            await postCollection.findOneAndUpdate({ _id: postID }, {
-                $inc: { postComments: 1 },
-            })
             response.status(200).json({
                 success: true,
                 msg: "Your comment has been created",
@@ -55,9 +52,9 @@ const getComments = async (request, response) => {
 const deleteComment = async (request, response) => {
     try {
         const { commentId } = request.params;
-        const {postID} = request.query
+        const { postID } = request.query
 
-        const mongooseResponse = await commentCollection.findOneAndDelete({_id: commentId})
+        const mongooseResponse = await commentCollection.findOneAndDelete({ _id: commentId })
         if (mongooseResponse) {
             await postCollection.findOneAndUpdate({ _id: postID }, {
                 $inc: { postComments: -1 },

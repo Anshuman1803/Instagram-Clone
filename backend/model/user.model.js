@@ -25,9 +25,6 @@ const userModel = mongoose.Schema({
   userFollowing: {
     type: Number,
   },
-  userPosts: {
-    type: Number,
-  },
   userBio: {
     type: String
   },

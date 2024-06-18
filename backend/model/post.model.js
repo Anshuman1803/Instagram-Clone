@@ -15,9 +15,6 @@ const postModel = mongoose.Schema({
   postCreatedAt: {
     type: Number,
   },
-  postComments: {
-    type: Number,
-  },
   postLikes: {
     type: Number,
   }

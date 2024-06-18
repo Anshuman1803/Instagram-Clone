@@ -326,9 +326,9 @@ const HomePostCard = ({ posts }) => {
         </p>
       )}
 
-      {posts?.postComments !== 0 && (
+      {posts?.postCommentsCount !== 0 && (
         <span className="homePostCard__viewAllComment">
-          View all {posts?.postComments} comments
+          View all {posts?.postCommentsCount} comments
         </span>
       )}
 
