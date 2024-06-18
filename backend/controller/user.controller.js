@@ -242,25 +242,53 @@ const getUser = async (request, response) => {
       {
         $lookup: {
           from: "posts",
-          localField: "_id",
-          foreignField: "user",
-          as: "posts"
-        }
-      }, 
-      {
-        $lookup: {
-          from: "posts",
           localField: "savedPost",
           foreignField: "_id",
           as: "savedPost"
         }
       },
       {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts"
+        }
+      },
+      {
+        $unwind: {
+          path: "$posts",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "posts._id",
+          foreignField: "postID",
+          as: "posts.comments"
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          userName: { $first: "$userName" },
+          fullName: { $first: "$fullName" },
+          savedPost: { $first: "$savedPost" },
+          userEmail: { $first: "$userEmail" },
+          userFollowers: { $first: "$userFollowers" },
+          userFollowing: { $first: "$userFollowing" },
+          userBio: { $first: "$userBio" },
+          userProfile: { $first: "$userProfile" },
+          website: { $first: "$website" },
+          posts: { $push: "$posts" },
+          savedPost: { $first: "$savedPost" },
+        }
+      },
+      {
         $addFields: {
-          userPostsCount: {
-            $size: "$posts"
-          },
-        },
+          userPostsCount: { $size: "$posts" }
+        }
       },
       {
         $project: {
@@ -272,10 +300,10 @@ const getUser = async (request, response) => {
           userFollowing: 1,
           userBio: 1,
           userProfile: 1,
-          savedPost: 1,
           website: 1,
           posts: 1,
           userPostsCount: 1,
+          savedPost: 1,
         }
       }
     ]);
@@ -291,13 +319,12 @@ const getUser = async (request, response) => {
       });
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return response.send({
       success: false,
     });
   }
 };
-
 
 // get the suggestedUser
 const getSuggestedUser = async (request, response) => {
