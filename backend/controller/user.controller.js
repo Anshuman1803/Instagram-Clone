@@ -244,7 +244,37 @@ const getUser = async (request, response) => {
           from: "posts",
           localField: "savedPost",
           foreignField: "_id",
-          as: "savedPost"
+          as: "savedPost",
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "savedPost._id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+          ]
+        }
+      },
+      {
+        $unwind: {
+          path: "$savedPost",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          userName: { $first: "$userName" },
+          fullName: { $first: "$fullName" },
+          userEmail: { $first: "$userEmail" },
+          userFollowers: { $first: "$userFollowers" },
+          userFollowing: { $first: "$userFollowing" },
+          userBio: { $first: "$userBio" },
+          userProfile: { $first: "$userProfile" },
+          website: { $first: "$website" },
+          savedPost: { $push: "$savedPost" },
         }
       },
       {
@@ -252,7 +282,17 @@ const getUser = async (request, response) => {
           from: "posts",
           localField: "_id",
           foreignField: "user",
-          as: "posts"
+          as: "posts",
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "posts._id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+          ]
         }
       },
       {
@@ -261,20 +301,12 @@ const getUser = async (request, response) => {
           preserveNullAndEmptyArrays: true
         }
       },
-      {
-        $lookup: {
-          from: "comments",
-          localField: "posts._id",
-          foreignField: "postID",
-          as: "posts.comments"
-        }
-      },
+
       {
         $group: {
           _id: "$_id",
           userName: { $first: "$userName" },
           fullName: { $first: "$fullName" },
-          savedPost: { $first: "$savedPost" },
           userEmail: { $first: "$userEmail" },
           userFollowers: { $first: "$userFollowers" },
           userFollowing: { $first: "$userFollowing" },
@@ -319,9 +351,9 @@ const getUser = async (request, response) => {
       });
     }
   } catch (err) {
-    console.log(err);
     return response.send({
       success: false,
+      msg: err.message
     });
   }
 };
