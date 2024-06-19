@@ -8,14 +8,14 @@ import axios from "axios";
 // Home Routes elements
 const HomeContainer = lazy(() => import('../pages/Home/HomeContainer'));
 const Home = lazy(() => import('../pages/Home/Home'));
-const Search = lazy(() => import('../pages/Home/Search'));
+const Search = lazy(() => import('../pages/Home/search/Search.js'));
 const Explore = lazy(() => import('../pages/Home/Explore'));
 const Messages = lazy(() => import('../pages/Home/Messages'));
 const Notification = lazy(() => import('../pages/Home/Notification'));
 const Create = lazy(() => import('../pages/Home/Create'));
-const Profile = lazy(() => import('../pages/Home/Profile'));
-const ProfilePost = lazy(() => import('../pages/Home/ProfilePost'));
-const ProfileSavedPost = lazy(() => import('../pages/Home/ProfileSavedPost'));
+const Profile = lazy(() => import('../pages/Home/profile/Profile.js'));
+const ProfilePost = lazy(() => import('../pages/Home/profile/ProfilePost'));
+const ProfileSavedPost = lazy(() => import('../pages/Home/profile/ProfileSavedPost.js'));
 const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
 const EditProfile = lazy(()=> import('../pages/Home/setting/EditProfile'));
 const UpdatePassword = lazy(()=> import('../pages/Home/setting/UpdatePassword'));

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import savedPostICON from "../../Assets/savedICON.png";
+import savedPostICON from "../../../Assets/savedICON.png";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";

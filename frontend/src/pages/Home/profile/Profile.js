@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import defaultProfile from "../../Assets/DefaultProfile.png";
+import defaultProfile from "../../../Assets/DefaultProfile.png";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import gridICON from "../../Assets/PostICON.png";
-import savedICON from "../../Assets/savedICON.png";
+import gridICON from "../../../Assets/PostICON.png";
+import savedICON from "../../../Assets/savedICON.png";
 import { PiLinkSimple } from "react-icons/pi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut } from '../../Redux/ReduxSlice';
+import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import PostLoader from "../../components/PostLoader";
+import PostLoader from "../../../components/PostLoader";
 
 export default function Profile() {
   const dispatch = useDispatch()
