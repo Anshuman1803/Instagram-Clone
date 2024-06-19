@@ -1,4 +1,4 @@
-const { userSignIn, userRegister, getUser,updateUserDetails,removeProfilePicture, getSuggestedUser, otpSender, forgotPassword, resetPassword, authenticateUser,verifyUserPassword,deleteUserAccount } = require("../controller/user.controller");
+const { userSignIn, userRegister, getUser,updateUserDetails,removeProfilePicture, getSuggestedUser, otpSender, forgotPassword, resetPassword, authenticateUser,verifyUserPassword,deleteUserAccount,searchUser } = require("../controller/user.controller");
 const userRoute = require("express").Router();
 const { upload } = require("../middleware/uploadImage");
 const { userAuthenticate } = require("../middleware/Authenticate")
@@ -15,5 +15,6 @@ userRoute.patch("/user/remove-profile-picture/:userID",userAuthenticate, removeP
 userRoute.get("/user/:id", getUser)
 userRoute.get("/user/suggested-users/:id", getSuggestedUser)
 userRoute.delete("/user/delete-user-account", deleteUserAccount)
+userRoute.post("/users/search-user",userAuthenticate, searchUser);
 
 module.exports = { userRoute }
