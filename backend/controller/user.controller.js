@@ -254,11 +254,11 @@ const getUser = async (request, response) => {
                 as: "comments"
               }
             },
-            
+
           ]
         }
       },
-  
+
       {
         $lookup: {
           from: "posts",
@@ -500,6 +500,61 @@ const deleteUserAccount = async (request, response) => {
   }
 }
 
+
+// Search user based on search Text by user from search component
+const searchUser = async (request, response) => {
+  try {
+    const { searchText } = request.body;
+    const searchResult = await userCollection.aggregate([
+      {
+        $match: {
+          $or: [
+            { userName: { $regex: searchText, $options: "i" } },
+            { fullName: { $regex: searchText, $options: "i" } },
+          ]
+        }
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts",
+        }
+      },
+      {
+        $addFields: {
+          userPostsCount: { $size: "$posts" }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          fullName: 1,
+          userFollowers: 1,
+          userFollowing: 1,
+          userProfile: 1,
+          userPostsCount: 1,
+        }
+      }
+    ])
+
+    if(searchResult.length > 0) {
+      response.status(200).json({
+        success: true,
+        searchResult: searchResult
+      })
+    }else{
+      response.status(200).json({
+        success: false,
+        searchResult: searchResult
+      })
+    }
+  } catch (err) {
+    return response.send({ success: false, err: err.message });
+  }
+}
 module.exports = {
   userRegister,
   userSignIn,
@@ -512,5 +567,6 @@ module.exports = {
   authenticateUser,
   removeProfilePicture,
   verifyUserPassword,
-  deleteUserAccount
+  deleteUserAccount,
+  searchUser
 };
