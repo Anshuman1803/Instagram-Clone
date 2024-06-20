@@ -10,17 +10,20 @@ import { HomePostCard } from "./HomeCard";
 import { SuggestedUser } from "./SuggestedUser";
 import homeStyle from "./home.module.css"
 import { HomeCardLoader } from "./HomeCardLoader";
+import { SuggestedUserLoading } from "./SuggestedUserLoading";
 export default function Home() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
   const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } =
     useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
+  const [SugestedUserLoading, setSuggestUserLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
   const loadAllData = () => {
     setPostLoading(true);
+    setSuggestUserLoading(true);
     const headers = {
       Authorization: `Bearer ${instaTOKEN}`,
     };
@@ -35,21 +38,24 @@ export default function Home() {
       ),
     ])
       .then(([postsResponse, suggestedUsersResponse]) => {
-        setPostLoading(false);
         if (postsResponse.data.success) {
           setAllPosts(
             postsResponse.data.posts.sort(
               (a, b) => b.postCreatedAt - a.postCreatedAt
             )
           );
+          setPostLoading(false);
         } else {
           setAllPosts(postsResponse.data.posts);
+          setPostLoading(false);
         }
 
         if (suggestedUsersResponse.data.success) {
           setSuggestedUser(suggestedUsersResponse.data.suggestedUser);
+          setSuggestUserLoading(false);
         } else {
           setSuggestedUser(suggestedUsersResponse.data.suggestedUser);
+          setSuggestUserLoading(false);
         }
       })
       .catch((error) => {
@@ -61,6 +67,7 @@ export default function Home() {
           toast.error(`Server error: ${error.message}`);
         }
         setPostLoading(false);
+        setSuggestUserLoading(false);
       });
   };
 
@@ -106,11 +113,15 @@ export default function Home() {
 
         <div className={`${homeStyle.homeSection__suggestedUserContainer}`}>
           <h2 className={`${homeStyle.suggestedUserContainer__heading}`}>Suggested for you</h2>
-          {suggestedUser?.map((data) => {
-            return (
-              <SuggestedUser data={data} key={data._id} />
-            );
-          })}
+          {
+            SugestedUserLoading ? <SuggestedUserLoading /> : <>
+              {suggestedUser?.map((data) => {
+                return (
+                  <SuggestedUser data={data} key={data._id} />
+                );
+              })}
+            </>
+          }
         </div>
       </aside>
     </section>

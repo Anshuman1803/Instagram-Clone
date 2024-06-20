@@ -456,38 +456,69 @@
     color: #385185;
 }
 
-.__homePost_ShimmerCard{
+.__homePost_ShimmerCard {
     border: none;
     padding: 0.5em;
     border-radius: 5px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
-.__homePost_ShimmerCard_Header{
+
+.__homePost_ShimmerCard_Header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
 }
-.__homePost_ShimmerCardProfile{
+
+.__homePost_ShimmerCardProfile {
     width: 60px;
     height: 60px;
     border-radius: 50%;
 }
-.__homePost_ShimmerCard_content{
+
+.__homePost_ShimmerCard_content {
     width: 50px;
     height: 25px;
 }
-.__homePost_ShimmerCard_contentDOT{
+
+.__homePost_ShimmerCard_contentDOT {
     width: 10px;
     height: 10px;
     border-radius: 50%;
 }
-.__homePost_ShimmerCard_contentPoster{
+
+.__homePost_ShimmerCard_contentPoster {
     width: 100%;
     height: 345px;
     margin: 10px auto;
     border-radius: 5px;
 }
+
+._Suggested_shimmerUser {
+    margin: 0;
+    margin-top: 15px;
+}
+
+._Suggested_shimmerUserBox {
+    width: calc(100% - 140px);
+}
+
+._Suggested_shimmerUserBoxContent {
+    display: block;
+    height: 5px;
+    width: 95%;
+    margin-bottom: 10px;
+}
+
+._Suggested_shimmerUserBoxContent:last-child {
+    width: 80%;
+}
+
+.__homePost_ShimmerCardButton {
+    width: 50px;
+    height: 20px;
+}
+
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
