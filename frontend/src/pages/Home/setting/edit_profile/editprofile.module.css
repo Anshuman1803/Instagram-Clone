@@ -1,0 +1,277 @@
+.__EditProfile_form {
+    width: 550px;
+}
+
+.__EditProfile__profilePicture_box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0em 0.3em;
+    height: 80px;
+}
+
+.__EditProfile_userProfileBox {
+    width: 80px;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.__EditPrfoile_userProfile {
+    width: 100%;
+    height: 100%;
+}
+
+.__EditProfile_buttonBox {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 1em;
+    gap: 10px;
+}
+
+.__editProfile__userName {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.__changeProfilePopupButton {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #0866ff;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.__changeProfilePopupButton:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.__EditProfile__formRow {
+    margin-top: 1em;
+}
+
+.__EditProfile_formLabel {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+    display: block;
+    padding-left: 0.5em;
+}
+
+.__EditProfile_formInputItem {
+    border: none;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.537);
+    display: block;
+    width: 100%;
+    height: 45px;
+    margin-top: 8px;
+    border-radius: 5px;
+    padding: 0em 1em;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.__EditProfile_formTextArea {
+    border: none;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.537);
+    display: block;
+    width: 100%;
+    resize: none;
+    height: 150px;
+    margin-top: 8px;
+    border-radius: 5px;
+    padding: 1em;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.__EditProfile__selectOPTION {
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.__EditProfile__buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__EditProfile_saveButton {
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #0866ff;
+    width: 275px;
+    height: 45px;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.__EditProfile_saveButton:hover {
+    cursor: pointer;
+    background-color: #1f57cf;
+}
+
+.__EditProfile__UpdatePicturePopup_Container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    z-index: 2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__Setting__UpdatePicturePopup {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    width: 425px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.__popupUserProfile {
+    display: block;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+}
+
+.__UpdatePicturePopup_Heading {
+    width: 100%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 2em;
+}
+
+.__UpdatePicturePopupButtons {
+    position: relative;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    height: 55px;
+    margin: 0px auto;
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.479);
+}
+
+.__UpdatePicturePopupButtons:last-child {
+    margin-bottom: 0px;
+    border-bottom: none;
+}
+
+.__UpdatePictureButton {
+    font-weight: 600;
+    color: #0095F6;
+    font-size: 18px;
+}
+
+.__RemoveCurrentPictureButton {
+    font-size: 17px;
+    font-weight: 600;
+    color: #e5532d;
+}
+
+.__UpdatePicturePopupButtons:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.__EditProfileShimmerCard {
+    background-color: white;
+    border-radius: 0;
+}
+
+.__EditProfileShimmerCardProfile {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.__editProfileContent {
+    height: 15px;
+    margin-bottom: 10px;
+}
+
+.____EditProfileShimmerCard_buttonBox {
+    width: calc(100% - 60px);
+}
+
+.__editProfileContent {
+    display: block;
+    width: 90%;
+    height: 15px;
+    margin-left: 5px;
+}
+
+.__editProfileContentLabel {
+    display: block;
+    height: 15px;
+    width: 200px;
+
+}
+
+.__editProfileContentInput {
+    display: block;
+    height: 45px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.__editProfileContentInput:last-child {
+    height: 75px;
+}
+
+.__editProfileContentButton {
+    display: block;
+    width: 220px;
+    margin: 0px auto;
+    margin-top: 25px;
+    height: 35px;
+}
+
+
+
+@media screen and (max-width: 681px) {
+    .__EditProfile_form {
+        width: 100%;
+        padding: 1em 0em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .__Setting__UpdatePicturePopup {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .profilePostContainer__PostBox {
+        grid-template-columns: repeat(1, 0.9fr);
+    }
+
+    .OTPForm__input {
+        width: 40px;
+        height: 40px;
+    }
+}

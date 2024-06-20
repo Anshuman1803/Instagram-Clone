@@ -17,7 +17,7 @@ const Profile = lazy(() => import('../pages/Home/profile/Profile.js'));
 const ProfilePost = lazy(() => import('../pages/Home/profile/ProfilePost'));
 const ProfileSavedPost = lazy(() => import('../pages/Home/profile/ProfileSavedPost.js'));
 const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
-const EditProfile = lazy(()=> import('../pages/Home/setting/EditProfile'));
+const EditProfile = lazy(()=> import('../pages/Home/setting/edit_profile/EditProfile.js'));
 const UpdatePassword = lazy(()=> import('../pages/Home/setting/UpdatePassword'));
 const Privacy = lazy(()=> import('../pages/Home/setting/Privacy'));
 

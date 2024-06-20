@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
-import defaultPicture from '../../../Assets/DefaultProfile.png'
+import defaultPicture from '../../../../Assets/DefaultProfile.png'
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut, userUpdateDetails } from '../../../Redux/ReduxSlice';
+import { UserLoggedOut, userUpdateDetails } from '../../../../Redux/ReduxSlice';
 import axios from "axios"
 import toast from "react-hot-toast"
-import ComponentLoader from "../../../components/ComponentLoader"
-import ButtonLoader from "../../../components/ButtonLoader"
-import settingStyle from "./setting.module.css"
+import ButtonLoader from "../../../../components/ButtonLoader"
+import editProfileStyle from "./editprofile.module.css"
+import EditProfileLoader from './EditProfileLoader';
 function EditProfile() {
   const imageInputRef = useRef();
   const { instaUserID, instaTOKEN } = useSelector((state) => (state.Instagram));
   const [ShowPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch()
   const navigateTO = useNavigate();
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(true);
   const [buttonLoading, setButtonLoading] = useState(false)
   const [userDetails, setUserDetails] = useState({
     userName: "",
@@ -51,7 +51,7 @@ function EditProfile() {
       }
     }
   }
-  // /user/update-user-details/:userEmail
+
   const loaduserDetails = () => {
     setLoading(true);
     axios.get(`http://localhost:5000/api/v1/auth/user/${instaUserID}`, {}, { headers }).then((response) => {
@@ -123,53 +123,54 @@ function EditProfile() {
   }
 
   return (
-    <form className={`${settingStyle.__EditProfile_form}`}>
+    <form className={`${editProfileStyle.__EditProfile_form}`}>
       {
-        Loading ? <ComponentLoader /> : <>
+        Loading ? <EditProfileLoader /> : <>
 
-          <div className={`${settingStyle.__EditProfile__profilePicture_box}`}>
-            <div className={`${settingStyle.__EditProfile_userProfileBox}`}>
+          <div className={`${editProfileStyle.__EditProfile__profilePicture_box}`}>
+            <div className={`${editProfileStyle.__EditProfile_userProfileBox}`}>
               <input type='file' hidden ref={imageInputRef} accept="image/*" name='profilePicture' id="profilePicture" onChange={handleInputOnChange} />
-              <img src={userDetails?.profilePicture ?? defaultPicture} alt='Username profile' className={`${settingStyle.__EditPrfoile_userProfile}`} onError={(e) => { e.target.src = `${defaultPicture}`; e.onError = null; }} />
+              <img src={userDetails?.profilePicture ?? defaultPicture} alt='Username profile' className={`${editProfileStyle.__EditPrfoile_userProfile}`} onError={(e) => { e.target.src = `${defaultPicture}`; e.onError = null; }} />
             </div>
-            <div className={`${settingStyle.__EditProfile_buttonBox}`}>
-              <p className={`${settingStyle.__editProfile__userName}`}>{userDetails.userName}</p>
-              <button type="button" className={`${settingStyle.__changeProfilePopupButton}`} onClick={handleTogglePopup}>Change profile photo</button>
+            <div className={`${editProfileStyle.__EditProfile_buttonBox}`}>
+              <p className={`${editProfileStyle.__editProfile__userName}`}>{userDetails.userName}</p>
+              <button type="button" className={`${editProfileStyle.__changeProfilePopupButton}`} onClick={handleTogglePopup}>Change profile photo</button>
             </div>
           </div>
 
-          <div className={`${settingStyle.__EditProfile__formRow}`}>
-            <label htmlFor='userName' className={`${settingStyle.__EditProfile_formLabel}`}>User name</label>
-            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className={`${settingStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={15} />
+          <div className={`${editProfileStyle.__EditProfile__formRow}`}>
+            <label htmlFor='userName' className={`${editProfileStyle.__EditProfile_formLabel}`}>User name</label>
+            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={15} />
           </div>
 
-          <div className={`${settingStyle.__EditProfile__formRow}`}>
-            <label htmlFor='fullName' className={`${settingStyle.__EditProfile_formLabel}`}>Full Name</label>
-            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className={`${settingStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={20} autoCapitalize="on"
+          <div className={`${editProfileStyle.__EditProfile__formRow}`}>
+            <label htmlFor='fullName' className={`${editProfileStyle.__EditProfile_formLabel}`}>Full Name</label>
+            <input type="text" id='fullName' onChange={handleInputOnChange} value={userDetails?.fullName} name='fullName' placeholder='Full Name' className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={20} autoCapitalize="on"
               minLength={3} />
           </div>
 
-          <div className={`${settingStyle.__EditProfile__formRow}`}>
-            <label htmlFor='gender' className={`${settingStyle.__EditProfile_formLabel}`}>Gender</label>
-            <select autoCapitalize="on" id='gender' name='gender' onChange={handleInputOnChange} value={userDetails?.gender} className={`${settingStyle.__EditProfile_formInputItem}`} autoComplete='off' >
+          <div className={`${editProfileStyle.__EditProfile__formRow}`}>
+            <label htmlFor='gender' className={`${editProfileStyle.__EditProfile_formLabel}`}>Gender</label>
+            <select autoCapitalize="on" id='gender' name='gender' onChange={handleInputOnChange} value={userDetails?.gender} className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' >
               <option value="">select your gender</option>
-              <option className={`${settingStyle.__EditProfile__selectOPTION}`} value="male">male</option>
-              <option className={`${settingStyle.__EditProfile__selectOPTION}`} value="female">female</option>
-              <option className={`${settingStyle.__EditProfile__selectOPTION}`} value="other">other</option>
+              <option className={`${editProfileStyle.__EditProfile__selectOPTION}`} value="male">male</option>
+              <option className={`${editProfileStyle.__EditProfile__selectOPTION}`} value="female">female</option>
+              <option className={`${editProfileStyle.__EditProfile__selectOPTION}`} value="other">other</option>
             </select>
           </div>
-          <div className={`${settingStyle.__EditProfile__formRow}`}>
-            <label htmlFor='website' className={`${settingStyle.__EditProfile_formLabel}`}>website</label>
-            <input type="text" id='website' onChange={handleInputOnChange} value={userDetails?.website} name='website' placeholder='Your Website' className={`${settingStyle.__EditProfile_formInputItem}`} autoComplete='off' />
+
+          <div className={`${editProfileStyle.__EditProfile__formRow}`}>
+            <label htmlFor='website' className={`${editProfileStyle.__EditProfile_formLabel}`}>website</label>
+            <input type="text" id='website' onChange={handleInputOnChange} value={userDetails?.website} name='website' placeholder='Your Website' className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' />
           </div>
 
-          <div className={`${settingStyle.__EditProfile__formRow}`}>
-            <label htmlFor='userBio' className={`${settingStyle.__EditProfile_formLabel}`}>Bio</label>
-            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className={`${settingStyle.__EditProfile_formTextArea}`} placeholder='userBio' autoCapitalize="on" maxLength={150} minLength={4}></textarea>
+          <div className={`${editProfileStyle.__EditProfile__formRow}`}>
+            <label htmlFor='userBio' className={`${editProfileStyle.__EditProfile_formLabel}`}>Bio</label>
+            <textarea name='userBio' id='userBio' onChange={handleInputOnChange} value={userDetails?.userBio} className={`${editProfileStyle.__EditProfile_formTextArea}`} placeholder='userBio' autoCapitalize="on" maxLength={150} minLength={4}></textarea>
           </div>
 
-          <div className={`${settingStyle.__EditProfile__formRow} ${settingStyle.__EditProfile__buttonContainer}`}>
-            <button type='submit' className={`${settingStyle.__EditProfile_saveButton}`} onClick={handleSaveChanges}>
+          <div className={`${editProfileStyle.__EditProfile__formRow} ${editProfileStyle.__EditProfile__buttonContainer}`}>
+            <button type='submit' className={`${editProfileStyle.__EditProfile_saveButton}`} onClick={handleSaveChanges}>
               {
                 buttonLoading ? <ButtonLoader /> : ' Save Changes'
               }
@@ -227,19 +228,19 @@ function ProfileUpdatePopup({ CbTogglePopup, CbProfile, CbRef, CbLoadDetails }) 
     CbTogglePopup(e);
   }
 
-  return <div className={`${settingStyle.__EditProfile__UpdatePicturePopup_Container}`}>
-    <div className={`${settingStyle.__Setting__UpdatePicturePopup}`}>
-      <img src={CbProfile ?? defaultPicture} alt={"user profile"} className={`${settingStyle.__popupUserProfile}`} onError={(e) => { e.target.src = `${defaultPicture}`; e.onError = null; }} />
-      <h3 className={`${settingStyle.__UpdatePicturePopup_Heading}`}>Update Profile picture</h3>
+  return <div className={`${editProfileStyle.__EditProfile__UpdatePicturePopup_Container}`}>
+    <div className={`${editProfileStyle.__Setting__UpdatePicturePopup}`}>
+      <img src={CbProfile ?? defaultPicture} alt={"user profile"} className={`${editProfileStyle.__popupUserProfile}`} onError={(e) => { e.target.src = `${defaultPicture}`; e.onError = null; }} />
+      <h3 className={`${editProfileStyle.__UpdatePicturePopup_Heading}`}>Update Profile picture</h3>
 
-      <button type='button' className={`${settingStyle.__UpdatePicturePopupButtons} ${settingStyle.__UpdatePictureButton}`} onClick={handleUploadClick}>Upload Photo</button>
+      <button type='button' className={`${editProfileStyle.__UpdatePicturePopupButtons} ${editProfileStyle.__UpdatePictureButton}`} onClick={handleUploadClick}>Upload Photo</button>
 
-      <button type='button' className={`${settingStyle.__UpdatePicturePopupButtons} ${settingStyle.__RemoveCurrentPictureButton} ${buttonLoading && 'Unactive'}`} onClick={handleRemoveProfile}>
+      <button type='button' className={`${editProfileStyle.__UpdatePicturePopupButtons} ${editProfileStyle.__RemoveCurrentPictureButton} ${buttonLoading && 'Unactive'}`} onClick={handleRemoveProfile}>
         {
           buttonLoading ? <ButtonLoader /> : ' Remove Current Photo'
         }
       </button>
-      <button type='button' className={`${settingStyle.__UpdatePicturePopupButtons}`} onClick={CbTogglePopup}>Cancle</button>
+      <button type='button' className={`${editProfileStyle.__UpdatePicturePopupButtons}`} onClick={CbTogglePopup}>Cancle</button>
     </div>
   </div>
 }

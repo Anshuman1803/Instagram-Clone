@@ -11,8 +11,37 @@
 .Unactive {
   pointer-events: none;
   opacity: 0.8;
-
 }
+
+
+.shimmerBg {
+  background: #FAFAF9;
+  background: linear-gradient(to right, #F1F5F9 8%, #CBD5E1 18%, #F1F5F9 33%);
+  background-size: 1200px 100%;
+  animation: shimmer 2.9s linear infinite forwards;
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+      background-position: -100% 0;
+  }
+
+  100% {
+      background-position: 100% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+      background-position: -1200px 0;
+  }
+
+  100% {
+      background-position: 1200px 0;
+  }
+}
+
+
 
 /* Button Loader */
 .loaderContainer {
