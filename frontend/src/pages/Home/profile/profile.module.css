@@ -1,0 +1,469 @@
+/* ! This block holds the design of DASHBOARD PROFILE SECTION */
+.dashboard__ProfileSection {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+.dashboard__currentUser__infoContainer {
+    width: 80%;
+    margin: 20px auto 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7em;
+    position: relative;
+}
+
+
+.infoContainer__userProfile {
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+    align-self: flex-start;
+}
+
+.userProile {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.infoContainer__userBox {
+    width: calc(100% - 230px);
+    min-height: 275px;
+
+}
+
+.userBox__userName {
+    text-transform: lowercase;
+    font-weight: 500;
+    color: black;
+    font-size: 22px;
+    padding: 0.6em;
+    position: relative;
+}
+
+.userBox__editProfileButton {
+    width: 125px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.7em;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background-color: rgba(119, 136, 153, 0.263);
+    margin-left: 20px;
+}
+
+.userBox__followButton {
+    background-color: #0095F6;
+    color: white;
+    font-weight: 600;
+}
+
+.userBox__editProfileButton:hover {
+    cursor: pointer;
+    background-color: rgba(119, 136, 153, 0.5);
+}
+
+.userBox__followButton:hover {
+    cursor: pointer;
+    background-color: #0866ff;
+}
+
+.userBox__userActivityState {
+    margin: 20px auto;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.userBox__activity {
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 10px;
+    word-spacing: 5px;
+}
+
+.userBox__fullName {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.userBox__userBIO {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.812);
+    margin-top: 10px;
+}
+
+.userBox__websiteLINK {
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: black;
+}
+
+.userBox__websiteLINK:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.dashboard__currentUser__PostsContainer {
+    border-top: 1px solid rgba(128, 128, 128, 0.848);
+    width: 80%;
+    margin: 10px auto;
+    min-height: 400px;
+}
+
+.dashboard__postsContainer_navbar {
+    width: 275px;
+    height: 70px;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.PostsContainer__navItem {
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.542);
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.postsContainer__navitemICON {
+    width: 22px;
+    margin-right: 6px;
+}
+
+.active {
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-transform: uppercase;
+    border-top: 1px solid black;
+    color: black;
+    font-weight: 600;
+}
+
+.postsContainer__outLetContainer {
+    min-height: 300px;
+}
+
+.dashboard__profileSection__ProfilePostsContainer {
+    width: 100%;
+    min-height: 300px;
+}
+
+.ProfilePostsContainer__NOpostBox {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.noPostICON {
+    width: 90px;
+    height: 90px;
+}
+
+.noPost__title {
+    font-size: 35px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin: 15px 0px;
+}
+
+.noPost__secondaryTest {
+    width: 52%;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.713);
+    text-align: center;
+}
+
+.profilePostContainer__PostBox {
+    width: 100%;
+    min-height: 350px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    position: relative;
+}
+
+.flexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profilePostContainer__postCard {
+    width: 100%;
+    height: 325px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.151);
+    padding: 0.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.profilePostContainer__postPoster {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.profilePostcontainer__postInfo {
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    backdrop-filter: blur(2px);
+    display: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.profilePostContainer_postInfoBox {
+    font-size: 28px;
+    min-width: 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.profilePostcontainer__postInfoICON {
+    font-size: 25px;
+}
+
+.profilePostContainer__postCard:hover .profilePostcontainer__postInfo {
+    display: flex;
+}
+
+
+
+/*! Responsive Styles */
+
+@media screen and (max-width: 1247px) {
+    .profilePostContainer__PostBox {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+    }
+}
+
+
+@media screen and (max-width: 815px) {
+
+    .dashboard__currentUser__PostsContainer,
+    .dashboard__currentUser__infoContainer {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard__currentUser__PostsContainer {
+        margin: 0px auto;
+    }
+
+    .infoContainer__userProfile {
+        width: 120px;
+        height: 120px;
+    }
+
+    .userBox__userActivityState {
+        border-top: 1px solid rgba(128, 128, 128, 0.671);
+        height: 80px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0em 1em;
+    }
+
+    .userBox__activity {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .infoContainer__userBox {
+        width: calc(100% - 140px);
+        align-self: flex-start;
+    }
+
+    .userBox__userName {
+        padding: 0.6em 0em;
+    }
+
+    .userBox__fullName {
+        margin: 10px 0px;
+        font-size: 20px;
+    }
+
+    .postsContainer__navItemTExt {
+        display: none;
+    }
+
+    .dashboard__postsContainer_navbar {
+        width: 100%;
+    }
+
+    .PostsContainer__navItem {
+        width: 120px;
+    }
+
+    .postsContainer__navitemICON {
+        width: 28px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .noPost__secondaryTest {
+        width: 95%;
+    }
+
+}
+
+
+@media screen and (max-width: 641px) {
+    .dashboard__currentUser__infoContainer {
+        min-height: 375px;
+    }
+
+    .userBox__fullName {
+        width: 100%;
+        padding-left: 1em;
+        position: absolute;
+        top: 40%;
+        left: 0;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 0 1em;
+    }
+
+    .userBox__userBIO {
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 55%;
+        left: 0;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 0 1.2em;
+        word-wrap: break-word;
+    }
+
+    .infoContainer__userBox {
+        min-height: fit-content;
+    }
+
+    .userBox__userName {
+        font-size: 28px;
+        padding-left: 0.1em;
+    }
+
+    .userBox__editProfileButton {
+        margin-top: 20px;
+        top: 100%;
+        left: 0;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+
+    .profilePostContainer__PostBox {
+        grid-template-columns: repeat(2, 0.8fr);
+    }
+
+    .profilePostContainer__postCard {
+        height: 275px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .infoContainer__userProfile {
+        width: 100px;
+        height: 100px;
+    }
+
+    .userBox__userName {
+        font-size: 20px;
+    }
+
+    .infoContainer__userBox {
+        width: calc(100% - 110px);
+    }
+
+    .userBox__editProfileButton {
+        width: 140px;
+    }
+
+    .userBox__fullName {
+        top: 35%;
+    }
+
+    .userBox__userBIO {
+        width: 100%;
+        padding-left: 0.9em;
+        top: 50%;
+        font-size: 16px;
+        line-height: 25px;
+    }
+
+    .userBox__activity {
+        font-size: 16px;
+    }
+
+    .PostsContainer__navItem {
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .profilePostContainer__PostBox {
+        grid-template-columns: repeat(1, 0.9fr);
+    }
+    .userBox__editProfileButton {
+        margin-left: 0;
+    }
+
+}

@@ -10,7 +10,7 @@ import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import PostLoader from "../../../components/PostLoader";
-
+import profileStyle from "./profile.module.css"
 export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
@@ -66,45 +66,45 @@ export default function Profile() {
 
   return (
     <>
-      <section className="dashboard__ProfileSection">
+      <section className={`${profileStyle.dashboard__ProfileSection}`}>
         {
           Loading ? <PostLoader /> :
             <>
-              <div className="dashboard__currentUser__infoContainer">
+              <div className={`${profileStyle.dashboard__currentUser__infoContainer}`}>
 
-                <div className="infoContainer__userProfile">
-                  <img src={currentUser?.userProfile ?? defaultProfile} alt={currentUser?.userName} className="userProile" onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} />
+                <div className={`${profileStyle.infoContainer__userProfile}`}>
+                  <img src={currentUser?.userProfile ?? defaultProfile} alt={currentUser?.userName} className={`${profileStyle.userProile}`} onError={(e) => { e.target.src = `${defaultProfile}`; e.onerror = null; }} />
                 </div>
 
-                <div className="infoContainer__userBox">
-                  <h1 className="userBox__userName">
+                <div className={`${profileStyle.infoContainer__userBox}`}>
+                  <h1 className={`${profileStyle.userBox__userName}`}>
                     <span style={{ marginRight: "10px" }}> {currentUser?.userName}</span>
                     {
-                      userID.instaUserID === instaUserID ? <button className="userBox__editProfileButton" onClick={handleEdit} >
+                      userID.instaUserID === instaUserID ? <button className={`${profileStyle.userBox__editProfileButton}`} onClick={handleEdit} >
                         Edit profile
                       </button> : <>
 
-                        <button className="userBox__editProfileButton userBox__followButton"  >
+                        <button className={`${profileStyle.userBox__editProfileButton} ${profileStyle.userBox__followButton}`}  >
                           Follow
                         </button>
                       </>
                     }
                   </h1>
 
-                  <div className="userBox__userActivityState">
-                    <span className="userBox__activity userBox__postActivity">
+                  <div className={`${profileStyle.userBox__userActivityState}`}>
+                    <span className={`${profileStyle.userBox__activity} ${profileStyle.userBox__postActivity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userPostsCount}
                       </strong>
                       posts
                     </span>
-                    <span className="userBox__activity">
+                    <span className={`${profileStyle.userBox__activity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userFollowers}
                       </strong>
                       followers
                     </span>
-                    <span className="userBox__activity">
+                    <span className={`${profileStyle.userBox__activity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userFollowing}
                       </strong>
@@ -112,50 +112,50 @@ export default function Profile() {
                     </span>
                   </div>
 
-                  <p className="userBox__fullName">{currentUser?.fullName}</p>
+                  <p className={`${profileStyle.userBox__fullName}`}>{currentUser?.fullName}</p>
 
-                  <p className="userBox__userBIO">
+                  <p className={`${profileStyle.userBox__userBIO}`}>
                     {currentUser?.userBio ? `${currentUser.userBio}` : ""}
                     {
-                      currentUser?.website && <a className="userBox__websiteLINK" target="_blank" rel="noreferrer" href={currentUser?.website}> <PiLinkSimple className="userBox__websitelinkICON" /> {currentUser?.website.split("/")[2]}</a>
+                      currentUser?.website && <a className={`${profileStyle.userBox__websiteLINK}`} target="_blank" rel="noreferrer" href={currentUser?.website}> <PiLinkSimple className={`${profileStyle.userBox__websitelinkICON}`} /> {currentUser?.website.split("/")[2]}</a>
                     }
                   </p>
                 </div>
 
               </div>
 
-              <div className="dashboard__currentUser__PostsContainer">
-                <nav className="dashboard__postsContainer_navbar">
+              <div className={`${profileStyle.dashboard__currentUser__PostsContainer}`}>
+                <nav className={`${profileStyle.dashboard__postsContainer_navbar}`}>
                   <NavLink
                     to={`/${userID?.instaUserID}/posts`}
                     state={currentUser?.posts}
-                    className="PostsContainer__navItem"
+                    className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
                   >
                     <img
                       src={gridICON}
                       alt="UserPost"
-                      className="postsContainer__navitemICON"
+                      className={`${profileStyle.postsContainer__navitemICON}`}
                     />
-                    <span className="postsContainer__navItemTExt">Posts</span>
+                    <span className={`${profileStyle.postsContainer__navItemTExt}`}>Posts</span>
                   </NavLink>
 
                   {userID.instaUserID === instaUserID && (
                     <NavLink
                       to={`/${userID?.instaUserID}/saved`}
-                      className="PostsContainer__navItem"
+                      className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
                       state={currentUser?.savedPost}
                     >
                       <img
                         src={savedICON}
                         alt="User-saved-Post"
-                        className="postsContainer__navitemICON"
+                        className={`${profileStyle.postsContainer__navitemICON}`}
                       />
-                      <span className="postsContainer__navItemTExt">Saved</span>
+                      <span className={`${profileStyle.postsContainer__navItemTExt}`}>Saved</span>
                     </NavLink>
                   )}
 
                 </nav>
-                <div className="postsContainer__outLetContainer">
+                <div className={`${profileStyle.postsContainer__outLetContainer}`}>
                   <Outlet />
                 </div>
               </div>
