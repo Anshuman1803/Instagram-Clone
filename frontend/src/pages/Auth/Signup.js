@@ -7,6 +7,7 @@ import microSoft from "../../Assets/Microsoft.png";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
+import authStyle from "./auth.module.css"
 function SignUp() {
   const navigateTO = useNavigate();
   const userEmailRef = useRef();
@@ -106,22 +107,22 @@ function SignUp() {
   };
 
   return (
-    <div className="Auth__UserLoginFormContainer">
-      <div className="authFormn_Box">
-        <Link to={"/"} className="LoginForm__Link__Logo">
+    <div className={`${authStyle.Auth__UserLoginFormContainer}`}>
+      <div className={`${authStyle.authFormn_Box}`}>
+        <Link to={"/"} className={`${authStyle.LoginForm__Link__Logo}`}>
           <img
             src={instaLOGO}
             alt="instagramLOGO"
-            className="LoginForm__LOGO"
+            className={`${authStyle.LoginForm__LOGO}`}
           />
         </Link>
 
-        <form className="Auth__LoginForm">
-          <div className="Auth__formItemBox">
+        <form className={`${authStyle.Auth__LoginForm}`}>
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type="text"
               name="userEmail"
-              className={`Auth__formItem ${errorState.userEmailError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.userEmailError && `${authStyle.Auth__formItemErrorItemBox__errorState}`
                 }`}
               placeholder="Email address"
               onChange={handleInputOnChange}
@@ -132,11 +133,11 @@ function SignUp() {
             />
           </div>
 
-          <div className="Auth__formItemBox">
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type="text"
               name="fullName"
-              className={`Auth__formItem ${errorState.fullNameError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.fullNameError && `${authStyle.Auth__formItemErrorItemBox__errorState}`
                 }`}
               placeholder="Name"
               onChange={handleInputOnChange}
@@ -149,11 +150,11 @@ function SignUp() {
             />
           </div>
 
-          <div className="Auth__formItemBox">
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type="text"
               name="userName"
-              className={`Auth__formItem ${errorState.userNameError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.userNameError && `${authStyle.Auth__formItemErrorItemBox__errorState}`
                 }`}
               placeholder="Username"
               onChange={handleInputOnChange}
@@ -164,11 +165,11 @@ function SignUp() {
             />
           </div>
 
-          <div className="Auth__formItemBox">
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"
-              className={`Auth__formItem ${errorState.userPasswordError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.userPasswordError && `${authStyle.Auth__formItemErrorItemBox__errorState}`
                 }`}
               placeholder="Password"
               onChange={handleInputOnChange}
@@ -179,7 +180,7 @@ function SignUp() {
             />
             {userDetails.userPassword && (
               <span
-                className="formPassword__showHide"
+                className={`${authStyle.formPassword__showHide}`}
                 onClick={togglePasswordShow}
               >
                 {showPassword ? "Hide" : "Show"}
@@ -189,73 +190,73 @@ function SignUp() {
 
           <button
             type="button"
-            className={`Auth__formButton ${(userDetails.userEmail &&
+            className={`${authStyle.Auth__formButton} ${(userDetails.userEmail &&
               userDetails.userPassword &&
               userDetails.fullName &&
               userDetails.userName) ||
-              "unActiveFormButton"
+              `${authStyle.unActiveFormButton}`
               }`}
             onClick={handleSignUPClick}
           >
             {btnLoader ? <ButtonLoader /> : "Sign up"}
           </button>
 
-          <div className="authForm__hrContainer">
-            <p className="authForm__hrContainer_line"></p>
-            <span className="authForm__hrContainerOR_text">OR</span>
+          <div className={`${authStyle.authForm__hrContainer}`}>
+            <p className={`${authStyle.authForm__hrContainer_line}`}></p>
+            <span className={`${authStyle.authForm__hrContainerOR_text}`}>OR</span>
           </div>
 
-          <Link className={`authForm__googleLoginLINK ${btnLoader && 'Unactive'}`}>
+          <Link className={`${authStyle.authForm__googleLoginLINK} ${btnLoader && 'Unactive'}`}>
             <img
               src={googleLOGO}
               alt="googleLOGO"
-              className="googleLoginLOGO"
+              className={`${authStyle.googleLoginLOGO}`}
             />
-            <span className="authForm__googleLoginText">
+            <span className={`${authStyle.authForm__googleLoginText}`}>
               Sign up with google
             </span>
           </Link>
         </form>
       </div>
 
-      <div className="authGotoSignUP_container">
+      <div className={`${authStyle.authGotoSignUP_container}`}>
         Have an account?
-        <Link className={`gotoRegisterPageLINK ${btnLoader && 'Unactive'}`} to={"/user/auth/signin"}>
+        <Link className={`${authStyle.gotoRegisterPageLINK} ${btnLoader && 'Unactive'}`} to={"/user/auth/signin"}>
           Log in
         </Link>
       </div>
 
-      <div className="Get_App_Container">
-        <h4 className="Get_App_Container-Title">Get the app.</h4>
-        <div className="platformButton__container">
-          <Link
-            to={
-              "https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DloginPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge"
-            }
-            target="_blank"
-          >
-            <img
-              src={playStore}
-              alt="Download-From-Play-Store"
-              className="platformButtonImages"
-            />
-          </Link>
+      <div className={`${authStyle.Get_App_Container}`}>
+          <h4 className={`${authStyle.Get_App_Container_Title}`}>Get the app.</h4>
+          <div className={`${authStyle.platformButton__container}`}>
+            <Link
+              to={
+                "https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DloginPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge"
+              }
+              target="_blank"
+            >
+              <img
+                src={playStore}
+                alt="Download-From-Play-Store"
+                className={`${authStyle.platformButtonImages}`}
+              />
+            </Link>
 
-          <Link
-            to={
-              "https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"
-            }
-            target="_blank"
-          >
-            <img
-              src={microSoft}
-              alt="Download-From-Microsoft"
-              id="Microsoft-Img-button"
-              className="platformButtonImages"
-            />
-          </Link>
+            <Link
+              to={
+                "https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"
+              }
+              target="_blank"
+            >
+              <img
+                src={microSoft}
+                alt="Download-From-Microsoft"
+                id="Microsoft-Img-button"
+                className={`${authStyle.platformButtonImages}`}
+              />
+            </Link>
+          </div>
         </div>
-      </div>
     </div>
   );
 }

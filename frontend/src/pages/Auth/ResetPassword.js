@@ -7,7 +7,8 @@ import ButtonLoader from "../../components/ButtonLoader";
 import ComponentLoader from "../../components/ComponentLoader";
 import toast from "react-hot-toast";
 import axios from "axios";
-function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
+import authStyle from "./auth.module.css"
+function ResetPassword({ PropClassName, CompTitle, instaUserID }) {
   const { pathname } = useLocation();
   const userEmail = useLocation()?.state?.userEmail;
   const navigateTO = useNavigate();
@@ -19,7 +20,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
     userEmail: userEmail,
     newPassword: "",
     confirmPassword: "",
-    instaUserID : instaUserID,
+    instaUserID: instaUserID,
   });
 
   const [errorState, setErrorState] = useState({
@@ -66,7 +67,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
               userEmail: userEmail,
               newPassword: "",
               confirmPassword: "",
-              instaUserID : instaUserID,
+              instaUserID: instaUserID,
             });
             pathname !== "/Accout/setting/update-password" && navigateTO("/user/auth/signin");
           } else {
@@ -75,7 +76,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
               userEmail: userEmail,
               newPassword: "",
               confirmPassword: "",
-              instaUserID : instaUserID,
+              instaUserID: instaUserID,
             });
             pathname !== "/Accout/setting/update-password" && navigateTO("/user/auth/password/forgot-password");
             setBtnLoader(false);
@@ -87,7 +88,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
             userEmail: userEmail,
             newPassword: "",
             confirmPassword: "",
-            instaUserID : instaUserID,
+            instaUserID: instaUserID,
           });
           pathname !== "/Accout/setting/update-password" && navigateTO("/user/auth/password/forgot-password");
           setBtnLoader(false);
@@ -95,31 +96,31 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
     }
   };
 
-  useEffect(()=>{
-    if(!userEmail && pathname!== "/Accout/setting/update-password"){
+  useEffect(() => {
+    if (!userEmail && pathname !== "/Accout/setting/update-password") {
       navigateTO("/user/auth/password/forgot-password")
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
-    <div className={`Auth__UserLoginFormContainer`}>
-      <div className={`authFormn_Box forgotPasswordauthBox ${PropClassName}`}>
+    <div className={`${authStyle.Auth__UserLoginFormContainer}`}>
+      <div className={`${authStyle.authFormn_Box} ${authStyle.forgotPasswordauthBox} ${PropClassName}`}>
         <img
           src={lockPNG}
           alt="Security_LOGO"
-          className="authForm__securityLOGO"
+          className={`${authStyle.authForm__securityLOGO}`}
         />
-        <h1 className="authForm__ForgotPassHeading">
+        <h1 className={`${authStyle.authForm__ForgotPassHeading}`}>
           {
             CompTitle ?? 'Reset your password'
           }
         </h1>
-        <h3 className="authForm__ForgotPassSubHeading">
+        <h3 className={`${authStyle.authForm__ForgotPassSubHeading}`}>
           Enter your new password below. Make sure it's strong and includes
           mixed values.
         </h3>
-        <form className="Auth__LoginForm">
-          <div className="Auth__formItemBox">
+        <form className={`${authStyle.Auth__LoginForm}`}>
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type={"text"}
               style={{ display: "none" }}
@@ -128,7 +129,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
             <input
               type={showPassword ? "text" : "password"}
               name="newPassword"
-              className={`Auth__formItem ${errorState.newPasswordError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.newPasswordError && `${authStyle.ItemBox__errorState}`
                 }`}
               placeholder="New password"
               onChange={handleInputOnChange}
@@ -140,7 +141,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
             />
             {userDetails.confirmPassword && (
               <span
-                className="formPassword__showHide"
+                className={`${authStyle.formPassword__showHide}`}
                 onClick={togglePasswordShow}
               >
                 {showPassword ? "Hide" : "Show"}
@@ -148,11 +149,11 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
             )}
           </div>
 
-          <div className="Auth__formItemBox">
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
-              className={`Auth__formItem ${errorState.confirmPasswordError && "ItemBox__errorState"
+              className={`${authStyle.Auth__formItem} ${errorState.confirmPasswordError && `${authStyle.ItemBox__errorState}`
                 }`}
               placeholder="Confirm password"
               onChange={handleInputOnChange}
@@ -165,8 +166,8 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
 
           <button
             type="button"
-            className={`Auth__formButton ${(userDetails.newPassword && userDetails.confirmPassword) ||
-              "unActiveFormButton"
+            className={`${authStyle.Auth__formButton} ${(userDetails.newPassword && userDetails.confirmPassword) ||
+              `${authStyle.unActiveFormButton}`
               }`}
             onClick={handleResetPasswordClick}
           >
@@ -175,7 +176,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
         </form>
         {
           pathname !== "/Accout/setting/update-password" && <button
-            className="backtoLogIN_button"
+            className={`${authStyle.backtoLogIN_button}`}
             onClick={() => navigateTO("/user/auth/signin")}
           >
             Back to login
@@ -186,9 +187,10 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
       </div>
 
       {
-        pathname !== "/Accout/setting/update-password" && <div className="Get_App_Container">
-          <h4 className="Get_App_Container-Title">Get the app.</h4>
-          <div className="platformButton__container">
+        pathname !== "/Accout/setting/update-password" &&
+        <div className={`${authStyle.Get_App_Container}`}>
+          <h4 className={`${authStyle.Get_App_Container_Title}`}>Get the app.</h4>
+          <div className={`${authStyle.platformButton__container}`}>
             <Link
               to={
                 "https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DloginPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge"
@@ -198,7 +200,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
               <img
                 src={playStore}
                 alt="Download-From-Play-Store"
-                className="platformButtonImages"
+                className={`${authStyle.platformButtonImages}`}
               />
             </Link>
 
@@ -212,7 +214,7 @@ function ResetPassword({ PropClassName, CompTitle,instaUserID }) {
                 src={microSoft}
                 alt="Download-From-Microsoft"
                 id="Microsoft-Img-button"
-                className="platformButtonImages"
+                className={`${authStyle.platformButtonImages}`}
               />
             </Link>
           </div>
