@@ -1,13 +1,14 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut } from '../../Redux/ReduxSlice';
-import noPreviewPoster from "../../Assets/noPreviewPoster.png";
-import defaultProfile from "../../Assets/DefaultProfile.png";
-import selectImageICON from "../../Assets/selectImageICON.png";
+import { UserLoggedOut } from '../../../Redux/ReduxSlice';
+import noPreviewPoster from "../../../Assets/noPreviewPoster.png";
+import defaultProfile from "../../../Assets/DefaultProfile.png";
+import selectImageICON from "../../../Assets/selectImageICON.png";
 import toast from "react-hot-toast";
 import axios from "axios";
-import PostLoader from "../../components/PostLoader";
+import PostLoader from "../../../components/PostLoader";
 import { useNavigate } from "react-router-dom";
+import createPostStyle from "./create.module.css"
 export default function Create() {
   const { instaUserID, instaUserName, instaProfle } = useSelector(
     (state) => state.Instagram
@@ -96,49 +97,49 @@ export default function Create() {
   };
 
   return (
-    <section className="Dashboard__CreateSection__container">
-      <div className="CreatePost__box">
-        <div className="createPost__previewImageBox">
+    <section className={`${createPostStyle.Dashboard__CreateSection__container}`}>
+      <div className={`${createPostStyle.CreatePost__box}`}>
+        <div className={`${createPostStyle.createPost__previewImageBox}`}>
           <img
             src={post.postPoster}
             alt="Preview_Image"
-            className="creaetPost__PreviewImage"
+            className={`${createPostStyle.creaetPost__PreviewImage}`}
             onError={(e) => {
               e.target.src = `${noPreviewPoster}`;
               e.onerror = null;
             }}
           />
         </div>
-        <form className="createPost__form" onSubmit={handleCreateNewPost}>
-          <h1 className="createPost__formHeading">
+        <form className={`${createPostStyle.createPost__form}`} onSubmit={handleCreateNewPost}>
+          <h1 className={`${createPostStyle.createPost__formHeading}`}>
             Create new post
             <button
               type="submit"
-              className="createPost__ShareButton"
+              className={`${createPostStyle.createPost__ShareButton}`}
               value={"Share"}
             >
               Share
             </button>
           </h1>
 
-          <div className="createPost__currentUserInfo">
-            <div className="CreatePost__profilePictureBox">
+          <div className={`${createPostStyle.createPost__currentUserInfo}`}>
+            <div className={`${createPostStyle.CreatePost__profilePictureBox}`}>
               <img
                 src={instaProfle ? instaProfle : ""}
                 alt="ProfilePicture"
-                className="CreatePost__profilePicture"
+                className={`${createPostStyle.CreatePost__profilePicture}`}
                 onError={(e) => {
                   e.target.src = `${defaultProfile}`;
                   e.onerror = null;
                 }}
               />
             </div>
-            <h3 className="createPost__currentUserName">{instaUserName}</h3>
+            <h3 className={`${createPostStyle.createPost__currentUserName}`}>{instaUserName}</h3>
           </div>
           <textarea
             name="postCaption"
             id="caption"
-            className="createPost__captionBox"
+            className={`${createPostStyle.createPost__captionBox}`}
             placeholder="Write a caption..."
             autoFocus
             onChange={handleOnChangeInput}
@@ -157,7 +158,7 @@ export default function Create() {
           <img
             src={selectImageICON}
             alt=""
-            className="createPost__selectImageICON"
+            className={`${createPostStyle.createPost__selectImageICON}`}
             onClick={() => imgRef.current.click()}
           />
         </form>

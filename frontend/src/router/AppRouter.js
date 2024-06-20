@@ -6,20 +6,20 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 // Home Routes elements
-const HomeContainer = lazy(() => import('../pages/Home/HomeContainer'));
-const Home = lazy(() => import('../pages/Home/Home'));
-const Search = lazy(() => import('../pages/Home/search/Search.js'));
-const Explore = lazy(() => import('../pages/Home/Explore'));
-const Messages = lazy(() => import('../pages/Home/Messages'));
-const Notification = lazy(() => import('../pages/Home/Notification'));
-const Create = lazy(() => import('../pages/Home/Create'));
-const Profile = lazy(() => import('../pages/Home/profile/Profile.js'));
-const ProfilePost = lazy(() => import('../pages/Home/profile/ProfilePost'));
-const ProfileSavedPost = lazy(() => import('../pages/Home/profile/ProfileSavedPost.js'));
-const SettingContainer = lazy(()=> import('../pages/Home/setting/SettingContainer'));
-const EditProfile = lazy(()=> import('../pages/Home/setting/EditProfile'));
-const UpdatePassword = lazy(()=> import('../pages/Home/setting/UpdatePassword'));
-const Privacy = lazy(()=> import('../pages/Home/setting/Privacy'));
+const HomeContainer = lazy(() => import('../pages/Dashboard/Home/HomeContainer.js'));
+const Home = lazy(() => import('../pages/Dashboard/Home/Home.js'));
+const Search = lazy(() => import('../pages/Dashboard/search/Search.js'));
+const Explore = lazy(() => import('../pages/Dashboard/Explore/Explore.js'));
+const Messages = lazy(() => import('../pages/Dashboard/Messages'));
+const Notification = lazy(() => import('../pages/Dashboard/Notification'));
+const Create = lazy(() => import('../pages/Dashboard/create_post/Create.js'));
+const Profile = lazy(() => import('../pages/Dashboard/profile/Profile.js'));
+const ProfilePost = lazy(() => import('../pages/Dashboard/profile/ProfilePost'));
+const ProfileSavedPost = lazy(() => import('../pages/Dashboard/profile/ProfileSavedPost.js'));
+const SettingContainer = lazy(()=> import('../pages/Dashboard/setting/SettingContainer'));
+const EditProfile = lazy(()=> import('../pages/Dashboard/setting/edit_profile/EditProfile.js'));
+const UpdatePassword = lazy(()=> import('../pages/Dashboard/setting/UpdatePassword'));
+const Privacy = lazy(()=> import('../pages/Dashboard/setting/Privacy'));
 
 // Auth Routes elements
 const AuthContainer = lazy(() => import("../pages/Auth/AuthContainer"));

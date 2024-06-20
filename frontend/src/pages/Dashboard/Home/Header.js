@@ -1,12 +1,13 @@
 
-import Logo from '../../Assets/Logo.png'
-import Bars from '../../Assets/bars.png'
+import Logo from '../../../Assets/Logo.png'
+import Bars from '../../../Assets/bars.png'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
-import { UserLoggedOut } from '../../Redux/ReduxSlice';
+import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
-import MorePopup from '../../components/MorePopup';
+import MorePopup from './MorePopup';
+import homeStyle from "./home.module.css"
 export default function Header() {
     const navigateTO = useNavigate()
     const dispatch = useDispatch()
@@ -32,13 +33,13 @@ export default function Header() {
         }, 1000);
     }
     return (
-        <header className='__nav_Header' onClick={handleHidePopup}>
-            <img className='__nav_Logo' src={Logo} alt='insta logo' />
+        <header className={`${homeStyle.__nav_Header}`} onClick={handleHidePopup}>
+            <img className={`${homeStyle.__nav_Logo}`} src={Logo} alt='insta logo' />
             {
-                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass="__SecondaryPopupContainer" />
+                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass={`${homeStyle.__SecondaryPopupContainer}`} />
             }
 
-            <button type="button" onClick={handleTogglePopup} className='__navbar_moreButton __secondaryMoreButton'><img className='moreIcon' src={Bars} alt='MoreButtonICON' /> <span className='__navTitle'>More</span></button>
+            <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__navbar_moreButton} ${homeStyle.__secondaryMoreButton}`}><img className={`${homeStyle.moreIcon}`} src={Bars} alt='MoreButtonICON' /> <span className={`${homeStyle.__navTitle}`}>More</span></button>
 
         </header>
     )
