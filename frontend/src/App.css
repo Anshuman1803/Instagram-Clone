@@ -23,21 +23,21 @@
 
 @-webkit-keyframes shimmer {
   0% {
-      background-position: -100% 0;
+    background-position: -100% 0;
   }
 
   100% {
-      background-position: 100% 0;
+    background-position: 100% 0;
   }
 }
 
 @keyframes shimmer {
   0% {
-      background-position: -1200px 0;
+    background-position: -1200px 0;
   }
 
   100% {
-      background-position: 1200px 0;
+    background-position: 1200px 0;
   }
 }
 
@@ -1605,11 +1605,6 @@
     width: 100%;
   }
 
-  .profilePostContainer__PostBox {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-  }
 }
 
 @media screen and (max-width: 990px) {
@@ -1657,83 +1652,6 @@
   }
 }
 
-@media screen and (max-width: 815px) {
-  .dashboard__currentUser__PostsContainer,
-  .dashboard__currentUser__infoContainer{
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .dashboard__currentUser__PostsContainer {
-    margin: 0px auto;
-  }
-
-  .infoContainer__userProfile {
-    width: 120px;
-    height: 120px;
-  }
-
-  .userBox__userActivityState {
-    border-top: 1px solid rgba(128, 128, 128, 0.671);
-    height: 80px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0em 1em;
-  }
-
-  .userBox__activity {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .infoContainer__userBox {
-    width: calc(100% - 140px);
-    align-self: flex-start;
-  }
-
-  .userBox__userName {
-    padding: 0.6em 0em;
-  }
-
-  .userBox__fullName {
-    margin: 10px 0px;
-    font-size: 20px;
-  }
-
-  .postsContainer__navItemTExt {
-    display: none;
-  }
-
-  .dashboard__postsContainer_navbar {
-    width: 100%;
-  }
-
-  .PostsContainer__navItem {
-    width: 120px;
-  }
-
-  .postsContainer__navitemICON {
-    width: 28px;
-    padding: 0;
-    margin: 0;
-  }
-
-  .noPost__secondaryTest {
-    width: 95%;
-  }
-
-}
-
 @media screen and (max-width: 681px) {
   .HomeSection__homePostCard {
     width: 98%;
@@ -1750,47 +1668,6 @@
 }
 
 @media screen and (max-width: 641px) {
-  .dashboard__currentUser__infoContainer {
-    min-height: 375px;
-  }
-
-  .userBox__fullName {
-    width: 100%;
-    padding-left: 1em;
-    position: absolute;
-    top: 40%;
-    left: 0;
-    font-size: 24px;
-    font-weight: 500;
-    padding: 0 1em;
-  }
-
-  .userBox__userBIO {
-    margin: 0;
-    width: 100%;
-    position: absolute;
-    top: 55%;
-    left: 0;
-    font-size: 20px;
-    font-weight: 400;
-    padding: 0 1.2em;
-    word-wrap: break-word;
-  }
-
-  .infoContainer__userBox {
-    min-height: fit-content;
-  }
-
-  .userBox__userName {
-    font-size: 28px;
-    padding-left: 0.1em;
-  }
-
-  .userBox__editProfileButton {
-    margin-top: 20px;
-    top: 100%;
-    left: 0;
-  }
 
   .CreatePost__box {
     width: 95%;
@@ -1881,13 +1758,6 @@
     justify-content: center;
   }
 
-  .profilePostContainer__PostBox {
-    grid-template-columns: repeat(2, 0.8fr);
-  }
-
-  .profilePostContainer__postCard {
-    height: 275px;
-  }
 
   .otpVerifier__Form {
     width: 95vw;
@@ -1903,49 +1773,13 @@
   .Auth__UserLoginFormContainer {
     width: 100vw;
   }
+
   .authFormn_Box,
   .authGotoSignUP_container,
   .Get_App_Container {
     width: 95%;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .infoContainer__userProfile {
-    width: 100px;
-    height: 100px;
-  }
-
-  .userBox__userName {
-    font-size: 20px;
-  }
-
-  .infoContainer__userBox {
-    width: calc(100% - 110px);
-  }
-
-  .userBox__editProfileButton {
-    width: 140px;
-  }
-
-  .userBox__fullName {
-    top: 35%;
-  }
-
-  .userBox__userBIO {
-    width: 100%;
-    padding-left: 0.9em;
-    top: 50%;
-    font-size: 16px;
-    line-height: 25px;
-  }
-
-  .userBox__activity {
-    font-size: 16px;
-  }
-
-  .PostsContainer__navItem {
-    width: 80px;
   }
 
   .OTPForm__input {
@@ -1965,17 +1799,8 @@
 }
 
 @media screen and (max-width: 376px) {
-  .profilePostContainer__PostBox {
-    grid-template-columns: repeat(1, 0.9fr);
-  }
-
   .OTPForm__input {
     width: 40px;
     height: 40px;
   }
-
-  .userBox__editProfileButton {
-    margin-left: 0;
-  }
-
 }

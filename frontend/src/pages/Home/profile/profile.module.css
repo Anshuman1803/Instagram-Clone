@@ -348,6 +348,9 @@
     .PostsContainer__navItem {
         width: 120px;
     }
+    .active {
+        width: 120px;
+    }
 
     .postsContainer__navitemICON {
         width: 28px;
@@ -454,6 +457,9 @@
     }
 
     .PostsContainer__navItem {
+        width: 80px;
+    }
+    .active {
         width: 80px;
     }
 }
