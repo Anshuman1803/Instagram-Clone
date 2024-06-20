@@ -348,6 +348,7 @@
     .PostsContainer__navItem {
         width: 120px;
     }
+
     .active {
         width: 120px;
     }
@@ -459,6 +460,7 @@
     .PostsContainer__navItem {
         width: 80px;
     }
+
     .active {
         width: 80px;
     }
@@ -468,6 +470,7 @@
     .profilePostContainer__PostBox {
         grid-template-columns: repeat(1, 0.9fr);
     }
+
     .userBox__editProfileButton {
         margin-left: 0;
     }
