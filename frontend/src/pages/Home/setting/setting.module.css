@@ -1,0 +1,890 @@
+.__settingSection__mainContainer {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em 0em;
+}
+
+.__settingSection__settingBOX {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    width: 95%;
+    min-height: 95vh;
+    border-radius: 10px;
+}
+
+.__settingSection__nav {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.209);
+    width: 100%;
+    height: 60px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0em 1em;
+    gap: 25px;
+}
+
+.__settingSection__navItems {
+    text-decoration: none;
+    color: black;
+    padding: 0.7em 1.5em;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 2px;
+    transition: 400ms ease;
+}
+
+.__settingSection__navItems:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.02);
+}
+
+.active {
+    text-decoration: none;
+    color: black;
+    padding: 0.7em 1.5em;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 2px;
+    transition: 400ms ease;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.__settingSection__outletContainer {
+    width: 100%;
+    min-height: calc(95vh - 60px);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em;
+    position: relative;
+}
+
+.__EditProfile_form {
+    width: 550px;
+}
+
+.__EditProfile__profilePicture_box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0em 0.3em;
+    height: 80px;
+}
+
+.__EditProfile_userProfileBox {
+    width: 80px;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.__EditPrfoile_userProfile {
+    width: 100%;
+    height: 100%;
+}
+
+.__EditProfile_buttonBox {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 1em;
+    gap: 10px;
+}
+
+.__editProfile__userName {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.__changeProfilePopupButton {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #0866ff;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.__changeProfilePopupButton:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.__EditProfile__formRow {
+    margin-top: 1em;
+}
+
+.__EditProfile_formLabel {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+    display: block;
+    padding-left: 0.5em;
+}
+
+.__EditProfile_formInputItem {
+    border: none;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.537);
+    display: block;
+    width: 100%;
+    height: 45px;
+    margin-top: 8px;
+    border-radius: 5px;
+    padding: 0em 1em;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.__EditProfile_formTextArea {
+    border: none;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.537);
+    display: block;
+    width: 100%;
+    resize: none;
+    height: 150px;
+    margin-top: 8px;
+    border-radius: 5px;
+    padding: 1em;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.__EditProfile__selectOPTION {
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.__EditProfile__buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__EditProfile_saveButton {
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #0866ff;
+    width: 275px;
+    height: 45px;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.__EditProfile_saveButton:hover {
+    cursor: pointer;
+    background-color: #1f57cf;
+}
+
+.__EditProfile__UpdatePicturePopup_Container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    z-index: 2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__Setting__UpdatePicturePopup {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    width: 425px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.__popupUserProfile {
+    display: block;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+}
+
+.__UpdatePicturePopup_Heading {
+    width: 100%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 2em;
+}
+
+.__UpdatePicturePopupButtons {
+    position: relative;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    height: 55px;
+    margin: 0px auto;
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.479);
+}
+
+.__UpdatePicturePopupButtons:last-child {
+    margin-bottom: 0px;
+    border-bottom: none;
+}
+
+.__UpdatePictureButton {
+    font-weight: 600;
+    color: #0095F6;
+    font-size: 18px;
+}
+
+.__RemoveCurrentPictureButton {
+    font-size: 17px;
+    font-weight: 600;
+    color: #e5532d;
+}
+
+.__UpdatePicturePopupButtons:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.__Setting__UpdatePasswordContainer {
+    box-shadow: none;
+    border: none;
+    height: fit-content;
+}
+
+.__Setting__PrivacyContainer {
+    width: 100%;
+    min-height: calc(95vh - 110px);
+}
+
+.__PrivacyContainer__DeleteAccoutBox {
+    margin-bottom: 25px;
+}
+
+.__DeleteAccountBox__heading {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.__DeleteAccountBox_Deleteform {
+    padding: 0em 2em;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 5px auto;
+}
+
+.__Deleteform_Row {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    flex: 450px;
+    position: relative;
+}
+
+.__DeleteForm__ShowPassbtn {
+    display: block;
+    border: none;
+    outline: none;
+    position: absolute;
+    right: 2px;
+    height: 35px;
+    bottom: 12.5px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: white;
+    width: 90px;
+}
+
+.__DeleteForm__ShowPassbtn:hover {
+    cursor: pointer;
+    color: #737373;
+}
+
+.__Deleteform__label {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.__DeleteformRow__inputBox {
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px solid rgba(128, 128, 128, 0.394);
+    padding: 0em 1em;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.__DeleteForm__buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 100%;
+}
+
+.__Deleteform__deleteButton {
+    border: none;
+    outline: none;
+    width: 225px;
+    padding: 0em 1em;
+    background-color: #d43f3a;
+    font-size: 14px;
+    color: white;
+    border-radius: 3px;
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__Deleteform__deleteButton:hover {
+    cursor: pointer;
+    background-color: #d9534f;
+}
+
+.__DeleteAccoutPopupContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.__DeleteAccoutPopup {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    background-color: white;
+    border-radius: 5px;
+    width: 475px;
+    padding: 1em;
+}
+
+.__DeleteAccountPopup__Heading {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.__DeleteAccoutPopup__ICON {
+    display: block;
+    background-color: #e5532d;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.__DeleteAccountPopup__LIST {
+    width: 80%;
+    margin: auto;
+    list-style-type: none;
+    margin: 20px auto 30px auto;
+    font-weight: 600;
+}
+
+.__DeleteAccountPopup__listITEM {
+    font-weight: 500;
+    color: #737373;
+    font-size: 16px;
+    text-transform: capitalize;
+    margin-top: 9px;
+}
+
+.__DeleteAccoutPopup_ButtonContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.__DeleteAccoutPopup_Buttons {
+    border-radius: 5px;
+    height: 40px;
+    padding: 0.5em 1.8em;
+    font-size: 14px;
+    border: none;
+    outline: none;
+}
+
+.__DeleteAccoutPopup_Buttons:nth-child(1) {
+    background-color: #385185;
+    color: white;
+}
+
+.__DeleteAccoutPopup_Buttons:nth-child(2) {
+    background-color: #d43f3a;
+    color: white;
+    position: relative;
+    min-width: 125px;
+}
+
+.__DeleteAccoutPopup_Buttons:hover {
+    cursor: pointer;
+    transform: scale(0.97);
+}
+
+.__DeleteAccountPopup__OTPContainer {
+    width: 100%;
+    margin: 20px auto 40px auto;
+}
+
+
+
+/*! Responsive Styles */
+
+@media screen and (max-width: 1247px) {
+    .homeSection__currentUserContainer {
+        display: none;
+    }
+
+    .homeSection__ShowPostContainer {
+        width: 100%;
+    }
+
+    .profilePostContainer__PostBox {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    .authContainer__LeftSideContainer {
+        display: none;
+    }
+
+    .__outlet {
+        display: inline-block;
+        width: calc(100% - 80px);
+        height: 100vh;
+    }
+
+    .navbar,
+    .nav {
+        width: 80px;
+    }
+
+    .nav {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navLink {
+        width: 80%;
+    }
+
+    .instaLogo {
+        display: none;
+    }
+
+    .__instaIcon_Hide {
+        display: block;
+        font-size: 5px;
+        margin-left: 1.5em;
+    }
+
+    .__navTitle {
+        display: none;
+    }
+
+    .__popupContainer {
+        bottom: 30px;
+        right: -260px;
+    }
+}
+
+@media screen and (max-width: 815px) {
+
+    .dashboard__currentUser__PostsContainer,
+    .dashboard__currentUser__infoContainer {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard__currentUser__PostsContainer {
+        margin: 0px auto;
+    }
+
+    .infoContainer__userProfile {
+        width: 120px;
+        height: 120px;
+    }
+
+    .userBox__userActivityState {
+        border-top: 1px solid rgba(128, 128, 128, 0.671);
+        height: 80px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0em 1em;
+    }
+
+    .userBox__activity {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .infoContainer__userBox {
+        width: calc(100% - 140px);
+        align-self: flex-start;
+    }
+
+    .userBox__userName {
+        padding: 0.6em 0em;
+    }
+
+    .userBox__fullName {
+        margin: 10px 0px;
+        font-size: 20px;
+    }
+
+    .postsContainer__navItemTExt {
+        display: none;
+    }
+
+    .dashboard__postsContainer_navbar {
+        width: 100%;
+    }
+
+    .PostsContainer__navItem {
+        width: 120px;
+    }
+
+    .postsContainer__navitemICON {
+        width: 28px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .noPost__secondaryTest {
+        width: 95%;
+    }
+
+}
+
+@media screen and (max-width: 681px) {
+    .HomeSection__homePostCard {
+        width: 98%;
+    }
+
+    .__EditProfile_form {
+        width: 100%;
+        padding: 1em 0em;
+    }
+
+    .__DeleteAccountBox_Deleteform {
+        padding: 0em;
+    }
+}
+
+@media screen and (max-width: 641px) {
+    .dashboard__currentUser__infoContainer {
+        min-height: 375px;
+    }
+
+    .userBox__fullName {
+        width: 100%;
+        padding-left: 1em;
+        position: absolute;
+        top: 40%;
+        left: 0;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 0 1em;
+    }
+
+    .userBox__userBIO {
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 55%;
+        left: 0;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 0 1.2em;
+        word-wrap: break-word;
+    }
+
+    .infoContainer__userBox {
+        min-height: fit-content;
+    }
+
+    .userBox__userName {
+        font-size: 28px;
+        padding-left: 0.1em;
+    }
+
+    .userBox__editProfileButton {
+        margin-top: 20px;
+        top: 100%;
+        left: 0;
+    }
+
+    .CreatePost__box {
+        width: 95%;
+    }
+
+    .createPost__form {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .createPost__currentUserInfo {
+        padding: 0em;
+    }
+
+    .createPost__captionBox {
+        width: 100%;
+    }
+
+    .createPost__selectImageICON {
+        margin-left: 0em;
+    }
+
+    .__settingSection__nav {
+        padding: 0em 0.5em;
+        gap: 10px;
+    }
+
+    .__settingSection__navItems {
+        padding: 0.7em 1.2em;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+
+    .homeContainer {
+        flex-direction: column;
+    }
+
+    .__outlet {
+        width: 100%;
+        height: calc(100vh - 130px);
+    }
+
+    /* ! This block holds the Header Component Design */
+    .__nav_Header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        border-bottom: 1px solid rgb(170, 170, 170);
+        width: 100%;
+        height: 4em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1em;
+        z-index: 2;
+    }
+
+    .__nav_Logo {
+        width: 9em;
+    }
+
+    .navLink {
+        padding: 0;
+        justify-content: center;
+    }
+
+    .navbar,
+    .primary__navbar {
+        border-top: 1px solid rgb(179, 179, 179);
+        flex-direction: row;
+        width: 100%;
+        height: 4em;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .__instaIcon_Hide,
+    .__navbar_moreButton,
+    .__popupContainer {
+        display: none;
+    }
+
+    .__SecondaryPopupContainer {
+        display: block;
+        top: 110%;
+        right: 10px;
+    }
+
+    .__secondaryMoreButton {
+        padding: 0;
+        margin: 0;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profilePostContainer__PostBox {
+        grid-template-columns: repeat(2, 0.8fr);
+    }
+
+    .profilePostContainer__postCard {
+        height: 275px;
+    }
+
+    .otpVerifier__Form {
+        width: 95vw;
+    }
+
+    .__lazyLoader_title {
+        font-size: 28px;
+        letter-spacing: normal;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .Auth__UserLoginFormContainer {
+        width: 100vw;
+    }
+
+    .__DeleteAccoutPopup {
+        width: 95%;
+    }
+
+    .__DeleteAccountPopup__LIST {
+        width: 100%;
+    }
+
+    .authFormn_Box,
+    .authGotoSignUP_container,
+    .Get_App_Container {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .infoContainer__userProfile {
+        width: 100px;
+        height: 100px;
+    }
+
+    .userBox__userName {
+        font-size: 20px;
+    }
+
+    .infoContainer__userBox {
+        width: calc(100% - 110px);
+    }
+
+    .userBox__editProfileButton {
+        width: 140px;
+    }
+
+    .userBox__fullName {
+        top: 35%;
+    }
+
+    .userBox__userBIO {
+        width: 100%;
+        padding-left: 0.9em;
+        top: 50%;
+        font-size: 16px;
+        line-height: 25px;
+    }
+
+    .userBox__activity {
+        font-size: 16px;
+    }
+
+    .PostsContainer__navItem {
+        width: 80px;
+    }
+
+    .OTPForm__input {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .OTP_Form_ButtonContainer {
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .OTP__buttons {
+        width: 95%;
+    }
+
+    .__Setting__UpdatePicturePopup {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .profilePostContainer__PostBox {
+        grid-template-columns: repeat(1, 0.9fr);
+    }
+
+    .OTPForm__input {
+        width: 40px;
+        height: 40px;
+    }
+
+    .userBox__editProfileButton {
+        margin-left: 0;
+    }
+
+}
