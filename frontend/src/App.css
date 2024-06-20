@@ -1565,216 +1565,6 @@
 /* ! This block holds the design of DASHBOARD Create Post SECTION */
 
 
-/* ! This block holds the design of Setting PAGE */
-
-.__Setting__PrivacyContainer {
-  width: 100%;
-  min-height: calc(95vh - 110px);
-}
-
-.__PrivacyContainer__DeleteAccoutBox {
-  margin-bottom: 25px;
-}
-
-.__DeleteAccountBox__heading {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.__DeleteAccountBox_Deleteform {
-  padding: 0em 2em;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 5px auto;
-}
-
-.__Deleteform_Row {
-  height: 80px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  flex: 450px;
-  position: relative;
-}
-
-.__DeleteForm__ShowPassbtn {
-  display: block;
-  border: none;
-  outline: none;
-  position: absolute;
-  right: 2px;
-  height: 35px;
-  bottom: 12.5px;
-  font-size: 16px;
-  font-weight: 500;
-  background-color: white;
-  width: 90px;
-}
-
-.__DeleteForm__ShowPassbtn:hover {
-  cursor: pointer;
-  color: #737373;
-}
-
-.__Deleteform__label {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.__DeleteformRow__inputBox {
-  margin-top: 10px;
-  border: none;
-  outline: none;
-  width: 100%;
-  height: 40px;
-  border-radius: 2px;
-  border: 1px solid rgba(128, 128, 128, 0.394);
-  padding: 0em 1em;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.__DeleteForm__buttonContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex: 100%;
-}
-
-.__Deleteform__deleteButton {
-  border: none;
-  outline: none;
-  width: 225px;
-  padding: 0em 1em;
-  background-color: #d43f3a;
-  font-size: 14px;
-  color: white;
-  border-radius: 3px;
-  position: relative;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.__Deleteform__deleteButton:hover {
-  cursor: pointer;
-  background-color: #d9534f;
-}
-
-.__DeleteAccoutPopupContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(2px);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-}
-
-.__DeleteAccoutPopup {
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  background-color: white;
-  border-radius: 5px;
-  width: 475px;
-  padding: 1em;
-}
-
-.__DeleteAccountPopup__Heading {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.__DeleteAccoutPopup__ICON {
-  display: block;
-  background-color: #e5532d;
-  color: white;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-}
-
-.__DeleteAccountPopup__LIST {
-  width: 80%;
-  margin: auto;
-  list-style-type: none;
-  margin: 20px auto 30px auto;
-  font-weight: 600;
-}
-
-.__DeleteAccountPopup__listITEM {
-  font-weight: 500;
-  color: #737373;
-  font-size: 16px;
-  text-transform: capitalize;
-  margin-top: 9px;
-}
-
-.__DeleteAccoutPopup_ButtonContainer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-}
-
-.__DeleteAccoutPopup_Buttons {
-  border-radius: 5px;
-  height: 40px;
-  padding: 0.5em 1.8em;
-  font-size: 14px;
-  border: none;
-  outline: none;
-}
-
-.__DeleteAccoutPopup_Buttons:nth-child(1) {
-  background-color: #385185;
-  color: white;
-}
-
-.__DeleteAccoutPopup_Buttons:nth-child(2) {
-  background-color: #d43f3a;
-  color: white;
-  position: relative;
-  min-width: 125px;
-}
-
-.__DeleteAccoutPopup_Buttons:hover {
-  cursor: pointer;
-  transform: scale(0.97);
-}
-
-.__DeleteAccountPopup__OTPContainer {
-  width: 100%;
-  margin: 20px auto 40px auto;
-}
-
-
-
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
@@ -1994,15 +1784,6 @@
     margin-left: 0em;
   }
 
-  .__settingSection__nav {
-    padding: 0em 0.5em;
-    gap: 10px;
-  }
-
-  .__settingSection__navItems {
-    padding: 0.7em 1.2em;
-    font-size: 14px;
-  }
 }
 
 @media screen and (max-width: 550px) {
@@ -2093,15 +1874,6 @@
   .Auth__UserLoginFormContainer {
     width: 100vw;
   }
-
-  .__DeleteAccoutPopup {
-    width: 95%;
-  }
-
-  .__DeleteAccountPopup__LIST {
-    width: 100%;
-  }
-
   .authFormn_Box,
   .authGotoSignUP_container,
   .Get_App_Container {
@@ -2159,10 +1931,6 @@
   }
 
   .OTP__buttons {
-    width: 95%;
-  }
-
-  .__Setting__UpdatePicturePopup {
     width: 95%;
   }
 }
