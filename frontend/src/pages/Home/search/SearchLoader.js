@@ -9,45 +9,45 @@ function SearchLoader() {
                 dummyArray.map((data) => {
                     return <div key={data} className={` ${searchStyle.__SearchShimmerCard}`}>
                         <div className={`${searchStyle.__SearchResult_Card_profileBox}`}>
-                            <p className={`${searchStyle.__SearchShimmerCard_profile}  ${searchStyle.shimmerBg}`}
+                            <p className={`${searchStyle.__SearchShimmerCard_profile}  shimmerBg`}
                             ></p>
                             <h4 className={`${searchStyle.__SearchResult_Card_username}`}>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                             </h4>
                         </div>
                         <div className={`${searchStyle.__SearchResult_Card_userDetails}`}>
                             <p className={`${searchStyle.__SearchShimmerCarduserInfo}`}>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
-                                ></span>
-                            </p>
-                            <p className={`${searchStyle.__SearchShimmerCarduserInfo}`}>
-                                <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
-                                ></span>
-                                <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                             </p>
                             <p className={`${searchStyle.__SearchShimmerCarduserInfo}`}>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                                 <span
-                                    className={`${searchStyle.__SearchShimmerCard_userName}  ${searchStyle.shimmerBg}`}
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
+                                ></span>
+                            </p>
+                            <p className={`${searchStyle.__SearchShimmerCarduserInfo}`}>
+                                <span
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
+                                ></span>
+                                <span
+                                    className={`${searchStyle.__SearchShimmerCard_userName}  shimmerBg`}
                                 ></span>
                             </p>
                         </div>
                         <p
-                            className={`${searchStyle.__SearchShimmerCardButton}  ${searchStyle.shimmerBg}`}
+                            className={`${searchStyle.__SearchShimmerCardButton}  shimmerBg`}
                         ></p>
                     </div>
                 })
