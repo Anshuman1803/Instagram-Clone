@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import ExploreLoader from './ExploreLoader';
+import exploreStyle from './explore.module.css'
 export default function Explore() {
   const { instaTOKEN } = useSelector((state) => state.Instagram);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
@@ -38,30 +39,30 @@ export default function Explore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <section className='__ExploreContainer'>
+    <section className={`${exploreStyle.__ExploreContainer}`}>
       {
-        postLoading ? <ExploreLoader />: <>
-         {
-        ExplorePost.length === 0 ? <p> No Posts</p> : <>
+        postLoading ? <ExploreLoader /> : <>
           {
-            ExplorePost.map((posts) => {
-              return <div className='__ExplorePostCard' key={posts._id}>
-                <img src={posts.postPoster} alt={posts.postCaption} className='__ExplorePostCard_postPoster' loading="lazy"/>
-                <div className="__ExplorePostCard__postInfo">
-                  <p className="__ExplorePostCard_postInfoBox">
-                    <FaHeart className="__ExplorePostCard__postInfoICON" />
-                    {posts.postLikes}
-                  </p>
-                  <p className="__ExplorePostCard_postInfoBox">
-                    <FaComment className="__ExplorePostCard__postInfoICON" />
-                    {posts?.postCommentsCount}
-                  </p>
-                </div>
-              </div>
-            })
+            ExplorePost.length === 0 ? <p> No Posts</p> : <>
+              {
+                ExplorePost.map((posts) => {
+                  return <div className={`${exploreStyle.__ExplorePostCard}`} key={posts._id}>
+                    <img src={posts.postPoster} alt={posts.postCaption} className={`${exploreStyle.__ExplorePostCard_postPoster}`} loading="lazy" />
+                    <div className={`${exploreStyle.__ExplorePostCard__postInfo}`}>
+                      <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
+                        <FaHeart className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
+                        {posts.postLikes}
+                      </p>
+                      <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
+                        <FaComment className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
+                        {posts?.postCommentsCount}
+                      </p>
+                    </div>
+                  </div>
+                })
+              }
+            </>
           }
-        </>
-      }
         </>
       }
     </section>
