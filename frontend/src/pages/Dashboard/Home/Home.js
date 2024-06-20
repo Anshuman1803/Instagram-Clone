@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import defaultProfile from "../../../Assets/DefaultProfile.png";
 import axios from "axios";
 import toast from "react-hot-toast";
-import PostLoader from "../../../components/PostLoader";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +9,7 @@ import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import { HomePostCard } from "./HomeCard";
 import { SuggestedUser } from "./SuggestedUser";
 import homeStyle from "./home.module.css"
+import { HomeCardLoader } from "./HomeCardLoader";
 export default function Home() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -35,6 +35,7 @@ export default function Home() {
       ),
     ])
       .then(([postsResponse, suggestedUsersResponse]) => {
+        setPostLoading(false);
         if (postsResponse.data.success) {
           setAllPosts(
             postsResponse.data.posts.sort(
@@ -50,7 +51,6 @@ export default function Home() {
         } else {
           setSuggestedUser(suggestedUsersResponse.data.suggestedUser);
         }
-        setPostLoading(false);
       })
       .catch((error) => {
         if (error.response && !error.response.data.success) {
@@ -71,7 +71,7 @@ export default function Home() {
     <section className={`${homeStyle.dashboard__homeSection}`}>
       <div className={`${homeStyle.homeSection__ShowPostContainer}`}>
         {PostLoading ? (
-          <PostLoader />
+          <HomeCardLoader />
         ) : (
           <>
             {allPosts.map((posts, index) => {
