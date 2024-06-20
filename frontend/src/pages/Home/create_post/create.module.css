@@ -1,0 +1,159 @@
+.Dashboard__CreateSection__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.CreatePost__box {
+    margin: 2em 0em;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.342);
+    width: 550px;
+    height: 725px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em;
+    gap: 1em;
+    flex-direction: column;
+    position: relative;
+}
+
+.CreatePost__box .postLoaderContainer {
+    background-color: rgba(0, 0, 0, 0.164);
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+}
+
+.createPost__previewImageBox {
+    width: 100%;
+    border-radius: 8px;
+    height: 275px;
+}
+
+.creaetPost__PreviewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.createPost__form {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    width: 100%;
+    height: calc(100% - 300px);
+    border-radius: 10px;
+}
+
+.createPost__formHeading {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    padding: 0em 0.5em;
+    font-size: 20px;
+}
+
+.createPost__ShareButton {
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 500;
+    color: #0095F6;
+}
+
+.createPost__ShareButton:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.createPost__currentUserInfo {
+    width: 100%;
+    margin: 10px auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 0em 1em;
+}
+
+.CreatePost__profilePictureBox {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.CreatePost__profilePicture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.createPost__currentUserName {
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.createPost__captionBox {
+    outline: none;
+    border: none;
+    display: block;
+    margin: 0px auto;
+    resize: none;
+    width: 90%;
+    height: 220px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.createPost__captionBox::placeholder {
+    color: darkgray;
+    font-size: 14px;
+}
+
+.createPost__selectImageICON {
+    margin-top: 10px;
+    width: 32px;
+    margin-left: 1.7em;
+    transition: all 0.3s ease-in;
+}
+
+.createPost__selectImageICON:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 641px) {
+
+    .CreatePost__box {
+        width: 95%;
+    }
+
+    .createPost__form {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .createPost__currentUserInfo {
+        padding: 0em;
+    }
+
+    .createPost__captionBox {
+        width: 100%;
+    }
+
+    .createPost__selectImageICON {
+        margin-left: 0em;
+    }
+
+}

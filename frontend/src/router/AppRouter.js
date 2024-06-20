@@ -12,7 +12,7 @@ const Search = lazy(() => import('../pages/Home/search/Search.js'));
 const Explore = lazy(() => import('../pages/Home/Explore/Explore.js'));
 const Messages = lazy(() => import('../pages/Home/Messages'));
 const Notification = lazy(() => import('../pages/Home/Notification'));
-const Create = lazy(() => import('../pages/Home/Create'));
+const Create = lazy(() => import('../pages/Home/create_post/Create.js'));
 const Profile = lazy(() => import('../pages/Home/profile/Profile.js'));
 const ProfilePost = lazy(() => import('../pages/Home/profile/ProfilePost'));
 const ProfileSavedPost = lazy(() => import('../pages/Home/profile/ProfileSavedPost.js'));
