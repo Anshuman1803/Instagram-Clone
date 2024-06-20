@@ -6,13 +6,14 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import { Link, useNavigate } from 'react-router-dom';
-import PostLoader from "../../../components/PostLoader"
+import SearchLoader from './SearchLoader';
+import searchStyle from "./search.module.css"
 export default function Search() {
   const { instaTOKEN } = useSelector((state) => state.Instagram);
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
   const [searchText, setSearchText] = useState("");
-  const [searchLoader, setSearchLoader] = useState(false);
+  const [searchLoading, setSearchLoader] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [defaultMessage, setDefaultMessage] = useState("Looking for someone? Start typing their name...")
   const headers = {
@@ -62,45 +63,44 @@ export default function Search() {
 
   }
   return (
-    <section className='__SearchContainer'>
-      <header className='__SearchContainer__headerContainer'>
-        <form className='__serachbar_FormBox' onSubmit={(e) => e.preventDefault()}>
-          <input type="text" onKeyDown={handleEnterKey} autoFocus='on' name='searchText' id='searchText' value={searchText} onChange={(e) => setSearchText(e.target.value)} autoComplete='off' className='__Searchbar_input' placeholder="Search by user's full name or username" />
-          <button type='button' onClick={handleSearchResultClick} className='__Searchbutton'><CgSearch className='__SearchbuttonICON' /></button>
+    <section className={`${searchStyle.__SearchContainer}`}>
+      <header className={`${searchStyle.__SearchContainer__headerContainer}`}>
+        <form className={`${searchStyle.__serachbar_FormBox}`} onSubmit={(e) => e.preventDefault()}>
+          <input type="text" onKeyDown={handleEnterKey} autoFocus='on' name='searchText' id='searchText' value={searchText} onChange={(e) => setSearchText(e.target.value)} autoComplete='off' className={`${searchStyle.__Searchbar_input}`} placeholder="Search by user's full name or username" />
+          <button type='button' onClick={handleSearchResultClick} className={`${searchStyle.__Searchbutton}`}><CgSearch className={`${searchStyle.__SearchbuttonICON}`} /></button>
         </form>
       </header>
 
-      <div className={`${searchResult.length === 0 ? '____SearchResultFlexBox' : '__SearchResult_Container'}`}>
+      <div className={`${searchStyle.__SearchResult_Container}`}>
         {
-          searchLoader ? <PostLoader /> : <>
-
+          searchLoading ? <SearchLoader /> : <>
             {
-              searchResult.length === 0 ? <p className='__SerchResult__DefaultMessage'>{defaultMessage}</p> :
+              searchResult.length === 0 ? <p className={`${searchStyle.__SerchResult__DefaultMessage}`}>{defaultMessage}</p> :
                 <>
                   {
-                    searchResult.map((data, index) => {
-                      return <div className='__SearchResult__Card' key={data._id}>
-                        <div className='__SearchResult_Card_profileBox'>
-                          <img src={data?.userProfile ?? defaultPicture} alt='userProfile' className='__searchResult_Card_Profile' onError={(e) => { e.target.src = `${defaultPicture}`; e.onerror = null; }} />
-                          <h4 className='__SearchResult_Card_username'>
+                    searchResult.map((data) => {
+                      return <div className={`${searchStyle.__SearchResult__Card}`} key={data._id}>
+                        <div className={`${searchStyle.__SearchResult_Card_profileBox}`}>
+                          <img src={data?.userProfile ?? defaultPicture} alt='userProfile' className={`${searchStyle.__searchResult_Card_Profile}`} onError={(e) => { e.target.src = `${defaultPicture}`; e.onerror = null; }} />
+                          <h4 className={`${searchStyle.__SearchResult_Card_username}`}>
                             {data?.userName}
-                            <span className='__SearchResult_Card_FullName'>{data?.fullName}</span>
+                            <span className={`${searchStyle.__SearchResult_Card_FullName}`}>{data?.fullName}</span>
                           </h4>
                         </div>
 
-                        <div className='__SearchResult_Card_userDetails'>
-                          <p className='__SearchResult_Card_userInfo'>
-                            posts <span className='__SearchResult_Card_Numberdata'>{data?.userPostsCount}</span>
+                        <div className={`${searchStyle.__SearchResult_Card_userDetails}`}>
+                          <p className={`${searchStyle.__SearchResult_Card_userInfo}`}>
+                            posts <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userPostsCount}</span>
                           </p>
-                          <p className='__SearchResult_Card_userInfo'>
-                            followers <span className='__SearchResult_Card_Numberdata'>{data?.userFollowers}</span>
+                          <p className={`${searchStyle.__SearchResult_Card_userInfo}`}>
+                            followers <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowers}</span>
                           </p>
-                          <p className='__SearchResult_Card_userInfo'>
-                            following <span className='__SearchResult_Card_Numberdata'>{data?.userFollowing}</span>
+                          <p className={`${searchStyle.__SearchResult_Card_userInfo}`}>
+                            following <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowing}</span>
                           </p>
                         </div>
 
-                        <Link to={`/${data?._id}`} className='__SearchResult_Card_viewProfileButton'>View Profile</Link>
+                        <Link to={`/${data?._id}`} className={`${searchStyle.__SearchResult_Card_viewProfileButton}`}>View Profile</Link>
                       </div>
                     })
                   }

@@ -1,0 +1,284 @@
+.__SearchContainer {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0em 0.8em 1em 0.8em;
+}
+
+.__SearchContainer__headerContainer {
+    height: 80px;
+    width: 100%;
+    background-color: white;
+    position: sticky;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+
+}
+
+.__serachbar_FormBox {
+    width: 75%;
+    position: relative;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__Searchbar_input {
+    border: none;
+    outline: none;
+    width: calc(100% - 50px);
+    height: 100%;
+    padding: 0em 1em;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    border-left: 1px solid rgba(128, 128, 128, 0.554);
+    border-top: 1px solid rgba(128, 128, 128, 0.554);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.554);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.__Searchbutton {
+    width: 50px;
+    height: 100%;
+    position: relative;
+    border: none;
+    outline: none;
+    border-right: 1px solid rgba(128, 128, 128, 0.554);
+    border-top: 1px solid rgba(128, 128, 128, 0.554);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.554);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms ease;
+    background-color: white;
+}
+
+.__Searchbutton:hover {
+    cursor: pointer;
+    background-color: rgba(119, 136, 153, 0.15);
+}
+
+.__Searchbutton:hover .__SearchbuttonICON {
+    transform: scale(0.9);
+}
+
+.__SearchResult_Container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(335px, 335px));
+    min-height: 400px;
+    gap: 15px;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+.__SerchResult__DefaultMessage {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    color: grey;
+    font-weight: 400;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.__SearchResult__Card {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+}
+
+.__SearchResult_Card_profileBox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.__searchResult_Card_Profile {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.__SearchResult_Card_username {
+    width: calc(100% - 70px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.__SearchResult_Card_FullName {
+    font-weight: lighter;
+    font-size: 16px;
+    margin-top: 5px;
+    color: grey;
+}
+
+.__SearchResult_Card_userDetails {
+    margin: 2em 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__SearchResult_Card_userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.__SearchResult_Card_Numberdata {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.__SearchResult_Card_viewProfileButton {
+    text-decoration: none;
+    border: 0.5px solid rgba(128, 128, 128, 0.429);
+    background-color: transparent;
+    outline: none;
+    display: block;
+    margin: 20px auto 10px auto;
+    width: 90%;
+    padding: 0.7em;
+    font-weight: 500;
+    text-transform: capitalize;
+    border-radius: 5px;
+    text-align: center;
+    color: #385185;
+}
+
+.__SearchResult_Card_viewProfileButton:hover {
+    cursor: pointer;
+    border: 0.5px solid rgba(119, 136, 153, 0.15);
+    background-color: rgba(119, 136, 153, 0.15);
+}
+
+.__SearchShimmerCard {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    position: relative;
+}
+
+.shimmerBg {
+    background: #FAFAF9;
+    background: linear-gradient(to right, #F1F5F9 8%, #CBD5E1 18%, #F1F5F9 33%);
+    background-size: 1200px 100%;
+    animation: shimmer 2.9s linear infinite forwards;
+}
+
+.__SearchShimmerCard_profile {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.__SearchShimmerCarduserInfo {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.__SearchShimmerCard_userName {
+    background-color: #E5E7EB;
+    height: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.__SearchShimmerCardButton {
+    width: 100%;
+    height: 20px;
+    background-color: #E5E7EB;
+    border-radius: 5px;
+}
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+
+    100% {
+        background-position: 1200px 0;
+    }
+}
+
+
+/*! Responsive Styles */
+
+@media screen and (max-width: 815px) {
+
+    .__serachbar_FormBox {
+        width: 100%;
+    }
+
+    .__SearchResult_Container {
+        grid-template-columns: repeat(2, 50%);
+    }
+}
+
+
+
+@media screen and (max-width: 641px) {
+
+    .__SearchResult_Container {
+        grid-template-columns: repeat(auto-fit, minmax(335px, 335px));
+    }
+
+}
+
+
+@media screen and (max-width: 500px) {
+
+    .__SearchResult_Container {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 100%));
+    }
+
+    .__SearchContainer {
+        padding: 0 0.5em 1em 0.5em;
+    }
+
+}

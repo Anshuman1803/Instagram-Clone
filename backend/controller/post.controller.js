@@ -148,10 +148,68 @@ const deleteSavePostFromCollection = async (request, response) => {
   }
 }
 
+const explorerPosts = async (request, response)=>{
+  try{
+    const postData = await postCollection.aggregate([
+      {
+        $match :{}
+      },
+      {
+        $lookup : {
+          from : 'users',
+          localField : 'user',
+          foreignField : '_id',
+          as : 'user'
+        }
+      },
+      {
+        $unwind : "$user"
+      },
+      {
+        $lookup :{
+          from : 'comments',
+          localField : '_id',
+          foreignField : 'postID',
+          as : 'comments'
+        }
+      },
+      {
+        $addFields : {
+          postCommentsCount : {
+            $size : "$comments"
+          }
+        }
+      },
+      {
+        $project : {
+          _id : 1,
+          "user._id" : 1,
+          "user.userName" : 1,
+          "user.userProfile" : 1,
+          postPoster : 1,
+          postCaption : 1,
+          postCreatedAt : 1,
+          postCommentsCount : 1,
+          comments : 1,
+          postLikes : 1,
+        }
+      }
+    ])
+    if (postData.length > 0) {
+      response.send({ success: true, posts: postData });
+    } else {
+      response.send({ success: false, posts: postData });
+    }
+  }
+  catch(err){
+    response.send({success: false, msg:err.message});
+  }
+}
 
 module.exports = {
   createPost,
   getAllPosts,
   savePost,
   deleteSavePostFromCollection,
+  explorerPosts,
 };

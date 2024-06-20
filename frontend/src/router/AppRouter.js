@@ -9,7 +9,7 @@ import axios from "axios";
 const HomeContainer = lazy(() => import('../pages/Home/HomeContainer'));
 const Home = lazy(() => import('../pages/Home/Home'));
 const Search = lazy(() => import('../pages/Home/search/Search.js'));
-const Explore = lazy(() => import('../pages/Home/Explore'));
+const Explore = lazy(() => import('../pages/Home/Explore/Explore.js'));
 const Messages = lazy(() => import('../pages/Home/Messages'));
 const Notification = lazy(() => import('../pages/Home/Notification'));
 const Create = lazy(() => import('../pages/Home/Create'));

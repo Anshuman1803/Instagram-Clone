@@ -2039,192 +2039,107 @@
   margin: 20px auto 40px auto;
 }
 
-/* ! Search Container */
-.__SearchContainer {
-  width: 100%;
+
+/* ! Exlore Container */
+.__ExploreContainer {
   min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 0em 0.8em 1em 0.8em;
-}
-
-.__SearchContainer__headerContainer {
-  height: 80px;
   width: 100%;
-  background-color: white;
-  position: sticky;
-  top: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-
-}
-
-.__serachbar_FormBox {
-  width: 75%;
-  position: relative;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.__Searchbar_input {
-  border: none;
-  outline: none;
-  width: calc(100% - 50px);
-  height: 100%;
-  padding: 0em 1em;
-  font-size: 16px;
-  font-weight: 500;
-  position: relative;
-  border-left: 1px solid rgba(128, 128, 128, 0.554);
-  border-top: 1px solid rgba(128, 128, 128, 0.554);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.554);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.__Searchbutton {
-  width: 50px;
-  height: 100%;
-  position: relative;
-  border: none;
-  outline: none;
-  border-right: 1px solid rgba(128, 128, 128, 0.554);
-  border-top: 1px solid rgba(128, 128, 128, 0.554);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.554);
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  font-size: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 300ms ease;
-  background-color: white;
-}
-
-.__Searchbutton:hover {
-  cursor: pointer;
-  background-color: rgba(119, 136, 153, 0.15);
-}
-
-.__Searchbutton:hover .__SearchbuttonICON {
-  transform: scale(0.9);
-}
-
-.__SearchResult_Container {
-  width: 100%;
+  padding: 1em 0.8em;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(335px, 335px));
-  min-height: 400px;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
   align-items: flex-start;
   justify-content: center;
+  gap: 10px;
   position: relative;
 }
-.____SearchResultFlexBox{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100dvh - 250px);
+
+.__ExplorePostCard__ShimmerEffect {
+  overflow: hidden;
+  border-radius: 5px;
   width: 100%;
+  height: 320px;
+  background: #FAFAF9;
+  background: linear-gradient(to right, #F1F5F9 8%, #CBD5E1 18%, #F1F5F9 33%);
+  background-size: 1200px 100%;
+  animation: shimmer 2.9s linear infinite forwards ;
 }
-.__SerchResult__DefaultMessage{
-  width: 100%;
-  text-align: center;
-  font-size: 28px;
-  color: grey;
-  font-weight: 400;
+
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
 }
-.__SearchResult__Card {
+
+@keyframes shimmer {
+  0% {
+    background-position: -1200px 0;
+  }
+
+  100% {
+    background-position: 1200px 0;
+  }
+}
+
+.__ExplorePostCard {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
   width: 100%;
-  border-radius: 5px;
-  padding: 0.5em 1em;
-}
-
-.__SearchResult_Card_profileBox {
-  width: 100%;
+  height: 320px;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 15px;
-}
-
-.__searchResult_Card_Profile {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-}
-
-.__SearchResult_Card_username {
-  width: calc(100% - 70px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: column;
-  font-weight: 600;
-  font-size: 18px;
-}
-
-.__SearchResult_Card_FullName {
-  font-weight: lighter;
-  font-size: 16px;
-  margin-top: 5px;
-  color: grey;
-}
-
-.__SearchResult_Card_userDetails {
-  margin: 2em 0px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.__SearchResult_Card_userInfo {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
-  font-size: 16px;
-  text-transform: capitalize;
-}
-
-.__SearchResult_Card_Numberdata {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.__SearchResult_Card_viewProfileButton {
-  text-decoration: none;
-  border: 0.5px solid rgba(128, 128, 128, 0.429);
-  background-color: transparent;
-  outline: none;
-  display: block;
-  margin: 20px auto 10px auto;
-  width: 90%;
-  padding: 0.7em;
-  font-weight: 500;
-  text-transform: capitalize;
   border-radius: 5px;
-  text-align: center;
-  color: #385185;
-}
-
-.__SearchResult_Card_viewProfileButton:hover {
+  position: relative;
   cursor: pointer;
-  border: 0.5px solid rgba(119, 136, 153, 0.15);
-  background-color: rgba(119, 136, 153, 0.15);
 }
 
-/* ! Search Container */
+.__ExplorePostCard_postPoster {
+  width: 95%;
+  height: 95%;
+  object-fit: cover;
+}
+
+.__ExplorePostCard__postInfo {
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  backdrop-filter: blur(2px);
+  display: none;
+  transition: all 0.4s ease-in-out;
+}
+
+.__ExplorePostCard_postInfoBox {
+  font-size: 28px;
+  min-width: 100px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.__ExplorePostCard__postInfoICON {
+  font-size: 25px;
+}
+
+.__ExplorePostCard:hover .__ExplorePostCard__postInfo {
+  display: flex;
+}
+
+/* ! Exlore Container */
+
+
 
 /*! Responsive Styles */
 
@@ -2290,14 +2205,9 @@
 }
 
 @media screen and (max-width: 815px) {
-
   .dashboard__currentUser__PostsContainer,
-  .dashboard__currentUser__infoContainer,
-  .__serachbar_FormBox {
+  .dashboard__currentUser__infoContainer{
     width: 100%;
-  }
-  .__SearchResult_Container {
-    grid-template-columns: repeat(2,50%);
   }
 }
 
@@ -2368,6 +2278,11 @@
   .noPost__secondaryTest {
     width: 95%;
   }
+
+  .__ExploreContainer {
+    grid-template-columns: repeat(2, 50%);
+  }
+
 }
 
 @media screen and (max-width: 681px) {
@@ -2458,9 +2373,11 @@
     padding: 0.7em 1.2em;
     font-size: 14px;
   }
-  .__SearchResult_Container {
-    grid-template-columns: repeat(auto-fit, minmax(335px, 335px));
+
+  .__ExplorePostCard {
+    height: 275px;
   }
+
 }
 
 @media screen and (max-width: 550px) {
@@ -2624,12 +2541,12 @@
     width: 95%;
   }
 
-  .__SearchResult_Container {
-    grid-template-columns: repeat(auto-fit, minmax(100%, 100%));
+  .__ExploreContainer {
+    grid-template-columns: repeat(1, 100%);
   }
 
-  .__SearchContainer {
-    padding: 0 0.5em 1em 0.5em;
+  .__ExplorePostCard {
+    height: 300px;
   }
 }
 
