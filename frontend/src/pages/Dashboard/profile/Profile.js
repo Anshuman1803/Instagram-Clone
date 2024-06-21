@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import PostLoader from "../../../components/PostLoader";
 import profileStyle from "./profile.module.css"
+import { ProfileLoader } from "./ProfileLoader";
 export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
@@ -68,7 +68,7 @@ export default function Profile() {
     <>
       <section className={`${profileStyle.dashboard__ProfileSection}`}>
         {
-          Loading ? <PostLoader /> :
+          Loading ? <ProfileLoader /> :
             <>
               <div className={`${profileStyle.dashboard__currentUser__infoContainer}`}>
 
