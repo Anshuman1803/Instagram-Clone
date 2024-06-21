@@ -116,7 +116,7 @@ function Login() {
             />
           </div>
 
-          <div className="Auth__formItemBox">
+          <div className={`${authStyle.Auth__formItemBox}`}>
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"

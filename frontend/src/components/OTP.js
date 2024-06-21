@@ -6,7 +6,7 @@ import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoader from "./ButtonLoader";
-
+import authStyle from "../pages/Auth/auth.module.css"
 export function OTP() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -14,9 +14,14 @@ export function OTP() {
   const firstInputRef = useRef();
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [buttonLoading, setButtonLoading] = useState(false);
+  const navigateTO = useNavigate();
 
   useEffect(() => {
+    if (!state?.userEmail) {
+      navigateTO(`/user/auth/password/forgot-password`)
+    }
     firstInputRef.current.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOTPChange = (e, index) => {
@@ -62,7 +67,7 @@ export function OTP() {
 
       if (response.data.success) {
         if (Type === "Account-verification-forgot-password") {
-          navigate("/user/auth/password/reset-password", { state: {userEmail : state?.userEmail} });
+          navigate("/user/auth/password/reset-password", { state: { userEmail: state?.userEmail } });
           toast.success("Now, Reset your password");
         } else {
           const registerResponse = await axios.post(
@@ -95,7 +100,7 @@ export function OTP() {
   };
 
   return (
-    <div className="Auth__UserLoginFormContainer">
+    <div className={`${authStyle.Auth__UserLoginFormContainer}`}>
       <form className="otpVerifier__Form">
         <h3 className="otpVerifier__Form_heading">
           <MdOutlineSecurity className="otpVerifier__Form_heading_ICON" />
@@ -140,28 +145,33 @@ export function OTP() {
         </div>
       </form>
 
-      <div className="Get_App_Container">
-        <h4 className="Get_App_Container-Title">Get the app.</h4>
-        <div className="platformButton__container">
+      <div className={`${authStyle.Get_App_Container}`}>
+        <h4 className={`${authStyle.Get_App_Container_Title}`}>Get the app.</h4>
+        <div className={`${authStyle.platformButton__container}`}>
           <Link
-            to="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DloginPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge"
+            to={
+              "https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DloginPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge"
+            }
             target="_blank"
           >
             <img
               src={playStore}
               alt="Download-From-Play-Store"
-              className="platformButtonImages"
+              className={`${authStyle.platformButtonImages}`}
             />
           </Link>
 
           <Link
-            to="https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"
+            to={
+              "https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"
+            }
             target="_blank"
           >
             <img
               src={microSoft}
               alt="Download-From-Microsoft"
-              className="platformButtonImages"
+              id="Microsoft-Img-button"
+              className={`${authStyle.platformButtonImages}`}
             />
           </Link>
         </div>

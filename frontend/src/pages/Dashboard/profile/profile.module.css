@@ -1,4 +1,4 @@
-/* ! This block holds the design of DASHBOARD PROFILE SECTION */
+
 .dashboard__ProfileSection {
     width: 100%;
     min-height: 100%;
@@ -270,8 +270,43 @@
     display: flex;
 }
 
+.__shimmerInfoContainer {
+    min-height: 220px;
+}
+.__shimmerInfoContainer:nth-child(1) {
+    width: 80%;
+    margin: 0px auto 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2em 0.7em ;
+    position: relative;
+}
 
+.__ExplorePostCard__ShimmerEffect {
+    overflow: hidden;
+    border-radius: 5px;
+    width: 100%;
+    height: 320px;
+}
 
+.__userProfileShimmerCONTENT {
+    height: 15px;
+    width: 85% !important;
+    margin:10px auto !important;
+}
+
+.Postcontainer__shimmer{
+    width: 100%;
+    min-height: 350px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    padding: 0.5em;
+}
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
@@ -286,8 +321,12 @@
 @media screen and (max-width: 815px) {
 
     .dashboard__currentUser__PostsContainer,
-    .dashboard__currentUser__infoContainer {
+    .dashboard__currentUser__infoContainer{
         width: 100%;
+    }
+    .__shimmerInfoContainer:nth-child(1) {
+        width: 100%;
+        padding: 1em;
     }
 }
 
@@ -367,7 +406,7 @@
 
 
 @media screen and (max-width: 641px) {
-    .dashboard__currentUser__infoContainer {
+    .dashboard__currentUser__infoContainer{
         min-height: 375px;
     }
 
