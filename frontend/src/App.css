@@ -86,213 +86,67 @@
   }
 }
 
-.componentloaderContainer {
-  background-color: rgba(0, 0, 0, 0.244);
-  backdrop-filter: blur(2px);
-}
-
-.initialLoader {
-  background-color: rgb(252, 251, 251);
-}
-
-.initialLoader .Componentloader {
-  background-image:
-    linear-gradient(orange 16px, transparent 0),
-    linear-gradient(#FF3D00 16px, transparent 0),
-    linear-gradient(hsl(14, 100%, 50%) 16px, transparent 0),
-    linear-gradient(orange 16px, transparent 0);
-}
-
-.Componentloader {
-  width: 64px;
-  height: 64px;
-  position: relative;
-  background-image:
-    linear-gradient(#FFF 16px, transparent 0),
-    linear-gradient(#FF3D00 16px, transparent 0),
-    linear-gradient(#FF3D00 16px, transparent 0),
-    linear-gradient(#FFF 16px, transparent 0);
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-  background-position: left top, left bottom, right top, right bottom;
-  animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-  0% {
-    width: 64px;
-    height: 64px;
-    transform: rotate(0deg)
-  }
-
-  50% {
-    width: 30px;
-    height: 30px;
-    transform: rotate(180deg)
-  }
-
-  100% {
-    width: 64px;
-    height: 64px;
-    transform: rotate(360deg)
-  }
-}
-
-
-
-.postLoaderContainer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.PostLoader {
-  color: official;
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-
-.PostLoader div {
-  transform-origin: 40px 40px;
-  animation: PostLoader 1.2s linear infinite;
-}
-
-.PostLoader div:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 6px;
-  height: 18px;
-  border-radius: 20%;
-  background: #FF3D00;
-}
-
-.PostLoader div:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -1.1s;
-}
-
-.PostLoader div:nth-child(2) {
-  transform: rotate(30deg);
-  animation-delay: -1s;
-}
-
-.PostLoader div:nth-child(3) {
-  transform: rotate(60deg);
-  animation-delay: -0.9s;
-}
-
-.PostLoader div:nth-child(4) {
-  transform: rotate(90deg);
-  animation-delay: -0.8s;
-}
-
-.PostLoader div:nth-child(5) {
-  transform: rotate(120deg);
-  animation-delay: -0.7s;
-}
-
-.PostLoader div:nth-child(6) {
-  transform: rotate(150deg);
-  animation-delay: -0.6s;
-}
-
-.PostLoader div:nth-child(7) {
-  transform: rotate(180deg);
-  animation-delay: -0.5s;
-}
-
-.PostLoader div:nth-child(8) {
-  transform: rotate(210deg);
-  animation-delay: -0.4s;
-}
-
-.PostLoader div:nth-child(9) {
-  transform: rotate(240deg);
-  animation-delay: -0.3s;
-}
-
-.PostLoader div:nth-child(10) {
-  transform: rotate(270deg);
-  animation-delay: -0.2s;
-}
-
-.PostLoader div:nth-child(11) {
-  transform: rotate(300deg);
-  animation-delay: -0.1s;
-}
-
-.PostLoader div:nth-child(12) {
-  transform: rotate(330deg);
-  animation-delay: 0s;
-}
-
-@keyframes PostLoader {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
 /* Button Loader */
 
 /*! Lazy Loader */
 .__lazyLoader {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height:100%;
   z-index: 1000;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(./Assets/instaLOGOLoader.png);
-  background-repeat: no-repeat;
-  background-size: 80px;
-  background-position: top right;
 }
 
-.__lazyLoader_title {
-  font-weight: 700;
-  font-size: 32px;
-  -webkit-text-stroke: 2px #6228d7;
-  color: transparent;
+.createPostLoaderContainer{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.226);
+  backdrop-filter: blur(2px);
+}
+.lazyLoaderPoster {
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  width: 225px;
+  height: 225px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   position: relative;
-  text-transform: uppercase;
-  letter-spacing: 10px;
+  
 }
-
-.__lazyLoader_title::before {
-  content: attr(data-text);
+.lazyLoaderPoster::after{
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 0;
-  white-space: nowrap;
-  color: #ee2a7b;
-  -webkit-text-stroke: 0px transparent;
-  overflow: hidden;
-  transition: width 500ms ease-in-out;
-  animation: text-fill 3s ease-in-out alternate infinite;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+  animation: rotation 2.5s infinite linear;
+  border-radius: 50%;
+}
+.lazyLoaderPoster img {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes text-fill {
-  100% {
-    width: 100%;
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -403,6 +257,13 @@
 
 /* ! This block holds the design of OTP */
 
+.post__LIKEDICONS {
+  color: #ed3548;
+}
+
+.post__LIKEDICONS:hover {
+  color: #ed3548 !important;
+}
 
 /*! Responsive Styles */
 
@@ -411,11 +272,6 @@
 
   .otpVerifier__Form {
     width: 95vw;
-  }
-
-  .__lazyLoader_title {
-    font-size: 28px;
-    letter-spacing: normal;
   }
 }
 

@@ -56,9 +56,6 @@ const deleteComment = async (request, response) => {
 
         const mongooseResponse = await commentCollection.findOneAndDelete({ _id: commentId })
         if (mongooseResponse) {
-            await postCollection.findOneAndUpdate({ _id: postID }, {
-                $inc: { postComments: -1 },
-            })
             response.status(200).json({
                 success: true,
                 msg: "Your comment has been deleted",
@@ -66,10 +63,9 @@ const deleteComment = async (request, response) => {
         } else {
             response.status(400).json({
                 success: false,
-                msg: "Try again later",
+                msg: "Comment not found",
             });
         }
-
     } catch (error) {
         console.log(error)
         response.status(500).send(`Server failed to load! Try again ${error}`);

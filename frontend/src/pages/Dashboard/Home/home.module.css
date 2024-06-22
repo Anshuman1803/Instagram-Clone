@@ -361,14 +361,6 @@
     color: grey;
 }
 
-.post__LIKEDICONS {
-    color: #ed3548;
-}
-
-.post__LIKEDICONS:hover {
-    color: #ed3548;
-}
-
 .homePostCard__iconButton:last-child {
     margin-right: 0;
 }

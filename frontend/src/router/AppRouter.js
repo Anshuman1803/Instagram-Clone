@@ -4,7 +4,7 @@ import LazyLoader from "../components/LazyLoader";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
-
+import PostDetails from "../pages/Dashboard/PostDetails/PostDetails.js"
 // Home Routes elements
 const HomeContainer = lazy(() => import('../pages/Dashboard/Home/HomeContainer.js'));
 const Home = lazy(() => import('../pages/Dashboard/Home/Home.js'));
@@ -16,10 +16,10 @@ const Create = lazy(() => import('../pages/Dashboard/create_post/Create.js'));
 const Profile = lazy(() => import('../pages/Dashboard/profile/Profile.js'));
 const ProfilePost = lazy(() => import('../pages/Dashboard/profile/ProfilePost'));
 const ProfileSavedPost = lazy(() => import('../pages/Dashboard/profile/ProfileSavedPost.js'));
-const SettingContainer = lazy(()=> import('../pages/Dashboard/setting/SettingContainer'));
-const EditProfile = lazy(()=> import('../pages/Dashboard/setting/edit_profile/EditProfile.js'));
-const UpdatePassword = lazy(()=> import('../pages/Dashboard/setting/UpdatePassword'));
-const Privacy = lazy(()=> import('../pages/Dashboard/setting/Privacy'));
+const SettingContainer = lazy(() => import('../pages/Dashboard/setting/SettingContainer'));
+const EditProfile = lazy(() => import('../pages/Dashboard/setting/edit_profile/EditProfile.js'));
+const UpdatePassword = lazy(() => import('../pages/Dashboard/setting/UpdatePassword'));
+const Privacy = lazy(() => import('../pages/Dashboard/setting/Privacy'));
 
 // Auth Routes elements
 const AuthContainer = lazy(() => import("../pages/Auth/AuthContainer"));
@@ -84,6 +84,7 @@ const HomeRoute = () => {
   return <Routes>
     <Route path="/" element={<Suspense fallback={<LazyLoader />}> <HomeContainer /> </Suspense>} >
       <Route path="/home" element={<Suspense fallback={<LazyLoader />}> <Home /> </Suspense>} />
+      <Route path="/post/:id" element={<PostDetails />} />
       <Route path="/search" element={<Suspense fallback={<LazyLoader />}> <Search /> </Suspense>} />
       <Route path="/explore" element={<Suspense fallback={<LazyLoader />}> <Explore /> </Suspense>} />
       <Route path="/messages" element={<Suspense fallback={<LazyLoader />}> <Messages /> </Suspense>} />
@@ -96,10 +97,10 @@ const HomeRoute = () => {
 
       <Route path="/Accout/setting" element={<Suspense fallback={<LazyLoader />}> <SettingContainer /> </Suspense>}>
 
-      <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<LazyLoader />}> <EditProfile /> </Suspense>} />
-      <Route path="/Accout/setting/update-password" element={<Suspense fallback={<LazyLoader />}> <UpdatePassword /> </Suspense>} />
-      <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<LazyLoader />}> <Privacy /> </Suspense>} />
-      
+        <Route path="/Accout/setting/edit-profile" element={<Suspense fallback={<LazyLoader />}> <EditProfile /> </Suspense>} />
+        <Route path="/Accout/setting/update-password" element={<Suspense fallback={<LazyLoader />}> <UpdatePassword /> </Suspense>} />
+        <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<LazyLoader />}> <Privacy /> </Suspense>} />
+
       </Route>
 
     </Route>

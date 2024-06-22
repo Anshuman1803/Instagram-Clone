@@ -6,7 +6,7 @@ import defaultProfile from "../../../Assets/DefaultProfile.png";
 import selectImageICON from "../../../Assets/selectImageICON.png";
 import toast from "react-hot-toast";
 import axios from "axios";
-import PostLoader from "../../../components/PostLoader";
+import LazyLoader from "../../../components/LazyLoader";
 import { useNavigate } from "react-router-dom";
 import createPostStyle from "./create.module.css"
 export default function Create() {
@@ -162,7 +162,7 @@ export default function Create() {
             onClick={() => imgRef.current.click()}
           />
         </form>
-        {Loading && <PostLoader />}
+        {Loading && <LazyLoader customClass={"createPostLoaderContainer"}/>}
       </div>
     </section>
   );
