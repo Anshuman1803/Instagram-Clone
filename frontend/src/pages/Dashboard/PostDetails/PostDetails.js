@@ -267,8 +267,8 @@ function PostDetails() {
                     <span
                       className={`${postDetailsStyle.__PostDetails_PostDate}`}
                     >
-                      {}
-                      <CalculateTimeAgo time={state?.postCreatedAt} />
+                      {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
+
                     </span>
                   </span>
                 </p>
@@ -298,7 +298,10 @@ function PostDetails() {
                             <span className={`${postDetailsStyle.__PostDetails_userCaptionText}`}>
                               {data?.commentText}
                               <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
-                                <CalculateTimeAgo time={data?.createAt} />
+                                {
+                                  data?.createAt && <CalculateTimeAgo time={data?.createAt} />
+                                }
+
                                 {data?.user._id === instaUserID && (
                                   <MdDelete className={`${postDetailsStyle.__PostDetails_deleteCommentICON}`} onClick={(e) => handleDeleteComment(e, data?._id)} />
                                 )}
@@ -348,7 +351,7 @@ function PostDetails() {
               </span>
             )}
             <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
-              <CalculateTimeAgo time={state?.postCreatedAt} />
+              {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
             </span>
           </div>
 
