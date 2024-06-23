@@ -84,7 +84,6 @@ const HomeRoute = () => {
   return <Routes>
     <Route path="/" element={<Suspense fallback={<LazyLoader />}> <HomeContainer /> </Suspense>} >
       <Route path="/home" element={<Suspense fallback={<LazyLoader />}> <Home /> </Suspense>} />
-      <Route path="/post/:id" element={<PostDetails />} />
       <Route path="/search" element={<Suspense fallback={<LazyLoader />}> <Search /> </Suspense>} />
       <Route path="/explore" element={<Suspense fallback={<LazyLoader />}> <Explore /> </Suspense>} />
       <Route path="/messages" element={<Suspense fallback={<LazyLoader />}> <Messages /> </Suspense>} />
@@ -102,7 +101,8 @@ const HomeRoute = () => {
         <Route path="/Accout/setting/who_can_see_your_content" element={<Suspense fallback={<LazyLoader />}> <Privacy /> </Suspense>} />
 
       </Route>
-
+      <Route path="/post/:id" element={<PostDetails />} />
+      <Route path="/*" element={<Suspense fallback={<LazyLoader />}> <Home /> </Suspense>} />
     </Route>
   </Routes>
 }

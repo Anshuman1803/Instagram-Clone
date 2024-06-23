@@ -157,13 +157,6 @@
     justify-content: center;
 }
 
-.__outlet {
-    width: calc(100% - 245px);
-    height: 100vh;
-    overflow: hidden;
-    overflow-y: auto;
-}
-
 .homeSection__ShowPostContainer {
     min-height: 100vh;
     width: calc(100% - 40%);

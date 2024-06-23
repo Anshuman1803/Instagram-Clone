@@ -38,7 +38,7 @@ export default function Profile() {
           setLoading(false);
           navigateTO(`/${userID?.instaUserID}/posts`, { state: response.data.user.posts });
         } else {
-          toast.error(`Try Again`);
+          navigateTO(`/home`);
           setLoading(false)
         }
       })

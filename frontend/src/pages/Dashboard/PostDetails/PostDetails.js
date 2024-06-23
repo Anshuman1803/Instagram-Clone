@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import postDetailsStyle from "./postdetails.module.css";
 import defaultProfile from "../../../Assets/DefaultProfile.png";
 import postCommentLoader from "../../../Assets/postCommentLoader.gif";
-import { RxCross2 } from "react-icons/rx";
+import { IoArrowBackSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
@@ -267,6 +267,7 @@ function PostDetails() {
                     <span
                       className={`${postDetailsStyle.__PostDetails_PostDate}`}
                     >
+                      {}
                       <CalculateTimeAgo time={state?.postCreatedAt} />
                     </span>
                   </span>
@@ -352,9 +353,7 @@ function PostDetails() {
           </div>
 
           {/* input for comming on the post */}
-          <div
-            className={`${postDetailsStyle.__PostDetails__createCommentBox}`}
-          >
+          <div className={`${postDetailsStyle.__PostDetails__createCommentBox}`}>
             {postCommentLoading && (
               <img
                 src={postCommentLoader}
@@ -387,7 +386,7 @@ function PostDetails() {
       </div>
 
       <div className={`${postDetailsStyle.__PostDetails__CloseBox}`}>
-        <RxCross2
+        <IoArrowBackSharp
           className={`${postDetailsStyle.__PostDetails__closeButton}`}
           onClick={handleCloseButtonClick}
         />
