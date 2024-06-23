@@ -321,7 +321,7 @@
 
 @media screen and (max-width: 700px) {
     .__PostDetails__box {
-        height: 140dvh;
+        height: 900px;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
