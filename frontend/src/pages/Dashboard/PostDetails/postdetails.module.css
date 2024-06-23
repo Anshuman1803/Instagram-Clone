@@ -5,6 +5,7 @@
     flex-direction: column-reverse;
     gap: 10px;
     padding: 0.6em 1em;
+    position: relative;
 }
 
 .__PostDetails__CloseBox {
@@ -307,6 +308,53 @@
     width: 60%;
 }
 
+/* __postDetailsPopup */
+.__postDetailsPopupContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__postDetailsPopup {
+    background-color: white;
+    width: 425px;
+    height: fit-content;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.__postDetailsPopup_buttons {
+    display: block;
+    height: 60px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-weight: 300;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+}
+
+.__postDetailsPopup_Secondarybuttons {
+    color: #ED4956;
+    font-weight: 700;
+}
+
+.__postDetailsPopup_buttons:last-child {
+    border: none
+}
+
+.__postDetailsPopup_buttons:hover {
+    cursor: pointer;
+    background-color: rgba(128, 128, 128, 0.279);
+}
 
 /*! Responsive Styles */
 
@@ -353,5 +401,8 @@
 @media screen and (max-width: 500px) {
     .__PostDetails__Container {
         padding: 1em 0.2em;
+    }
+    .__postDetailsPopup{
+        width: 95%;
     }
 }

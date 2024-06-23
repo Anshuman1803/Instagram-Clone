@@ -15,21 +15,17 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  UserLoggedOut,
-  userSavePost,
-  userRemoveSavePost,
-} from "../../../Redux/ReduxSlice";
+import { UserLoggedOut, userSavePost, userRemoveSavePost, } from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
+import { PostDetailsPopup } from "./PostDetailsPopup";
 function PostDetails() {
-  const { instaUserID, instaTOKEN, instaSavedPost } = useSelector(
-    (state) => state.Instagram
-  );
+  const { instaUserID, instaTOKEN, instaSavedPost } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
   const inputRef = useRef();
+  const [showPopup, setTogglePopup] = useState(false);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const [newComment, setNewComment] = useState("");
   const [allComments, setAllComments] = useState([]);
@@ -232,9 +228,7 @@ function PostDetails() {
                 {state?.user.userName}
               </Link>
             </div>
-            <BsThreeDots
-              className={`${postDetailsStyle.__PostDetails_PopupButton}`}
-            />
+            <BsThreeDots className={`${postDetailsStyle.__PostDetails_PopupButton}`} onClick={(e)=>setTogglePopup(true)}/>
           </div>
 
           <div className={`${postDetailsStyle.__PostDetails__CommentBox}`}>
@@ -394,6 +388,11 @@ function PostDetails() {
           onClick={handleCloseButtonClick}
         />
       </div>
+
+      {
+        showPopup && <PostDetailsPopup userData={state} CbClosePopup={setTogglePopup}/>
+      }
+
     </div>
   );
 }
