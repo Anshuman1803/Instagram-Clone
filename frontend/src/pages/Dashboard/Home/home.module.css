@@ -157,13 +157,6 @@
     justify-content: center;
 }
 
-.__outlet {
-    width: calc(100% - 245px);
-    height: 100vh;
-    overflow: hidden;
-    overflow-y: auto;
-}
-
 .homeSection__ShowPostContainer {
     min-height: 100vh;
     width: calc(100% - 40%);
@@ -359,14 +352,6 @@
 .homePostCard__iconButton:hover {
     cursor: pointer;
     color: grey;
-}
-
-.post__LIKEDICONS {
-    color: #ed3548;
-}
-
-.post__LIKEDICONS:hover {
-    color: #ed3548;
 }
 
 .homePostCard__iconButton:last-child {

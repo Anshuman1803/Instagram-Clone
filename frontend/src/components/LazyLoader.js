@@ -1,8 +1,11 @@
 import React from 'react'
-function LazyLoader() {
+import loaderImg from "../Assets/Loader.gif"
+function LazyLoader({customClass}) {
   return (
-    <section className='__lazyLoader'>
-        <h1 data-text="Instagram - Clone" className='__lazyLoader_title'>Instagram - Clone</h1>
+    <section className={`__lazyLoader ${customClass}`}>
+      <div className='lazyLoaderPoster'>
+        <img src={loaderImg} alt=""/>
+      </div>
     </section>
   )
 }

@@ -17,7 +17,7 @@ function ProfileSavedPost() {
     <div className={`${profileStyle.dashboard__profileSection__ProfilePostsContainer} ${savedPosts.length === 0 && `${profileStyle.flexContainer}`}`}>
       <div className={`${profileStyle.profilePostContainer__PostBox}`}>
         <>
-          {savedPosts.length === 0 ? (
+          {savedPosts?.length === 0 ? (
             <div className={`${profileStyle.ProfilePostsContainer__NOpostBox}`}>
               <img src={savedPostICON} alt="PostsICON" className={`${profileStyle.noPostICON}`} />
               <h2 className={`${profileStyle.noPost__title}`}>Save </h2>
@@ -28,7 +28,7 @@ function ProfileSavedPost() {
             </div>
           ) : (
             <>
-              {savedPosts.map((posts, index) => {
+              {savedPosts?.map((posts, index) => {
                 return (
                   <div className={`${profileStyle.profilePostContainer__postCard}`} key={index}>
                     <img

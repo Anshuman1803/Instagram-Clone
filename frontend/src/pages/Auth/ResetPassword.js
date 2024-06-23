@@ -4,7 +4,7 @@ import lockPNG from "../../Assets/lockPNG.png";
 import playStore from "../../Assets/Play-Store.png";
 import microSoft from "../../Assets/Microsoft.png";
 import ButtonLoader from "../../components/ButtonLoader";
-import ComponentLoader from "../../components/ComponentLoader";
+import LazyLoader from "../../components/LazyLoader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import authStyle from "./auth.module.css"
@@ -183,7 +183,7 @@ function ResetPassword({ PropClassName, CompTitle, instaUserID }) {
           </button>
         }
 
-        {btnLoader && <ComponentLoader />}
+        {btnLoader && <LazyLoader />}
       </div>
 
       {
