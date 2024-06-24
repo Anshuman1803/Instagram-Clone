@@ -121,6 +121,36 @@
     min-height: 400px;
 }
 
+.dashboard__currentUser__PrivateAccount {
+    border: 2px solid red;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0em 0.5em;
+}
+
+.__PrivateAccountPOSTer {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+
+.__PrivateAccount_primaryMsg {
+    font-weight: 500;
+    font-size: 18px;
+    color: black;
+}
+
+.__PrivateAccount_secondaryMsg {
+    display: block;
+    margin: 10px auto;
+    font-weight: 400;
+    color: grey;
+    font-size: 16px;
+}
+
 .dashboard__postsContainer_navbar {
     width: 275px;
     height: 70px;

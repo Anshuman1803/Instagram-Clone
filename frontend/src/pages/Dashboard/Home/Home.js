@@ -81,7 +81,7 @@ export default function Home() {
           <HomeCardLoader />
         ) : (
           <>
-            {allPosts.map((posts, index) => {
+            {allPosts?.map((posts, index) => {
               return <HomePostCard key={posts._id + index} posts={posts} />;
             })}
           </>

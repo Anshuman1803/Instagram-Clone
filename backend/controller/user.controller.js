@@ -254,11 +254,9 @@ const getUser = async (request, response) => {
                 as: "comments"
               }
             },
-
           ]
         }
       },
-
       {
         $lookup: {
           from: "posts",
@@ -296,6 +294,7 @@ const getUser = async (request, response) => {
           posts: 1,
           userPostsCount: 1,
           savedPost: 1,
+          isPrivate : 1,
         }
       }
     ]);
@@ -555,6 +554,7 @@ const searchUser = async (request, response) => {
     return response.send({ success: false, err: err.message });
   }
 }
+
 module.exports = {
   userRegister,
   userSignIn,

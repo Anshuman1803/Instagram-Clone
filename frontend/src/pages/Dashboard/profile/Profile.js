@@ -3,6 +3,7 @@ import defaultProfile from "../../../Assets/DefaultProfile.png";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../../Assets/PostICON.png";
 import savedICON from "../../../Assets/savedICON.png";
+import lockPng from "../../../Assets/lockPNG.png"
 import { PiLinkSimple } from "react-icons/pi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -125,39 +126,46 @@ export default function Profile() {
               </div>
 
               <div className={`${profileStyle.dashboard__currentUser__PostsContainer}`}>
-                <nav className={`${profileStyle.dashboard__postsContainer_navbar}`}>
-                  <NavLink
-                    to={`/${userID?.instaUserID}/posts`}
-                    state={currentUser?.posts}
-                    className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
-                  >
-                    <img
-                      src={gridICON}
-                      alt="UserPost"
-                      className={`${profileStyle.postsContainer__navitemICON}`}
-                    />
-                    <span className={`${profileStyle.postsContainer__navItemTExt}`}>Posts</span>
-                  </NavLink>
+                {
+                  (currentUser?.isPrivate && currentUser?._id !== instaUserID) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
+                    <img src={lockPng} alt=""  className={`${profileStyle.__PrivateAccountPOSTer}`}/>
+                    <p  className={`${profileStyle.__PrivateAccount_primaryMsg}`}>This account is private <span  className={`${profileStyle.__PrivateAccount_secondaryMsg}`}>Follow to see their photos and videos.</span></p>
+                  </div> :
+                    <>
+                      <nav className={`${profileStyle.dashboard__postsContainer_navbar}`}>
+                        <NavLink
+                          to={`/${userID?.instaUserID}/posts`}
+                          state={currentUser?.posts}
+                          className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
+                        >
+                          <img
+                            src={gridICON}
+                            alt="UserPost"
+                            className={`${profileStyle.postsContainer__navitemICON}`}
+                          />
+                          <span className={`${profileStyle.postsContainer__navItemTExt}`}>Posts</span>
+                        </NavLink>
 
-                  {userID.instaUserID === instaUserID && (
-                    <NavLink
-                      to={`/${userID?.instaUserID}/saved`}
-                      className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
-                      state={currentUser?.savedPost}
-                    >
-                      <img
-                        src={savedICON}
-                        alt="User-saved-Post"
-                        className={`${profileStyle.postsContainer__navitemICON}`}
-                      />
-                      <span className={`${profileStyle.postsContainer__navItemTExt}`}>Saved</span>
-                    </NavLink>
-                  )}
+                        {userID.instaUserID === instaUserID && (
+                          <NavLink
+                            to={`/${userID?.instaUserID}/saved`}
+                            className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
+                            state={currentUser?.savedPost}
+                          >
+                            <img src={savedICON} alt="User-saved-Post" className={`${profileStyle.postsContainer__navitemICON}`}
+                            />
+                            <span className={`${profileStyle.postsContainer__navItemTExt}`}>Saved</span>
+                          </NavLink>
+                        )}
 
-                </nav>
-                <div className={`${profileStyle.postsContainer__outLetContainer}`}>
-                  <Outlet />
-                </div>
+                      </nav>
+                      <div className={`${profileStyle.postsContainer__outLetContainer}`}>
+                        <Outlet />
+                      </div>
+
+                    </>
+                }
+
               </div>
             </>
         }
