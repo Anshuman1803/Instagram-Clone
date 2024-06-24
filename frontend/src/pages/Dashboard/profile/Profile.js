@@ -75,6 +75,7 @@ export default function Profile() {
     axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
       .then((response) => {
         if (response.data.success) {
+          console.log(response)
           setCurrentUser(response.data.user);
           setLoading(false);
           navigateTO(`/${userID?.instaUserID}/posts`, { state: response.data.user.posts });
@@ -174,7 +175,7 @@ export default function Profile() {
 
               <div className={`${profileStyle.dashboard__currentUser__PostsContainer}`}>
                 {
-                  (currentUser?.isPrivate && currentUser?._id !== instaUserID) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
+                  (currentUser?.isPrivate && currentUser?._id !== instaUserID && !currentUser?.userFollowing.includes(instaUserID)) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
                     <img src={lockPng} alt="" className={`${profileStyle.__PrivateAccountPOSTer}`} />
                     <p className={`${profileStyle.__PrivateAccount_primaryMsg}`}>This account is private <span className={`${profileStyle.__PrivateAccount_secondaryMsg}`}>Follow to see their photos and videos.</span></p>
                   </div> :
