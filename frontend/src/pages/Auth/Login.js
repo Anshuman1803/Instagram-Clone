@@ -73,6 +73,8 @@ function Login() {
                 userProfile: response.data.UserDetails.userProfile,
                 userFullName: response.data.UserDetails.fullName,
                 savedPost: response.data.UserDetails.savedPost,
+                userFollwing: response.data.UserDetails.userFollowing,
+                userFollowers: response.data.UserDetails.userFollowers,
               })
             );
           } else {

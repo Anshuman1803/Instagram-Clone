@@ -8,6 +8,8 @@ const ReduxSlice = createSlice({
     instaProfle: localStorage.getItem("instaProfle") ? localStorage.getItem("instaProfle") : "",
     instaFullName: localStorage.getItem("instaFullName") ? localStorage.getItem("instaFullName") : "",
     instaSavedPost: localStorage.getItem("instaSavedPost") ? JSON.parse(localStorage.getItem("instaSavedPost")) : [],
+    instaFollowing: localStorage.getItem("instaFollowing") ? JSON.parse(localStorage.getItem("instaFollowing")) : [],
+    instaFollowers: localStorage.getItem("instaFollowers") ? JSON.parse(localStorage.getItem("instaFollowers")) : [],
   },
   reducers: {
 
@@ -18,12 +20,16 @@ const ReduxSlice = createSlice({
       state.instaProfle = action.payload.userProfile;
       state.instaFullName = action.payload.userFullName;
       state.instaSavedPost = action.payload.savedPost;
+      state.instaFollowing = action.payload.userFollwing;
+      state.instaFollowers = action.payload.userFollowers;
       localStorage.setItem("instaUserID", state.instaUserID);
       localStorage.setItem("instaTOKEN", state.instaTOKEN);
       localStorage.setItem("instaUserName", state.instaUserName);
       localStorage.setItem("instaProfle", state.instaProfle);
       localStorage.setItem("instaFullName", state.instaFullName);
       localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
+      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
+      localStorage.setItem("instaFollowers", JSON.stringify(state.instaFollowers));
     },
 
     userSavePost(state, action) {
@@ -35,6 +41,17 @@ const ReduxSlice = createSlice({
       const filterSavePost = state.instaSavedPost.filter((data) => data !== action.payload)
       state.instaSavedPost = filterSavePost
       localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
+    },
+
+    userFollow(state, action) {
+      state.instaFollowing = [...state.instaFollowing, action.payload];
+      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
+    },
+
+    userUnFollow(state, action) {
+      const filterFollwing = state.instaFollowing.filter((data) => data !== action.payload)
+      state.instaFollowing = filterFollwing
+      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
     },
 
     userUpdateDetails(state, action) {
@@ -63,5 +80,5 @@ const ReduxSlice = createSlice({
 
   },
 });
-export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost, userUpdateDetails } = ReduxSlice.actions;
+export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost, userUpdateDetails, userFollow , userUnFollow } = ReduxSlice.actions;
 export default ReduxSlice.reducer;

@@ -19,12 +19,6 @@ const userModel = mongoose.Schema({
     type: String,
     required: true,
   },
-  userFollowers: {
-    type: Number,
-  },
-  userFollowing: {
-    type: Number,
-  },
   userBio: {
     type: String
   },
@@ -34,10 +28,24 @@ const userModel = mongoose.Schema({
   createdAt: {
     type: Number,
   },
+  userFollowers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
+    }
+  ],
+  userFollowing: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
+    }
+  ],
   savedPost: [
     {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "posts",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "posts",
       _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
     }
   ],

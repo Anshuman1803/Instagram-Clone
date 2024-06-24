@@ -93,10 +93,10 @@ export default function Search() {
                             posts <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userPostsCount}</span>
                           </p>
                           <p className={`${searchStyle.__SearchResult_Card_userInfo}`}>
-                            followers <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowers}</span>
+                            followers <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowers.length}</span>
                           </p>
                           <p className={`${searchStyle.__SearchResult_Card_userInfo}`}>
-                            following <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowing}</span>
+                            following <span className={`${searchStyle.__SearchResult_Card_Numberdata}`}>{data?.userFollowing.length}</span>
                           </p>
                         </div>
 
