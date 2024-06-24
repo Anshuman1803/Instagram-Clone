@@ -70,12 +70,16 @@ const ReduxSlice = createSlice({
       state.instaProfle = '';
       state.instaFullName = '';
       state.instaSavedPost = [];
+      state.instaFollowing = [];
+      state.instaFollowers = [];
       localStorage.removeItem("instaUserID");
       localStorage.removeItem("instaTOKEN");
       localStorage.removeItem("instaUserName");
       localStorage.removeItem("instaProfle");
       localStorage.removeItem("instaFullName");
       localStorage.removeItem("instaSavedPost");
+      localStorage.removeItem("instaFollowing");
+      localStorage.removeItem("instaFollowers");
     },
 
   },
