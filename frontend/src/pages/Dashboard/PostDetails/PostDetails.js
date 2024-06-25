@@ -48,7 +48,7 @@ function PostDetails() {
       )
       .then((response) => {
         if (response.data.success) {
-          toast.error(response.data.msg);
+          toast.success(response.data.msg);
           loadNewComments();
         } else {
           toast.error(response.data.msg);

@@ -43,7 +43,7 @@ function ProfileSavedPost() {
                       </p>
                       <p className={`${profileStyle.profilePostContainer_postInfoBox}`}>
                         <FaComment className={`${profileStyle.profilePostcontainer__postInfoICON}`} />
-                        {posts.comments.length}
+                        {posts?.commentCount}
                       </p>
                     </div>
                   </div>

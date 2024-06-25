@@ -516,24 +516,6 @@ const getUser = async (request, response) => {
       {
         $lookup: {
           from: "posts",
-          localField: "savedPost",
-          foreignField: "_id",
-          as: "savedPost",
-          pipeline: [
-            {
-              $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "postID",
-                as: "comments"
-              }
-            },
-          ]
-        }
-      },
-      {
-        $lookup: {
-          from: "posts",
           localField: "_id",
           foreignField: "user",
           as: "posts",
@@ -546,12 +528,35 @@ const getUser = async (request, response) => {
                 as: "comments"
               }
             },
+            {
+              $addFields: {
+                commentCount: { $size: "$comments" }
+              }
+            }
           ]
         }
       },
       {
-        $addFields: {
-          userPostsCount: { $size: "$posts" }
+        $lookup: {
+          from: "posts",
+          localField: "savedPost",
+          foreignField: "_id",
+          as: "savedPost",
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+            {
+              $addFields: {
+                commentCount: { $size: "$comments" }
+              }
+            }
+          ]
         }
       },
       {
@@ -565,9 +570,21 @@ const getUser = async (request, response) => {
           userBio: 1,
           userProfile: 1,
           website: 1,
-          posts: 1,
-          userPostsCount: 1,
-          savedPost: 1,
+          userPostsCount: { $size: "$posts" },
+          "savedPost._id": 1,
+          "savedPost.user": 1,
+          "savedPost.postPoster": 1,
+          "savedPost.postCaption": 1,
+          "savedPost.postCreatedAt": 1,
+          "savedPost.postLikes": 1,
+          "savedPost.commentCount": 1,
+          "posts._id": 1,
+          "posts.user": 1,
+          "posts.postPoster": 1,
+          "posts.postCaption": 1,
+          "posts.postCreatedAt": 1,
+          "posts.postLikes": 1,
+          "posts.commentCount": 1,
           isPrivate: 1,
         }
       }
