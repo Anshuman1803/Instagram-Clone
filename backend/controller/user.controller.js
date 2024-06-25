@@ -455,9 +455,9 @@ const addUsersToFollowingList = async (request, response) => {
     if (updateFollowingUser && updateFollowersUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully follow the user`
+        msg: `Successfully follow the ${updateFollowersUser.userName}`
       })
-    }else{
+    } else {
       response.status(200).json({
         success: false,
         msg: `User not found`
@@ -465,6 +465,38 @@ const addUsersToFollowingList = async (request, response) => {
     }
 
   } catch (err) {
+    return response.send({
+      success: false,
+      msg: err.message
+    });
+  }
+}
+
+// unfollow user
+const unfollowUser = async (request, response) => {
+  try {
+    const { unfollowUserID } = request.body;
+    const { userID } = request.params;
+    const updateFollowingUser = await userCollection.findOneAndUpdate({ _id: userID }, { $pull: { userFollowing: unfollowUserID } },);
+    const updateFollowerUser = await userCollection.findOneAndUpdate({ _id: unfollowUserID }, {
+      $pull: { userFollowers: userID }
+    },)
+
+
+    if (updateFollowingUser && updateFollowerUser) {
+      response.status(200).json({
+        success: true,
+        msg: `Successfully unfollow ${updateFollowerUser.userName}`
+      })
+    } else {
+      response.status(200).json({
+        success: false,
+        msg: `User not found`
+      })
+    }
+
+  } catch (err) {
+    console.log(err)
     return response.send({
       success: false,
       msg: err.message
@@ -595,5 +627,6 @@ module.exports = {
   verifyUserPassword,
   deleteUserAccount,
   searchUser,
-  addUsersToFollowingList
+  addUsersToFollowingList,
+  unfollowUser
 };

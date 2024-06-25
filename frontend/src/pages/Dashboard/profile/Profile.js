@@ -47,35 +47,34 @@ export default function Profile() {
       }
     })
   }
-  const handleUnfollowButtonClick = (e, followingUserID) => {
-    dispatch(userUnFollow(followingUserID))
-    // e.preventDefault();
-    // axios.patch(`http://localhost:5000/api/v1/auth/user/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
-    //   if (response.data.success) {
-    //     toast.success(response.data.msg)
-    //     dispatch(userUnFollow(followingUserID))
-    //   } else {
-    //     toast.error(response.data.msg)
-    //   }
-    // }).catch((error) => {
-    //   if (!error.response.data.success) {
-    //     toast.error(error.response.data.msg);
-    //     navigateTO("/user/auth/signin");
-    //     dispatch(UserLoggedOut());
-    //   } else {
-    //     toast.error(`Server error: ${error.message}`);
-    //   }
-    // })
+
+  const handleUnfollowButtonClick = (e, unfollowUserID) => {
+    e.preventDefault();
+    axios.patch(`http://localhost:5000/api/v1/auth/user/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg)
+        dispatch(userUnFollow(unfollowUserID));
+      } else {
+        toast.error(response.data.msg)
+      }
+    }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
   }
 
 
   // load the current USer
-  useEffect(() => {
+  const loadeUserDetails = () => {
     setLoading(true)
     axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
       .then((response) => {
         if (response.data.success) {
-          console.log(response)
           setCurrentUser(response.data.user);
           setLoading(false);
           navigateTO(`/${userID?.instaUserID}/posts`, { state: response.data.user.posts });
@@ -94,9 +93,9 @@ export default function Profile() {
         }
         setLoading(false);
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID.instaUserID]);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(loadeUserDetails, [userID.instaUserID]);
 
 
   useEffect(() => {
