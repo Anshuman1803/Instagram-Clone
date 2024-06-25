@@ -3,10 +3,11 @@ import defaultProfile from "../../../Assets/DefaultProfile.png";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../../Assets/PostICON.png";
 import savedICON from "../../../Assets/savedICON.png";
+import lockPng from "../../../Assets/lockPNG.png"
 import { PiLinkSimple } from "react-icons/pi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut } from '../../../Redux/ReduxSlice';
+import { UserLoggedOut, userFollow, userUnFollow } from '../../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import profileStyle from "./profile.module.css"
@@ -15,7 +16,7 @@ export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
   const { pathname } = useLocation();
-  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaTOKEN, instaFollowing } = useSelector((state) => state.Instagram);
   const navigateTO = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
@@ -27,9 +28,49 @@ export default function Profile() {
     navigateTO('/Accout/setting/edit-profile')
   }
 
+  const handleFollowButtonClick = (e, followingUserID) => {
+    e.preventDefault();
+    axios.patch(`http://localhost:5000/api/v1/auth/user/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg)
+        dispatch(userFollow(followingUserID))
+      } else {
+        toast.error(response.data.msg)
+      }
+    }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
+  }
+
+  const handleUnfollowButtonClick = (e, unfollowUserID) => {
+    e.preventDefault();
+    axios.patch(`http://localhost:5000/api/v1/auth/user/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg)
+        dispatch(userUnFollow(unfollowUserID));
+      } else {
+        toast.error(response.data.msg)
+      }
+    }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
+  }
+
 
   // load the current USer
-  useEffect(() => {
+  const loadeUserDetails = () => {
     setLoading(true)
     axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
       .then((response) => {
@@ -52,9 +93,9 @@ export default function Profile() {
         }
         setLoading(false);
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID.instaUserID]);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(loadeUserDetails, [userID.instaUserID]);
 
 
   useEffect(() => {
@@ -83,10 +124,17 @@ export default function Profile() {
                       userID.instaUserID === instaUserID ? <button className={`${profileStyle.userBox__editProfileButton}`} onClick={handleEdit} >
                         Edit profile
                       </button> : <>
+                        {instaFollowing?.includes(userID.instaUserID) ? (
+                          <button className={`${profileStyle.userBox__editProfileButton}`} onClick={(e) => handleUnfollowButtonClick(e, currentUser._id)}  >
+                            Unfollow
+                          </button>
+                        ) : (
+                          <button className={`${profileStyle.userBox__editProfileButton} ${profileStyle.userBox__followButton}`} onClick={(e) => handleFollowButtonClick(e, currentUser._id)}  >
+                            Follow
+                          </button>
+                        )}
 
-                        <button className={`${profileStyle.userBox__editProfileButton} ${profileStyle.userBox__followButton}`}  >
-                          Follow
-                        </button>
+
                       </>
                     }
                   </h1>
@@ -100,13 +148,13 @@ export default function Profile() {
                     </span>
                     <span className={`${profileStyle.userBox__activity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
-                        {currentUser?.userFollowers}
+                        {currentUser?.userFollowers?.length}
                       </strong>
                       followers
                     </span>
                     <span className={`${profileStyle.userBox__activity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
-                        {currentUser?.userFollowing}
+                        {currentUser?.userFollowing?.length}
                       </strong>
                       following
                     </span>
@@ -125,39 +173,46 @@ export default function Profile() {
               </div>
 
               <div className={`${profileStyle.dashboard__currentUser__PostsContainer}`}>
-                <nav className={`${profileStyle.dashboard__postsContainer_navbar}`}>
-                  <NavLink
-                    to={`/${userID?.instaUserID}/posts`}
-                    state={currentUser?.posts}
-                    className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
-                  >
-                    <img
-                      src={gridICON}
-                      alt="UserPost"
-                      className={`${profileStyle.postsContainer__navitemICON}`}
-                    />
-                    <span className={`${profileStyle.postsContainer__navItemTExt}`}>Posts</span>
-                  </NavLink>
+                {
+                  (currentUser?.isPrivate && currentUser?._id !== instaUserID && !currentUser?.userFollowing.includes(instaUserID)) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
+                    <img src={lockPng} alt="" className={`${profileStyle.__PrivateAccountPOSTer}`} />
+                    <p className={`${profileStyle.__PrivateAccount_primaryMsg}`}>This account is private <span className={`${profileStyle.__PrivateAccount_secondaryMsg}`}>Follow to see their photos and videos.</span></p>
+                  </div> :
+                    <>
+                      <nav className={`${profileStyle.dashboard__postsContainer_navbar}`}>
+                        <NavLink
+                          to={`/${userID?.instaUserID}/posts`}
+                          state={currentUser?.posts}
+                          className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
+                        >
+                          <img
+                            src={gridICON}
+                            alt="UserPost"
+                            className={`${profileStyle.postsContainer__navitemICON}`}
+                          />
+                          <span className={`${profileStyle.postsContainer__navItemTExt}`}>Posts</span>
+                        </NavLink>
 
-                  {userID.instaUserID === instaUserID && (
-                    <NavLink
-                      to={`/${userID?.instaUserID}/saved`}
-                      className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
-                      state={currentUser?.savedPost}
-                    >
-                      <img
-                        src={savedICON}
-                        alt="User-saved-Post"
-                        className={`${profileStyle.postsContainer__navitemICON}`}
-                      />
-                      <span className={`${profileStyle.postsContainer__navItemTExt}`}>Saved</span>
-                    </NavLink>
-                  )}
+                        {userID.instaUserID === instaUserID && (
+                          <NavLink
+                            to={`/${userID?.instaUserID}/saved`}
+                            className={({ isActive }) => isActive ? profileStyle.active : profileStyle.PostsContainer__navItem}
+                            state={currentUser?.savedPost}
+                          >
+                            <img src={savedICON} alt="User-saved-Post" className={`${profileStyle.postsContainer__navitemICON}`}
+                            />
+                            <span className={`${profileStyle.postsContainer__navItemTExt}`}>Saved</span>
+                          </NavLink>
+                        )}
 
-                </nav>
-                <div className={`${profileStyle.postsContainer__outLetContainer}`}>
-                  <Outlet />
-                </div>
+                      </nav>
+                      <div className={`${profileStyle.postsContainer__outLetContainer}`}>
+                        <Outlet />
+                      </div>
+
+                    </>
+                }
+
               </div>
             </>
         }

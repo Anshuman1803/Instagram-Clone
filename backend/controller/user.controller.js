@@ -230,116 +230,6 @@ const resetPassword = async (request, response) => {
   }
 };
 
-// get the registred user using their _id
-const getUser = async (request, response) => {
-  try {
-    const { id } = request.params;
-
-    const userData = await userCollection.aggregate([
-      {
-        $match: { '_id': new Mongoose.Types.ObjectId(id) }
-      },
-      {
-        $lookup: {
-          from: "posts",
-          localField: "savedPost",
-          foreignField: "_id",
-          as: "savedPost",
-          pipeline: [
-            {
-              $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "postID",
-                as: "comments"
-              }
-            },
-
-          ]
-        }
-      },
-
-      {
-        $lookup: {
-          from: "posts",
-          localField: "_id",
-          foreignField: "user",
-          as: "posts",
-          pipeline: [
-            {
-              $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "postID",
-                as: "comments"
-              }
-            },
-          ]
-        }
-      },
-      {
-        $addFields: {
-          userPostsCount: { $size: "$posts" }
-        }
-      },
-      {
-        $project: {
-          _id: 1,
-          userName: 1,
-          fullName: 1,
-          userEmail: 1,
-          userFollowers: 1,
-          userFollowing: 1,
-          userBio: 1,
-          userProfile: 1,
-          website: 1,
-          posts: 1,
-          userPostsCount: 1,
-          savedPost: 1,
-        }
-      }
-    ]);
-
-    if (userData.length > 0) {
-      return response.send({
-        success: true,
-        user: userData[0],
-      });
-    } else {
-      return response.send({
-        success: false,
-      });
-    }
-  } catch (err) {
-    return response.send({
-      success: false,
-      msg: err.message
-    });
-  }
-};
-
-// get the suggestedUser
-const getSuggestedUser = async (request, response) => {
-  const { id } = request.params;
-  try {
-    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).sort({ createdAt: -1 }).limit(5).select('_id userName userProfile ');
-    if (mongooseResponse) {
-      return response.send({
-        success: true,
-        suggestedUser: mongooseResponse,
-      });
-    } else {
-      return response.send({
-        success: false,
-      });
-    }
-  } catch (err) {
-    return response.send({
-      success: false,
-    });
-  }
-}
-
 // Update user details
 const updateUserDetails = async (request, response) => {
   try {
@@ -500,7 +390,6 @@ const deleteUserAccount = async (request, response) => {
   }
 }
 
-
 // Search user based on search Text by user from search component
 const searchUser = async (request, response) => {
   try {
@@ -540,12 +429,12 @@ const searchUser = async (request, response) => {
       }
     ])
 
-    if(searchResult.length > 0) {
+    if (searchResult.length > 0) {
       response.status(200).json({
         success: true,
         searchResult: searchResult
       })
-    }else{
+    } else {
       response.status(200).json({
         success: false,
         searchResult: searchResult
@@ -555,6 +444,175 @@ const searchUser = async (request, response) => {
     return response.send({ success: false, err: err.message });
   }
 }
+
+// Add to following list
+const addUsersToFollowingList = async (request, response) => {
+  try {
+    const { followingUserID } = request.body;
+    const { userID } = request.params;
+    const updateFollowingUser = await userCollection.findOneAndUpdate({ _id: userID }, { $addToSet: { userFollowing: followingUserID } },)
+    const updateFollowersUser = await userCollection.findOneAndUpdate({ _id: followingUserID }, { $addToSet: { userFollowers: userID } },)
+    if (updateFollowingUser && updateFollowersUser) {
+      response.status(200).json({
+        success: true,
+        msg: `Successfully follow the ${updateFollowersUser.userName}`
+      })
+    } else {
+      response.status(200).json({
+        success: false,
+        msg: `User not found`
+      })
+    }
+
+  } catch (err) {
+    return response.send({
+      success: false,
+      msg: err.message
+    });
+  }
+}
+
+// unfollow user
+const unfollowUser = async (request, response) => {
+  try {
+    const { unfollowUserID } = request.body;
+    const { userID } = request.params;
+    const updateFollowingUser = await userCollection.findOneAndUpdate({ _id: userID }, { $pull: { userFollowing: unfollowUserID } },);
+    const updateFollowerUser = await userCollection.findOneAndUpdate({ _id: unfollowUserID }, {
+      $pull: { userFollowers: userID }
+    },)
+
+
+    if (updateFollowingUser && updateFollowerUser) {
+      response.status(200).json({
+        success: true,
+        msg: `Successfully unfollow ${updateFollowerUser.userName}`
+      })
+    } else {
+      response.status(200).json({
+        success: false,
+        msg: `User not found`
+      })
+    }
+
+  } catch (err) {
+    console.log(err)
+    return response.send({
+      success: false,
+      msg: err.message
+    });
+  }
+}
+
+// get the registred user using their _id
+const getUser = async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const userData = await userCollection.aggregate([
+      {
+        $match: { '_id': new Mongoose.Types.ObjectId(id) }
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "savedPost",
+          foreignField: "_id",
+          as: "savedPost",
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+          ]
+        }
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts",
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+          ]
+        }
+      },
+      {
+        $addFields: {
+          userPostsCount: { $size: "$posts" }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          fullName: 1,
+          userEmail: 1,
+          userFollowers: 1,
+          userFollowing: 1,
+          userBio: 1,
+          userProfile: 1,
+          website: 1,
+          posts: 1,
+          userPostsCount: 1,
+          savedPost: 1,
+          isPrivate: 1,
+        }
+      }
+    ]);
+
+    if (userData.length > 0) {
+      return response.send({
+        success: true,
+        user: userData[0],
+      });
+    } else {
+      return response.send({
+        success: false,
+      });
+    }
+  } catch (err) {
+    return response.send({
+      success: false,
+      msg: err.message
+    });
+  }
+};
+
+// get the suggestedUser
+const getSuggestedUser = async (request, response) => {
+  const { id } = request.params;
+  try {
+    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).sort({ createdAt: -1 }).limit(5).select('_id userName userProfile ');
+    if (mongooseResponse) {
+      return response.send({
+        success: true,
+        suggestedUser: mongooseResponse,
+      });
+    } else {
+      return response.send({
+        success: false,
+      });
+    }
+  } catch (err) {
+    return response.send({
+      success: false,
+    });
+  }
+}
+
 module.exports = {
   userRegister,
   userSignIn,
@@ -568,5 +626,7 @@ module.exports = {
   removeProfilePicture,
   verifyUserPassword,
   deleteUserAccount,
-  searchUser
+  searchUser,
+  addUsersToFollowingList,
+  unfollowUser
 };
