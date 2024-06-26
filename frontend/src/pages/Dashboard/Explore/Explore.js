@@ -17,19 +17,19 @@ export default function Explore() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
 
-  const handleShowPostDetails = (e, postDetails)=>{
+  const handleShowPostDetails = (e, posts)=>{
     e.preventDefault();
-    navigateTO(`/post/${postDetails.posts?._id}`, { state: postDetails })
+    navigateTO(`/post/${posts?._id}`, { state: posts })
   }
 
   useEffect(() => {
     setloading(true)
     axios.get(`http://localhost:5000/api/v1/posts/get-explore-posts/${instaUserID}`, { headers }).then((response) => {
       if (response.data.success) {
-        setExplorePosts(response.data.postDetails);
+        setExplorePosts(response.data.posts);
         setloading(false)
       } else {
-        setExplorePosts(response.data.postDetails);
+        setExplorePosts(response.data.posts);
         setloading(false)
       }
     }).catch((error) => {
@@ -51,17 +51,17 @@ export default function Explore() {
           {
             ExplorePost.length === 0 ? <p> No Posts</p> : <>
               {
-                ExplorePost.map((postDetails) => {
-                  return <div onClick={(e)=>handleShowPostDetails(e, postDetails)} className={`${exploreStyle.__ExplorePostCard}`} key={postDetails?.posts._id}>
-                    <img src={postDetails?.posts.postPoster} alt={postDetails?.posts.postCaption} className={`${exploreStyle.__ExplorePostCard_postPoster}`} loading="lazy" />
+                ExplorePost.map((posts) => {
+                  return <div onClick={(e)=>handleShowPostDetails(e, posts)} className={`${exploreStyle.__ExplorePostCard}`} key={posts?._id}>
+                    <img src={posts?.postPoster} alt={posts?.postCaption} className={`${exploreStyle.__ExplorePostCard_postPoster}`} loading="lazy" />
                     <div className={`${exploreStyle.__ExplorePostCard__postInfo}`}>
                       <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
                         <FaHeart className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
-                        {postDetails?.posts.postLikes}
+                        {posts?.postLikes}
                       </p>
                       <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
                         <FaComment className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
-                        {postDetails?.posts?.commentCount}
+                        {posts.commentCount}
                       </p>
                     </div>
                   </div>
