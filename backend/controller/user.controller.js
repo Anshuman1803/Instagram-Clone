@@ -508,6 +508,7 @@ const unfollowUser = async (request, response) => {
 const getUser = async (request, response) => {
   try {
     const { id } = request.params;
+    const { currentUser } = request.query;
 
     const userData = await userCollection.aggregate([
       {
@@ -531,7 +532,39 @@ const getUser = async (request, response) => {
             },
             {
               $addFields: {
-                commentCount: { $size: "$comments" }
+                commentCount: { $size: "$comments" },
+              }
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user"
+              }
+            },
+            {
+              $unwind: {
+                path: "$user",
+              }
+            },
+            {
+              $replaceRoot: {
+                newRoot: {
+                  $mergeObjects: [
+                    {
+                      _id: "$_id",
+                      user: "$user._id",
+                      userName: "$user.userName",
+                      userProfile: "$user.userProfile",
+                      postPoster: "$postPoster",
+                      postCaption: "$postCaption",
+                      postCreatedAt: "$postCreatedAt",
+                      postLikes: "$postLikes",
+                      commentCount: "$commentCount",
+                    },
+                  ]
+                }
               }
             }
           ]
@@ -594,6 +627,43 @@ const getUser = async (request, response) => {
         }
       },
 
+
+      {
+        $addFields: {
+          isOwnerOrFollower: {
+            $cond: {
+              if: {
+                $or: [
+                  {
+                    $eq: ["$isPrivate", false]
+                  },
+                  {
+                    $in: ["$currentUser", "$userFollowing"]
+                  },
+                  {
+                    $eq: ["$_id", new Mongoose.Types.ObjectId(currentUser)]
+                  }
+                ]
+              },
+              then: true,
+              else: false,
+            }
+          }
+        }
+      },
+
+      {
+        $addFields: {
+          isOwner: {
+            $cond: {
+              if: { $eq: ["$_id", new Mongoose.Types.ObjectId(currentUser)] },
+              then: true,
+              else: false,
+            }
+          }
+        }
+      },
+
       {
         $project: {
           _id: 1,
@@ -606,20 +676,24 @@ const getUser = async (request, response) => {
           userProfile: 1,
           website: 1,
           userPostsCount: { $size: "$posts" },
-          "savedPost": 1,
-          "posts._id": 1,
-          "posts.user": 1,
-          "posts.userName": "$userName",
-          "posts.userProfile": "$userProfile",
-          "posts.postPoster": 1,
-          "posts.postCaption": 1,
-          "posts.postCreatedAt": 1,
-          "posts.postLikes": 1,
-          "posts.commentCount": 1,
+          posts: {
+            $cond: {
+              if: "$isOwnerOrFollower",
+              then: "$posts",
+              else: [],
+            }
+          },
+          savedPost: {
+            $cond: {
+              if: "$isOwner",
+              then: "$savedPost",
+              else: [],
+            }
+          },
           isPrivate: 1,
         }
       }
-      
+
     ]);
 
     if (userData.length > 0) {

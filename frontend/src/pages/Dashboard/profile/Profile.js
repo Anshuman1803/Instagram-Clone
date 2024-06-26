@@ -72,7 +72,7 @@ export default function Profile() {
   // load the current USer
   const loadeUserDetails = () => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
+    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}?currentUser=${instaUserID}`, { headers })
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);
