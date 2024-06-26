@@ -10,6 +10,8 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UserLoggedIn } from "../../Redux/ReduxSlice";
 import authStyle from "./auth.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function Login() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -58,7 +60,7 @@ function Login() {
       userPasswordref.current.focus();
     } else {
       axios
-        .post("http://localhost:5000/api/v1/auth/user/signin", userDetails)
+        .post(`${BACKEND_URL}auth/user/signin`, userDetails)
         .then((response) => {
 
           if (response.data.success) {

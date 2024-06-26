@@ -12,8 +12,9 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost } from "../../../Redux/ReduxSlice";
-
 import homeStyle from "./home.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const HomePostCard = ({ posts }) => {
     const { instaUserID, instaTOKEN, instaSavedPost } = useSelector(
         (state) => state.Instagram
@@ -43,7 +44,7 @@ export const HomePostCard = ({ posts }) => {
 
         axios
             .post(
-                `http://localhost:5000/api/v1/comments/create-new-comments`,
+                `${BACKEND_URL}comments/create-new-comments`,
                 tempNewComments,
                 { headers }
             )
@@ -73,7 +74,7 @@ export const HomePostCard = ({ posts }) => {
         e.preventDefault();
         axios
             .patch(
-                `http://localhost:5000/api/v1/posts/save-post/${postID}`,
+                `${BACKEND_URL}posts/save-post/${postID}`,
                 { instaUserID },
                 { headers }
             )
@@ -101,7 +102,7 @@ export const HomePostCard = ({ posts }) => {
         e.preventDefault();
         axios
             .patch(
-                `http://localhost:5000/api/v1/posts/delete/save-post/${postID}`,
+                `${BACKEND_URL}posts/delete/save-post/${postID}`,
                 { instaUserID },
                 { headers }
             )

@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import ExploreLoader from './ExploreLoader';
 import exploreStyle from './explore.module.css'
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function Explore() {
   const { instaTOKEN, instaUserID } = useSelector((state) => state.Instagram);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
@@ -24,7 +26,7 @@ export default function Explore() {
 
   useEffect(() => {
     setloading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-explore-posts/${instaUserID}`, { headers }).then((response) => {
+    axios.get(`${BACKEND_URL}posts/get-explore-posts/${instaUserID}`, { headers }).then((response) => {
       if (response.data.success) {
         setExplorePosts(response.data.posts);
         setloading(false)

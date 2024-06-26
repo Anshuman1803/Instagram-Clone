@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import settingStyle from "./setting.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function UserDeleteComponent() {
     const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
     const passRef = useRef()
@@ -36,7 +38,7 @@ export default function UserDeleteComponent() {
             passRef.current.focus();
             setButtonLoading(false)
         } else {
-            axios.post(`http://localhost:5000/api/v1/users/verify-user-password`, {
+            axios.post(`${BACKEND_URL}users/verify-user-password`, {
                 userID: instaUserID,
                 userPassword: userDetails.userPassword
             }, { headers }).then((response) => {
@@ -159,7 +161,7 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
     const handleDeleteAccount = (e) => {
         e.preventDefault();
         setbuttonLoading(true);
-        axios.delete("http://localhost:5000/api/v1/users/delete-user-account", {
+        axios.delete(`${BACKEND_URL}users/delete-user-account`, {
             headers,
             data: {
                 OTP: Number(otp.join("")),

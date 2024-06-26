@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost, } from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
 import { PostDetailsPopup } from "./PostDetailsPopup";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function PostDetails() {
   const { instaUserID, instaTOKEN, instaSavedPost } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
@@ -43,7 +45,7 @@ function PostDetails() {
     e.preventDefault();
     axios
       .delete(
-        `http://localhost:5000/api/v1/comments/delete-comment/${commentId}`,
+        `${BACKEND_URL}comments/delete-comment/${commentId}`,
         { headers }
       )
       .then((response) => {
@@ -71,7 +73,7 @@ function PostDetails() {
     e.preventDefault();
     axios
       .patch(
-        `http://localhost:5000/api/v1/posts/save-post/${postID}`,
+        `${BACKEND_URL}posts/save-post/${postID}`,
         { instaUserID },
         { headers }
       )
@@ -99,7 +101,7 @@ function PostDetails() {
     e.preventDefault();
     axios
       .patch(
-        `http://localhost:5000/api/v1/posts/delete/save-post/${postID}`,
+        `${BACKEND_URL}posts/delete/save-post/${postID}`,
         { instaUserID },
         { headers }
       )
@@ -134,7 +136,7 @@ function PostDetails() {
 
     axios
       .post(
-        `http://localhost:5000/api/v1/comments/create-new-comments`,
+        `${BACKEND_URL}comments/create-new-comments`,
         tempNewComments,
         { headers }
       )
@@ -167,7 +169,7 @@ function PostDetails() {
   // load all new comments of current post
   const loadNewComments = () => {
     axios
-      .get(`http://localhost:5000/api/v1/comments/get-all-comments/${id}`, {
+      .get(`${BACKEND_URL}comments/get-all-comments/${id}`, {
         headers,
       })
       .then((response) => {
