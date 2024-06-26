@@ -513,6 +513,7 @@ const getUser = async (request, response) => {
       {
         $match: { '_id': new Mongoose.Types.ObjectId(id) }
       },
+
       {
         $lookup: {
           from: "posts",
@@ -536,6 +537,7 @@ const getUser = async (request, response) => {
           ]
         }
       },
+
       {
         $lookup: {
           from: "posts",
@@ -553,12 +555,45 @@ const getUser = async (request, response) => {
             },
             {
               $addFields: {
-                commentCount: { $size: "$comments" }
+                commentCount: { $size: "$comments" },
+              }
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user"
+              }
+            },
+            {
+              $unwind: {
+                path: "$user",
+              }
+            },
+            {
+              $replaceRoot: {
+                newRoot: {
+                  $mergeObjects: [
+                    {
+                      _id: "$_id",
+                      user: "$user._id",
+                      userName: "$user.userName",
+                      userProfile: "$user.userProfile",
+                      postPoster: "$postPoster",
+                      postCaption: "$postCaption",
+                      postCreatedAt: "$postCreatedAt",
+                      postLikes: "$postLikes",
+                      commentCount: "$commentCount",
+                    },
+                  ]
+                }
               }
             }
           ]
         }
       },
+
       {
         $project: {
           _id: 1,
@@ -571,15 +606,11 @@ const getUser = async (request, response) => {
           userProfile: 1,
           website: 1,
           userPostsCount: { $size: "$posts" },
-          "savedPost._id": 1,
-          "savedPost.user": 1,
-          "savedPost.postPoster": 1,
-          "savedPost.postCaption": 1,
-          "savedPost.postCreatedAt": 1,
-          "savedPost.postLikes": 1,
-          "savedPost.commentCount": 1,
+          "savedPost": 1,
           "posts._id": 1,
           "posts.user": 1,
+          "posts.userName": "$userName",
+          "posts.userProfile": "$userProfile",
           "posts.postPoster": 1,
           "posts.postCaption": 1,
           "posts.postCreatedAt": 1,
@@ -588,6 +619,7 @@ const getUser = async (request, response) => {
           isPrivate: 1,
         }
       }
+      
     ]);
 
     if (userData.length > 0) {
@@ -598,6 +630,7 @@ const getUser = async (request, response) => {
     } else {
       return response.send({
         success: false,
+        user: userData,
       });
     }
   } catch (err) {
