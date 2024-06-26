@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost } from "../../../Redux/ReduxSlice";
 
 import homeStyle from "./home.module.css"
-export const HomePostCard = ({ postDetails }) => {
+export const HomePostCard = ({ posts }) => {
     const { instaUserID, instaTOKEN, instaSavedPost } = useSelector(
         (state) => state.Instagram
     );
@@ -26,17 +26,17 @@ export const HomePostCard = ({ postDetails }) => {
     };
 
     // ! show Details of post
-    const handleDetailspostClick = (e, postDetails) => {
+    const handleDetailspostClick = (e, posts) => {
         e.preventDefault();
-        navigateTO(`/post/${postDetails.posts?._id}`, { state: postDetails })
+        navigateTO(`/post/${posts?._id}`, { state: posts })
     }
 
     //! Creating new comments for the post
-    const handlePostComment = (e, postData) => {
+    const handlePostComment = (e, posts) => {
         e.preventDefault();
 
         const tempNewComments = {
-            postID: postData?.posts?._id,
+            postID: posts?._id,
             commentText: newComment,
             userID: instaUserID,
         };
@@ -130,8 +130,8 @@ export const HomePostCard = ({ postDetails }) => {
                 <div className={`${homeStyle.homePostCard_header}`}>
                     <div className={`${homeStyle.homePostCard__PostOwner}`}>
                         <img
-                            src={postDetails?.userProfile ?? defaultProfile}
-                            alt={`${postDetails?.userName}'s profile`}
+                            src={posts?.userProfile ?? defaultProfile}
+                            alt={`${posts?.userName}'s profile`}
                             className={`${homeStyle.homePostCard__PostOwnerProfile}`}
                             onError={(e) => {
                                 e.target.src = `${defaultProfile}`;
@@ -139,67 +139,67 @@ export const HomePostCard = ({ postDetails }) => {
                             }}
                         />
                         <Link
-                            to={`/${postDetails?._id}`}
+                            to={`/${posts?.user}`}
                             className={`${homeStyle.homePostCard__PostOwnerName}`}
                         >
-                            {postDetails?.userName}
+                            {posts?.userName}
                         </Link>
                         <span className={`${homeStyle.homePostCard__blackDOT}`}></span>
                         <span className={`${homeStyle.homePostCard__PostDate}`}>
-                            <CalculateTimeAgo time={postDetails?.posts?.postCreatedAt} />
+                            <CalculateTimeAgo time={posts?.postCreatedAt} />
                         </span>
                     </div>
                     <BsThreeDots className={`${homeStyle.homePostCard__threeDotOptions}`} />
                 </div>
                 <img
-                    src={postDetails?.posts?.postPoster}
-                    alt={postDetails?.posts?.postCaption}
+                    src={posts?.postPoster}
+                    alt={posts?.postCaption}
                     className={`${homeStyle.homePostCard_PostPoster}`}
                 />
 
                 <div className={`${homeStyle.homePostCard__iconButton_Box}`}>
                     <div>
                         <FaRegHeart className={`${homeStyle.homePostCard__iconButton}`} />
-                        <FaRegComment className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleDetailspostClick(e,postDetails )} />
+                        <FaRegComment className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleDetailspostClick(e,posts )} />
                         {/* <FaHeart className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS` }  /> */}
                     </div>
                     <div>
-                        {instaSavedPost?.includes(postDetails?.posts?._id) ? (
-                            <IoBookmark className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleRemoveSavePost(e, postDetails?.posts?._id)} />
+                        {instaSavedPost?.includes(posts?._id) ? (
+                            <IoBookmark className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleRemoveSavePost(e, posts?._id)} />
                         ) : (
                             <IoBookmarkOutline
                                 className={`${homeStyle.homePostCard__iconButton}`}
-                                onClick={(e) => handleSavePost(e, postDetails?.posts?._id)}
+                                onClick={(e) => handleSavePost(e, posts?._id)}
                             />
                         )}
                     </div>
                 </div>
 
-                {postDetails?.posts?.postLikes !== 0 && (
+                {posts?.postLikes !== 0 && (
                     <p className={`${homeStyle.homePostCard__LikeCounter}`}>
 
                         <span className={`${homeStyle.homePostCard__LikeCount}`}>
-                            {postDetails?.posts?.postLikes}
+                            {posts?.postLikes}
                         </span>
-                        {postDetails?.posts?.postLikes > 1 ? "likes" : "like"}
+                        {posts?.postLikes > 1 ? "likes" : "like"}
                     </p>
                 )}
 
-                {postDetails?.posts?.postCaption && (
+                {posts?.postCaption && (
                     <p className={`${homeStyle.homePostCard__captionBox}`}>
                         <Link
-                            to={`/${postDetails?.user}`}
+                            to={`/${posts?.user}`}
                             className={`${homeStyle.homePostCard__captionBox_userName}`}
                         >
-                            {postDetails?.userName}
+                            {posts?.userName}
                         </Link>
-                        <span className={`${homeStyle.homePostCard__caption}`}>{postDetails?.posts?.postCaption}</span>
+                        <span className={`${homeStyle.homePostCard__caption}`}>{posts?.postCaption}</span>
                     </p>
                 )}
 
-                {postDetails?.posts?.commentCount !== 0 && (
+                {posts?.commentCount !== 0 && (
                     <span className={`${homeStyle.homePostCard__viewAllComment}`}>
-                        View all {postDetails?.posts?.commentCount} comments
+                        View all {posts?.commentCount} comments
                     </span>
                 )}
 
@@ -217,7 +217,7 @@ export const HomePostCard = ({ postDetails }) => {
                         <button
                             type="button"
                             className={`${homeStyle.homePostCard__commentPostButton}`}
-                            onClick={(e) => handlePostComment(e, postDetails)}
+                            onClick={(e) => handlePostComment(e, posts)}
                         >
                             Post
                         </button>

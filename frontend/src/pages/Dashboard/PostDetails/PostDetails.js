@@ -123,11 +123,11 @@ function PostDetails() {
   };
 
   //! Creating new comments for the post
-  const handlePostComment = (e, postData) => {
+  const handlePostComment = (e, posts) => {
     e.preventDefault();
     setcommentLoader(true);
     const tempNewComments = {
-      postID: postData?.posts?._id,
+      postID: posts?._id,
       commentText: newComment,
       userID: instaUserID,
     };
@@ -201,7 +201,7 @@ function PostDetails() {
       <div className={`${postDetailsStyle.__PostDetails__box}`}>
         <div className={`${postDetailsStyle.__PostDetails__Posterbox}`}>
           <img
-            src={state?.posts?.postPoster}
+            src={state?.postPoster}
             alt={`${state?.userName}'s post `}
             loading="lazy"
             className={`${postDetailsStyle.__PostDetails__Poster}`}
@@ -222,7 +222,7 @@ function PostDetails() {
                 }}
               />
               <Link
-                to={`/${state?._id}`}
+                to={`/${state?.user}`}
                 className={`${postDetailsStyle.__PostDetails_userNameLink}`}
               >
                 {state?.userName}
@@ -233,7 +233,7 @@ function PostDetails() {
 
           <div className={`${postDetailsStyle.__PostDetails__CommentBox}`}>
             {/* post caption  */}
-            {state?.posts?.postCaption && (
+            {state?.postCaption && (
               <div
                 className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}
               >
@@ -249,7 +249,7 @@ function PostDetails() {
                 />
                 <p>
                   <Link
-                    to={`/${state?._id}`}
+                    to={`/${state?.user}`}
                     className={`${postDetailsStyle.__PostDetails_userNameLink}`}
                   >
                     {state?.userName}
@@ -257,11 +257,11 @@ function PostDetails() {
                   <span
                     className={`${postDetailsStyle.__PostDetails_userCaptionText}`}
                   >
-                    {state?.posts?.postCaption}
+                    {state?.postCaption}
                     <span
                       className={`${postDetailsStyle.__PostDetails_PostDate}`}
                     >
-                      {state?.posts?.postCreatedAt && <CalculateTimeAgo time={state?.posts?.postCreatedAt} />}
+                      {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
 
                     </span>
                   </span>
@@ -324,28 +324,28 @@ function PostDetails() {
                 />
               </p>
               <p>
-                {instaSavedPost?.includes(state?.posts?._id) ? (
+                {instaSavedPost?.includes(state?._id) ? (
                   <IoBookmark
                     className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                    onClick={(e) => handleRemoveSavePost(e, state?.posts?._id)}
+                    onClick={(e) => handleRemoveSavePost(e, state?._id)}
                   />
                 ) : (
                   <IoBookmarkOutline
                     className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                    onClick={(e) => handleSavePost(e, state?.posts?._id)}
+                    onClick={(e) => handleSavePost(e, state?._id)}
                   />
                 )}
               </p>
             </div>
-            {state?.posts?.postLikes > 0 && (
+            {state?.postLikes > 0 && (
               <span
                 className={`${postDetailsStyle.__PostDetails__PostLikeCounter}`}
               >
-                {state?.posts?.postLiks} {state?.posts?.postLiks > 1 ? "likes" : "like"}
+                {state?.postLiks} {state?.postLiks > 1 ? "likes" : "like"}
               </span>
             )}
             <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
-              {state?.posts?.postCreatedAt && <CalculateTimeAgo time={state?.posts?.postCreatedAt} />}
+              {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
             </span>
           </div>
 

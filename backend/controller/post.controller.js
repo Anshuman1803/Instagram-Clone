@@ -67,23 +67,38 @@ const getAllPosts = async (request, response) => {
         }
       },
       {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              {
+                user: "$_id",
+                _id: "$posts._id",
+                userName: "$userName",
+                userProfile: "$userProfile"
+              },
+              "$posts"
+            ]
+          }
+        }
+      },
+      {
         $project: {
-          "_id": 1,
-          "userName": 1,
-          "userProfile": 1,
-          "posts.postPoster": 1,
-          "posts._id": 1,
-          "posts.postCaption": 1,
-          "posts.postCreatedAt": 1,
-          "posts.commentCount": 1,
-          "posts.postLikes": 1,
+          _id: 1,
+          user : 1,
+          userName: 1,
+          userProfile: 1,
+          postPoster: 1,
+          postCaption: 1,
+          postCreatedAt: 1,
+          commentCount: 1,
+          postLikes: 1,
         }
       }
     ])
     if (postData.length > 0) {
-      response.send({ success: true, postDetails: postData });
+      response.send({ success: true, posts: postData });
     } else {
-      response.send({ success: false, postDetails: postData });
+      response.send({ success: false, posts: postData });
     }
   } catch (err) {
     response.send({ success: false, msg: err.message });
