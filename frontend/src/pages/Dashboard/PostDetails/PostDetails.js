@@ -21,7 +21,6 @@ import { PostDetailsPopup } from "./PostDetailsPopup";
 function PostDetails() {
   const { instaUserID, instaTOKEN, instaSavedPost } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
-  console.log(state)
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigateTO = useNavigate();

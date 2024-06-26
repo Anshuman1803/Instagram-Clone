@@ -10,20 +10,26 @@ import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import ExploreLoader from './ExploreLoader';
 import exploreStyle from './explore.module.css'
 export default function Explore() {
-  const { instaTOKEN } = useSelector((state) => state.Instagram);
+  const { instaTOKEN, instaUserID } = useSelector((state) => state.Instagram);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const [ExplorePost, setExplorePosts] = useState([]);
   const [postLoading, setloading] = useState(false)
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
+
+  const handleShowPostDetails = (e, postDetails)=>{
+    e.preventDefault();
+    navigateTO(`/post/${postDetails.posts?._id}`, { state: postDetails })
+  }
+
   useEffect(() => {
     setloading(true)
-    axios.get(`http://localhost:5000/api/v1/posts/get-explore-posts`, { headers }).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/posts/get-explore-posts/${instaUserID}`, { headers }).then((response) => {
       if (response.data.success) {
-        setExplorePosts(response.data.posts);
+        setExplorePosts(response.data.postDetails);
         setloading(false)
       } else {
-        setExplorePosts(response.data.posts);
+        setExplorePosts(response.data.postDetails);
         setloading(false)
       }
     }).catch((error) => {
@@ -45,17 +51,17 @@ export default function Explore() {
           {
             ExplorePost.length === 0 ? <p> No Posts</p> : <>
               {
-                ExplorePost.map((posts) => {
-                  return <div className={`${exploreStyle.__ExplorePostCard}`} key={posts._id}>
-                    <img src={posts.postPoster} alt={posts.postCaption} className={`${exploreStyle.__ExplorePostCard_postPoster}`} loading="lazy" />
+                ExplorePost.map((postDetails) => {
+                  return <div onClick={(e)=>handleShowPostDetails(e, postDetails)} className={`${exploreStyle.__ExplorePostCard}`} key={postDetails?.posts._id}>
+                    <img src={postDetails?.posts.postPoster} alt={postDetails?.posts.postCaption} className={`${exploreStyle.__ExplorePostCard_postPoster}`} loading="lazy" />
                     <div className={`${exploreStyle.__ExplorePostCard__postInfo}`}>
                       <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
                         <FaHeart className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
-                        {posts.postLikes}
+                        {postDetails?.posts.postLikes}
                       </p>
                       <p className={`${exploreStyle.__ExplorePostCard_postInfoBox}`}>
                         <FaComment className={`${exploreStyle.__ExplorePostCard__postInfoICON}`} />
-                        {posts?.postCommentsCount}
+                        {postDetails?.posts?.commentCount}
                       </p>
                     </div>
                   </div>
