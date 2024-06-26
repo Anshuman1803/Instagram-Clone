@@ -198,7 +198,7 @@ export const HomePostCard = ({ posts }) => {
                 )}
 
                 {posts?.commentCount !== 0 && (
-                    <span className={`${homeStyle.homePostCard__viewAllComment}`}>
+                    <span className={`${homeStyle.homePostCard__viewAllComment}`} onClick={(e) => handleDetailspostClick(e,posts )}>
                         View all {posts?.commentCount} comments
                     </span>
                 )}
