@@ -36,7 +36,7 @@ export default function UserDeleteComponent() {
             passRef.current.focus();
             setButtonLoading(false)
         } else {
-            axios.post(`http://localhost:5000/api/v1/auth/user/verify-user-password`, {
+            axios.post(`http://localhost:5000/api/v1/users/verify-user-password`, {
                 userID: instaUserID,
                 userPassword: userDetails.userPassword
             }, { headers }).then((response) => {
@@ -159,7 +159,7 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
     const handleDeleteAccount = (e) => {
         e.preventDefault();
         setbuttonLoading(true);
-        axios.delete("http://localhost:5000/api/v1/auth/user/delete-user-account", {
+        axios.delete("http://localhost:5000/api/v1/users/delete-user-account", {
             headers,
             data: {
                 OTP: Number(otp.join("")),

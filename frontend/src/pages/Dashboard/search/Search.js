@@ -22,7 +22,7 @@ export default function Search() {
 
   const loadSearchResult = () => {
     setSearchLoader(true)
-    axios.post("http://localhost:5000/api/v1/auth/users/search-user", { searchText }, { headers }).then((response) => {
+    axios.post("http://localhost:5000/api/v1/users/search-user", { searchText }, { headers }).then((response) => {
       if (response.data.success) {
         setSearchResult(response.data.searchResult);
         setSearchLoader(false);

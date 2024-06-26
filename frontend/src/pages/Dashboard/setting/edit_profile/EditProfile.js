@@ -54,7 +54,7 @@ function EditProfile() {
 
   const loaduserDetails = () => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/auth/user/${instaUserID}`, {}, { headers }).then((response) => {
+    axios.get(`http://localhost:5000/api/v1/users/${instaUserID}`, {}, { headers }).then((response) => {
       if (response.data.success) {
         setLoading(false);
         setUserDetails({
@@ -96,7 +96,7 @@ function EditProfile() {
     formData.append("userBio", userDetails?.userBio);
     formData.append("website", userDetails?.website);
     formData.append("profilePicture", selectedImgPath);
-    axios.patch(`http://localhost:5000/api/v1/auth/user/update-user-details/${instaUserID}`, formData, { headers }).then((response) => {
+    axios.patch(`http://localhost:5000/api/v1/users/update-user-details/${instaUserID}`, formData, { headers }).then((response) => {
       setButtonLoading(false)
       if (response.data.success) {
         dispatch(userUpdateDetails({

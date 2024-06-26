@@ -33,7 +33,7 @@ export default function Home() {
         headers,
       }),
       axios.get(
-        `http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`,
+        `http://localhost:5000/api/v1/users/suggested-users/${instaUserID}`,
         { headers }
       ),
     ])
