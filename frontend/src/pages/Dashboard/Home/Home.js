@@ -40,13 +40,13 @@ export default function Home() {
       .then(([postsResponse, suggestedUsersResponse]) => {
         if (postsResponse.data.success) {
           setAllPosts(
-            postsResponse.data.posts.sort(
-              (a, b) => b.postCreatedAt - a.postCreatedAt
+            postsResponse.data.postDetails.sort(
+              (a, b) => b.posts.postCreatedAt - a.posts.postCreatedAt
             )
           );
           setPostLoading(false);
         } else {
-          setAllPosts(postsResponse.data.posts);
+          setAllPosts(postsResponse.data.postDetails);
           setPostLoading(false);
         }
 
@@ -81,8 +81,8 @@ export default function Home() {
           <HomeCardLoader />
         ) : (
           <>
-            {allPosts?.map((posts, index) => {
-              return <HomePostCard key={posts._id + index} posts={posts} />;
+            {allPosts?.map((postDetails, index) => {
+              return <HomePostCard key={postDetails._id + index} postDetails={postDetails} />;
             })}
           </>
         )}

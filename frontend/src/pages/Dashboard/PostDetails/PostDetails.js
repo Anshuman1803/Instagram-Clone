@@ -21,6 +21,7 @@ import { PostDetailsPopup } from "./PostDetailsPopup";
 function PostDetails() {
   const { instaUserID, instaTOKEN, instaSavedPost } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
+  console.log(state)
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -123,11 +124,11 @@ function PostDetails() {
   };
 
   //! Creating new comments for the post
-  const handlePostComment = (e, posts) => {
+  const handlePostComment = (e, postData) => {
     e.preventDefault();
     setcommentLoader(true);
     const tempNewComments = {
-      postID: posts?._id,
+      postID: postData?.posts?._id,
       commentText: newComment,
       userID: instaUserID,
     };
@@ -201,8 +202,8 @@ function PostDetails() {
       <div className={`${postDetailsStyle.__PostDetails__box}`}>
         <div className={`${postDetailsStyle.__PostDetails__Posterbox}`}>
           <img
-            src={state?.postPoster}
-            alt={`${state?.user.userName}'s post `}
+            src={state?.posts?.postPoster}
+            alt={`${state?.userName}'s post `}
             loading="lazy"
             className={`${postDetailsStyle.__PostDetails__Poster}`}
           />
@@ -212,9 +213,9 @@ function PostDetails() {
           <div className={`${postDetailsStyle.__PostDetails_userData}`}>
             <div className={`${postDetailsStyle.__PostDetails_userProfileBox}`}>
               <img
-                src={state?.user.userProfile ?? defaultProfile}
+                src={state?.userProfile ?? defaultProfile}
                 loading="lazy"
-                alt={`${state?.user.userName}'s profile`}
+                alt={`${state?.userName}'s profile`}
                 className={`${postDetailsStyle.__PostDetails_userProfile}`}
                 onError={(e) => {
                   e.target.src = `${defaultProfile}`;
@@ -222,10 +223,10 @@ function PostDetails() {
                 }}
               />
               <Link
-                to={`/${state?.user._id}`}
+                to={`/${state?._id}`}
                 className={`${postDetailsStyle.__PostDetails_userNameLink}`}
               >
-                {state?.user.userName}
+                {state?.userName}
               </Link>
             </div>
             <BsThreeDots className={`${postDetailsStyle.__PostDetails_PopupButton}`} onClick={(e)=>setTogglePopup(true)}/>
@@ -233,12 +234,12 @@ function PostDetails() {
 
           <div className={`${postDetailsStyle.__PostDetails__CommentBox}`}>
             {/* post caption  */}
-            {state?.postCaption && (
+            {state?.posts?.postCaption && (
               <div
                 className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}
               >
                 <img
-                  src={state?.user.userProfile ?? defaultProfile}
+                  src={state?.userProfile ?? defaultProfile}
                   loading="lazy"
                   alt="username"
                   className={`${postDetailsStyle.__PostDetails_userProfile} ${postDetailsStyle.__PostDetails_userProfile_Caption}`}
@@ -249,19 +250,19 @@ function PostDetails() {
                 />
                 <p>
                   <Link
-                    to={`/${state?.user._id}`}
+                    to={`/${state?._id}`}
                     className={`${postDetailsStyle.__PostDetails_userNameLink}`}
                   >
-                    {state?.user.userName}
+                    {state?.userName}
                   </Link>
                   <span
                     className={`${postDetailsStyle.__PostDetails_userCaptionText}`}
                   >
-                    {state?.postCaption}
+                    {state?.posts?.postCaption}
                     <span
                       className={`${postDetailsStyle.__PostDetails_PostDate}`}
                     >
-                      {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
+                      {state?.posts?.postCreatedAt && <CalculateTimeAgo time={state?.posts?.postCreatedAt} />}
 
                     </span>
                   </span>
@@ -324,28 +325,28 @@ function PostDetails() {
                 />
               </p>
               <p>
-                {instaSavedPost?.includes(state?._id) ? (
+                {instaSavedPost?.includes(state?.posts?._id) ? (
                   <IoBookmark
                     className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                    onClick={(e) => handleRemoveSavePost(e, state?._id)}
+                    onClick={(e) => handleRemoveSavePost(e, state?.posts?._id)}
                   />
                 ) : (
                   <IoBookmarkOutline
                     className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                    onClick={(e) => handleSavePost(e, state?._id)}
+                    onClick={(e) => handleSavePost(e, state?.posts?._id)}
                   />
                 )}
               </p>
             </div>
-            {state?.postLikes > 0 && (
+            {state?.posts?.postLikes > 0 && (
               <span
                 className={`${postDetailsStyle.__PostDetails__PostLikeCounter}`}
               >
-                {state?.postLiks} {state?.postLiks > 1 ? "likes" : "like"}
+                {state?.posts?.postLiks} {state?.posts?.postLiks > 1 ? "likes" : "like"}
               </span>
             )}
             <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
-              {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
+              {state?.posts?.postCreatedAt && <CalculateTimeAgo time={state?.posts?.postCreatedAt} />}
             </span>
           </div>
 
