@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import savedPostICON from "../../../Assets/savedICON.png";
 import { FaComment } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import profileStyle from "./profile.module.css"
 function ProfileSavedPost() {
   const { state } = useLocation();
   const [savedPosts, setSavedPosts] = useState([]);
+  const navigateTO = useNavigate();
+  const handleShowPostDetails = (e, posts)=>{
+    e.preventDefault();
+    navigateTO(`/post/${posts?._id}`, { state: posts })
+  }
 
   useEffect(() => {
     setSavedPosts(state)
@@ -30,7 +35,7 @@ function ProfileSavedPost() {
             <>
               {savedPosts?.map((posts, index) => {
                 return (
-                  <div className={`${profileStyle.profilePostContainer__postCard}`} key={index}>
+                  <div className={`${profileStyle.profilePostContainer__postCard}`} key={index} onClick={(e)=>handleShowPostDetails(e, posts)} >
                     <img
                       src={posts?.postPoster}
                       alt={posts?.postPoster}
@@ -43,7 +48,7 @@ function ProfileSavedPost() {
                       </p>
                       <p className={`${profileStyle.profilePostContainer_postInfoBox}`}>
                         <FaComment className={`${profileStyle.profilePostcontainer__postInfoICON}`} />
-                        {posts.comments.length}
+                        {posts?.commentCount}
                       </p>
                     </div>
                   </div>

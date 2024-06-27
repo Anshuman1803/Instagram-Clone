@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoader from "./ButtonLoader";
 import authStyle from "../pages/Auth/auth.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export function OTP() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -58,7 +60,7 @@ export function OTP() {
     setButtonLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/verify-OTP",
+        `${BACKEND_URL}verify-OTP`,
         {
           OTP: Number(otp.join("")),
           userEmail: state?.userEmail,
@@ -71,7 +73,7 @@ export function OTP() {
           toast.success("Now, Reset your password");
         } else {
           const registerResponse = await axios.post(
-            "http://localhost:5000/api/v1/auth/user/register",
+            `${BACKEND_URL}auth/user/register`,
             {
               userName: state?.userName,
               fullName: state?.fullName,

@@ -31,6 +31,7 @@ const ForgotPassword = lazy(() => import("../pages/Auth/ForgotPassword"))
 const OTP = lazy(() => import("../components/OTP").then(module => ({ default: module.OTP })));
 
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function AppRouter() {
   const [validate, setValidate] = useState(false);
   const [Loader, setLoader] = useState(true);
@@ -41,7 +42,7 @@ function AppRouter() {
     setLoader(true);
     if (instaTOKEN) {
       axios
-        .post("http://localhost:5000/api/v1/auth/verify/token", { instaTOKEN })
+        .post(`${BACKEND_URL}auth/verify/token`, { instaTOKEN })
         .then((response) => {
           if (response.data.success) {
             setValidate(true);

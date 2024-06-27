@@ -8,6 +8,8 @@ import LazyLoader from "../../components/LazyLoader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import authStyle from "./auth.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function ResetPassword({ PropClassName, CompTitle, instaUserID }) {
   const { pathname } = useLocation();
   const userEmail = useLocation()?.state?.userEmail;
@@ -56,7 +58,7 @@ function ResetPassword({ PropClassName, CompTitle, instaUserID }) {
     } else {
       axios
         .post(
-          "http://localhost:5000/api/v1/auth/user/password/reset-password",
+          `${BACKEND_URL}auth/user/password/reset-password`,
           userDetails
         )
         .then((response) => {

@@ -1,22 +1,17 @@
-const { userSignIn, userRegister, getUser,updateUserDetails,removeProfilePicture, getSuggestedUser, otpSender, forgotPassword, resetPassword, authenticateUser,verifyUserPassword,deleteUserAccount,searchUser,addUsersToFollowingList, unfollowUser } = require("../controller/user.controller");
+const { getUser, updateUserDetails, removeProfilePicture, getSuggestedUser, verifyUserPassword, deleteUserAccount, searchUser, addUsersToFollowingList, unfollowUser } = require("../controller/user.controller");
 const userRoute = require("express").Router();
 const { upload } = require("../middleware/uploadImage");
 const { userAuthenticate } = require("../middleware/Authenticate")
 
-userRoute.post("/verify/token", authenticateUser);
-userRoute.post("/user/verify-account", otpSender);
-userRoute.post("/user/register", userRegister);
-userRoute.post("/user/signin", userSignIn);
-userRoute.post("/user/password/forgot-password", forgotPassword);
-userRoute.post("/user/password/reset-password", resetPassword);
-userRoute.post("/user/verify-user-password",userAuthenticate, verifyUserPassword);
-userRoute.patch("/user/update-user-details/:userID", userAuthenticate, upload.single('profilePicture'), updateUserDetails);
-userRoute.patch("/user/remove-profile-picture/:userID",userAuthenticate, removeProfilePicture);
-userRoute.patch("/user/add-to-following-list/:userID", addUsersToFollowingList);
-userRoute.patch("/user/unfollow/:userID", unfollowUser);
-userRoute.get("/user/:id", getUser);
-userRoute.get("/user/suggested-users/:id", getSuggestedUser);
-userRoute.post("/users/search-user",userAuthenticate, searchUser);
-userRoute.delete("/user/delete-user-account", deleteUserAccount)
+
+userRoute.post("/verify-user-password", userAuthenticate, verifyUserPassword);
+userRoute.patch("/update-user-details/:userID", userAuthenticate, upload.single('profilePicture'), updateUserDetails);
+userRoute.patch("/remove-profile-picture/:userID", userAuthenticate, removeProfilePicture);
+userRoute.patch("/add-to-following-list/:userID", addUsersToFollowingList);
+userRoute.patch("/unfollow/:userID", unfollowUser);
+userRoute.get("/:id", getUser);
+userRoute.get("/suggested-users/:id", getSuggestedUser);
+userRoute.post("/search-user", userAuthenticate, searchUser);
+userRoute.delete("/delete-user-account", deleteUserAccount)
 
 module.exports = { userRoute }

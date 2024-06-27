@@ -17,7 +17,7 @@ const createPost = async (request, response) => {
     });
 
     if (mongooseResponse) {
-        response.send({ success: true });
+      response.send({ success: true });
     } else {
       response.send({ success: false });
     }
@@ -28,49 +28,69 @@ const createPost = async (request, response) => {
 
 const getAllPosts = async (request, response) => {
   try {
-    const { userID } = request.params
-    const postData = await postCollection.aggregate([
+    const { userID } = request.params;
+    const postData = await userCollection.aggregate([
       {
         $match: {
-          user: { $ne: new Mongoose.Types.ObjectId(userID) }
+          isPrivate: false,
+          "_id": {
+            $ne: { $ne: new Mongoose.Types.ObjectId(userID) }
+          }
         }
       },
       {
         $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "user"
+          from: 'posts',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'posts',
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+            {
+              $addFields: {
+                commentCount: { $size: "$comments" }
+              }
+            }
+          ]
         }
       },
       {
-        $unwind: "$user"
-      },
-      {
-        $lookup: {
-          from: "comments",
-          localField: "_id",
-          foreignField: "postID",
-          as: "comments"
+        $unwind: {
+          path: "$posts",
         }
       },
       {
-        $addFields: {
-          postCommentsCount: {
-            $size: "$comments"
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              {
+                user: "$_id",
+                _id: "$posts._id",
+                userName: "$userName",
+                userProfile: "$userProfile"
+              },
+              "$posts"
+            ]
           }
         }
       },
       {
         $project: {
           _id: 1,
-          "user._id": 1,
-          "user.userName": 1,
-          "user.userProfile": 1,
+          user : 1,
+          userName: 1,
+          userProfile: 1,
           postPoster: 1,
           postCaption: 1,
           postCreatedAt: 1,
-          postCommentsCount: 1,
+          commentCount: 1,
           postLikes: 1,
         }
       }
@@ -148,61 +168,85 @@ const deleteSavePostFromCollection = async (request, response) => {
   }
 }
 
-const explorerPosts = async (request, response)=>{
-  try{
-    const postData = await postCollection.aggregate([
+const explorerPosts = async (request, response) => {
+  try {
+    const { instaUserID } = request.params;
+    const currentUser = await userCollection.findById(instaUserID).select("userFollowing");
+    const postData = await userCollection.aggregate([
       {
-        $match :{}
-      },
-      {
-        $lookup : {
-          from : 'users',
-          localField : 'user',
-          foreignField : '_id',
-          as : 'user'
-        }
-      },
-      {
-        $unwind : "$user"
-      },
-      {
-        $lookup :{
-          from : 'comments',
-          localField : '_id',
-          foreignField : 'postID',
-          as : 'comments'
-        }
-      },
-      {
-        $addFields : {
-          postCommentsCount : {
-            $size : "$comments"
+        $match: {
+          isPrivate: false,
+          _id: {
+            $nin: currentUser.userFollowing
           }
         }
       },
       {
-        $project : {
-          _id : 1,
-          "user._id" : 1,
-          "user.userName" : 1,
-          "user.userProfile" : 1,
-          postPoster : 1,
-          postCaption : 1,
-          postCreatedAt : 1,
-          postCommentsCount : 1,
-          comments : 1,
-          postLikes : 1,
+        $lookup: {
+          from: 'posts',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'posts',
+          pipeline: [
+            {
+              $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "postID",
+                as: "comments"
+              }
+            },
+            {
+              $addFields: {
+                commentCount: { $size: "$comments" }
+              }
+            }
+          ]
+        }
+      },
+      {
+        $unwind: {
+          path: "$posts",
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              {
+                user: "$_id",
+                _id: "$posts._id",
+                userName: "$userName",
+                userProfile: "$userProfile"
+              },
+              "$posts"
+            ]
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          user : 1,
+          userName: 1,
+          userProfile: 1,
+          postPoster: 1,
+          postCaption: 1,
+          postCreatedAt: 1,
+          commentCount: 1,
+          postLikes: 1,
         }
       }
     ])
+
     if (postData.length > 0) {
       response.send({ success: true, posts: postData });
     } else {
       response.send({ success: false, posts: postData });
     }
   }
-  catch(err){
-    response.send({success: false, msg:err.message});
+  catch (err) {
+    response.send({ success: false, msg: err.message });
   }
 }
 

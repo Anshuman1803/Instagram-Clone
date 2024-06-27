@@ -9,6 +9,6 @@ postRoute.post("/create-post", userAuthenticate, upload.single('postPoster'), cr
 postRoute.patch("/save-post/:postID", userAuthenticate, savePost);
 postRoute.patch("/delete/save-post/:postID", userAuthenticate, deleteSavePostFromCollection);
 postRoute.get("/get-all/:userID", userAuthenticate, getAllPosts);
-postRoute.get("/get-explore-posts", userAuthenticate, explorerPosts);
+postRoute.get("/get-explore-posts/:instaUserID", userAuthenticate, explorerPosts);
 
 module.exports = { postRoute }

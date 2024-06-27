@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost, } from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
 import { PostDetailsPopup } from "./PostDetailsPopup";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function PostDetails() {
   const { instaUserID, instaTOKEN, instaSavedPost } = useSelector((state) => state.Instagram);
   const { state } = useLocation();
@@ -43,12 +45,12 @@ function PostDetails() {
     e.preventDefault();
     axios
       .delete(
-        `http://localhost:5000/api/v1/comments/delete-comment/${commentId}`,
+        `${BACKEND_URL}comments/delete-comment/${commentId}`,
         { headers }
       )
       .then((response) => {
         if (response.data.success) {
-          toast.error(response.data.msg);
+          toast.success(response.data.msg);
           loadNewComments();
         } else {
           toast.error(response.data.msg);
@@ -71,7 +73,7 @@ function PostDetails() {
     e.preventDefault();
     axios
       .patch(
-        `http://localhost:5000/api/v1/posts/save-post/${postID}`,
+        `${BACKEND_URL}posts/save-post/${postID}`,
         { instaUserID },
         { headers }
       )
@@ -99,7 +101,7 @@ function PostDetails() {
     e.preventDefault();
     axios
       .patch(
-        `http://localhost:5000/api/v1/posts/delete/save-post/${postID}`,
+        `${BACKEND_URL}posts/delete/save-post/${postID}`,
         { instaUserID },
         { headers }
       )
@@ -134,7 +136,7 @@ function PostDetails() {
 
     axios
       .post(
-        `http://localhost:5000/api/v1/comments/create-new-comments`,
+        `${BACKEND_URL}comments/create-new-comments`,
         tempNewComments,
         { headers }
       )
@@ -167,7 +169,7 @@ function PostDetails() {
   // load all new comments of current post
   const loadNewComments = () => {
     axios
-      .get(`http://localhost:5000/api/v1/comments/get-all-comments/${id}`, {
+      .get(`${BACKEND_URL}comments/get-all-comments/${id}`, {
         headers,
       })
       .then((response) => {
@@ -202,7 +204,7 @@ function PostDetails() {
         <div className={`${postDetailsStyle.__PostDetails__Posterbox}`}>
           <img
             src={state?.postPoster}
-            alt={`${state?.user.userName}'s post `}
+            alt={`${state?.userName}'s post `}
             loading="lazy"
             className={`${postDetailsStyle.__PostDetails__Poster}`}
           />
@@ -212,9 +214,9 @@ function PostDetails() {
           <div className={`${postDetailsStyle.__PostDetails_userData}`}>
             <div className={`${postDetailsStyle.__PostDetails_userProfileBox}`}>
               <img
-                src={state?.user.userProfile ?? defaultProfile}
+                src={state?.userProfile ?? defaultProfile}
                 loading="lazy"
-                alt={`${state?.user.userName}'s profile`}
+                alt={`${state?.userName}'s profile`}
                 className={`${postDetailsStyle.__PostDetails_userProfile}`}
                 onError={(e) => {
                   e.target.src = `${defaultProfile}`;
@@ -222,10 +224,10 @@ function PostDetails() {
                 }}
               />
               <Link
-                to={`/${state?.user._id}`}
+                to={`/${state?.user}`}
                 className={`${postDetailsStyle.__PostDetails_userNameLink}`}
               >
-                {state?.user.userName}
+                {state?.userName}
               </Link>
             </div>
             <BsThreeDots className={`${postDetailsStyle.__PostDetails_PopupButton}`} onClick={(e)=>setTogglePopup(true)}/>
@@ -238,7 +240,7 @@ function PostDetails() {
                 className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}
               >
                 <img
-                  src={state?.user.userProfile ?? defaultProfile}
+                  src={state?.userProfile ?? defaultProfile}
                   loading="lazy"
                   alt="username"
                   className={`${postDetailsStyle.__PostDetails_userProfile} ${postDetailsStyle.__PostDetails_userProfile_Caption}`}
@@ -249,10 +251,10 @@ function PostDetails() {
                 />
                 <p>
                   <Link
-                    to={`/${state?.user._id}`}
+                    to={`/${state?.user}`}
                     className={`${postDetailsStyle.__PostDetails_userNameLink}`}
                   >
-                    {state?.user.userName}
+                    {state?.userName}
                   </Link>
                   <span
                     className={`${postDetailsStyle.__PostDetails_userCaptionText}`}

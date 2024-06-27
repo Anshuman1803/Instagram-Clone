@@ -9,6 +9,8 @@ import axios from "axios";
 import LazyLoader from "../../../components/LazyLoader";
 import { useNavigate } from "react-router-dom";
 import createPostStyle from "./create.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function Create() {
   const { instaUserID, instaUserName, instaProfle } = useSelector(
     (state) => state.Instagram
@@ -56,7 +58,7 @@ export default function Create() {
       formData.append("postCaption", post.postCaption);
       setLoading(true);
       axios
-        .post("http://localhost:5000/api/v1/posts/create-post", formData, {
+        .post(`${BACKEND_URL}posts/create-post`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {

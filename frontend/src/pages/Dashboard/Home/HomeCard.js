@@ -12,8 +12,9 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost } from "../../../Redux/ReduxSlice";
-
 import homeStyle from "./home.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const HomePostCard = ({ posts }) => {
     const { instaUserID, instaTOKEN, instaSavedPost } = useSelector(
         (state) => state.Instagram
@@ -43,7 +44,7 @@ export const HomePostCard = ({ posts }) => {
 
         axios
             .post(
-                `http://localhost:5000/api/v1/comments/create-new-comments`,
+                `${BACKEND_URL}comments/create-new-comments`,
                 tempNewComments,
                 { headers }
             )
@@ -73,7 +74,7 @@ export const HomePostCard = ({ posts }) => {
         e.preventDefault();
         axios
             .patch(
-                `http://localhost:5000/api/v1/posts/save-post/${postID}`,
+                `${BACKEND_URL}posts/save-post/${postID}`,
                 { instaUserID },
                 { headers }
             )
@@ -101,7 +102,7 @@ export const HomePostCard = ({ posts }) => {
         e.preventDefault();
         axios
             .patch(
-                `http://localhost:5000/api/v1/posts/delete/save-post/${postID}`,
+                `${BACKEND_URL}posts/delete/save-post/${postID}`,
                 { instaUserID },
                 { headers }
             )
@@ -130,8 +131,8 @@ export const HomePostCard = ({ posts }) => {
                 <div className={`${homeStyle.homePostCard_header}`}>
                     <div className={`${homeStyle.homePostCard__PostOwner}`}>
                         <img
-                            src={posts?.user?.userProfile ?? defaultProfile}
-                            alt={`${posts?.user?.userName}'s profile`}
+                            src={posts?.userProfile ?? defaultProfile}
+                            alt={`${posts?.userName}'s profile`}
                             className={`${homeStyle.homePostCard__PostOwnerProfile}`}
                             onError={(e) => {
                                 e.target.src = `${defaultProfile}`;
@@ -139,10 +140,10 @@ export const HomePostCard = ({ posts }) => {
                             }}
                         />
                         <Link
-                            to={`/${posts?.user?._id}`}
+                            to={`/${posts?.user}`}
                             className={`${homeStyle.homePostCard__PostOwnerName}`}
                         >
-                            {posts?.user?.userName}
+                            {posts?.userName}
                         </Link>
                         <span className={`${homeStyle.homePostCard__blackDOT}`}></span>
                         <span className={`${homeStyle.homePostCard__PostDate}`}>
@@ -160,7 +161,7 @@ export const HomePostCard = ({ posts }) => {
                 <div className={`${homeStyle.homePostCard__iconButton_Box}`}>
                     <div>
                         <FaRegHeart className={`${homeStyle.homePostCard__iconButton}`} />
-                        <FaRegComment className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleDetailspostClick(e, posts)} />
+                        <FaRegComment className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleDetailspostClick(e,posts )} />
                         {/* <FaHeart className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS` }  /> */}
                     </div>
                     <div>
@@ -197,9 +198,9 @@ export const HomePostCard = ({ posts }) => {
                     </p>
                 )}
 
-                {posts?.postCommentsCount !== 0 && (
-                    <span className={`${homeStyle.homePostCard__viewAllComment}`}>
-                        View all {posts?.postCommentsCount} comments
+                {posts?.commentCount !== 0 && (
+                    <span className={`${homeStyle.homePostCard__viewAllComment}`} onClick={(e) => handleDetailspostClick(e,posts )}>
+                        View all {posts?.commentCount} comments
                     </span>
                 )}
 

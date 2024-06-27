@@ -8,6 +8,8 @@ import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import { Link, useNavigate } from 'react-router-dom';
 import SearchLoader from './SearchLoader';
 import searchStyle from "./search.module.css"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function Search() {
   const { instaTOKEN } = useSelector((state) => state.Instagram);
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ export default function Search() {
 
   const loadSearchResult = () => {
     setSearchLoader(true)
-    axios.post("http://localhost:5000/api/v1/auth/users/search-user", { searchText }, { headers }).then((response) => {
+    axios.post(`${BACKEND_URL}users/search-user`, { searchText }, { headers }).then((response) => {
       if (response.data.success) {
         setSearchResult(response.data.searchResult);
         setSearchLoader(false);

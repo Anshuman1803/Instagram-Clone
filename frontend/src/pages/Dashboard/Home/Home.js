@@ -11,6 +11,8 @@ import { SuggestedUser } from "./SuggestedUser";
 import homeStyle from "./home.module.css"
 import { HomeCardLoader } from "./HomeCardLoader";
 import { SuggestedUserLoading } from "./SuggestedUserLoading";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function Home() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
@@ -29,11 +31,11 @@ export default function Home() {
     };
 
     Promise.all([
-      axios.get(`http://localhost:5000/api/v1/posts/get-all/${instaUserID}`, {
+      axios.get(`${BACKEND_URL}posts/get-all/${instaUserID}`, {
         headers,
       }),
       axios.get(
-        `http://localhost:5000/api/v1/auth/user/suggested-users/${instaUserID}`,
+        `${BACKEND_URL}users/suggested-users/${instaUserID}`,
         { headers }
       ),
     ])

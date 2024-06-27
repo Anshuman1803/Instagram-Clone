@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import profileStyle from "./profile.module.css"
 import { ProfileLoader } from "./ProfileLoader";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function Profile() {
   const dispatch = useDispatch()
   const userID = useParams();
@@ -30,7 +32,7 @@ export default function Profile() {
 
   const handleFollowButtonClick = (e, followingUserID) => {
     e.preventDefault();
-    axios.patch(`http://localhost:5000/api/v1/auth/user/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
+    axios.patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
       if (response.data.success) {
         toast.success(response.data.msg)
         dispatch(userFollow(followingUserID))
@@ -50,7 +52,7 @@ export default function Profile() {
 
   const handleUnfollowButtonClick = (e, unfollowUserID) => {
     e.preventDefault();
-    axios.patch(`http://localhost:5000/api/v1/auth/user/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
+    axios.patch(`${BACKEND_URL}users/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
       if (response.data.success) {
         toast.success(response.data.msg)
         dispatch(userUnFollow(unfollowUserID));
@@ -72,7 +74,7 @@ export default function Profile() {
   // load the current USer
   const loadeUserDetails = () => {
     setLoading(true)
-    axios.get(`http://localhost:5000/api/v1/auth/user/${userID.instaUserID}`, { headers })
+    axios.get(`${BACKEND_URL}users/${userID.instaUserID}?currentUser=${instaUserID}`, { headers })
       .then((response) => {
         if (response.data.success) {
           setCurrentUser(response.data.user);
