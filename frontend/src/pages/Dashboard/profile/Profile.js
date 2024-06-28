@@ -176,7 +176,7 @@ export default function Profile() {
 
               <div className={`${profileStyle.dashboard__currentUser__PostsContainer}`}>
                 {
-                  (currentUser?.isPrivate && currentUser?._id !== instaUserID && !currentUser?.userFollowing.includes(instaUserID)) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
+                  (currentUser?.isPrivate && currentUser?._id !== instaUserID && !currentUser?.userFollowers.includes(instaUserID)) ? <div className={`${profileStyle.dashboard__currentUser__PrivateAccount}`}>
                     <img src={lockPng} alt="" className={`${profileStyle.__PrivateAccountPOSTer}`} />
                     <p className={`${profileStyle.__PrivateAccount_primaryMsg}`}>This account is private <span className={`${profileStyle.__PrivateAccount_secondaryMsg}`}>Follow to see their photos and videos.</span></p>
                   </div> :

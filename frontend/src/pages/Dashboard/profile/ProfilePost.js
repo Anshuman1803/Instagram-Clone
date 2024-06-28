@@ -23,7 +23,7 @@ function ProfilePost() {
     <div className={`${profileStyle.dashboard__profileSection__ProfilePostsContainer} ${ownPosts.length === 0 && `${profileStyle.flexContainer}`}`}>
       <div className={`${profileStyle.profilePostContainer__PostBox}`}>
         <>
-          {ownPosts.length === 0 ? (
+          {ownPosts?.length === 0 ? (
             <div  className={`${profileStyle.ProfilePostsContainer__NOpostBox}`}>
               <img src={cameraICON} alt="PostsICON" className={`${profileStyle.noPostICON}`} />
               <h2 className={`${profileStyle.noPost__title}`}>No Posts yet </h2>
