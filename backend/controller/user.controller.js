@@ -426,11 +426,13 @@ const getUser = async (request, response) => {
               if: {
                 $or: [
                   { $eq: ["$isPrivate", false] },
-                  {$cond : {
-                    if: { $eq: ["$isPrivate", true] },
-                    then:  { $in: ["$currentUser", "$userFollowers"]},
-                    else : true,
-                  }},
+                  {
+                    $cond: {
+                      if: { $eq: ["$isPrivate", true] },
+                      then: { $in: ["$currentUser", "$userFollowers"] },
+                      else: true,
+                    }
+                  },
                   "$isOwner"
                 ]
               },
@@ -468,7 +470,7 @@ const getUser = async (request, response) => {
               else: null,
             }
           },
-          isFollowersOrOwner : 1,
+          isFollowersOrOwner: 1,
           userPostsCount: { $size: "$posts" },
         }
       }
