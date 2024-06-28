@@ -426,13 +426,7 @@ const getUser = async (request, response) => {
               if: {
                 $or: [
                   { $eq: ["$isPrivate", false] },
-                  {
-                    $cond: {
-                      if: { $eq: ["$isPrivate", true] },
-                      then: { $in: ["$currentUser", "$userFollowers"] },
-                      else: true,
-                    }
-                  },
+                  { $in: [new Mongoose.Types.ObjectId(currentUser), '$userFollowers'] },  // Check if currentUser is in the followers array
                   "$isOwner"
                 ]
               },

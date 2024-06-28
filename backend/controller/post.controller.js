@@ -32,10 +32,17 @@ const getAllPosts = async (request, response) => {
     const postData = await userCollection.aggregate([
       {
         $match: {
-          isPrivate: false,
-          "_id": {
-            $ne: { $ne: new Mongoose.Types.ObjectId(userID) }
-          }
+          $or: [
+            {
+              $and: [
+                { "isPrivate": { $eq: false } },
+                { "_id": { $ne: new Mongoose.Types.ObjectId(userID) } },
+              ]
+            },
+            {
+              "userFollowers": { $in: [new Mongoose.Types.ObjectId(userID)] }
+            }
+          ],
         }
       },
       {
@@ -84,7 +91,7 @@ const getAllPosts = async (request, response) => {
       {
         $project: {
           _id: 1,
-          user : 1,
+          user: 1,
           userName: 1,
           userProfile: 1,
           postPoster: 1,
@@ -227,7 +234,7 @@ const explorerPosts = async (request, response) => {
       {
         $project: {
           _id: 1,
-          user : 1,
+          user: 1,
           userName: 1,
           userProfile: 1,
           postPoster: 1,
