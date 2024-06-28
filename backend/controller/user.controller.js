@@ -464,7 +464,6 @@ const getUser = async (request, response) => {
               else: null,
             }
           },
-          isFollowersOrOwner: 1,
           userPostsCount: { $size: "$posts" },
         }
       }
