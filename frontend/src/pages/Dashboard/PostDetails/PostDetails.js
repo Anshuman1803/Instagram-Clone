@@ -214,7 +214,7 @@ function PostDetails() {
           <div className={`${postDetailsStyle.__PostDetails_userData}`}>
             <div className={`${postDetailsStyle.__PostDetails_userProfileBox}`}>
               <img
-                src={state?.userProfile ?? defaultProfile}
+                src={state?.userProfile ? state?.userProfile : defaultProfile}
                 loading="lazy"
                 alt={`${state?.userName}'s profile`}
                 className={`${postDetailsStyle.__PostDetails_userProfile}`}
@@ -240,7 +240,7 @@ function PostDetails() {
                 className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}
               >
                 <img
-                  src={state?.userProfile ?? defaultProfile}
+                  src={state?.userProfile ? state?.userProfile : defaultProfile}
                   loading="lazy"
                   alt="username"
                   className={`${postDetailsStyle.__PostDetails_userProfile} ${postDetailsStyle.__PostDetails_userProfile_Caption}`}
