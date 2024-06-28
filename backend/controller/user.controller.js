@@ -298,22 +298,21 @@ const getUser = async (request, response) => {
 
       {
         $lookup: {
-          from: "posts",
+          from: 'posts',
           localField: "_id",
           foreignField: "user",
           as: "posts",
           pipeline: [
             {
               $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "postID",
-                as: "comments"
+                from: 'comments',
+                localField: '_id',
+                foreignField: 'post',
+                as: 'comments',
               }
-            },
-            {
+            }, {
               $addFields: {
-                commentCount: { $size: "$comments" },
+                commentCount: { $size: "$comments" }
               }
             },
             {
@@ -354,22 +353,21 @@ const getUser = async (request, response) => {
 
       {
         $lookup: {
-          from: "posts",
+          from: 'posts',
           localField: "savedPost",
           foreignField: "_id",
           as: "savedPost",
           pipeline: [
             {
               $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "postID",
-                as: "comments"
+                from: 'comments',
+                localField: '_id',
+                foreignField: 'post',
+                as: 'comments',
               }
-            },
-            {
+            }, {
               $addFields: {
-                commentCount: { $size: "$comments" },
+                commentCount: { $size: "$comments" }
               }
             },
             {
@@ -408,31 +406,6 @@ const getUser = async (request, response) => {
         }
       },
 
-
-      {
-        $addFields: {
-          isOwnerOrFollower: {
-            $cond: {
-              if: {
-                $or: [
-                  {
-                    $eq: ["$isPrivate", false]
-                  },
-                  {
-                    $in: ["$currentUser", "$userFollowing"]
-                  },
-                  {
-                    $eq: ["$_id", new Mongoose.Types.ObjectId(currentUser)]
-                  }
-                ]
-              },
-              then: true,
-              else: false,
-            }
-          }
-        }
-      },
-
       {
         $addFields: {
           isOwner: {
@@ -441,6 +414,30 @@ const getUser = async (request, response) => {
               then: true,
               else: false,
             }
+          }
+        }
+      },
+
+
+      {
+        $addFields: {
+          isFollowersOrOwner: {
+            $cond: {
+              if: {
+                $or: [
+                  { $eq: ["$isPrivate", false] },
+                  {$cond : {
+                    if: { $eq: ["$isPrivate", true] },
+                    then:  { $in: ["$currentUser", "$userFollowers"]},
+                    else : true,
+                  }},
+                  "$isOwner"
+                ]
+              },
+              then: true,
+              else: false,
+            }
+
           }
         }
       },
@@ -456,25 +453,25 @@ const getUser = async (request, response) => {
           userBio: 1,
           userProfile: 1,
           website: 1,
-          userPostsCount: { $size: "$posts" },
-          posts: {
-            $cond: {
-              if: "$isOwnerOrFollower",
-              then: "$posts",
-              else: [],
-            }
-          },
+          isPrivate: 1,
           savedPost: {
             $cond: {
               if: "$isOwner",
               then: "$savedPost",
-              else: [],
+              else: null,
             }
           },
-          isPrivate: 1,
+          posts: {
+            $cond: {
+              if: "$isFollowersOrOwner",
+              then: "$posts",
+              else: null,
+            }
+          },
+          isFollowersOrOwner : 1,
+          userPostsCount: { $size: "$posts" },
         }
       }
-
     ]);
 
     if (userData.length > 0) {
