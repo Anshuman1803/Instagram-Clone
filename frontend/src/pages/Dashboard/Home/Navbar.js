@@ -15,6 +15,7 @@ import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
 import MorePopup from './MorePopup'
 import homeStyle from "./home.module.css"
+import { ProblemReport } from './ProblemReport'
 export default function Navbar() {
     const navigateTO = useNavigate()
     const dispatch = useDispatch()
@@ -38,26 +39,27 @@ export default function Navbar() {
         <div className={`${homeStyle.navbar}`}>
             <img className={`${homeStyle.instaLogo}`} src={Logo} alt='insta logo' />
             <img className={`${homeStyle.instaLogo} ${homeStyle.__instaIcon_Hide}`} src={instaIcon} alt='insta logo' />
+
             <nav className={`${homeStyle.primary__navbar} ${homeStyle.nav}`}>
-                <NavLink className={`${homeStyle.navLink}`} to='/home'>
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/home'>
                     <img className={`${homeStyle.navIcon}`} src={Home} alt='' />  <span className={`${homeStyle.__navTitle}`}>Home</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to='/search'>
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/search'>
                     <img className={`${homeStyle.navIcon}`} src={Search} alt='' />   <span className={`${homeStyle.__navTitle}`}>Search</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to='/explore' >
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/explore' >
                     <img className={`${homeStyle.navIcon}`} src={Explore} alt='' />   <span className={`${homeStyle.__navTitle}`}>Explore</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to='/messages' >
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/messages' >
                     <img className={`${homeStyle.navIcon}`} src={Messages} alt='' />   <span className={`${homeStyle.__navTitle}`}>Messages</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to='/notification'>
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/notification'>
                     <img className={`${homeStyle.navIcon}`} src={Notification} alt='' />   <span className={`${homeStyle.__navTitle}`}>Notification</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to='/create'>
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to='/create'>
                     <img className={`${homeStyle.navIcon}`} src={Create} alt='' />   <span className={`${homeStyle.__navTitle}`}>Create</span>
                 </NavLink>
-                <NavLink className={`${homeStyle.navLink}`} to={`/${instaUserID}`} >
+                <NavLink onClick={() => setPopup(false)} className={`${homeStyle.navLink}`} to={`/${instaUserID}`} >
                     <img className={`${homeStyle.navIcon}`} src={Profile} alt='' />   <span className={`${homeStyle.__navTitle}`}>Profile</span>
                 </NavLink>
             </nav>
@@ -65,6 +67,8 @@ export default function Navbar() {
                 popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} />
             }
             <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__navbar_moreButton}`}><img className={`${homeStyle.moreIcon}`} src={Bars} alt='MoreButtonICON' /> <span className={`${homeStyle.__navTitle}`}>More</span></button>
+
+            <ProblemReport />
         </div>
     )
 }

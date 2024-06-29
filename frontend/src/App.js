@@ -5,10 +5,13 @@ import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-  <>
-  <Toaster />
-  <AppRouter/>
-  </>
+    <>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
+      <AppRouter />
+    </>
   );
 }
 
