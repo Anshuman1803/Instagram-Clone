@@ -524,15 +524,28 @@
     border-radius: 10px;
     width: 475px;
     min-height: 545px;
-    padding: 1em 0em;
+    padding: 0.5em 0em 1em 0em;
+}
+
+.__problemReportBox_heading {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0em 0.5em;
+}
+
+.__problemReportBox_closeButton {
+    font-size: 28px;
+
 }
 
 .__problemReportBox__Row {
     width: 100%;
     margin: 0px auto;
     padding: 0em 0.5em 0.6em 0.5em;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     border-bottom: 1px solid rgba(128, 128, 128, 0.466);
     margin-bottom: 20px;
 }

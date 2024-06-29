@@ -4,8 +4,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import ButtonLoader from "../../../components/ButtonLoader"
+import { RxCross2 } from "react-icons/rx";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export function ProblemReport() {
+export function ProblemReport({CbHideReport}) {
   const { instaUserID } = useSelector((state) => state.Instagram);
   const [reportDetails, setReportDetails] = useState({
     subject: "report",
@@ -47,6 +49,9 @@ export function ProblemReport() {
   return (
     <section className={`${homeStyle.__problemReportContainer}`}>
       <form className={`${homeStyle.__problemReportBox}`}>
+        <header className={`${homeStyle.__problemReportBox_heading}`}>
+<RxCross2 onClick={()=>CbHideReport(false)} className={`${homeStyle.__problemReportBox_closeButton}`}/>
+        </header>
         <div className={`${homeStyle.__problemReportBox__Row}`}>
           <label
             className={`${homeStyle.__problemReportBox_label}`}
