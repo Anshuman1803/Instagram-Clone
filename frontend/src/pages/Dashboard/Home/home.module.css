@@ -504,6 +504,96 @@
     height: 20px;
 }
 
+/* __problemReportContainer */
+.__problemReportContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em 0.5em;
+}
+
+.__problemReportBox {
+    background-color: white;
+    border-radius: 10px;
+    width: 475px;
+    min-height: 545px;
+    padding: 1em 0em;
+}
+
+.__problemReportBox__Row {
+    width: 100%;
+    margin: 0px auto;
+    padding: 0em 0.5em 0.6em 0.5em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.466);
+    margin-bottom: 20px;
+}
+
+.__problemReportBox_label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.__problemReportBox_item {
+    font-weight: 400;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.__problemReportBox_item:nth-child(2) {
+    margin: 8px 0;
+}
+
+.__problemReportBox_Messageitem{
+    outline: none;
+    border-radius: 5px;
+    display: block;
+    border: 1px solid rgba(128, 128, 128, 0.311);
+    width: 95%;
+    margin: 0px auto;
+    height: 275px;
+    resize: none;
+    font-size: 14px;
+    padding: 1em;
+}
+.__problemReportBox_button{
+    border: none;
+    outline: none;
+    display: block;
+    margin: 1.5em auto;
+    width:225px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.7em 1em;
+    background-color: #0095F6;
+    border-radius: 25px;
+    color: white;
+}
+.__problemReportBox_button:hover{
+    cursor: pointer;
+    background-color: #0278c7;
+}
+.__problemReportBox_msginfo{
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5em;
+    font-weight: 400;
+    padding: 0em 1em 0em 0.5em;
+
+}
+
 /*! Responsive Styles */
 
 @media screen and (max-width: 1247px) {
