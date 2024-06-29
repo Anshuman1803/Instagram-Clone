@@ -539,6 +539,7 @@
 
 .__problemReportBox_closeButton {
     font-size: 28px;
+    cursor: pointer;
 
 }
 

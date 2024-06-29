@@ -8,7 +8,7 @@ import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
 import MorePopup from './MorePopup';
 import homeStyle from "./home.module.css"
-export default function Header() {
+export default function Header({ CbShowReport }) {
     const navigateTO = useNavigate()
     const dispatch = useDispatch()
     const { instaUserID, instaUserName } = useSelector((state) => state.Instagram);
@@ -16,7 +16,7 @@ export default function Header() {
 
     const handleHidePopup = (e) => {
         e.stopPropagation();
-        if(popup){
+        if (popup) {
 
             setPopup(false)
         }
@@ -36,7 +36,7 @@ export default function Header() {
         <header className={`${homeStyle.__nav_Header}`} onClick={handleHidePopup}>
             <img className={`${homeStyle.__nav_Logo}`} src={Logo} alt='insta logo' />
             {
-                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass={`${homeStyle.__SecondaryPopupContainer}`} />
+                popup && <MorePopup CbShowReport={CbShowReport} CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass={`${homeStyle.__SecondaryPopupContainer}`} />
             }
 
             <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__navbar_moreButton} ${homeStyle.__secondaryMoreButton}`}><img className={`${homeStyle.moreIcon}`} src={Bars} alt='MoreButtonICON' /> <span className={`${homeStyle.__navTitle}`}>More</span></button>
