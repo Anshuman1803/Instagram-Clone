@@ -555,7 +555,7 @@
     margin: 8px 0;
 }
 
-.__problemReportBox_Messageitem{
+.__problemReportBox_Messageitem {
     outline: none;
     border-radius: 5px;
     display: block;
@@ -567,24 +567,29 @@
     font-size: 14px;
     padding: 1em;
 }
-.__problemReportBox_button{
+
+.__problemReportBox_button {
     border: none;
     outline: none;
     display: block;
     margin: 1.5em auto;
-    width:225px;
+    width: 225px;
+    height: 40px;
     font-size: 14px;
     font-weight: 500;
     padding: 0.7em 1em;
     background-color: #0095F6;
     border-radius: 25px;
     color: white;
+    position: relative;
 }
-.__problemReportBox_button:hover{
+
+.__problemReportBox_button:hover {
     cursor: pointer;
     background-color: #0278c7;
 }
-.__problemReportBox_msginfo{
+
+.__problemReportBox_msginfo {
     display: block;
     width: 100%;
     font-size: 14px;
@@ -717,5 +722,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+@media screen and (max-width: 476px) {
+    .__problemReportBox {
+        width: 100%;
     }
 }
