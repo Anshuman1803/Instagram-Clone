@@ -21,6 +21,7 @@ export default function Navbar() {
     const dispatch = useDispatch()
     const { instaUserID, instaUserName } = useSelector((state) => state.Instagram);
     const [popup, setPopup] = useState(false)
+    const [ToggleReport, setShowHideReport] = useState(false)
 
     const handleTogglePopup = () => {
         setPopup(!popup)
@@ -64,11 +65,14 @@ export default function Navbar() {
                 </NavLink>
             </nav>
             {
-                popup && <MorePopup CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} />
+                popup && <MorePopup CbShowReport={setShowHideReport} CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} />
             }
             <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__navbar_moreButton}`}><img className={`${homeStyle.moreIcon}`} src={Bars} alt='MoreButtonICON' /> <span className={`${homeStyle.__navTitle}`}>More</span></button>
 
-            <ProblemReport />
+            {
+                ToggleReport && <ProblemReport CbHideReport={setShowHideReport} />
+            }
+
         </div>
     )
 }
