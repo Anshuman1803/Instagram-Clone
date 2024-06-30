@@ -10,9 +10,9 @@ const ReduxSlice = createSlice({
     instaSavedPost: localStorage.getItem("instaSavedPost") ? JSON.parse(localStorage.getItem("instaSavedPost")) : [],
     instaFollowing: localStorage.getItem("instaFollowing") ? JSON.parse(localStorage.getItem("instaFollowing")) : [],
     instaFollowers: localStorage.getItem("instaFollowers") ? JSON.parse(localStorage.getItem("instaFollowers")) : [],
+    instaLikes: localStorage.getItem("instaLikes") ? JSON.parse(localStorage.getItem("instaLikes")) : [],
   },
   reducers: {
-
     UserLoggedIn(state, action) {
       state.instaUserID = action.payload.userID;
       state.instaTOKEN = action.payload.Token;
@@ -22,36 +22,74 @@ const ReduxSlice = createSlice({
       state.instaSavedPost = action.payload.savedPost;
       state.instaFollowing = action.payload.userFollwing;
       state.instaFollowers = action.payload.userFollowers;
+      state.instaLikes = action.payload.likedPost;
       localStorage.setItem("instaUserID", state.instaUserID);
       localStorage.setItem("instaTOKEN", state.instaTOKEN);
       localStorage.setItem("instaUserName", state.instaUserName);
       localStorage.setItem("instaProfle", state.instaProfle);
       localStorage.setItem("instaFullName", state.instaFullName);
-      localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
-      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
-      localStorage.setItem("instaFollowers", JSON.stringify(state.instaFollowers));
+      localStorage.setItem(
+        "instaSavedPost",
+        JSON.stringify(state.instaSavedPost)
+      );
+      localStorage.setItem(
+        "instaFollowing",
+        JSON.stringify(state.instaFollowing)
+      );
+      localStorage.setItem(
+        "instaFollowers",
+        JSON.stringify(state.instaFollowers)
+      );
+      localStorage.setItem("instaLikes", JSON.stringify(state.instaLikes));
     },
 
     userSavePost(state, action) {
       state.instaSavedPost = [...state.instaSavedPost, action.payload];
-      localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
+      localStorage.setItem(
+        "instaSavedPost",
+        JSON.stringify(state.instaSavedPost)
+      );
     },
 
     userRemoveSavePost(state, action) {
-      const filterSavePost = state.instaSavedPost.filter((data) => data !== action.payload)
-      state.instaSavedPost = filterSavePost
-      localStorage.setItem("instaSavedPost", JSON.stringify(state.instaSavedPost));
+      const filterSavePost = state.instaSavedPost.filter(
+        (data) => data !== action.payload
+      );
+      state.instaSavedPost = filterSavePost;
+      localStorage.setItem(
+        "instaSavedPost",
+        JSON.stringify(state.instaSavedPost)
+      );
     },
 
     userFollow(state, action) {
       state.instaFollowing = [...state.instaFollowing, action.payload];
-      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
+      localStorage.setItem(
+        "instaFollowing",
+        JSON.stringify(state.instaFollowing)
+      );
     },
 
     userUnFollow(state, action) {
-      const filterFollwing = state.instaFollowing.filter((data) => data !== action.payload)
-      state.instaFollowing = filterFollwing
-      localStorage.setItem("instaFollowing", JSON.stringify(state.instaFollowing));
+      const filterFollwing = state.instaFollowing.filter(
+        (data) => data !== action.payload
+      );
+      state.instaFollowing = filterFollwing;
+      localStorage.setItem(
+        "instaFollowing",
+        JSON.stringify(state.instaFollowing)
+      );
+    },
+
+    userLikeUnlikePost(state, action) {
+      if (action.payload.type === "like") {
+        state.instaLikes = [...state.instaLikes, action.payload.postID];
+        localStorage.setItem("instaLikes", JSON.stringify(state.instaLikes));
+      } else {
+        const filterData = state.instaLikes.filter((data) => data !== action.payload.postID);
+        state.instaLikes = filterData;
+        localStorage.setItem("instaLikes", JSON.stringify(state.instaLikes));
+      }
     },
 
     userUpdateDetails(state, action) {
@@ -64,14 +102,15 @@ const ReduxSlice = createSlice({
     },
 
     UserLoggedOut(state) {
-      state.instaUserID = '';
-      state.instaTOKEN = '';
-      state.instaUserName = '';
-      state.instaProfle = '';
-      state.instaFullName = '';
+      state.instaUserID = "";
+      state.instaTOKEN = "";
+      state.instaUserName = "";
+      state.instaProfle = "";
+      state.instaFullName = "";
       state.instaSavedPost = [];
       state.instaFollowing = [];
       state.instaFollowers = [];
+      state.instaLikes = [];
       localStorage.removeItem("instaUserID");
       localStorage.removeItem("instaTOKEN");
       localStorage.removeItem("instaUserName");
@@ -80,9 +119,18 @@ const ReduxSlice = createSlice({
       localStorage.removeItem("instaSavedPost");
       localStorage.removeItem("instaFollowing");
       localStorage.removeItem("instaFollowers");
+      localStorage.removeItem("instaLikes");
     },
-
   },
 });
-export const { UserLoggedIn, UserLoggedOut, userSavePost, userRemoveSavePost, userUpdateDetails, userFollow , userUnFollow } = ReduxSlice.actions;
+export const {
+  UserLoggedIn,
+  UserLoggedOut,
+  userSavePost,
+  userRemoveSavePost,
+  userUpdateDetails,
+  userFollow,
+  userUnFollow,
+  userLikeUnlikePost
+} = ReduxSlice.actions;
 export default ReduxSlice.reducer;

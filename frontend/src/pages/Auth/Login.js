@@ -77,6 +77,7 @@ function Login() {
                 savedPost: response.data.UserDetails.savedPost,
                 userFollwing: response.data.UserDetails.userFollowing,
                 userFollowers: response.data.UserDetails.userFollowers,
+                likedPost: response.data.UserDetails.likedPost,
               })
             );
           } else {

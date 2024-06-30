@@ -15,6 +15,18 @@ const postModel = mongoose.Schema({
   postCreatedAt: {
     type: Number,
   },
+  likedBy: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      likedAt: {
+        type: Number
+      },
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
+    }
+  ],
   postLikes: {
     type: Number,
   }

@@ -257,10 +257,63 @@ const explorerPosts = async (request, response) => {
   }
 }
 
+const likePosts = async (request, response) => {
+  try {
+    const { postID } = request.body;
+    const { currentUser } = request.params;
+    const findPost = await postCollection.updateOne({ _id: postID, "likedBy.user": { $ne: currentUser } }, {
+      $push: { likedBy: { user: currentUser, likedAt: Date.now() } }
+    },)
+    const findUser = await userCollection.updateOne({ _id: currentUser }, { $addToSet: { likedPost: postID } });
+
+    if (findPost.modifiedCount === 1 & findUser.modifiedCount === 1) {
+      response.status(200).json({
+        success: true,
+        msg: "Successfully like the post"
+      })
+    } else {
+      response.status(200).json({
+        success: false,
+        msg: "Post is already liked by you."
+      })
+    }
+
+  } catch (err) {
+    response.send({ success: false, msg: err.message });
+  }
+}
+
+const unLikePosts = async (request, response) => {
+  try {
+    const { postID } = request.body;
+    const { currentUser } = request.params;
+    const findPost = await postCollection.updateOne({ _id: postID }, {
+      $pull: { likedBy: { user: currentUser } }
+    },)
+    const findUser = await userCollection.updateOne({ _id: currentUser }, { $pull: { likedPost: postID } });
+
+    if (findPost.modifiedCount === 1 & findUser.modifiedCount === 1) {
+      response.status(200).json({
+        success: true,
+        msg: "Remove from like collection"
+      })
+    } else {
+      response.send({
+        success: false,
+        msg: "Post not found"
+      })
+    }
+
+  } catch (err) {
+    response.send({ success: false, msg: err.message });
+  }
+}
 module.exports = {
   createPost,
   getAllPosts,
   savePost,
   deleteSavePostFromCollection,
   explorerPosts,
+  likePosts,
+  unLikePosts
 };

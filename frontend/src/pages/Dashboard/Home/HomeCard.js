@@ -6,31 +6,88 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-// import { FaHeart } from "react-icons/fa"; // when the user like the post
+import { FaHeart } from "react-icons/fa"; // when the user like the post
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut, userSavePost, userRemoveSavePost } from "../../../Redux/ReduxSlice";
-import homeStyle from "./home.module.css"
+import {
+    UserLoggedOut,
+    userSavePost,
+    userRemoveSavePost,
+    userLikeUnlikePost,
+} from "../../../Redux/ReduxSlice";
+import homeStyle from "./home.module.css";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const HomePostCard = ({ posts }) => {
-    const { instaUserID, instaTOKEN, instaSavedPost } = useSelector(
+    const { instaUserID, instaTOKEN, instaSavedPost, instaLikes } = useSelector(
         (state) => state.Instagram
     );
     const [newComment, setNewComment] = useState("");
     const dispatch = useDispatch();
     const navigateTO = useNavigate();
-    const headers = {
-        Authorization: `Bearer ${instaTOKEN}`,
+    const headers = { Authorization: `Bearer ${instaTOKEN}` };
+
+    // ! post like
+    const handleLikePostClick = (e, postID) => {
+        e.preventDefault();
+        axios.patch(`${BACKEND_URL}posts/like-post/${instaUserID}`, { postID }, { headers }).then((response) => {
+            if (response.data.success) {
+                toast.success(response.data.msg);
+                dispatch(
+                    userLikeUnlikePost({
+                        type: "like",
+                        postID: postID,
+                    })
+                );
+            } else {
+                toast(`${response.data.msg}`, {
+                    icon: 'ⓘ',
+                });
+            }
+        }).catch((error) => {
+            if (error.response && !error.response.data.success) {
+                toast.error(error.response.data.msg);
+                navigateTO("/user/auth/signin");
+                dispatch(UserLoggedOut());
+            } else {
+                toast.error(`Server error: ${error.message}`);
+            }
+        })
+    };
+
+    // ! remove like from post
+    const handleUnLikePostClick = (e, postID) => {
+        e.preventDefault();
+        axios.patch(`${BACKEND_URL}posts/unlike-post/${instaUserID}`, { postID }, { headers }).then((response) => {
+            if (response.data.success) {
+                toast.success(response.data.msg);
+                dispatch(
+                    userLikeUnlikePost({
+                        type: "unlike",
+                        postID: postID,
+                    })
+                );
+            } else {
+                toast.error(response.data.msg);
+            }
+        }).catch((error) => {
+            if (error.response && !error.response.data.success) {
+                toast.error(error.response.data.msg);
+                navigateTO("/user/auth/signin");
+                dispatch(UserLoggedOut());
+            } else {
+                toast.error(`Server error: ${error.message}`);
+            }
+        })
     };
 
     // ! show Details of post
     const handleDetailspostClick = (e, posts) => {
         e.preventDefault();
-        navigateTO(`/post/${posts?._id}`, { state: posts })
-    }
+        navigateTO(`/post/${posts?._id}`, { state: posts });
+    };
 
     //! Creating new comments for the post
     const handlePostComment = (e, posts) => {
@@ -43,11 +100,9 @@ export const HomePostCard = ({ posts }) => {
         };
 
         axios
-            .post(
-                `${BACKEND_URL}comments/create-new-comments`,
-                tempNewComments,
-                { headers }
-            )
+            .post(`${BACKEND_URL}comments/create-new-comments`, tempNewComments, {
+                headers,
+            })
             .then((response) => {
                 if (response.data.success) {
                     toast.success(response.data.msg);
@@ -81,7 +136,7 @@ export const HomePostCard = ({ posts }) => {
             .then((response) => {
                 if (response.data.success) {
                     toast.success(response.data.msg);
-                    dispatch(userSavePost(postID))
+                    dispatch(userSavePost(postID));
                 } else {
                     toast.error(response.data.msg);
                 }
@@ -109,7 +164,7 @@ export const HomePostCard = ({ posts }) => {
             .then((response) => {
                 if (response.data.success) {
                     toast.success(response.data.msg);
-                    dispatch(userRemoveSavePost(postID))
+                    dispatch(userRemoveSavePost(postID));
                 } else {
                     toast.error(response.data.msg);
                 }
@@ -123,7 +178,7 @@ export const HomePostCard = ({ posts }) => {
                     toast.error(`Server error: ${error.message}`);
                 }
             });
-    }
+    };
 
     return (
         <>
@@ -150,7 +205,9 @@ export const HomePostCard = ({ posts }) => {
                             <CalculateTimeAgo time={posts?.postCreatedAt} />
                         </span>
                     </div>
-                    <BsThreeDots className={`${homeStyle.homePostCard__threeDotOptions}`} />
+                    <BsThreeDots
+                        className={`${homeStyle.homePostCard__threeDotOptions}`}
+                    />
                 </div>
                 <img
                     src={posts?.postPoster}
@@ -160,13 +217,28 @@ export const HomePostCard = ({ posts }) => {
 
                 <div className={`${homeStyle.homePostCard__iconButton_Box}`}>
                     <div>
-                        <FaRegHeart className={`${homeStyle.homePostCard__iconButton}`} />
-                        <FaRegComment className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleDetailspostClick(e,posts )} />
-                        {/* <FaHeart className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS` }  /> */}
+                        {instaLikes?.includes(posts?._id) ? (
+                            <FaHeart
+                                className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS`}
+                                onClick={(e) => handleUnLikePostClick(e, posts?._id)}
+                            />
+                        ) : (
+                            <FaRegHeart
+                                className={`${homeStyle.homePostCard__iconButton}`}
+                                onClick={(e) => handleLikePostClick(e, posts?._id)}
+                            />
+                        )}
+                        <FaRegComment
+                            className={`${homeStyle.homePostCard__iconButton}`}
+                            onClick={(e) => handleDetailspostClick(e, posts)}
+                        />
                     </div>
                     <div>
                         {instaSavedPost?.includes(posts?._id) ? (
-                            <IoBookmark className={`${homeStyle.homePostCard__iconButton}`} onClick={(e) => handleRemoveSavePost(e, posts?._id)} />
+                            <IoBookmark
+                                className={`${homeStyle.homePostCard__iconButton}`}
+                                onClick={(e) => handleRemoveSavePost(e, posts?._id)}
+                            />
                         ) : (
                             <IoBookmarkOutline
                                 className={`${homeStyle.homePostCard__iconButton}`}
@@ -178,7 +250,6 @@ export const HomePostCard = ({ posts }) => {
 
                 {posts?.postLikes !== 0 && (
                     <p className={`${homeStyle.homePostCard__LikeCounter}`}>
-
                         <span className={`${homeStyle.homePostCard__LikeCount}`}>
                             {posts?.postLikes}
                         </span>
@@ -194,12 +265,17 @@ export const HomePostCard = ({ posts }) => {
                         >
                             {posts?.userName}
                         </Link>
-                        <span className={`${homeStyle.homePostCard__caption}`}>{posts?.postCaption}</span>
+                        <span className={`${homeStyle.homePostCard__caption}`}>
+                            {posts?.postCaption}
+                        </span>
                     </p>
                 )}
 
                 {posts?.commentCount !== 0 && (
-                    <span className={`${homeStyle.homePostCard__viewAllComment}`} onClick={(e) => handleDetailspostClick(e,posts )}>
+                    <span
+                        className={`${homeStyle.homePostCard__viewAllComment}`}
+                        onClick={(e) => handleDetailspostClick(e, posts)}
+                    >
                         View all {posts?.commentCount} comments
                     </span>
                 )}
