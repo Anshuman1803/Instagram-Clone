@@ -91,7 +91,7 @@
 /*! Lazy Loader */
 .__lazyLoader {
   width: 100%;
-  height:100%;
+  height: 100%;
   z-index: 1000;
   position: absolute;
   top: 0;
@@ -102,7 +102,7 @@
   justify-content: center;
 }
 
-.createPostLoaderContainer{
+.createPostLoaderContainer {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -110,6 +110,7 @@
   background-color: rgba(0, 0, 0, 0.226);
   backdrop-filter: blur(2px);
 }
+
 .lazyLoaderPoster {
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   width: 225px;
@@ -120,9 +121,10 @@
   justify-content: center;
   overflow: hidden;
   position: relative;
-  
+
 }
-.lazyLoaderPoster::after{
+
+.lazyLoaderPoster::after {
   content: "";
   position: absolute;
   top: 0;
@@ -133,6 +135,7 @@
   animation: rotation 2.5s infinite linear;
   border-radius: 50%;
 }
+
 .lazyLoaderPoster img {
   position: relative;
   z-index: 5;
@@ -265,8 +268,123 @@
   color: #ed3548 !important;
 }
 
-/*! Responsive Styles */
 
+/* __likelistPopup_Container */
+.__likelistPopup_Container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.198);
+  backdrop-filter: blur(2px);
+  --webkit-background-filter: blur(2px);
+  padding: 1em 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.__likelistPopup {
+  background-color: white;
+  width: 475px;
+  height: 575px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.__likelistPopup_heading {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0em 0.6em;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.258);
+}
+
+.__likelistPopup_closeButton {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.__likelistPopup_userList {
+  height: calc(100% - 50px);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 1em 0.5em;
+  scrollbar-width: none;
+  position: relative;
+}
+.__likelistPopup_loading{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75px;
+  height: 75px;
+}
+.__likelistPopup_userList_ITEMS {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.__likelistPopup_userProfile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.__likelistPopup_userInfo {
+  width: calc(100% - 150px);
+  padding-left: 0.6em;
+}
+
+.__likelistPopup_userName {
+  display: block;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.__likelistPopup_userName:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.__likelistPopup_userFullName {
+  display: block;
+  margin-top: 3px;
+  font-size: 16px;
+  color: grey;
+  font-weight: 400;
+}
+
+.__likelistPopup_buttons {
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #0095F6;
+  color: white;
+  font-weight: 600;
+  width: 100px;
+  padding: 0.6em;
+  border-radius: 5px;
+
+}
+
+/*! Responsive Styles */
 
 @media screen and (max-width: 550px) {
 

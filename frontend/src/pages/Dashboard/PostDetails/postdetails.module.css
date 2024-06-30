@@ -268,7 +268,8 @@
 .__PostDetails_PopupButton:hover,
 .__PostDetails_deleteCommentICON:hover,
 .__PostDetails__ICONBUTTON:hover,
-.__PostDetails_deleteCommentICON:hover {
+.__PostDetails_deleteCommentICON:hover,
+.__PostDetails__PostLikeCounter:hover {
     cursor: pointer;
     color: grey;
 }
@@ -402,7 +403,8 @@
     .__PostDetails__Container {
         padding: 1em 0.2em;
     }
-    .__postDetailsPopup{
+
+    .__postDetailsPopup {
         width: 95%;
     }
 }

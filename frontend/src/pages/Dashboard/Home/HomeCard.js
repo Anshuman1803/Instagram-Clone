@@ -11,12 +11,8 @@ import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    UserLoggedOut,
-    userSavePost,
-    userRemoveSavePost,
-    userLikeUnlikePost,
-} from "../../../Redux/ReduxSlice";
+import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
+import { LikedByList } from "../../../components/LikedByList"
 import homeStyle from "./home.module.css";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -28,6 +24,7 @@ export const HomePostCard = ({ posts }) => {
     const headers = { Authorization: `Bearer ${instaTOKEN}` };
     const [tempLikeCounter, setTemplikeCounter] = useState(posts?.postLikes);
     const [tempCommentsCounter, setTempCommentsCounter] = useState(posts?.commentCount);
+    const [showLikeList, setLikeList] = useState("");
 
 
     // ! post like
@@ -253,7 +250,7 @@ export const HomePostCard = ({ posts }) => {
                 </div>
 
                 {tempLikeCounter !== 0 && (
-                    <p className={`${homeStyle.homePostCard__LikeCounter}`}>
+                    <p className={`${homeStyle.homePostCard__LikeCounter}`} onClick={() => setLikeList(posts?._id)}>
                         <span className={`${homeStyle.homePostCard__LikeCount}`}>
                             {tempLikeCounter}
                         </span>
@@ -305,6 +302,9 @@ export const HomePostCard = ({ posts }) => {
                     )}
                 </div>
             </article>
+            {
+                showLikeList && <LikedByList postID={showLikeList} CbClose={setLikeList}/>
+            }
         </>
     );
 };
