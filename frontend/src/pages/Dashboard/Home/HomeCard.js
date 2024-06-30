@@ -28,12 +28,16 @@ export const HomePostCard = ({ posts }) => {
     const dispatch = useDispatch();
     const navigateTO = useNavigate();
     const headers = { Authorization: `Bearer ${instaTOKEN}` };
+    const [tempLikeCounter, setTemplikeCounter] = useState(posts?.postLikes);
+    const [tempCommentsCounter, setTempCommentsCounter] = useState(posts?.commentCount);
+
 
     // ! post like
     const handleLikePostClick = (e, postID) => {
         e.preventDefault();
         axios.patch(`${BACKEND_URL}posts/like-post/${instaUserID}`, { postID }, { headers }).then((response) => {
             if (response.data.success) {
+                setTemplikeCounter((prevState) => prevState + 1);
                 toast.success(response.data.msg);
                 dispatch(
                     userLikeUnlikePost({
@@ -62,6 +66,7 @@ export const HomePostCard = ({ posts }) => {
         e.preventDefault();
         axios.patch(`${BACKEND_URL}posts/unlike-post/${instaUserID}`, { postID }, { headers }).then((response) => {
             if (response.data.success) {
+                setTemplikeCounter((prevState) => prevState - 1);
                 toast.success(response.data.msg);
                 dispatch(
                     userLikeUnlikePost({
@@ -105,6 +110,7 @@ export const HomePostCard = ({ posts }) => {
             })
             .then((response) => {
                 if (response.data.success) {
+                    setTempCommentsCounter((prevState) => prevState + 1)
                     toast.success(response.data.msg);
                     setNewComment("");
                 } else {
@@ -248,12 +254,12 @@ export const HomePostCard = ({ posts }) => {
                     </div>
                 </div>
 
-                {posts?.postLikes !== 0 && (
+                {tempLikeCounter !== 0 && (
                     <p className={`${homeStyle.homePostCard__LikeCounter}`}>
                         <span className={`${homeStyle.homePostCard__LikeCount}`}>
-                            {posts?.postLikes}
+                            {tempLikeCounter}
                         </span>
-                        {posts?.postLikes > 1 ? "likes" : "like"}
+                        {tempLikeCounter > 1 ? "likes" : "like"}
                     </p>
                 )}
 
@@ -271,12 +277,12 @@ export const HomePostCard = ({ posts }) => {
                     </p>
                 )}
 
-                {posts?.commentCount !== 0 && (
+                {tempCommentsCounter !== 0 && (
                     <span
                         className={`${homeStyle.homePostCard__viewAllComment}`}
                         onClick={(e) => handleDetailspostClick(e, posts)}
                     >
-                        View all {posts?.commentCount} comments
+                        View all {tempCommentsCounter} {tempCommentsCounter > 1 ? "comments" : 'comment'}
                     </span>
                 )}
 
