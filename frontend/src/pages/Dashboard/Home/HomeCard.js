@@ -21,9 +21,7 @@ import homeStyle from "./home.module.css";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const HomePostCard = ({ posts }) => {
-    const { instaUserID, instaTOKEN, instaSavedPost, instaLikes } = useSelector(
-        (state) => state.Instagram
-    );
+    const { instaUserID, instaTOKEN, instaSavedPost, instaLikes } = useSelector((state) => state.Instagram);
     const [newComment, setNewComment] = useState("");
     const dispatch = useDispatch();
     const navigateTO = useNavigate();
