@@ -340,7 +340,7 @@ const getUser = async (request, response) => {
                       postPoster: "$postPoster",
                       postCaption: "$postCaption",
                       postCreatedAt: "$postCreatedAt",
-                      postLikes: "$postLikes",
+                      postLikes: {$size : "$likedBy"},
                       commentCount: "$commentCount",
                     },
                   ]
@@ -395,7 +395,7 @@ const getUser = async (request, response) => {
                       postPoster: "$postPoster",
                       postCaption: "$postCaption",
                       postCreatedAt: "$postCreatedAt",
-                      postLikes: "$postLikes",
+                      postLikes: {$size : "$likedBy"},
                       commentCount: "$commentCount",
                     },
                   ]
