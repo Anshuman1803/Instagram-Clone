@@ -241,7 +241,7 @@ const explorerPosts = async (request, response) => {
           postCaption: 1,
           postCreatedAt: 1,
           commentCount: 1,
-          postLikes: 1,
+          postLikes: {$size : "$likedBy"},
         }
       }
     ])
