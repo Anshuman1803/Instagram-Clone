@@ -346,7 +346,7 @@
 }
 
 .__likelistPopup_userInfo {
-  width: calc(100% - 150px);
+  width: calc(100% - 200px);
   padding-left: 0.6em;
 }
 
@@ -377,11 +377,23 @@
   color: white;
   background-color: #0095F6;
   color: white;
-  font-weight: 600;
-  width: 100px;
-  padding: 0.6em;
+  font-weight: 500;
+  width: 125px;
+  padding: 0.8em;
   border-radius: 5px;
-
+  font-size: 12px;
+}
+.__likelistPopup_buttons:hover{
+  cursor: pointer;
+  background-color: #0081d6;
+}
+.__likeListPopup_secondaryButtons{
+  background-color: rgba(119, 136, 153, 0.263);
+  color: black;
+}
+.__likeListPopup_secondaryButtons:hover{
+  cursor: pointer;
+    background-color: rgba(119, 136, 153, 0.5);
 }
 
 /*! Responsive Styles */

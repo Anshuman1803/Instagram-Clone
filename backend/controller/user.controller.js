@@ -1,15 +1,14 @@
-const Mongoose = require("mongoose")
+const Mongoose = require("mongoose");
 const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
-const { otpCollection } = require("../model/otp.model")
+const { otpCollection } = require("../model/otp.model");
 const { postCollection } = require("../model/post.model");
 const { commentCollection } = require("../model/comment.model");
 const otpGenerator = require("otp-generator");
 const dotENV = require("dotenv");
 dotENV.config();
 const { uploadOnCloudnary } = require("../service/cloudinary");
-
 
 // Update user details
 const updateUserDetails = async (request, response) => {
@@ -20,27 +19,20 @@ const updateUserDetails = async (request, response) => {
     request.body.userProfile = result && result?.secure_url;
 
     for (const key in request.body) {
-      if (
-        request.body[key] !== "null" &&
-        request.body[key] !== "" &&
-        request.body[key] !== " " &&
-        request.body[key]
-      ) {
+      if (request.body[key] !== "null" && request.body[key] !== "" && request.body[key] !== " " && request.body[key]) {
         updateFields[key] = request.body[key];
       }
     }
 
-    const findUser = await userCollection.findOneAndUpdate(
-      { _id: userID },
-      updateFields,
-      { new: true }
-    ).select("fullName userProfile userName")
+    const findUser = await userCollection
+      .findOneAndUpdate({ _id: userID }, updateFields, { new: true })
+      .select("fullName userProfile userName");
 
     if (findUser) {
       response.status(200).json({
         success: true,
         msg: "User details updated successfully",
-        updatedUser: findUser
+        updatedUser: findUser,
       });
     } else {
       response.status(404).json({
@@ -53,18 +45,20 @@ const updateUserDetails = async (request, response) => {
   }
 };
 
-// Remove current user profile 
+// Remove current user profile
 const removeProfilePicture = async (request, response) => {
   try {
     const { userID } = request.params;
-    const mongooseResponse = await userCollection.findOneAndUpdate({ _id: userID }, {
-      userProfile: ""
-    });
+    const mongooseResponse = await userCollection.findOneAndUpdate(
+      { _id: userID },
+      {
+        userProfile: "",
+      }
+    );
     if (mongooseResponse) {
       response.status(200).json({
         success: true,
         msg: "Profile picture removed successfully",
-
       });
     } else {
       response.send({
@@ -75,14 +69,14 @@ const removeProfilePicture = async (request, response) => {
   } catch (error) {
     return response.send({ success: false, err: err });
   }
-}
+};
 
 // Verify user passwords for account deletion
 const verifyUserPassword = async (request, response) => {
   try {
     const { userID, userPassword } = request.body;
 
-    const isUserExists = await userCollection.findOne({ _id: userID })
+    const isUserExists = await userCollection.findOne({ _id: userID });
 
     if (!isUserExists) {
       return response.send({
@@ -92,10 +86,7 @@ const verifyUserPassword = async (request, response) => {
     }
 
     // matching Password
-    const userAuthenticaticated = bcrypt.compareSync(
-      userPassword,
-      isUserExists.userPassword
-    );
+    const userAuthenticaticated = bcrypt.compareSync(userPassword, isUserExists.userPassword);
 
     if (!userAuthenticaticated) {
       return response.send({ success: false, msg: "Wrong Password" });
@@ -120,7 +111,7 @@ const verifyUserPassword = async (request, response) => {
       await otpCollection.create({
         userEmail: isUserExists?.userEmail,
         OTP: OTP,
-        otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+        otpExpireAt: Date.now() + 300000, // 5-minute expiration,
       });
 
       return response.send({
@@ -133,11 +124,10 @@ const verifyUserPassword = async (request, response) => {
         msg: "Something went wrong, Try Again",
       });
     }
-
   } catch (error) {
     return response.send({ success: false, err: err });
   }
-}
+};
 
 // delete user accounts and their related datas
 const deleteUserAccount = async (request, response) => {
@@ -148,17 +138,17 @@ const deleteUserAccount = async (request, response) => {
     const otpEntry = await otpCollection.find({ userEmail: findUser?.userEmail }).sort({ otpExpireAt: -1 }).limit(1);
 
     if (otpEntry.length === 0) {
-      return response.send({ success: false, msg: 'Invalid OTP' });
+      return response.send({ success: false, msg: "Invalid OTP" });
     }
 
     const now = Date.now();
     if (now > otpEntry[0].otpExpireAt) {
       await otpCollection.deleteMany({ userEmail: findUser?.userEmail });
-      return response.send({ success: false, msg: 'OTP has expired' });
+      return response.send({ success: false, msg: "OTP has expired" });
     }
 
     if (OTP !== otpEntry[0].OTP) {
-      return response.send({ success: false, msg: 'Incorrect OTP' });
+      return response.send({ success: false, msg: "Incorrect OTP" });
     } else {
       await userCollection.deleteOne({ _id: userID });
       await postCollection.deleteOne({ user: userID });
@@ -169,7 +159,7 @@ const deleteUserAccount = async (request, response) => {
   } catch (err) {
     return response.send({ success: false, err: err.message });
   }
-}
+};
 
 // Search user based on search Text by user from search component
 const searchUser = async (request, response) => {
@@ -181,8 +171,8 @@ const searchUser = async (request, response) => {
           $or: [
             { userName: { $regex: searchText, $options: "i" } },
             { fullName: { $regex: searchText, $options: "i" } },
-          ]
-        }
+          ],
+        },
       },
       {
         $lookup: {
@@ -190,12 +180,12 @@ const searchUser = async (request, response) => {
           localField: "_id",
           foreignField: "user",
           as: "posts",
-        }
+        },
       },
       {
         $addFields: {
-          userPostsCount: { $size: "$posts" }
-        }
+          userPostsCount: { $size: "$posts" },
+        },
       },
       {
         $project: {
@@ -206,84 +196,93 @@ const searchUser = async (request, response) => {
           userFollowing: 1,
           userProfile: 1,
           userPostsCount: 1,
-        }
-      }
-    ])
+        },
+      },
+    ]);
 
     if (searchResult.length > 0) {
       response.status(200).json({
         success: true,
-        searchResult: searchResult
-      })
+        searchResult: searchResult,
+      });
     } else {
       response.status(200).json({
         success: false,
-        searchResult: searchResult
-      })
+        searchResult: searchResult,
+      });
     }
   } catch (err) {
     return response.send({ success: false, err: err.message });
   }
-}
+};
 
 // Add to following list
 const addUsersToFollowingList = async (request, response) => {
   try {
     const { followingUserID } = request.body;
     const { userID } = request.params;
-    const updateFollowingUser = await userCollection.findOneAndUpdate({ _id: userID }, { $addToSet: { userFollowing: followingUserID } },)
-    const updateFollowersUser = await userCollection.findOneAndUpdate({ _id: followingUserID }, { $addToSet: { userFollowers: userID } },)
+    const updateFollowingUser = await userCollection.findOneAndUpdate(
+      { _id: userID },
+      { $addToSet: { userFollowing: followingUserID } }
+    );
+    const updateFollowersUser = await userCollection.findOneAndUpdate(
+      { _id: followingUserID },
+      { $addToSet: { userFollowers: userID } }
+    );
     if (updateFollowingUser && updateFollowersUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully follow the ${updateFollowersUser.userName}`
-      })
+        msg: `Successfully follow the ${updateFollowersUser.userName}`,
+      });
     } else {
       response.status(200).json({
         success: false,
-        msg: `User not found`
-      })
+        msg: `User not found`,
+      });
     }
-
   } catch (err) {
     return response.send({
       success: false,
-      msg: err.message
+      msg: err.message,
     });
   }
-}
+};
 
 // unfollow user
 const unfollowUser = async (request, response) => {
   try {
     const { unfollowUserID } = request.body;
     const { userID } = request.params;
-    const updateFollowingUser = await userCollection.findOneAndUpdate({ _id: userID }, { $pull: { userFollowing: unfollowUserID } },);
-    const updateFollowerUser = await userCollection.findOneAndUpdate({ _id: unfollowUserID }, {
-      $pull: { userFollowers: userID }
-    },)
-
+    const updateFollowingUser = await userCollection.findOneAndUpdate(
+      { _id: userID },
+      { $pull: { userFollowing: unfollowUserID } }
+    );
+    const updateFollowerUser = await userCollection.findOneAndUpdate(
+      { _id: unfollowUserID },
+      {
+        $pull: { userFollowers: userID },
+      }
+    );
 
     if (updateFollowingUser && updateFollowerUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully unfollow ${updateFollowerUser.userName}`
-      })
+        msg: `Successfully unfollow ${updateFollowerUser.userName}`,
+      });
     } else {
       response.status(200).json({
         success: false,
-        msg: `User not found`
-      })
+        msg: `User not found`,
+      });
     }
-
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return response.send({
       success: false,
-      msg: err.message
+      msg: err.message,
     });
   }
-}
+};
 
 // get the registred user using their _id
 const getUser = async (request, response) => {
@@ -293,40 +292,41 @@ const getUser = async (request, response) => {
 
     const userData = await userCollection.aggregate([
       {
-        $match: { '_id': new Mongoose.Types.ObjectId(id) }
+        $match: { _id: new Mongoose.Types.ObjectId(id) },
       },
 
       {
         $lookup: {
-          from: 'posts',
+          from: "posts",
           localField: "_id",
           foreignField: "user",
           as: "posts",
           pipeline: [
             {
               $lookup: {
-                from: 'comments',
-                localField: '_id',
-                foreignField: 'post',
-                as: 'comments',
-              }
-            }, {
+                from: "comments",
+                localField: "_id",
+                foreignField: "post",
+                as: "comments",
+              },
+            },
+            {
               $addFields: {
-                commentCount: { $size: "$comments" }
-              }
+                commentCount: { $size: "$comments" },
+              },
             },
             {
               $lookup: {
                 from: "users",
                 localField: "user",
                 foreignField: "_id",
-                as: "user"
-              }
+                as: "user",
+              },
             },
             {
               $unwind: {
                 path: "$user",
-              }
+              },
             },
             {
               $replaceRoot: {
@@ -340,48 +340,49 @@ const getUser = async (request, response) => {
                       postPoster: "$postPoster",
                       postCaption: "$postCaption",
                       postCreatedAt: "$postCreatedAt",
-                      postLikes: {$size : "$likedBy"},
+                      postLikes: { $size: "$likedBy" },
                       commentCount: "$commentCount",
                     },
-                  ]
-                }
-              }
-            }
-          ]
-        }
+                  ],
+                },
+              },
+            },
+          ],
+        },
       },
 
       {
         $lookup: {
-          from: 'posts',
+          from: "posts",
           localField: "savedPost",
           foreignField: "_id",
           as: "savedPost",
           pipeline: [
             {
               $lookup: {
-                from: 'comments',
-                localField: '_id',
-                foreignField: 'post',
-                as: 'comments',
-              }
-            }, {
+                from: "comments",
+                localField: "_id",
+                foreignField: "post",
+                as: "comments",
+              },
+            },
+            {
               $addFields: {
-                commentCount: { $size: "$comments" }
-              }
+                commentCount: { $size: "$comments" },
+              },
             },
             {
               $lookup: {
                 from: "users",
                 localField: "user",
                 foreignField: "_id",
-                as: "user"
-              }
+                as: "user",
+              },
             },
             {
               $unwind: {
                 path: "$user",
-              }
+              },
             },
             {
               $replaceRoot: {
@@ -395,15 +396,15 @@ const getUser = async (request, response) => {
                       postPoster: "$postPoster",
                       postCaption: "$postCaption",
                       postCreatedAt: "$postCreatedAt",
-                      postLikes: {$size : "$likedBy"},
+                      postLikes: { $size: "$likedBy" },
                       commentCount: "$commentCount",
                     },
-                  ]
-                }
-              }
-            }
-          ]
-        }
+                  ],
+                },
+              },
+            },
+          ],
+        },
       },
 
       {
@@ -413,11 +414,10 @@ const getUser = async (request, response) => {
               if: { $eq: ["$_id", new Mongoose.Types.ObjectId(currentUser)] },
               then: true,
               else: false,
-            }
-          }
-        }
+            },
+          },
+        },
       },
-
 
       {
         $addFields: {
@@ -426,16 +426,15 @@ const getUser = async (request, response) => {
               if: {
                 $or: [
                   { $eq: ["$isPrivate", false] },
-                  { $in: [new Mongoose.Types.ObjectId(currentUser), '$userFollowers'] },  // Check if currentUser is in the followers array
-                  "$isOwner"
-                ]
+                  { $in: [new Mongoose.Types.ObjectId(currentUser), "$userFollowers"] }, // Check if currentUser is in the followers array
+                  "$isOwner",
+                ],
               },
               then: true,
               else: false,
-            }
-
-          }
-        }
+            },
+          },
+        },
       },
 
       {
@@ -455,18 +454,18 @@ const getUser = async (request, response) => {
               if: "$isOwner",
               then: "$savedPost",
               else: null,
-            }
+            },
           },
           posts: {
             $cond: {
               if: "$isFollowersOrOwner",
               then: "$posts",
               else: null,
-            }
+            },
           },
           userPostsCount: { $size: "$posts" },
-        }
-      }
+        },
+      },
     ]);
 
     if (userData.length > 0) {
@@ -483,7 +482,7 @@ const getUser = async (request, response) => {
   } catch (err) {
     return response.send({
       success: false,
-      msg: err.message
+      msg: err.message,
     });
   }
 };
@@ -492,7 +491,11 @@ const getUser = async (request, response) => {
 const getSuggestedUser = async (request, response) => {
   const { id } = request.params;
   try {
-    const mongooseResponse = await userCollection.find({ _id: { $ne: id } }).sort({ createdAt: -1 }).limit(5).select('_id userName userProfile ');
+    const mongooseResponse = await userCollection
+      .find({ _id: { $ne: id } })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("_id userName userProfile ");
     if (mongooseResponse) {
       return response.send({
         success: true,
@@ -508,16 +511,58 @@ const getSuggestedUser = async (request, response) => {
       success: false,
     });
   }
-}
+};
 
+// update the user data on every route changes in frontend
+const getUpdateduserDetails = async (request, response) => {
+  try {
+    const { currentUser } = request.params;
+    const userData = await userCollection.aggregate([
+      {
+        $match: {
+          _id: new Mongoose.Types.ObjectId(currentUser),
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          userProfile: 1,
+          fullName: 1,
+          savedPost: 1,
+          userFollowing: 1,
+          userFollowers: 1,
+          likedPost: 1,
+        },
+      },
+    ]);
+    if (userData.length > 0) {
+      return response.status(200).json({
+        success: true,
+        UserDetails: userData[0],
+      });
+    } else {
+      return response.status(200).json({
+        success: false,
+        UserDetails: userData[0],
+      });
+    }
+  } catch (error) {
+    response.send({
+      success: false,
+      msg: `Failed to fetch user details, Try again later - ${error.message}`,
+    });
+  }
+};
 module.exports = {
   updateUserDetails,
   getUser,
   getSuggestedUser,
+  getUpdateduserDetails,
   removeProfilePicture,
   verifyUserPassword,
   deleteUserAccount,
   searchUser,
   addUsersToFollowingList,
-  unfollowUser
+  unfollowUser,
 };

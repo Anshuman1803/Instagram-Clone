@@ -3,19 +3,60 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx";
-import { UserLoggedOut } from "../Redux/ReduxSlice";
+import { UserLoggedOut,userFollow, userUnFollow } from "../Redux/ReduxSlice";
 
 import defaultProfile from "../Assets/DefaultProfile.png";
 import Loader from "../Assets/postCommentLoader.gif";
 import toast from "react-hot-toast";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export function LikedByList({ postID, CbClose }) {
-  const { instaTOKEN, instaFollowing, instaUserID } = useSelector((state) => state.Instagram);
+  const { instaTOKEN, instaFollowing, instaFollowers, instaUserID } = useSelector((state) => state.Instagram);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const [userList, setUserList] = useState([]);
   const [Loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
+
+  const handleFollowButtonClick = (e, followingUserID) => {
+    e.preventDefault();
+    axios.patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg)
+        dispatch(userFollow(followingUserID))
+      } else {
+        toast.error(response.data.msg)
+      }
+    }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
+  }
+
+  const handleUnfollowButtonClick = (e, unfollowUserID) => {
+    e.preventDefault();
+    axios.patch(`${BACKEND_URL}users/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
+      if (response.data.success) {
+        toast.success(response.data.msg)
+        dispatch(userUnFollow(unfollowUserID));
+      } else {
+        toast.error(response.data.msg)
+      }
+    }).catch((error) => {
+      if (!error.response.data.success) {
+        toast.error(error.response.data.msg);
+        navigateTO("/user/auth/signin");
+        dispatch(UserLoggedOut());
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
+  }
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -42,6 +83,7 @@ export function LikedByList({ postID, CbClose }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <section className="__likelistPopup_Container">
       <div className="__likelistPopup">
@@ -70,10 +112,14 @@ export function LikedByList({ postID, CbClose }) {
                     </p>
                     {instaUserID !== data?._id && (
                       <>
-                        {instaFollowing?.includes(data?._id) ? (
-                          <button className="__likelistPopup_buttons">Unfollow</button>
-                        ) : (
-                          <button className="__likelistPopup_buttons">Follow</button>
+                        {instaFollowers?.includes(data?._id) && !instaFollowing?.includes(data?._id) && (
+                          <button className="__likelistPopup_buttons"onClick={(e)=>handleFollowButtonClick(e, data?._id)} >Follow Back</button>
+                        )}
+                        {(instaFollowing?.includes(data?._id)) && (
+                          <button className="__likelistPopup_buttons __likeListPopup_secondaryButtons" onClick={(e)=>handleUnfollowButtonClick(e, data?._id)}>Unfollow</button>
+                        )}
+                        {!instaFollowers?.includes(data?._id) && !instaFollowing?.includes(data?._id) && (
+                          <button className="__likelistPopup_buttons" onClick={(e)=>handleFollowButtonClick(e, data?._id)}>Follow</button>
                         )}
                       </>
                     )}
