@@ -49,6 +49,13 @@ const userModel = mongoose.Schema({
       _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
     }
   ],
+  likedPost: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "posts",
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: false }
+    }
+  ],
   gender: {
     type: String,
   },
