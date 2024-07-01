@@ -346,13 +346,13 @@
 }
 
 .__likelistPopup_userInfo {
-  width: calc(100% - 200px);
+  width: calc(100% - 150px);
   padding-left: 0.6em;
 }
 
 .__likelistPopup_userName {
   display: block;
-  font-size: 18px;
+  font-size: 14px;
   color: black;
   text-decoration: none;
   font-weight: 500;
@@ -366,7 +366,7 @@
 .__likelistPopup_userFullName {
   display: block;
   margin-top: 3px;
-  font-size: 16px;
+  font-size: 14px;
   color: grey;
   font-weight: 400;
 }
@@ -378,7 +378,7 @@
   background-color: #0095F6;
   color: white;
   font-weight: 500;
-  width: 125px;
+  width: 100px;
   padding: 0.8em;
   border-radius: 5px;
   font-size: 12px;
@@ -420,6 +420,9 @@
 
   .OTP__buttons {
     width: 95%;
+  }
+  .__likelistPopup{
+    width: 100%;
   }
 }
 

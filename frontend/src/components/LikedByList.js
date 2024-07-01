@@ -63,7 +63,7 @@ export function LikedByList({ postID, CbClose }) {
       .get(`${BACKEND_URL}posts/get-likedby-user-list/${postID}`, { headers })
       .then((response) => {
         if (response.data.success) {
-          setUserList(response.data.likedByData);
+          setUserList(response.data.likedByData.sort((a,b)=> b.likedAt - a.likedAt));
           setLoading(false);
         } else {
           toast.error(response.data.msg);
