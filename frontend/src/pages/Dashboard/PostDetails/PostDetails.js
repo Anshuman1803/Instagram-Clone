@@ -467,9 +467,7 @@ function PostDetails() {
             </div>
 
             {/* input for comming on the post */}
-            <div
-              className={`${postDetailsStyle.__PostDetails__createCommentBox}`}
-            >
+            <div className={`${postDetailsStyle.__PostDetails__createCommentBox}`}>
               {postCommentLoading && (
                 <img
                   src={postCommentLoader}

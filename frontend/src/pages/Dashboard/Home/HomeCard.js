@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import defaultProfile from "../../../Assets/DefaultProfile.png";
+import loaderImg from "../../../Assets/postCommentLoader.gif"
 import { BsThreeDots } from "react-icons/bs";
 import { CalculateTimeAgo } from "../../../utility/TimeAgo";
 import axios from "axios";
@@ -25,13 +26,15 @@ export const HomePostCard = ({ posts }) => {
     const [tempLikeCounter, setTemplikeCounter] = useState(posts?.postLikes);
     const [tempCommentsCounter, setTempCommentsCounter] = useState(posts?.commentCount);
     const [showLikeList, setLikeList] = useState("");
-
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     // ! post like
     const handleLikePostClick = (e, postID) => {
+        setButtonLoading(true);
         e.preventDefault();
         axios.patch(`${BACKEND_URL}posts/like-post/${instaUserID}`, { postID }, { headers }).then((response) => {
             if (response.data.success) {
+                setButtonLoading(false);
                 setTemplikeCounter((prevState) => prevState + 1);
                 toast.success(response.data.msg);
                 dispatch(
@@ -41,11 +44,13 @@ export const HomePostCard = ({ posts }) => {
                     })
                 );
             } else {
+                setButtonLoading(false);
                 toast(`${response.data.msg}`, {
                     icon: 'ⓘ',
                 });
             }
         }).catch((error) => {
+            setButtonLoading(false);
             if (error.response && !error.response.data.success) {
                 toast.error(error.response.data.msg);
                 navigateTO("/user/auth/signin");
@@ -59,8 +64,10 @@ export const HomePostCard = ({ posts }) => {
     // ! remove like from post
     const handleUnLikePostClick = (e, postID) => {
         e.preventDefault();
+        setButtonLoading(true);
         axios.patch(`${BACKEND_URL}posts/unlike-post/${instaUserID}`, { postID }, { headers }).then((response) => {
             if (response.data.success) {
+                setButtonLoading(false);
                 setTemplikeCounter((prevState) => prevState - 1);
                 toast.success(response.data.msg);
                 dispatch(
@@ -70,9 +77,11 @@ export const HomePostCard = ({ posts }) => {
                     })
                 );
             } else {
+                setButtonLoading(false);
                 toast.error(response.data.msg);
             }
         }).catch((error) => {
+            setButtonLoading(false);
             if (error.response && !error.response.data.success) {
                 toast.error(error.response.data.msg);
                 navigateTO("/user/auth/signin");
@@ -219,15 +228,25 @@ export const HomePostCard = ({ posts }) => {
                 <div className={`${homeStyle.homePostCard__iconButton_Box}`}>
                     <div>
                         {instaLikes?.includes(posts?._id) ? (
-                            <FaHeart
-                                className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS`}
-                                onClick={(e) => handleUnLikePostClick(e, posts?._id)}
-                            />
+                            <span>
+                                {
+                                    buttonLoading && <img src={loaderImg} alt="" className={`${homeStyle.homePostCard__iconButtonLoader}`} />
+                                }
+                                <FaHeart
+                                    className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS`}
+                                    onClick={(e) => handleUnLikePostClick(e, posts?._id)}
+                                />
+                            </span>
                         ) : (
-                            <FaRegHeart
-                                className={`${homeStyle.homePostCard__iconButton}`}
-                                onClick={(e) => handleLikePostClick(e, posts?._id)}
-                            />
+                            <span>
+                                {
+                                    buttonLoading && <img src={loaderImg} alt="" className={`${homeStyle.homePostCard__iconButtonLoader}`} />
+                                }
+                                <FaRegHeart
+                                    className={`${homeStyle.homePostCard__iconButton}`}
+                                    onClick={(e) => handleLikePostClick(e, posts?._id)}
+                                />
+                            </span>
                         )}
                         <FaRegComment
                             className={`${homeStyle.homePostCard__iconButton}`}
@@ -303,7 +322,7 @@ export const HomePostCard = ({ posts }) => {
                 </div>
             </article>
             {
-                showLikeList && <LikedByList postID={showLikeList} CbClose={setLikeList}/>
+                showLikeList && <LikedByList postID={showLikeList} CbClose={setLikeList} />
             }
         </>
     );

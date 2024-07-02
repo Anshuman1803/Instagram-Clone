@@ -53,12 +53,21 @@
     border-radius: 10px;
     background-color: rgba(119, 136, 153, 0.263);
     margin-left: 20px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
 }
 
 .userBox__followButton {
     background-color: #0095F6;
     color: white;
     font-weight: 600;
+}
+.userBox__followButtonLoader{
+    width: 18px;
+    height: 18px;
 }
 
 .userBox__editProfileButton:hover {
