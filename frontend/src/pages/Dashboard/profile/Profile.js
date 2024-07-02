@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import defaultProfile from "../../../Assets/DefaultProfile.png";
+import loaderImg from "../../../Assets/postCommentLoader.gif"
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import gridICON from "../../../Assets/PostICON.png";
 import savedICON from "../../../Assets/savedICON.png";
@@ -22,6 +23,7 @@ export default function Profile() {
   const navigateTO = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const headers = {
     Authorization: `Bearer ${instaTOKEN}`
   };
@@ -32,14 +34,18 @@ export default function Profile() {
 
   const handleFollowButtonClick = (e, followingUserID) => {
     e.preventDefault();
+    setButtonLoading(true)
     axios.patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
       if (response.data.success) {
         toast.success(response.data.msg)
-        dispatch(userFollow(followingUserID))
+        dispatch(userFollow(followingUserID));
+        setButtonLoading(false);
       } else {
-        toast.error(response.data.msg)
+        toast.error(response.data.msg);
+        setButtonLoading(false);
       }
     }).catch((error) => {
+      setButtonLoading(false);
       if (!error.response.data.success) {
         toast.error(error.response.data.msg);
         navigateTO("/user/auth/signin");
@@ -52,14 +58,18 @@ export default function Profile() {
 
   const handleUnfollowButtonClick = (e, unfollowUserID) => {
     e.preventDefault();
+    setButtonLoading(true)
     axios.patch(`${BACKEND_URL}users/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
       if (response.data.success) {
         toast.success(response.data.msg)
         dispatch(userUnFollow(unfollowUserID));
+          setButtonLoading(false);
       } else {
         toast.error(response.data.msg)
+          setButtonLoading(false);
       }
     }).catch((error) => {
+      setButtonLoading(false);
       if (!error.response.data.success) {
         toast.error(error.response.data.msg);
         navigateTO("/user/auth/signin");
@@ -128,11 +138,16 @@ export default function Profile() {
                       </button> : <>
                         {instaFollowing?.includes(userID.instaUserID) ? (
                           <button className={`${profileStyle.userBox__editProfileButton}`} onClick={(e) => handleUnfollowButtonClick(e, currentUser._id)}  >
-                            Unfollow
+                            {
+                              buttonLoading ? <img src={loaderImg} alt="loader" className={`${profileStyle.userBox__followButtonLoader}`} /> : "Unfollow"
+                            }
                           </button>
                         ) : (
                           <button className={`${profileStyle.userBox__editProfileButton} ${profileStyle.userBox__followButton}`} onClick={(e) => handleFollowButtonClick(e, currentUser._id)}  >
-                            Follow
+                            {
+                              buttonLoading ? <img src={loaderImg} alt="loader" className={`${profileStyle.userBox__followButtonLoader}`} /> : "Follow"
+                            }
+
                           </button>
                         )}
 

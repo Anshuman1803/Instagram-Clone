@@ -343,10 +343,19 @@
     align-items: center;
     justify-content: space-between;
 }
-
+.homePostCard__iconButton_Box span{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
 .homePostCard__iconButton {
     font-size: 25px;
-    margin-right: 15px;
+}
+.homePostCard__iconButtonLoader{
+    width: 20px;
+    height: 20px;
+    position: absolute;
 }
 
 .homePostCard__iconButton:hover, .homePostCard__LikeCounter:hover {
