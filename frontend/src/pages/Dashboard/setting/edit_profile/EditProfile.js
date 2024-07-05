@@ -32,8 +32,7 @@ function EditProfile() {
     "Content-Type": "multipart/form-data"
   };
 
-  const handleTogglePopup = (e) => {
-    e.preventDefault();
+  const handleTogglePopup = () => {
     setShowPopup(!ShowPopup)
   }
 
@@ -224,10 +223,9 @@ function ProfileUpdatePopup({ CbTogglePopup, CbProfile, CbRef, CbLoadDetails }) 
     })
   }
 
-  const handleUploadClick = (e) => {
-    e?.preventDefault()
+  const handleUploadClick = () => {
     CbRef.current.click();
-    CbTogglePopup(e);
+    CbTogglePopup();
   }
 
   return <div className={`${editProfileStyle.__EditProfile__UpdatePicturePopup_Container}`}>

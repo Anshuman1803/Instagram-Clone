@@ -276,7 +276,6 @@ const unfollowUser = async (request, response) => {
       });
     }
   } catch (err) {
-    console.log(err);
     return response.send({
       success: false,
       msg: err.message,
@@ -446,6 +445,7 @@ const getUser = async (request, response) => {
           userFollowers: 1,
           userFollowing: 1,
           userBio: 1,
+          gender: 1,
           userProfile: 1,
           website: 1,
           isPrivate: 1,

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../../Assets/Logo.png";
 import instaIcon from "../../../Assets/insta_Icon.svg";
-import Home from "../../../Assets/home.svg";
-import Search from "../../../Assets/search.svg";
-import Explore from "../../../Assets/compass.png";
-import Messages from "../../../Assets/messenger.svg";
-import Notification from "../../../Assets/heart.png";
-import Create from "../../../Assets/create.png";
-import Profile from "../../../Assets/profile.png";
-import Bars from "../../../Assets/bars.png";
+import { MdHome } from "react-icons/md";
+import { IoSearch } from "react-icons/io5";
+import { MdExplore } from "react-icons/md";
+import { PiMessengerLogoFill } from "react-icons/pi";
+import { FaHeart } from "react-icons/fa";
+import { FaSquarePlus } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import toast from "react-hot-toast";
@@ -36,70 +36,45 @@ export default function Navbar({ CbShowReport }) {
     };
 
     return (
-        <div className={`${homeStyle.navbar}`}>
-            <img className={`${homeStyle.instaLogo}`} src={Logo} alt="insta logo" />
-            <img
-                className={`${homeStyle.instaLogo} ${homeStyle.__instaIcon_Hide}`}
-                src={instaIcon}
-                alt="insta logo"
-            />
+        <div className={`${homeStyle.__appNavbar_Container}`}>
+            <Link to={"/home"} className={`${homeStyle.__appNavbar__LOGO_Box}`}>
+                <img src={Logo} className={`${homeStyle.__appNavbar_PrimaryLOGO}`} alt="Instagram-logo" />
+                <img src={instaIcon} className={`${homeStyle.__appNavbar_SecondaryLOGO}`} alt="Instagram-logo" />
+            </Link>
+            <nav className={`${homeStyle.__appNavbar}`}>
+                <NavLink onClick={()=>setPopup(false)} to={'/home'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <MdHome className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Home</span>
+                </NavLink>
 
-            <nav className={`${homeStyle.primary__navbar} ${homeStyle.nav}`}>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/home"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Home} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Home</span>
+                <NavLink onClick={()=>setPopup(false)} to={'/search'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <IoSearch className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Search</span>
                 </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/search"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Search} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Search</span>
+
+                <NavLink onClick={()=>setPopup(false)} to={'/explore'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <MdExplore className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Explore</span>
                 </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/explore"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Explore} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Explore</span>
+
+                <NavLink onClick={()=>setPopup(false)} to={'/messages'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <PiMessengerLogoFill className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Messages</span>
                 </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/messages"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Messages} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Messages</span>
+
+                <NavLink onClick={()=>setPopup(false)} to={'/notification'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <FaHeart className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Notifications</span>
                 </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/notification"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Notification} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Notification</span>
+
+                <NavLink onClick={()=>setPopup(false)} to={'/create'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <FaSquarePlus className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Create</span>
                 </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to="/create"
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Create} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Create</span>
-                </NavLink>
-                <NavLink
-                    onClick={() => setPopup(false)}
-                    className={`${homeStyle.navLink}`}
-                    to={`/${instaUserID}`}
-                >
-                    <img className={`${homeStyle.navIcon}`} src={Profile} alt="" />{" "}
-                    <span className={`${homeStyle.__navTitle}`}>Profile</span>
+
+                <NavLink onClick={()=>setPopup(false)} to={`/${instaUserID}`} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
+                    <FaUserCircle className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                    <span className={`${homeStyle.__appNavbar_Item_Text}`}>Profile</span>
                 </NavLink>
             </nav>
             {popup && (
@@ -110,18 +85,13 @@ export default function Navbar({ CbShowReport }) {
                     PropInstaID={instaUserID}
                 />
             )}
-            <button
-                type="button"
-                onClick={handleTogglePopup}
-                className={`${homeStyle.__navbar_moreButton}`}
-            >
-                <img
-                    className={`${homeStyle.moreIcon}`}
-                    src={Bars}
-                    alt="MoreButtonICON"
-                />{" "}
-                <span className={`${homeStyle.__navTitle}`}>More</span>
-            </button>
+            <div className={`${homeStyle.__appNavbarButton_Box}`}>
+                <button type="button"  onClick={handleTogglePopup} className={`${homeStyle.__appNavbarMoreButton}`}>
+                <FaBars className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+                <span className={`${homeStyle.__appNavbar_Item_Text}`}>More</span>
+                </button>
+
+            </div>
         </div>
     );
 }

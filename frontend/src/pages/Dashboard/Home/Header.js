@@ -1,8 +1,8 @@
 
 import Logo from '../../../Assets/Logo.png'
-import Bars from '../../../Assets/bars.png'
+import { FaBars } from "react-icons/fa";
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { UserLoggedOut } from '../../../Redux/ReduxSlice';
 import toast from 'react-hot-toast';
@@ -33,13 +33,16 @@ export default function Header({ CbShowReport }) {
         }, 1000);
     }
     return (
-        <header className={`${homeStyle.__nav_Header}`} onClick={handleHidePopup}>
-            <img className={`${homeStyle.__nav_Logo}`} src={Logo} alt='insta logo' />
+        <header className={`${homeStyle.__AppHeader}`} onClick={handleHidePopup}>
+            <Link to={"/home"} className={`${homeStyle.__appNavbar__LOGO_Box} ${homeStyle.__appHeader__LOGO_Box}`}>
+                <img className={`${homeStyle.__AppHeaderLOGO}`} src={Logo} alt='insta logo' />
+            </Link>
             {
                 popup && <MorePopup CbShowReport={CbShowReport} CBLogOut={handleLogout} CBClosePopup={handleTogglePopup} PropInstaID={instaUserID} SecondaryClass={`${homeStyle.__SecondaryPopupContainer}`} />
             }
-
-            <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__navbar_moreButton} ${homeStyle.__secondaryMoreButton}`}><img className={`${homeStyle.moreIcon}`} src={Bars} alt='MoreButtonICON' /> <span className={`${homeStyle.__navTitle}`}>More</span></button>
+            <button type="button" onClick={handleTogglePopup} className={`${homeStyle.__appNavbarMoreButton} ${homeStyle.__AppHeader_moreButton}`}>
+                <FaBars className={`${homeStyle.__appNavbar_Items_ICONS}`} />
+            </button>
 
         </header>
     )

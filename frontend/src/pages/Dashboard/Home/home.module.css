@@ -1,95 +1,130 @@
 .homeContainer {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     overflow: hidden;
 }
 
 .__outlet {
     width: calc(100% - 245px);
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     overflow-y: auto;
 }
 
-.__nav_Header {
-    display: none;
-}
-
-.instaLogo {
-    width: 10em;
-    padding-left: 10px;
-}
-
-.navbar {
+.__appNavbar_Container {
+    width: 245px;
+    height: 100%;
     border-right: 1px solid rgb(175, 175, 175);
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     flex-direction: column;
-    justify-content: space-around;
-    height: 100vh;
+    justify-content: flex-start;
     position: relative;
 }
 
-.nav {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    width: 245px;
-    gap: 5px;
-}
-
-.navLink {
-    text-decoration: none;
-    color: #000;
+.__appNavbar__LOGO_Box {
+    width: 100%;
+    height: 100px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-left: 1em;
-    transition: 400ms;
-    border-radius: 10px;
-    width: 94%;
-    height: 3.5em;
-    margin: auto;
+    justify-content: center;
+    text-decoration: none;
 }
 
-
-.navIcon {
-    width: 1.8em;
+.__appNavbar_PrimaryLOGO {
+    object-fit: contain;
+    width: 175px;
 }
 
-
-.__instaIcon_Hide {
+.__appNavbar_SecondaryLOGO,
+.__AppHeader,
+.__AppHeaderLOGO {
     display: none;
 }
 
-.__navbar_moreButton {
-    height: 3.5em;
-    border: none;
-    outline: none;
-    transition: 400ms;
-    border-radius: 10px;
-    width: 94%;
-    height: 3.3em;
+.__appNavbar {
+    width: 100%;
+    min-height: calc(100% - 200px);
     display: flex;
     align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.__appNavbar_Items {
+    width: 95%;
+    margin: 15px auto;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     padding-left: 1em;
-    background: transparent;
-    transition: 500ms ease;
-    margin: 0px auto;
-    font-size: 15px;
+    gap: 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 400ms;
 }
 
-.moreIcon {
-    width: 2.2em;
+.__appNavbar_Items_ICONS {
+    transition: 400ms;
+    font-size: 26px;
+    color: black;
 }
 
-.navLink:hover,
-.__navbar_moreButton:hover,
-.__popupLinkItem:hover,
-.__popupLogoutButton:hover {
+.__appNavbar_Item_Text {
+    transition: 400ms;
+    font-size: 18px;
+    color: black;
+}
+
+.__appNavbar_Items:hover,
+.__appNavbarMoreButton:hover,
+.__popupLogoutButton:hover,
+.__popupLinkItem:hover {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.05);
-    transform: scale(1.02);
+
+}
+
+.__appNavbar_Items:hover .__appNavbar_Items_ICONS,
+.__appNavbarMoreButton:hover .__appNavbar_Items_ICONS,
+.__popupLinkItem:hover .__popupLinkItem_ICON {
+    transform: scale(1.16);
+    color: #0095F6;
+}
+
+.active .__appNavbar_Items_ICONS {
+    color: #0095F6;
+}
+
+.active .__appNavbar_Item_Text {
+    font-weight: 600;
+}
+
+.__appNavbarButton_Box {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.__appNavbarMoreButton {
+    border-radius: 10px;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 1em;
+    gap: 15px;
+    height: 45px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.__appNavbarMoreButton .__appNavbar_Items_ICONS {
+    font-size: 22px;
 }
 
 .__popupContainer {
@@ -100,7 +135,7 @@
     position: absolute;
     bottom: 95px;
     right: -16%;
-    z-index: 2;
+    z-index: 5;
     background-color: white;
 }
 
@@ -343,22 +378,26 @@
     align-items: center;
     justify-content: space-between;
 }
-.homePostCard__iconButton_Box span{
+
+.homePostCard__iconButton_Box span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     margin-right: 15px;
 }
+
 .homePostCard__iconButton {
     font-size: 25px;
 }
-.homePostCard__iconButtonLoader{
+
+.homePostCard__iconButtonLoader {
     width: 20px;
     height: 20px;
     position: absolute;
 }
 
-.homePostCard__iconButton:hover, .homePostCard__LikeCounter:hover {
+.homePostCard__iconButton:hover,
+.homePostCard__LikeCounter:hover {
     cursor: pointer;
     color: grey;
 }
@@ -410,7 +449,7 @@
 .homePostCard__viewAllComment {
     text-decoration: none;
     display: block;
-   margin-top: 10px;
+    margin-top: 10px;
     font-size: 14px;
     font-weight: 500;
     color: gray;
@@ -643,37 +682,28 @@
         height: 100vh;
     }
 
-    .navbar,
-    .nav {
+    .__appNavbar_Container {
         width: 80px;
     }
 
-    .nav {
-        align-items: center;
+    .__appNavbar_SecondaryLOGO {
+        display: block;
+    }
+
+    .__appNavbar_Item_Text,
+    .__appNavbar_PrimaryLOGO {
+        display: none;
+    }
+
+    .__appNavbar_Items,
+    .__appNavbarMoreButton {
+        padding: 0;
         justify-content: center;
     }
 
-    .navLink {
-        width: 80%;
-    }
-
-    .instaLogo {
-        display: none;
-    }
-
-    .__instaIcon_Hide {
-        display: block;
-        font-size: 5px;
-        margin-left: 1.5em;
-    }
-
-    .__navTitle {
-        display: none;
-    }
-
     .__popupContainer {
-        bottom: 30px;
-        right: -260px;
+        bottom: 40px;
+        right: -275px;
     }
 }
 
@@ -684,53 +714,51 @@
 }
 
 @media screen and (max-width: 550px) {
+
+    .__appNavbar__LOGO_Box,
+    .__appNavbarButton_Box,
+    .__popupContainer {
+        display: none;
+    }
+
     .homeContainer {
         flex-direction: column;
     }
 
     .__outlet {
         width: 100%;
-        height: calc(100vh - 130px);
+        height: calc(100dvh - 130px);
     }
 
-    /* ! This block holds the Header Component Design */
-    .__nav_Header {
+    .__AppHeader {
         position: sticky;
         top: 0;
-        left: 0;
-        border-bottom: 1px solid rgb(170, 170, 170);
-        width: 100%;
-        height: 4em;
+        background-color: white;
+        z-index: 5;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 0 1em;
-        z-index: 2;
-    }
-
-    .__nav_Logo {
-        width: 9em;
-    }
-
-    .navLink {
-        padding: 0;
-        justify-content: center;
-    }
-
-    .navbar,
-    .primary__navbar {
-        border-top: 1px solid rgb(179, 179, 179);
-        flex-direction: row;
+        justify-content: space-between;
+        padding: 0em 0.3em;
         width: 100%;
-        height: 4em;
-        position: absolute;
-        bottom: 0;
+        height: 60px;
+        border-bottom: 1px solid rgb(175, 175, 175);
     }
 
-    .__instaIcon_Hide,
-    .__navbar_moreButton,
-    .__popupContainer {
-        display: none;
+    .__appHeader__LOGO_Box {
+        display: flex;
+        width: fit-content;
+        height: 100%;
+    }
+
+    .__AppHeaderLOGO {
+        display: block;
+        width: 125px;
+    }
+
+    .__AppHeader_moreButton {
+        width: 60px;
+        height: 100%;
+        border-radius: 0;
     }
 
     .__SecondaryPopupContainer {
@@ -747,6 +775,24 @@
         align-items: center;
         justify-content: center;
     }
+
+    .__appNavbar_Container {
+        border: none;
+        position: fixed;
+        background-color: white;
+        z-index: 5;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        border-top: 1px solid rgb(175, 175, 175);
+    }
+
+    .__appNavbar {
+        flex-direction: row;
+        height: 100%;
+    }
+
+
 }
 
 @media screen and (max-width: 476px) {
