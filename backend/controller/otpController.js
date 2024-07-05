@@ -4,7 +4,6 @@ const verifyOTP = async (req, res) => {
     try {
         const { OTP, userEmail } = req.body;
         const otpEntry = await otpCollection.find({ userEmail }).sort({ otpExpireAt: -1 }).limit(1);
-
         if (otpEntry.length === 0) {
             return res.status(400).json({ success: false, msg: 'Invalid OTP' });
         }

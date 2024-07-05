@@ -90,13 +90,16 @@ const userRegister = async (request, response) => {
         fullName: fullName,
         userEmail: userEmail,
         userPassword: userPassword,
-        userFollowers: 0,
-        userFollowing: 0,
-        userPosts: 0,
+        userFollowers:[],
+        userFollowing: [],
+        savedPost: [],
+        likedPost :[],
         userBio: "",
         userProfile: "",
+        gender : "",
+        website : "",
+        isPrivate :false,
         createdAt: Date.now(),
-        savedPost: [],
     });
     if (registredResult) {
         return response.send({ resMsg: "User Registred Successfully" });
