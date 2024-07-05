@@ -26,82 +26,101 @@ const authenticateUser = async (request, response) => {
 
 // Sending  Account verifitying OTP emails
 const otpSender = async (request, response) => {
-    const { userEmail, userName } = request.body;
-    const isUserExists = await userCollection.findOne({ userEmail: userEmail });
-    const isUserNameavailable = await userCollection.findOne({
-        userName: userName,
-    });
-    if (isUserExists) {
-        return response.send({
-            success: false,
-            msg: `${userEmail} already registered`,
+    try {
+        const { userEmail, userName } = request.body;
+        const isUserExists = await userCollection.findOne({ userEmail: userEmail });
+        const isUserNameavailable = await userCollection.findOne({
+            userName: userName,
         });
+        if (isUserExists) {
+            return response.send({
+                success: false,
+                msg: `${userEmail} already registered`,
+            });
+        }
+        if (isUserNameavailable) {
+            return response.send({
+                success: false,
+                msg: `username already taken`,
+            });
+        }
+        // Generate the verification otp
+        const OTP = otpGenerator.generate(6, {
+            digits: true,
+            lowerCaseAlphabets: false,
+            upperCaseAlphabets: false,
+            specialChars: false,
+        });
+
+        // emailSender
+        const emailResponse = await emailSender(
+            userEmail,
+            "Verify your email address",
+            `Hi ${userName},\n Thank you for signing up for Instagram-Clone. To verify your email address, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n Once you have entered the OTP, your email address will be verified and you will be able to log in to Instagram-Clone. If you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101`
+        );
+
+        if (emailResponse.messageId) {
+            await otpCollection.create({
+                userEmail: userEmail,
+                OTP: OTP,
+                otpExpireAt: Date.now() + 300000 // 5-minute expiration,
+            });
+
+            return response.send({
+                success: true,
+                msg: "Otp Sent successfully",
+            });
+
+        } else {
+            return response.send({
+                success: false,
+                msg: "Something went wrong, Try Again",
+            });
+        }
     }
-    if (isUserNameavailable) {
-        return response.send({
+    catch (error) {
+        response.status(500).json({
             success: false,
-            msg: `username already taken`,
-        });
-    }
-    // Generate the verification otp
-    const OTP = otpGenerator.generate(6, {
-        digits: true,
-        lowerCaseAlphabets: false,
-        upperCaseAlphabets: false,
-        specialChars: false,
-    });
-
-    // emailSender
-    const emailResponse = await emailSender(
-        userEmail,
-        "Verify your email address",
-        `Hi ${userName},\n Thank you for signing up for Instagram-Clone. To verify your email address, please enter the following one-time passcode (OTP) in the Instagram-Clone web application:\n\n ${OTP}\n Once you have entered the OTP, your email address will be verified and you will be able to log in to Instagram-Clone. If you have any questions, please do not hesitate to contact us.\n\n Sincerely,\n\nThe Instagram-Clone support team\n\nContact : +917061751101`
-    );
-
-    if (emailResponse.messageId) {
-        await otpCollection.create({
-            userEmail: userEmail,
-            OTP: OTP,
-            otpExpireAt: Date.now() + 300000 // 5-minute expiration,
-        });
-
-        return response.send({
-            success: true,
-            msg: "Otp Sent successfully",
-        });
-
-    } else {
-        return response.send({
-            success: false,
-            msg: "Something went wrong, Try Again",
-        });
+            msg: `Server failed to load, Try again later - ${error.message}`,
+        })
     }
 };
 
 // User registration controller
 const userRegister = async (request, response) => {
-    let { userName, fullName, userEmail, userPassword } = request.body;
-    // hashing password using bcrypt
-    userPassword = bcrypt.hashSync(userPassword, 15);
+    try {
+        let { userName, fullName, userEmail, userPassword } = request.body;
+        // hashing password using bcrypt
+        userPassword = bcrypt.hashSync(userPassword, 15);
 
-    // saving new user in database
-    const registredResult = await userCollection.create({
-        userName: userName,
-        fullName: fullName,
-        userEmail: userEmail,
-        userPassword: userPassword,
-        userFollowers: 0,
-        userFollowing: 0,
-        userPosts: 0,
-        userBio: "",
-        userProfile: "",
-        createdAt: Date.now(),
-        savedPost: [],
-    });
-    if (registredResult) {
-        return response.send({ resMsg: "User Registred Successfully" });
-    } else {
-        return response.send({ resMsg: "Something Went Wrong, Try Again" });
+        // saving new user in database
+        const registredResult = await userCollection.create({
+            userName: userName,
+            fullName: fullName,
+            userEmail: userEmail,
+            userPassword: userPassword,
+            userFollowers: [],
+            userFollowing: [],
+            savedPost: [],
+            likedPost: [],
+            userBio: "",
+            userProfile: "",
+            gender: "",
+            website: "",
+            isPrivate: false,
+            createdAt: Date.now(),
+        });
+        if (registredResult) {
+            return response.send({ resMsg: "User Registred Successfully" });
+        } else {
+            return response.send({ resMsg: "Something Went Wrong, Try Again" });
+        }
+    }
+    catch (error) {
+        response.status(500).json({
+            success: false,
+            msg: `Server failed to load, Try again later - ${error.message}`,
+        })
     }
 };
 

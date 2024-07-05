@@ -15,7 +15,7 @@ function ProfilePost() {
   }
 
   useEffect(() => {
-    setOwnPosts(state);
+    setOwnPosts(state.sort((a, b)=>b.postCreatedAt - a.postCreatedAt));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
