@@ -12,17 +12,12 @@ import createPostStyle from "./create.module.css"
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function Create() {
-  const { instaUserID, instaUserName, instaProfle } = useSelector(
-    (state) => state.Instagram
-  );
+  const { instaUserID, instaUserName, instaProfle, instaTOKEN} = useSelector((state) => state.Instagram);
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
   const [Loading, setLoading] = useState(false);
   const imgRef = useRef();
-  const [post, setPost] = useState({
-    postPoster: "",
-    postCaption: "",
-  });
+  const [post, setPost] = useState({ postPoster: "", postCaption: "", });
   const [selectedImage, setSelectedImage] = useState(null);
   const handleOnChangeInput = (e) => {
     if (e.target.name === "postPoster") {
@@ -59,7 +54,9 @@ export default function Create() {
       setLoading(true);
       axios
         .post(`${BACKEND_URL}posts/create-post`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${instaTOKEN}`,
+           },
         })
         .then((response) => {
           if (response.data.success) {
@@ -164,7 +161,7 @@ export default function Create() {
             onClick={() => imgRef.current.click()}
           />
         </form>
-        {Loading && <LazyLoader customClass={"createPostLoaderContainer"}/>}
+        {Loading && <LazyLoader customClass={"createPostLoaderContainer"} />}
       </div>
     </section>
   );
