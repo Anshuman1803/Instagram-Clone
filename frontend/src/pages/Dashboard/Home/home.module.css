@@ -790,6 +790,7 @@
     .__appNavbar {
         flex-direction: row;
         height: 100%;
+        padding: 0em 0.5em;
     }
 
 

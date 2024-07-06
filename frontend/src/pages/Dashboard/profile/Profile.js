@@ -150,8 +150,6 @@ export default function Profile() {
 
                           </button>
                         )}
-
-
                       </>
                     }
                   </h1>

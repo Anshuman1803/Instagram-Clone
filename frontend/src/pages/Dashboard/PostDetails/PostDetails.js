@@ -60,7 +60,6 @@ function PostDetails() {
       .then((response) => {
         if (response.data.success) {
           setTemplikeCounter((prevState) => prevState + 1);
-          toast.success(response.data.msg);
           dispatch(
             userLikeUnlikePost({
               type: "like",
@@ -96,7 +95,6 @@ function PostDetails() {
       .then((response) => {
         if (response.data.success) {
           setTemplikeCounter((prevState) => prevState - 1);
-          toast.success(response.data.msg);
           dispatch(
             userLikeUnlikePost({
               type: "unlike",
