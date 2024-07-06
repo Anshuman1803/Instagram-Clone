@@ -36,7 +36,6 @@ export const HomePostCard = ({ posts }) => {
             if (response.data.success) {
                 setButtonLoading(false);
                 setTemplikeCounter((prevState) => prevState + 1);
-                toast.success(response.data.msg);
                 dispatch(
                     userLikeUnlikePost({
                         type: "like",
@@ -69,7 +68,6 @@ export const HomePostCard = ({ posts }) => {
             if (response.data.success) {
                 setButtonLoading(false);
                 setTemplikeCounter((prevState) => prevState - 1);
-                toast.success(response.data.msg);
                 dispatch(
                     userLikeUnlikePost({
                         type: "unlike",
