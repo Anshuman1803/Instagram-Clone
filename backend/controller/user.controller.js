@@ -554,6 +554,113 @@ const getUpdateduserDetails = async (request, response) => {
     });
   }
 };
+
+// get the followers or following list of user based on requested data
+const getFollowersList = async (request, response) => {
+  try {
+    const { currentUser } = request.params;
+    const followerlist = await userCollection.aggregate([
+      {
+        $match: { _id: new Mongoose.Types.ObjectId(currentUser) },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userFollowers",
+          foreignField: "_id",
+          as: "userFollowers",
+        },
+      },
+      {
+        $unwind: "$userFollowers",
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              "$userFollowers"],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          userProfile: 1,
+          fullName: 1,
+        }
+      }
+    ]);
+
+    if (followerlist.length > 0) {
+      return response.status(200).json({
+        success: true,
+        followerlist: followerlist,
+      });
+    } else {
+      return response.status(200).json({
+        success: false,
+        followerlist: followerlist,
+      });
+    }
+  } catch (error) {
+    response.send({ success: false, msg: error.message });
+  }
+}
+
+// get the following list of user based on requested data
+const getFollowingList = async (request, response) => {
+  try {
+    const { currentUser } = request.params;
+    const followinglist = await userCollection.aggregate([
+      {
+        $match: { _id: new Mongoose.Types.ObjectId(currentUser) },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userFollowing",
+          foreignField: "_id",
+          as: "userFollowing",
+        },
+      },
+      {
+        $unwind: "$userFollowing",
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              "$userFollowing"],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          userName: 1,
+          userProfile: 1,
+          fullName: 1,
+        }
+      }
+    ]);
+
+    if (followinglist.length > 0) {
+      return response.status(200).json({
+        success: true,
+        followinglist: followinglist,
+      });
+    } else {
+      return response.status(200).json({
+        success: false,
+        followinglist: followinglist,
+      });
+    }
+  } catch (error) {
+    response.send({ success: false, msg: error.message });
+  }
+}
+
 module.exports = {
   updateUserDetails,
   getUser,
@@ -564,5 +671,7 @@ module.exports = {
   deleteUserAccount,
   searchUser,
   addUsersToFollowingList,
+  getFollowersList,
+  getFollowingList,
   unfollowUser,
 };

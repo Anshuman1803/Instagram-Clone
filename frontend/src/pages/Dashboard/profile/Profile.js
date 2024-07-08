@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import profileStyle from "./profile.module.css"
 import { ProfileLoader } from "./ProfileLoader";
+import { UserList } from "../../../components/UsersList"
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function Profile() {
@@ -24,9 +25,8 @@ export default function Profile() {
   const [currentUser, setCurrentUser] = useState({});
   const [Loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
-  const headers = {
-    Authorization: `Bearer ${instaTOKEN}`
-  };
+  const [showUserList, setshowUserList] = useState("");
+  const headers = { Authorization: `Bearer ${instaTOKEN}` };
 
   const handleEdit = () => {
     navigateTO('/Accout/setting/edit-profile')
@@ -63,10 +63,10 @@ export default function Profile() {
       if (response.data.success) {
         toast.success(response.data.msg)
         dispatch(userUnFollow(unfollowUserID));
-          setButtonLoading(false);
+        setButtonLoading(false);
       } else {
         toast.error(response.data.msg)
-          setButtonLoading(false);
+        setButtonLoading(false);
       }
     }).catch((error) => {
       setButtonLoading(false);
@@ -107,7 +107,7 @@ export default function Profile() {
       });
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadeUserDetails, [userID.instaUserID]);
+  useEffect(loadeUserDetails, [userID.instaUserID,showUserList]);
 
 
   useEffect(() => {
@@ -155,24 +155,34 @@ export default function Profile() {
                   </h1>
 
                   <div className={`${profileStyle.userBox__userActivityState}`}>
-                    <span className={`${profileStyle.userBox__activity} ${profileStyle.userBox__postActivity}`}>
+
+                    <span className={`${profileStyle.userBox__activity} ${profileStyle.unactive__activity} ${profileStyle.userBox__postActivity}`}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userPostsCount}
                       </strong>
                       posts
                     </span>
-                    <span className={`${profileStyle.userBox__activity}`}>
+
+                    <span className={`${profileStyle.userBox__activity} ${currentUser?.userFollowers?.length === 0 && `${profileStyle.unactive__activity}`} `} onClick={()=>setshowUserList({
+                      userID : userID.instaUserID,
+                      type : "Followers"
+                    })}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userFollowers?.length}
                       </strong>
                       followers
                     </span>
-                    <span className={`${profileStyle.userBox__activity}`}>
+
+                    <span className={`${profileStyle.userBox__activity}  ${currentUser?.userFollowing?.length === 0 && `${profileStyle.unactive__activity}`}`} onClick={()=>setshowUserList({
+                      userID : userID.instaUserID,
+                      type : "Following"
+                    })}>
                       <strong style={{ fontSize: "22px", marginRight: "5px" }}>
                         {currentUser?.userFollowing?.length}
                       </strong>
                       following
                     </span>
+
                   </div>
 
                   <p className={`${profileStyle.userBox__fullName}`}>{currentUser?.fullName}</p>
@@ -232,7 +242,9 @@ export default function Profile() {
             </>
         }
       </section>
-
+      {
+        showUserList && <UserList ID={showUserList?.userID} CbClose={setshowUserList} popupType={showUserList?.type} />
+      }
     </>
   );
 }

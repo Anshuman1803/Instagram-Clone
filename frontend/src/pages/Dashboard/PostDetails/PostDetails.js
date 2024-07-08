@@ -23,7 +23,7 @@ import {
 } from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
 import { PostDetailsPopup } from "./PostDetailsPopup";
-import { LikedByList } from "../../../components/LikedByList"
+import { UserList } from "../../../components/UsersList"
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function PostDetails() {
@@ -509,7 +509,7 @@ function PostDetails() {
         )}
       </div>
       {
-        showLikeList && <LikedByList postID={showLikeList} CbClose={setLikeList} />
+        showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"} />
       }
     </>
 
