@@ -16,8 +16,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export default function Home() {
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
-  const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } =
-    useSelector((state) => state.Instagram);
+  const { instaUserID, instaProfle, instaUserName, instaFullName, instaTOKEN } =useSelector((state) => state.Instagram);
   const [PostLoading, setPostLoading] = useState(false);
   const [SugestedUserLoading, setSuggestUserLoading] = useState(false);
   const [suggestedUser, setSuggestedUser] = useState([]);

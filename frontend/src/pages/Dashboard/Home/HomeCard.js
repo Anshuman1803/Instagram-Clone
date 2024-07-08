@@ -13,7 +13,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
-import { LikedByList } from "../../../components/LikedByList"
+import { UserList } from "../../../components/UsersList"
 import homeStyle from "./home.module.css";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -320,7 +320,7 @@ export const HomePostCard = ({ posts }) => {
                 </div>
             </article>
             {
-                showLikeList && <LikedByList postID={showLikeList} CbClose={setLikeList} />
+                showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"}/>
             }
         </>
     );

@@ -65,7 +65,8 @@
     color: white;
     font-weight: 600;
 }
-.userBox__followButtonLoader{
+
+.userBox__followButtonLoader {
     width: 18px;
     height: 18px;
 }
@@ -96,6 +97,14 @@
     word-spacing: 5px;
 }
 
+.unactive__activity {
+    cursor: normal;
+    pointer-events: none;
+}
+.userBox__activity:hover{
+    cursor: pointer;
+    color: rgba(128, 128, 128);
+}
 .userBox__fullName {
     font-size: 18px;
     font-weight: 400;
