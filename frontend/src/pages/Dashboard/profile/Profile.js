@@ -107,7 +107,7 @@ export default function Profile() {
       });
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadeUserDetails, [userID.instaUserID]);
+  useEffect(loadeUserDetails, [userID.instaUserID,showUserList]);
 
 
   useEffect(() => {
