@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
 import { UserList } from "../../../components/UsersList"
 import homeStyle from "./home.module.css";
+import { PostPopup } from "../../../components/PostPopup";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const HomePostCard = ({ posts }) => {
@@ -23,10 +24,11 @@ export const HomePostCard = ({ posts }) => {
     const dispatch = useDispatch();
     const navigateTO = useNavigate();
     const headers = { Authorization: `Bearer ${instaTOKEN}` };
-    const [tempLikeCounter, setTemplikeCounter] = useState(posts?.postLikes);
-    const [tempCommentsCounter, setTempCommentsCounter] = useState(posts?.commentCount);
-    const [showLikeList, setLikeList] = useState("");
     const [buttonLoading, setButtonLoading] = useState(false);
+    const [tempLikeCounter, setTemplikeCounter] = useState(posts?.postLikes);
+    const [showLikeList, setLikeList] = useState("");
+    const [showPopup, setTogglePopup] = useState(false);
+    const [tempCommentsCounter, setTempCommentsCounter] = useState(posts?.commentCount);
 
     // ! post like
     const handleLikePostClick = (e, postID) => {
@@ -215,6 +217,7 @@ export const HomePostCard = ({ posts }) => {
                     </div>
                     <BsThreeDots
                         className={`${homeStyle.homePostCard__threeDotOptions}`}
+                        onClick={(e) => setTogglePopup(true)}
                     />
                 </div>
                 <img
@@ -320,8 +323,11 @@ export const HomePostCard = ({ posts }) => {
                 </div>
             </article>
             {
-                showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"}/>
+                showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"} />
             }
+            {showPopup && (
+                <PostPopup userID={posts?.user} CbClosePopup={setTogglePopup} />
+            )}
         </>
     );
 };

@@ -358,7 +358,10 @@
 .homePostCard__threeDotOptions {
     font-size: 25px;
 }
-
+.homePostCard__threeDotOptions:hover {
+    cursor: pointer;
+    color: grey;
+}
 .homePostCard_PostPoster {
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
     border: none;

@@ -321,7 +321,8 @@
   scrollbar-width: none;
   position: relative;
 }
-.__likelistPopup_loading{
+
+.__likelistPopup_loading {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -329,6 +330,7 @@
   width: 75px;
   height: 75px;
 }
+
 .__likelistPopup_userList_ITEMS {
   width: 100%;
   margin-bottom: 20px;
@@ -381,18 +383,70 @@
   border-radius: 5px;
   font-size: 12px;
 }
-.__likelistPopup_buttons:hover{
+
+.__likelistPopup_buttons:hover {
   cursor: pointer;
   background-color: #0081d6;
 }
-.__likeListPopup_secondaryButtons{
+
+.__likeListPopup_secondaryButtons {
   background-color: rgba(119, 136, 153, 0.263);
   color: black;
 }
-.__likeListPopup_secondaryButtons:hover{
+
+.__likeListPopup_secondaryButtons:hover {
   cursor: pointer;
-    background-color: rgba(119, 136, 153, 0.5);
+  background-color: rgba(119, 136, 153, 0.5);
 }
+
+/* __postDetailsPopup */
+.post_PopupContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post__Popup {
+  background-color: white;
+  width: 425px;
+  height: fit-content;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.post__Popup_buttons {
+  display: block;
+  height: 60px;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+}
+
+.post__Popup_Secondarybuttons {
+  color: #ED4956;
+  font-weight: 700;
+}
+
+.post__Popup_buttons:last-child {
+  border: none
+}
+
+.post__Popup_buttons:hover {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.279);
+}
+
 
 /*! Responsive Styles */
 
@@ -419,8 +473,13 @@
   .OTP__buttons {
     width: 95%;
   }
-  .__likelistPopup{
+
+  .__likelistPopup {
     width: 100%;
+  }
+
+  .__postDetailsPopup {
+    width: 95%;
   }
 }
 
