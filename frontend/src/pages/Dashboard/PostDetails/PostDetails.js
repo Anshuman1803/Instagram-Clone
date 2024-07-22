@@ -15,14 +15,9 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  UserLoggedOut,
-  userSavePost,
-  userRemoveSavePost,
-  userLikeUnlikePost,
-} from "../../../Redux/ReduxSlice";
+import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost} from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
-import { PostDetailsPopup } from "./PostDetailsPopup";
+import { PostPopup } from "../../../components/PostPopup";
 import { UserList } from "../../../components/UsersList"
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -505,7 +500,7 @@ function PostDetails() {
         </div>
 
         {showPopup && (
-          <PostDetailsPopup userData={state} CbClosePopup={setTogglePopup} />
+          <PostPopup userID={state?.user} CbClosePopup={setTogglePopup} />
         )}
       </div>
       {
