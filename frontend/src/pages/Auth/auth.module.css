@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     padding: 0.5em 0em;
+    position: relative;
 }
 
 .authContainer__LeftSideContainer {
@@ -324,10 +325,161 @@
     padding-top: 1.5em;
 }
 
+.__scrollwidthNONE {
+    scrollbar-width: 0;
+    height: 100vh;
+}
+.__hideButton{
+    display: none !important;
+}
+/* user Guide */
+
+.__infoButton {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 25px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+    cursor: pointer;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.__infoButtonICON {
+    transition: all 400ms ease-in-out;
+    font-size: 22px;
+    color: white;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    70% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.__infoButton:hover .__infoButtonICON {
+    transform: scale(1.5);
+    animation: none;
+}
+
+.__userGuideBox {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    --webkit-backdrop-filter: blur(10px);
+    padding: 1em 0em;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.__userGuide_container {
+    border-radius: 5px;
+    width: 900px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.__userGuide_closeButton {
+    background: none;
+    border: none;
+    width: 100%;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.4em;
+}
+
+.__userGuide_closeButtonICON {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.__userGuide_closeButtonICON:hover {
+    color: #e74c3c;
+}
+
+.__userGuide_title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.__userGuide_section {
+    margin-bottom: 30px;
+}
+
+.__userGuide_section h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.__userGuide_section h3 {
+    color: #34495e;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.__userGuide_section ul,
+.__userGuide_section ol {
+    margin-left: 20px;
+    margin-bottom: 15px;
+    padding-left: 0;
+}
+
+.__userGuide_section li {
+    margin-bottom: 5px;
+}
+
+.__userGuide_privacyNote {
+    font-style: italic;
+    color: #7f8c8d;
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+
 
 @media screen and (max-width: 990px) {
-    .authContainer__LeftSideContainer {
+    .authContainer__LeftSideContainer,.Get_App_Container {
         display: none;
+    }
+
+    .__userGuide_container {
+        width: 95%;
     }
 }
 
@@ -344,4 +496,38 @@
         margin-right: auto;
     }
 
+}
+
+
+@media screen and (max-width: 768px) {
+    .__userGuide_title {
+        font-size: 2.2rem;
+    }
+
+    .__userGuide_section h2 {
+        font-size: 1.8rem;
+    }
+
+    .__userGuide_section h3 {
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .__userGuide_title {
+        font-size: 1.5rem;
+    }
+
+    .__userGuide_section h2 {
+        font-size: 1.2rem;
+    }
+
+    .__userGuide_section h3 {
+        font-size: 1.1rem;
+    }
+
+    .__userGuide_section ul,
+    .__userGuide_section ol {
+        margin-left: 8px;
+    }
 }
