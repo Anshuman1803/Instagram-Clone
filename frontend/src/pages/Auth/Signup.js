@@ -108,6 +108,17 @@ function SignUp() {
     }
   };
 
+  const handleContinueWithGoogle = (e) => {
+    e.preventDefault();
+    try {
+      const googleSignupUrl = `${BACKEND_URL}/auth/google?userType=${userDetails.role}`;
+      window.location.href = googleSignupUrl;
+    } catch (error) {
+      console.error("Google signup error:", error);
+    }
+  };
+
+
   return (
     <div className={`${authStyle.Auth__UserLoginFormContainer}`}>
       <div className={`${authStyle.authFormn_Box}`}>
@@ -208,14 +219,14 @@ function SignUp() {
             <span className={`${authStyle.authForm__hrContainerOR_text}`}>OR</span>
           </div>
 
-          <Link className={`${authStyle.authForm__googleLoginLINK} ${btnLoader && 'Unactive'}`}>
+          <Link onClick={handleContinueWithGoogle} className={`${authStyle.authForm__googleLoginLINK} ${btnLoader && 'Unactive'}`}>
             <img
               src={googleLOGO}
               alt="googleLOGO"
               className={`${authStyle.googleLoginLOGO}`}
             />
             <span className={`${authStyle.authForm__googleLoginText}`}>
-              Sign up with google
+            Continue with google
             </span>
           </Link>
         </form>

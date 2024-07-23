@@ -66,6 +66,12 @@ const userModel = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  googleId: {
+    type: String,
+  },
+  token: {
+    type: String,
+  },
 });
 const userCollection = mongoose.model("users", userModel);
 
