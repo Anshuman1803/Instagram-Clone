@@ -19,16 +19,6 @@ const GoogleCallback = () => {
     let userFollwing = urlParams.get("userFollwing") ? urlParams.get("userFollwing") : [];
     let userFollowers = urlParams.get("userFollowers") ? urlParams.get("userFollowers") : [];
     let likedPost = urlParams.get("likedPost") ? urlParams.get("likedPost") : [];
-    console.log(`userID :: ${userID}`);
-    console.log(`Token :: ${Token}`);
-    console.log(`userName :: ${userName}`);
-    console.log(`userProfile :: ${userProfile}`);
-    console.log(`userFullName :: ${userFullName}`);
-    console.log(`savedPost :: ${savedPost}`);
-    console.log(`userFollwing :: ${userFollwing}`);
-    console.log(`userFollowers :: ${userFollowers}`);
-    console.log(`likedPost :: ${likedPost}`);
-
     if (
       userID &&
       Token &&
