@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UserLoggedIn } from "../../Redux/ReduxSlice";
-import authStyle from "./auth.module.css"
+import authStyle from "./auth.module.css";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function Login() {
@@ -62,10 +62,9 @@ function Login() {
       axios
         .post(`${BACKEND_URL}auth/user/signin`, userDetails)
         .then((response) => {
-
           if (response.data.success) {
             setBtnLoader(false);
-            navigateTO("/")
+            navigateTO("/");
             toast.success("User logged in successfully");
             dispatch(
               UserLoggedIn({
@@ -93,16 +92,22 @@ function Login() {
         });
     }
   };
+  
+  const handleContinueWithGoogle = (e) => {
+    e.preventDefault();
+    try {
+      const googleSignupUrl = `${BACKEND_URL}/auth/google?userType=${userDetails.role}`;
+      window.location.href = googleSignupUrl;
+    } catch (error) {
+      console.error("Google signup error:", error);
+    }
+  };
 
   return (
     <div className={`${authStyle.Auth__UserLoginFormContainer}`}>
       <div className={`${authStyle.authFormn_Box}`}>
         <Link to={"/"} className={`${authStyle.LoginForm__Link__Logo}`}>
-          <img
-            src={instaLOGO}
-            alt="instagramLOGO"
-            className={`${authStyle.LoginForm__LOGO}`}
-          />
+          <img src={instaLOGO} alt="instagramLOGO" className={`${authStyle.LoginForm__LOGO}`} />
         </Link>
 
         <form className={`${authStyle.Auth__LoginForm}`}>
@@ -110,8 +115,7 @@ function Login() {
             <input
               type="text"
               name="userID"
-              className={`${authStyle.Auth__formItem} ${errorState.userIDError && `${authStyle.ItemBox__errorState}`
-                }`}
+              className={`${authStyle.Auth__formItem} ${errorState.userIDError && `${authStyle.ItemBox__errorState}`}`}
               placeholder="Username, or email"
               onChange={handleInputOnChange}
               value={userDetails.userID}
@@ -125,8 +129,9 @@ function Login() {
             <input
               type={showPassword ? "text" : "password"}
               name="userPassword"
-              className={`${authStyle.Auth__formItem} ${errorState.userPasswordError && `${authStyle.ItemBox__errorState}`
-                }`}
+              className={`${authStyle.Auth__formItem} ${
+                errorState.userPasswordError && `${authStyle.ItemBox__errorState}`
+              }`}
               placeholder="Password"
               onChange={handleInputOnChange}
               value={userDetails.userPassword}
@@ -135,10 +140,7 @@ function Login() {
               maxLength={15}
             />
             {userDetails.userPassword && (
-              <span
-                className={`${authStyle.formPassword__showHide}`}
-                onClick={togglePasswordShow}
-              >
+              <span className={`${authStyle.formPassword__showHide}`} onClick={togglePasswordShow}>
                 {showPassword ? "Hide" : "Show"}
               </span>
             )}
@@ -146,9 +148,9 @@ function Login() {
 
           <button
             type="button"
-            className={`${authStyle.Auth__formButton} ${(userDetails.userID && userDetails.userPassword) ||
-              `${authStyle.unActiveFormButton}`
-              }`}
+            className={`${authStyle.Auth__formButton} ${
+              (userDetails.userID && userDetails.userPassword) || `${authStyle.unActiveFormButton}`
+            }`}
             onClick={handleSignINClick}
           >
             {btnLoader ? <ButtonLoader /> : "Log in"}
@@ -159,18 +161,15 @@ function Login() {
             <span className={`${authStyle.authForm__hrContainerOR_text}`}>OR</span>
           </div>
 
-          <Link className={`${authStyle.authForm__googleLoginLINK} ${btnLoader && 'Unactive'}`}>
-            <img
-              src={googleLOGO}
-              alt="googleLOGO"
-              className={`${authStyle.googleLoginLOGO}`}
-            />
-            <span className={`${authStyle.authForm__googleLoginText}`}>
-              Log in with google
-            </span>
+          <Link
+            onClick={handleContinueWithGoogle}
+            className={`${authStyle.authForm__googleLoginLINK} ${btnLoader && "Unactive"}`}
+          >
+            <img src={googleLOGO} alt="googleLOGO" className={`${authStyle.googleLoginLOGO}`} />
+            <span className={`${authStyle.authForm__googleLoginText}`}>Continue with google</span>
           </Link>
           <p
-            className={`${authStyle.authForm__forgotPasswordText} ${btnLoader && 'Unactive'}`}
+            className={`${authStyle.authForm__forgotPasswordText} ${btnLoader && "Unactive"}`}
             onClick={() => navigateTO("/user/auth/password/forgot-password")}
           >
             Forgot password?
@@ -180,7 +179,7 @@ function Login() {
 
       <div className={`${authStyle.authGotoSignUP_container}`}>
         Don't have an account?{" "}
-        <Link className={`${authStyle.gotoRegisterPageLINK} ${btnLoader && 'Unactive'}`} to={"/user/auth/register"}>
+        <Link className={`${authStyle.gotoRegisterPageLINK} ${btnLoader && "Unactive"}`} to={"/user/auth/register"}>
           Sign up
         </Link>
       </div>
@@ -194,19 +193,10 @@ function Login() {
             }
             target="_blank"
           >
-            <img
-              src={playStore}
-              alt="Download-From-Play-Store"
-              className={`${authStyle.platformButtonImages}`}
-            />
+            <img src={playStore} alt="Download-From-Play-Store" className={`${authStyle.platformButtonImages}`} />
           </Link>
 
-          <Link
-            to={
-              "https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"
-            }
-            target="_blank"
-          >
+          <Link to={"https://www.microsoft.com/store/productId/9NBLGGH5L9XT?ocid=pdpshare"} target="_blank">
             <img
               src={microSoft}
               alt="Download-From-Microsoft"

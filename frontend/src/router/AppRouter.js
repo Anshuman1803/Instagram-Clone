@@ -29,6 +29,7 @@ const Signup = lazy(() => import("../pages/Auth/Signup"));
 const ResetPassword = lazy(() => import("../pages/Auth/ResetPassword"))
 const ForgotPassword = lazy(() => import("../pages/Auth/ForgotPassword"))
 const OTP = lazy(() => import("../components/OTP").then(module => ({ default: module.OTP })));
+const GoogleCallback = lazy(()=> import("../pages/Auth/GoogleCallback.js"))
 
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -119,6 +120,7 @@ const AuthRoute = () => {
       <Route path="/user/auth/OTP/:Type" element={<Suspense fallback={<LazyLoader />}> <OTP /> </Suspense>} />
       <Route path="/user/auth/password/forgot-password" element={<Suspense fallback={<LazyLoader />}> <ForgotPassword /> </Suspense>} />
       <Route path="/user/auth/password/reset-password" element={<Suspense fallback={<LazyLoader />}> <ResetPassword /> </Suspense>} />
+      <Route path="/auth/google/callback" element={<Suspense fallback={<LazyLoader />}> <GoogleCallback /> </Suspense>} />
       <Route path="/*" element={<Suspense fallback={<LazyLoader />}> <Login /> </Suspense>} />
     </Route>
   </Routes>

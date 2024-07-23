@@ -9,7 +9,9 @@ const { mongooseConnection } = require("./config/mongooseConnection");
 const { verifyOTP } = require("./controller/otpController");
 const { authRoute } = require("./router/auth.route");
 const { reportProblem } = require("./controller/report.conroller");
-
+const session = require("express-session");
+const passport = require("passport");
+const { googleRoute } = require("./router/google.routes");
 dotENV.config();
 appServer.use(express.json());
 appServer.use(
@@ -17,9 +19,21 @@ appServer.use(
     origin: "*",
   })
 );
+appServer.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+appServer.use(passport.initialize());
+appServer.use(passport.session());
 
 
 appServer.use("/api/v1/auth",authRoute);
+appServer.use("/api/v1", googleRoute)
 appServer.use("/api/v1/users",userRoute);
 appServer.use("/api/v1/posts",postRoute);
 appServer.use("/api/v1/comments",commentsRoute);
