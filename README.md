@@ -46,7 +46,7 @@ Your privacy is important to us. We will never share your email address or perso
 
 ## Contact Information
 
-- Email: team.instagram.1803@gmail.com
+- Email: mahianshuman491@gmail.com
 - Phone: 7061751101
 
 ## Social Media
