@@ -9,10 +9,9 @@ const UserGuide = ({ onClose }) => {
     <button className={styles.__userGuide_closeButton}>
       <RxCross2 onClick={onClose} className={styles.__userGuide_closeButtonICON}/>
     </button>
-    <h1 className={styles.__userGuide_title}>Information Guide for First-Time Users</h1>
+    <h1 className={styles.__userGuide_title}>User Guide</h1>
     
     <section className={styles.__userGuide_section}>
-      <h2>Welcome Message</h2>
       <p>Welcome to our platform! We're excited to have you join us. This guide will walk you through the process of creating an account and logging in.</p>
     </section>
   

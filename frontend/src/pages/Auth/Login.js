@@ -92,7 +92,7 @@ function Login() {
         });
     }
   };
-  
+
   const handleContinueWithGoogle = (e) => {
     e.preventDefault();
     try {
@@ -121,7 +121,7 @@ function Login() {
               value={userDetails.userID}
               autoFocus
               ref={userIDref}
-              autoComplete="current-userID"
+              autoComplete="off"
             />
           </div>
 
@@ -136,7 +136,7 @@ function Login() {
               onChange={handleInputOnChange}
               value={userDetails.userPassword}
               ref={userPasswordref}
-              autoComplete="current-password"
+              autoComplete="off"
               maxLength={15}
             />
             {userDetails.userPassword && (
