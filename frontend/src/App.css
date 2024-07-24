@@ -399,54 +399,53 @@
   background-color: rgba(119, 136, 153, 0.5);
 }
 
-/* __postDetailsPopup */
-.post_PopupContainer {
+/* Post Options popup */
+.__postOptionsContainer {
   position: fixed;
   top: 0;
+  z-index: 9999;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.post__Popup {
-  background-color: white;
-  width: 425px;
+.__postOptions_Box {
+  border-radius: 5px;
+  width: 375px;
   height: fit-content;
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: white;
 }
-
-.post__Popup_buttons {
-  display: block;
-  height: 60px;
-  width: 100%;
+.__postOptions_Item{
   border: none;
   outline: none;
-  font-weight: 300;
+  display: block;
+  height: 55px;
   font-size: 16px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+  width: 100%;
+  background-color: transparent;
+  border-top: 1px solid rgba(128, 128, 128, 0.365);
+  font-weight: 300;
 }
-
-.post__Popup_Secondarybuttons {
+.__postOptions_Item:first-child{
   color: #ED4956;
-  font-weight: 700;
+  font-weight: 600;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-top: none;
 }
-
-.post__Popup_buttons:last-child {
-  border: none
+.__postOptions_Item:last-child{
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
-
-.post__Popup_buttons:hover {
+.__postOptions_Item:hover{
   cursor: pointer;
-  background-color: rgba(128, 128, 128, 0.279);
-}
+  background-color: rgba(128, 128, 128, 0.2);
 
+}
 
 /*! Responsive Styles */
 
