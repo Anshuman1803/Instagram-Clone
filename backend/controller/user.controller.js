@@ -232,7 +232,7 @@ const addUsersToFollowingList = async (request, response) => {
     if (updateFollowingUser && updateFollowersUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully follow the ${updateFollowersUser.userName}`,
+        msg: `You are started following the ${updateFollowersUser.userName}`,
       });
     } else {
       response.status(200).json({
@@ -267,7 +267,7 @@ const unfollowUser = async (request, response) => {
     if (updateFollowingUser && updateFollowerUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully unfollow ${updateFollowerUser.userName}`,
+        msg: `You unfollow ${updateFollowerUser.userName}`,
       });
     } else {
       response.status(200).json({
@@ -494,7 +494,7 @@ const getSuggestedUser = async (request, response) => {
     const mongooseResponse = await userCollection
       .find({ _id: { $ne: id } })
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(7)
       .select("_id userName userProfile ");
     if (mongooseResponse) {
       return response.send({
