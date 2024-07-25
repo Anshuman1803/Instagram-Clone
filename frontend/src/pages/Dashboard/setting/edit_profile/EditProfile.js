@@ -55,7 +55,7 @@ function EditProfile() {
 
   const loaduserDetails = () => {
     setLoading(true);
-    axios.get(`${BACKEND_URL}users/${instaUserID}`, {}, { headers }).then((response) => {
+    axios.get(`${BACKEND_URL}users/${instaUserID}`,{ headers }).then((response) => {
       if (response.data.success) {
         setLoading(false);
         setUserDetails({
@@ -72,10 +72,10 @@ function EditProfile() {
       }
     }).catch((error) => {
       setLoading(false);
-      if (error.response && !error.response.data.success) {
-        toast.error(error.response.data.msg);
-        navigateTO("/user/auth/signin");
+      if (error.response.status === 401) {
         dispatch(UserLoggedOut());
+        navigateTO("/user/auth/signin")
+        toast.error("Your session has expired. Please login again.");
       } else {
         toast.error(`Server error: ${error.message}`);
       }

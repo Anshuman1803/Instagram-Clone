@@ -37,7 +37,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-          navigateTO("/");
+           navigateTO("/user/auth/signin")
           toast.error("Your session has expired. Please login again.");
         } else {
           toast.error(`Server error: ${error.message}`);
@@ -61,7 +61,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-          navigateTO("/");
+           navigateTO("/user/auth/signin")
           toast.error("Your session has expired. Please login again.");
         } else {
           toast.error(`Server error: ${error.message}`);
@@ -85,7 +85,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-          navigateTO("/");
+           navigateTO("/user/auth/signin")
           toast.error("Your session has expired. Please login again.");
         } else if (error.response.status === 500) {
           toast.error("Internal Server Error. Please try again later.");
@@ -111,7 +111,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-          navigateTO("/");
+           navigateTO("/user/auth/signin")
           toast.error("Your session has expired. Please login again.");
         } else if (error.response.status === 500) {
           toast.error("Internal Server Error. Please try again later.");
@@ -150,7 +150,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
      .catch((error) => {
       if (error.response.status === 401) {
         dispatch(UserLoggedOut());
-        navigateTO("/");
+         navigateTO("/user/auth/signin")
         toast.error("Your session has expired. Please login again.");
       } else {
           toast.error(`Server error: ${error.message}`);

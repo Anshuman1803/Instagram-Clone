@@ -9,12 +9,15 @@ const otpGenerator = require("otp-generator");
 const dotENV = require("dotenv");
 dotENV.config();
 const { uploadOnCloudnary } = require("../service/cloudinary");
+const { deleteImageFromCloudinary } = require("../helper/cloudinaryPictureDelete");
 
 // Update user details
 const updateUserDetails = async (request, response) => {
   try {
     const { userID } = request.params;
     const updateFields = {};
+    const findUser = await userCollection.findById(userID);
+
     const result = request.file && (await uploadOnCloudnary(request.file.path));
     request.body.userProfile = result && result?.secure_url;
     request.body.userProfilePublicID = result && result?.public_id;
@@ -25,16 +28,21 @@ const updateUserDetails = async (request, response) => {
       }
     }
 
-    const findUser = await userCollection
+    const userAfterUpdate = await userCollection
       .findOneAndUpdate({ _id: userID }, updateFields, { new: true })
       .select("fullName userProfile userName");
 
-    if (findUser) {
+    if (userAfterUpdate) {
       response.status(200).json({
         success: true,
         msg: "User details updated successfully",
-        updatedUser: findUser,
+        updatedUser: userAfterUpdate,
       });
+
+      if(updateFields.userProfile){
+        await deleteImageFromCloudinary(findUser.userProfilePublicID);
+      }
+
     } else {
       response.status(404).json({
         success: false,
@@ -42,7 +50,7 @@ const updateUserDetails = async (request, response) => {
       });
     }
   } catch (error) {
-    return response.send({ success: false, err: err });
+    return response.send({ success: false, err: error });
   }
 };
 
@@ -54,6 +62,7 @@ const removeProfilePicture = async (request, response) => {
       { _id: userID },
       {
         userProfile: "",
+        userProfilePublicID : "",
       }
     );
     if (mongooseResponse) {
@@ -61,6 +70,9 @@ const removeProfilePicture = async (request, response) => {
         success: true,
         msg: "Profile picture removed successfully",
       });
+      if (mongooseResponse.userProfilePublicID) {
+        await deleteImageFromCloudinary(mongooseResponse.userProfilePublicID);
+      }
     } else {
       response.send({
         success: false,
@@ -68,7 +80,7 @@ const removeProfilePicture = async (request, response) => {
       });
     }
   } catch (error) {
-    return response.send({ success: false, err: err });
+    return response.send({ success: false, err: error });
   }
 };
 
@@ -666,7 +678,7 @@ const getAboutAccount = async (request, response) => {
     const { userID } = request.params;
     const aboutAccount = await userCollection.aggregate([
       {
-        $match: {"_id" : new Mongoose.Types.ObjectId(userID)},
+        $match: { _id: new Mongoose.Types.ObjectId(userID) },
       },
       {
         $lookup: {
@@ -677,32 +689,30 @@ const getAboutAccount = async (request, response) => {
         },
       },
       {
-        $project : {
+        $project: {
           _id: 1,
           userProfile: 1,
-          userName : 1,
-          createdAt : 1,
-          postCount : { $size: "$posts" },
-          followersCount : { $size: "$userFollowers" },
-          followingCount : { $size: "$userFollowing" },
-          userBio : 1,
-          
-        }
-      }
+          userName: 1,
+          createdAt: 1,
+          postCount: { $size: "$posts" },
+          followersCount: { $size: "$userFollowers" },
+          followingCount: { $size: "$userFollowing" },
+          userBio: 1,
+        },
+      },
     ]);
 
-    if(aboutAccount.length > 0){
+    if (aboutAccount.length > 0) {
       response.status(200).json({
         success: true,
         aboutAccount: aboutAccount[0],
       });
-    }else{
+    } else {
       response.status(404).json({
         success: false,
         aboutAccount: [],
       });
     }
-  
   } catch (error) {
     response.status(500).json({
       success: false,
@@ -710,6 +720,7 @@ const getAboutAccount = async (request, response) => {
     });
   }
 };
+
 module.exports = {
   updateUserDetails,
   getUser,
