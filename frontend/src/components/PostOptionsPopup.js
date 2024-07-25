@@ -20,6 +20,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
     e.preventDefault();
     CbClosePopup(false);
   };
+
   // Saving the post
   const handleSavePost = (e) => {
     e.preventDefault();
@@ -34,10 +35,10 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
         }
       })
       .catch((error) => {
-        if (error.response && !error.response.data.success) {
-          toast.error(error.response.data.msg);
-          navigateTO("/user/auth/signin");
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
+          navigateTO("/");
+          toast.error("Your session has expired. Please login again.");
         } else {
           toast.error(`Server error: ${error.message}`);
         }
@@ -58,10 +59,10 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
         }
       })
       .catch((error) => {
-        if (error.response && !error.response.data.success) {
-          toast.error(error.response.data.msg);
-          navigateTO("/user/auth/signin");
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
+          navigateTO("/");
+          toast.error("Your session has expired. Please login again.");
         } else {
           toast.error(`Server error: ${error.message}`);
         }
@@ -82,12 +83,14 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
         }
       })
       .catch((error) => {
-        if (!error.response.data.success) {
-          toast.error(error.response.data.msg);
-          navigateTO("/user/auth/signin");
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
+          navigateTO("/");
+          toast.error("Your session has expired. Please login again.");
+        } else if (error.response.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
         } else {
-          toast.error(`Server error: ${error.message}`);
+          toast.error("Failed to load");
         }
       });
   };
@@ -106,12 +109,14 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
         }
       })
       .catch((error) => {
-        if (!error.response.data.success) {
-          toast.error(error.response.data.msg);
-          navigateTO("/user/auth/signin");
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-        } else {
-          toast.error(`Server error: ${error.message}`);
+          navigateTO("/");
+          toast.error("Your session has expired. Please login again.");
+        } else if (error.response.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
+        }else {
+          toast.error("Failed to load");
         }
       });
   };
@@ -121,18 +126,43 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
     e.preventDefault();
     navigateTO(`/${userID}`);
   };
+
   //   show about account
   const handleAboutAccount = (e) => {
     e.preventDefault();
     setToggleAboutAccount(true);
   };
 
+  const handleDeletePost = (e)=>{
+    e.preventDefault();
+    axios
+     .delete(`${BACKEND_URL}posts/delete-post/${postID}`, { headers })
+     .then((response) => {
+        if (response.data.success) {
+          toast.success(response.data.msg);
+          CbClosePopup();
+          navigateTO(`/${userID}`);
+        } else {
+          toast.error(response.data.msg);
+          CbClosePopup();
+        }
+      })
+     .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch(UserLoggedOut());
+        navigateTO("/");
+        toast.error("Your session has expired. Please login again.");
+      } else {
+          toast.error(`Server error: ${error.message}`);
+        }
+      });
+  }
   return (
     <div className="__postOptionsContainer">
       {!toggleAboutAccount && (
         <article className="__postOptions_Box">
           {userID === instaUserID && (
-            <button type="button" className="__postOptions_Item">
+            <button type="button" className="__postOptions_Item" onClick={handleDeletePost}>
               Delete
             </button>
           )}
