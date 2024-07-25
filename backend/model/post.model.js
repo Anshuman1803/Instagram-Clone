@@ -9,6 +9,10 @@ const postModel = mongoose.Schema({
     type: String,
     required: true,
   },
+  postPosterPublicID: {
+    type: String,
+    required: true,
+  },
   postCaption: {
     type: String,
   },

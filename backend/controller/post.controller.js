@@ -7,11 +7,13 @@ const createPost = async (request, response) => {
   const { user, postCreatedAt, postCaption } = request.body;
   try {
     const cloudnaryResponse = await uploadOnCloudnary(request.file.path);
+    console.log(cloudnaryResponse);
 
     const mongooseResponse = await postCollection.create({
       user: user,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
+      postPosterPublicID : cloudnaryResponse.public_id,
       postCaption: postCaption,
       postLikes: 0,
     });
@@ -386,6 +388,17 @@ const getLikedByUserList = async (request, response) => {
   }
 };
 
+const deletePost = async (request, response)=>{
+  try{
+    
+  }catch(error){
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to delete post, Try again later - ${error.message}`,
+    });
+  }
+
+}
 
 module.exports = {
   createPost,
@@ -396,4 +409,5 @@ module.exports = {
   getAllPosts,
   explorerPosts,
   getLikedByUserList,
+  deletePost
 };

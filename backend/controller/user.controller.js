@@ -17,6 +17,7 @@ const updateUserDetails = async (request, response) => {
     const updateFields = {};
     const result = request.file && (await uploadOnCloudnary(request.file.path));
     request.body.userProfile = result && result?.secure_url;
+    request.body.userProfilePublicID = result && result?.public_id;
 
     for (const key in request.body) {
       if (request.body[key] !== "null" && request.body[key] !== "" && request.body[key] !== " " && request.body[key]) {
