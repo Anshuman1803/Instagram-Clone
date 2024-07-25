@@ -1,5 +1,4 @@
 const { commentCollection } = require("../model/comment.model");
-const { postCollection } = require("../model/post.model")
 
 const createNewComment = async (request, response) => {
     try {

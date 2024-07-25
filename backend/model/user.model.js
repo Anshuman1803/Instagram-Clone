@@ -25,6 +25,9 @@ const userModel = mongoose.Schema({
   userProfile: {
     type: String
   },
+  userProfilePublicID: {
+    type: String,
+  },
   createdAt: {
     type: Number,
   },

@@ -9,14 +9,18 @@ const otpGenerator = require("otp-generator");
 const dotENV = require("dotenv");
 dotENV.config();
 const { uploadOnCloudnary } = require("../service/cloudinary");
+const { deleteImageFromCloudinary } = require("../helper/cloudinaryPictureDelete");
 
 // Update user details
 const updateUserDetails = async (request, response) => {
   try {
     const { userID } = request.params;
     const updateFields = {};
+    const findUser = await userCollection.findById(userID);
+
     const result = request.file && (await uploadOnCloudnary(request.file.path));
     request.body.userProfile = result && result?.secure_url;
+    request.body.userProfilePublicID = result && result?.public_id;
 
     for (const key in request.body) {
       if (request.body[key] !== "null" && request.body[key] !== "" && request.body[key] !== " " && request.body[key]) {
@@ -24,16 +28,21 @@ const updateUserDetails = async (request, response) => {
       }
     }
 
-    const findUser = await userCollection
+    const userAfterUpdate = await userCollection
       .findOneAndUpdate({ _id: userID }, updateFields, { new: true })
       .select("fullName userProfile userName");
 
-    if (findUser) {
+    if (userAfterUpdate) {
       response.status(200).json({
         success: true,
         msg: "User details updated successfully",
-        updatedUser: findUser,
+        updatedUser: userAfterUpdate,
       });
+
+      if(updateFields.userProfile){
+        await deleteImageFromCloudinary(findUser.userProfilePublicID);
+      }
+
     } else {
       response.status(404).json({
         success: false,
@@ -41,7 +50,7 @@ const updateUserDetails = async (request, response) => {
       });
     }
   } catch (error) {
-    return response.send({ success: false, err: err });
+    return response.send({ success: false, err: error });
   }
 };
 
@@ -53,6 +62,7 @@ const removeProfilePicture = async (request, response) => {
       { _id: userID },
       {
         userProfile: "",
+        userProfilePublicID : "",
       }
     );
     if (mongooseResponse) {
@@ -60,6 +70,9 @@ const removeProfilePicture = async (request, response) => {
         success: true,
         msg: "Profile picture removed successfully",
       });
+      if (mongooseResponse.userProfilePublicID) {
+        await deleteImageFromCloudinary(mongooseResponse.userProfilePublicID);
+      }
     } else {
       response.send({
         success: false,
@@ -67,7 +80,7 @@ const removeProfilePicture = async (request, response) => {
       });
     }
   } catch (error) {
-    return response.send({ success: false, err: err });
+    return response.send({ success: false, err: error });
   }
 };
 
@@ -232,7 +245,7 @@ const addUsersToFollowingList = async (request, response) => {
     if (updateFollowingUser && updateFollowersUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully follow the ${updateFollowersUser.userName}`,
+        msg: `You are started following the ${updateFollowersUser.userName}`,
       });
     } else {
       response.status(200).json({
@@ -267,7 +280,7 @@ const unfollowUser = async (request, response) => {
     if (updateFollowingUser && updateFollowerUser) {
       response.status(200).json({
         success: true,
-        msg: `Successfully unfollow ${updateFollowerUser.userName}`,
+        msg: `You unfollow ${updateFollowerUser.userName}`,
       });
     } else {
       response.status(200).json({
@@ -494,7 +507,7 @@ const getSuggestedUser = async (request, response) => {
     const mongooseResponse = await userCollection
       .find({ _id: { $ne: id } })
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(7)
       .select("_id userName userProfile ");
     if (mongooseResponse) {
       return response.send({
@@ -577,8 +590,7 @@ const getFollowersList = async (request, response) => {
       {
         $replaceRoot: {
           newRoot: {
-            $mergeObjects: [
-              "$userFollowers"],
+            $mergeObjects: ["$userFollowers"],
           },
         },
       },
@@ -588,8 +600,8 @@ const getFollowersList = async (request, response) => {
           userName: 1,
           userProfile: 1,
           fullName: 1,
-        }
-      }
+        },
+      },
     ]);
 
     if (followerlist.length > 0) {
@@ -606,7 +618,7 @@ const getFollowersList = async (request, response) => {
   } catch (error) {
     response.send({ success: false, msg: error.message });
   }
-}
+};
 
 // get the following list of user based on requested data
 const getFollowingList = async (request, response) => {
@@ -630,8 +642,7 @@ const getFollowingList = async (request, response) => {
       {
         $replaceRoot: {
           newRoot: {
-            $mergeObjects: [
-              "$userFollowing"],
+            $mergeObjects: ["$userFollowing"],
           },
         },
       },
@@ -641,8 +652,8 @@ const getFollowingList = async (request, response) => {
           userName: 1,
           userProfile: 1,
           fullName: 1,
-        }
-      }
+        },
+      },
     ]);
 
     if (followinglist.length > 0) {
@@ -659,7 +670,56 @@ const getFollowingList = async (request, response) => {
   } catch (error) {
     response.send({ success: false, msg: error.message });
   }
-}
+};
+
+// Get About the account
+const getAboutAccount = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const aboutAccount = await userCollection.aggregate([
+      {
+        $match: { _id: new Mongoose.Types.ObjectId(userID) },
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          userProfile: 1,
+          userName: 1,
+          createdAt: 1,
+          postCount: { $size: "$posts" },
+          followersCount: { $size: "$userFollowers" },
+          followingCount: { $size: "$userFollowing" },
+          userBio: 1,
+        },
+      },
+    ]);
+
+    if (aboutAccount.length > 0) {
+      response.status(200).json({
+        success: true,
+        aboutAccount: aboutAccount[0],
+      });
+    } else {
+      response.status(404).json({
+        success: false,
+        aboutAccount: [],
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      msg: "Failed to get about the account, Try again later - " + error.message,
+    });
+  }
+};
 
 module.exports = {
   updateUserDetails,
@@ -674,4 +734,5 @@ module.exports = {
   getFollowersList,
   getFollowingList,
   unfollowUser,
+  getAboutAccount,
 };

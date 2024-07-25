@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
 import { UserList } from "../../../components/UsersList"
 import homeStyle from "./home.module.css";
-import { PostPopup } from "../../../components/PostPopup";
+import PostOptionsPopup from "../../../components/PostOptionsPopup";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const HomePostCard = ({ posts }) => {
@@ -325,9 +325,9 @@ export const HomePostCard = ({ posts }) => {
             {
                 showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"} />
             }
-            {showPopup && (
-                <PostPopup userID={posts?.user} CbClosePopup={setTogglePopup} />
-            )}
+            {
+             showPopup && <PostOptionsPopup userID={posts?.user} CbClosePopup={setTogglePopup} postID={posts?._id}/>
+            }
         </>
     );
 };

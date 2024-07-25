@@ -1,3 +1,5 @@
+const { deleteImageFromCloudinary } = require("../helper/cloudinaryPictureDelete");
+const { commentCollection } = require("../model/comment.model");
 const { postCollection } = require("../model/post.model");
 const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
@@ -12,6 +14,7 @@ const createPost = async (request, response) => {
       user: user,
       postCreatedAt: postCreatedAt,
       postPoster: cloudnaryResponse.secure_url,
+      postPosterPublicID: cloudnaryResponse.public_id,
       postCaption: postCaption,
       postLikes: 0,
     });
@@ -99,9 +102,7 @@ const deleteSavePostFromCollection = async (request, response) => {
 const explorerPosts = async (request, response) => {
   try {
     const { instaUserID } = request.params;
-    const currentUser = await userCollection
-      .findById(instaUserID)
-      .select("userFollowing");
+    const currentUser = await userCollection.findById(instaUserID).select("userFollowing");
     const postData = await userCollection.aggregate([
       {
         $match: {
@@ -189,10 +190,7 @@ const likePosts = async (request, response) => {
         $push: { likedBy: { user: currentUser, likedAt: Date.now() } },
       }
     );
-    const findUser = await userCollection.updateOne(
-      { _id: currentUser },
-      { $addToSet: { likedPost: postID } }
-    );
+    const findUser = await userCollection.updateOne({ _id: currentUser }, { $addToSet: { likedPost: postID } });
 
     if ((findPost.modifiedCount === 1) & (findUser.modifiedCount === 1)) {
       response.status(200).json({
@@ -220,10 +218,7 @@ const unLikePosts = async (request, response) => {
         $pull: { likedBy: { user: currentUser } },
       }
     );
-    const findUser = await userCollection.updateOne(
-      { _id: currentUser },
-      { $pull: { likedPost: postID } }
-    );
+    const findUser = await userCollection.updateOne({ _id: currentUser }, { $pull: { likedPost: postID } });
 
     if ((findPost.modifiedCount === 1) & (findUser.modifiedCount === 1)) {
       response.status(200).json({
@@ -249,10 +244,7 @@ const getAllPosts = async (request, response) => {
         $match: {
           $or: [
             {
-              $and: [
-                { isPrivate: { $eq: false } },
-                { _id: { $ne: new Mongoose.Types.ObjectId(userID) } },
-              ],
+              $and: [{ isPrivate: { $eq: false } }, { _id: { $ne: new Mongoose.Types.ObjectId(userID) } }],
             },
             {
               userFollowers: { $in: [new Mongoose.Types.ObjectId(userID)] },
@@ -353,21 +345,22 @@ const getLikedByUserList = async (request, response) => {
           newRoot: {
             $mergeObjects: [
               {
-                "likedAt" : "$likedBy.likedAt"
+                likedAt: "$likedBy.likedAt",
               },
-              "$user"],
+              "$user",
+            ],
           },
         },
       },
       {
-        $project : {
+        $project: {
           _id: 1,
-          userName:1,
+          userName: 1,
           userProfile: 1,
-          fullName : 1,
-          likedAt : 1,
-        }
-      }
+          fullName: 1,
+          likedAt: 1,
+        },
+      },
     ]);
 
     if (likedByData.length > 0) {
@@ -385,6 +378,41 @@ const getLikedByUserList = async (request, response) => {
     response.send({ success: false, msg: error.message });
   }
 };
+
+const deletePost = async (request, response) => {
+  try {
+    const { postID } = request.params;
+    const deletedPost = await postCollection.findByIdAndDelete(postID);
+    if (deletedPost) {
+      response.status(200).json({
+        success: true,
+        msg: `Post Deleted`,
+      });
+      await deleteImageFromCloudinary(deletedPost.postPosterPublicID);
+      await commentCollection.deleteMany({ postID: deletedPost._id });
+      await userCollection.updateMany(
+        {},
+        {
+          $pull: {
+            likedPost: deletedPost._id,
+            savedPost: deletedPost._id,
+          },
+        }
+      );
+    } else {
+      return response.status(404).json({
+        success: false,
+        msg: `Post not found`,
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to delete post, Try again later - ${error.message}`,
+    });
+  }
+};
+
 module.exports = {
   createPost,
   savePost,
@@ -394,4 +422,5 @@ module.exports = {
   getAllPosts,
   explorerPosts,
   getLikedByUserList,
+  deletePost,
 };

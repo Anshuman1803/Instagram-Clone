@@ -15,10 +15,10 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost} from "../../../Redux/ReduxSlice";
+import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
-import { PostPopup } from "../../../components/PostPopup";
-import { UserList } from "../../../components/UsersList"
+import { UserList } from "../../../components/UsersList";
+import PostOptionsPopup from "../../../components/PostOptionsPopup";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function PostDetails() {
@@ -36,7 +36,7 @@ function PostDetails() {
   const [postCommentLoading, setcommentLoader] = useState(false);
   const [tempLikeCounter, setTemplikeCounter] = useState(state?.postLikes);
   const [showLikeList, setLikeList] = useState("");
-
+  
   // !Back to previous page
   const handleCloseButtonClick = (e) => {
     e.preventDefault();
@@ -47,11 +47,7 @@ function PostDetails() {
   const handleLikePostClick = (e, postID) => {
     e.preventDefault();
     axios
-      .patch(
-        `${BACKEND_URL}posts/like-post/${instaUserID}`,
-        { postID },
-        { headers }
-      )
+      .patch(`${BACKEND_URL}posts/like-post/${instaUserID}`, { postID }, { headers })
       .then((response) => {
         if (response.data.success) {
           setTemplikeCounter((prevState) => prevState + 1);
@@ -82,11 +78,7 @@ function PostDetails() {
   const handleUnLikePostClick = (e, postID) => {
     e.preventDefault();
     axios
-      .patch(
-        `${BACKEND_URL}posts/unlike-post/${instaUserID}`,
-        { postID },
-        { headers }
-      )
+      .patch(`${BACKEND_URL}posts/unlike-post/${instaUserID}`, { postID }, { headers })
       .then((response) => {
         if (response.data.success) {
           setTemplikeCounter((prevState) => prevState - 1);
@@ -141,11 +133,7 @@ function PostDetails() {
   const handleSavePost = (e, postID) => {
     e.preventDefault();
     axios
-      .patch(
-        `${BACKEND_URL}posts/save-post/${postID}`,
-        { instaUserID },
-        { headers }
-      )
+      .patch(`${BACKEND_URL}posts/save-post/${postID}`, { instaUserID }, { headers })
       .then((response) => {
         if (response.data.success) {
           toast.success(response.data.msg);
@@ -169,11 +157,7 @@ function PostDetails() {
   const handleRemoveSavePost = (e, postID) => {
     e.preventDefault();
     axios
-      .patch(
-        `${BACKEND_URL}posts/delete/save-post/${postID}`,
-        { instaUserID },
-        { headers }
-      )
+      .patch(`${BACKEND_URL}posts/delete/save-post/${postID}`, { instaUserID }, { headers })
       .then((response) => {
         if (response.data.success) {
           toast.success(response.data.msg);
@@ -291,10 +275,7 @@ function PostDetails() {
                     e.onerror = null;
                   }}
                 />
-                <Link
-                  to={`/${state?.user}`}
-                  className={`${postDetailsStyle.__PostDetails_userNameLink}`}
-                >
+                <Link to={`/${state?.user}`} className={`${postDetailsStyle.__PostDetails_userNameLink}`}>
                   {state?.userName}
                 </Link>
               </div>
@@ -307,9 +288,7 @@ function PostDetails() {
             <div className={`${postDetailsStyle.__PostDetails__CommentBox}`}>
               {/* post caption  */}
               {state?.postCaption && (
-                <div
-                  className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}
-                >
+                <div className={`${postDetailsStyle.__PostDetails_userCaptionBox}`}>
                   <img
                     src={state?.userProfile ? state?.userProfile : defaultProfile}
                     loading="lazy"
@@ -321,22 +300,13 @@ function PostDetails() {
                     }}
                   />
                   <p>
-                    <Link
-                      to={`/${state?.user}`}
-                      className={`${postDetailsStyle.__PostDetails_userNameLink}`}
-                    >
+                    <Link to={`/${state?.user}`} className={`${postDetailsStyle.__PostDetails_userNameLink}`}>
                       {state?.userName}
                     </Link>
-                    <span
-                      className={`${postDetailsStyle.__PostDetails_userCaptionText}`}
-                    >
+                    <span className={`${postDetailsStyle.__PostDetails_userCaptionText}`}>
                       {state?.postCaption}
-                      <span
-                        className={`${postDetailsStyle.__PostDetails_PostDate}`}
-                      >
-                        {state?.postCreatedAt && (
-                          <CalculateTimeAgo time={state?.postCreatedAt} />
-                        )}
+                      <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
+                        {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
                       </span>
                     </span>
                   </p>
@@ -349,9 +319,7 @@ function PostDetails() {
               ) : (
                 <>
                   {allComments.length === 0 && (
-                    <p
-                      className={`${postDetailsStyle.__PostDetails__NoCommentMsg}`}
-                    >
+                    <p className={`${postDetailsStyle.__PostDetails__NoCommentMsg}`}>
                       No comments yet. <span>Start the conversation.</span>
                     </p>
                   )}
@@ -359,10 +327,7 @@ function PostDetails() {
                     <>
                       {allComments.map((data) => {
                         return (
-                          <div
-                            key={data?._id}
-                            className={`${postDetailsStyle.__PostDetails__Comments}`}
-                          >
+                          <div key={data?._id} className={`${postDetailsStyle.__PostDetails__Comments}`}>
                             <img
                               src={data?.user.userProfile ?? defaultProfile}
                               loading="lazy"
@@ -381,23 +346,15 @@ function PostDetails() {
                               >
                                 {data?.user.userName}
                               </Link>
-                              <span
-                                className={`${postDetailsStyle.__PostDetails_userCaptionText}`}
-                              >
+                              <span className={`${postDetailsStyle.__PostDetails_userCaptionText}`}>
                                 {data?.commentText}
-                                <span
-                                  className={`${postDetailsStyle.__PostDetails_PostDate}`}
-                                >
-                                  {data?.createAt && (
-                                    <CalculateTimeAgo time={data?.createAt} />
-                                  )}
+                                <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
+                                  {data?.createAt && <CalculateTimeAgo time={data?.createAt} />}
 
                                   {data?.user._id === instaUserID && (
                                     <MdDelete
                                       className={`${postDetailsStyle.__PostDetails_deleteCommentICON}`}
-                                      onClick={(e) =>
-                                        handleDeleteComment(e, data?._id)
-                                      }
+                                      onClick={(e) => handleDeleteComment(e, data?._id)}
                                     />
                                   )}
                                 </span>
@@ -426,9 +383,7 @@ function PostDetails() {
                       onClick={(e) => handleLikePostClick(e, state?._id)}
                     />
                   )}
-                  <FaRegComment
-                    className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                  />
+                  <FaRegComment className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`} />
                 </p>
                 <p>
                   {instaSavedPost?.includes(state?._id) ? (
@@ -453,20 +408,14 @@ function PostDetails() {
                 </span>
               )}
               <span className={`${postDetailsStyle.__PostDetails_PostDate}`}>
-                {state?.postCreatedAt && (
-                  <CalculateTimeAgo time={state?.postCreatedAt} />
-                )}
+                {state?.postCreatedAt && <CalculateTimeAgo time={state?.postCreatedAt} />}
               </span>
             </div>
 
             {/* input for comming on the post */}
             <div className={`${postDetailsStyle.__PostDetails__createCommentBox}`}>
               {postCommentLoading && (
-                <img
-                  src={postCommentLoader}
-                  alt=""
-                  className={`${postDetailsStyle.__createCommentbox_LoaderImg}`}
-                />
+                <img src={postCommentLoader} alt="" className={`${postDetailsStyle.__createCommentbox_LoaderImg}`} />
               )}
               <input
                 type="text"
@@ -481,9 +430,9 @@ function PostDetails() {
               />
               <button
                 type="button"
-                className={`${postDetailsStyle.__PostDetails__createCommentBox_PostButton
-                  } ${postCommentLoading && "Unactive"} ${!newComment && "Unactive"
-                  }`}
+                className={`${postDetailsStyle.__PostDetails__createCommentBox_PostButton} ${
+                  postCommentLoading && "Unactive"
+                } ${!newComment && "Unactive"}`}
                 onClick={(e) => handlePostComment(e, state)}
               >
                 Post
@@ -499,15 +448,10 @@ function PostDetails() {
           />
         </div>
 
-        {showPopup && (
-          <PostPopup userID={state?.user} CbClosePopup={setTogglePopup} />
-        )}
+        {showPopup && <PostOptionsPopup userID={state?.user} CbClosePopup={setTogglePopup} postID={state?._id} />}
       </div>
-      {
-        showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"} />
-      }
+      {showLikeList && <UserList ID={showLikeList} CbClose={setLikeList} popupType={"Likes"} />}
     </>
-
   );
 }
 
