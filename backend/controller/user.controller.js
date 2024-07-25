@@ -577,8 +577,7 @@ const getFollowersList = async (request, response) => {
       {
         $replaceRoot: {
           newRoot: {
-            $mergeObjects: [
-              "$userFollowers"],
+            $mergeObjects: ["$userFollowers"],
           },
         },
       },
@@ -588,8 +587,8 @@ const getFollowersList = async (request, response) => {
           userName: 1,
           userProfile: 1,
           fullName: 1,
-        }
-      }
+        },
+      },
     ]);
 
     if (followerlist.length > 0) {
@@ -606,7 +605,7 @@ const getFollowersList = async (request, response) => {
   } catch (error) {
     response.send({ success: false, msg: error.message });
   }
-}
+};
 
 // get the following list of user based on requested data
 const getFollowingList = async (request, response) => {
@@ -630,8 +629,7 @@ const getFollowingList = async (request, response) => {
       {
         $replaceRoot: {
           newRoot: {
-            $mergeObjects: [
-              "$userFollowing"],
+            $mergeObjects: ["$userFollowing"],
           },
         },
       },
@@ -641,8 +639,8 @@ const getFollowingList = async (request, response) => {
           userName: 1,
           userProfile: 1,
           fullName: 1,
-        }
-      }
+        },
+      },
     ]);
 
     if (followinglist.length > 0) {
@@ -659,8 +657,58 @@ const getFollowingList = async (request, response) => {
   } catch (error) {
     response.send({ success: false, msg: error.message });
   }
-}
+};
 
+// Get About the account
+const getAboutAccount = async (request, response) => {
+  try {
+    const { userID } = request.params;
+    const aboutAccount = await userCollection.aggregate([
+      {
+        $match: {"_id" : new Mongoose.Types.ObjectId(userID)},
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "posts",
+        },
+      },
+      {
+        $project : {
+          _id: 1,
+          userProfile: 1,
+          userName : 1,
+          createdAt : 1,
+          postCount : { $size: "$posts" },
+          followersCount : { $size: "$userFollowers" },
+          followingCount : { $size: "$userFollowing" },
+          userBio : 1,
+          
+        }
+      }
+    ]);
+
+    if(aboutAccount.length > 0){
+      response.status(200).json({
+        success: true,
+        aboutAccount: aboutAccount[0],
+      });
+    }else{
+      response.status(404).json({
+        success: false,
+        aboutAccount: [],
+      });
+    }
+  
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      msg: "Failed to get about the account, Try again later - " + error.message,
+    });
+  }
+};
 module.exports = {
   updateUserDetails,
   getUser,
@@ -674,4 +722,5 @@ module.exports = {
   getFollowersList,
   getFollowingList,
   unfollowUser,
+  getAboutAccount,
 };

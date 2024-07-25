@@ -420,7 +420,17 @@
   height: fit-content;
   background-color: white;
 }
-.__postOptions_Item{
+.__aboutAccountBox_heading{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+border-bottom: 1px solid rgba(128, 128, 128, 0.18);
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 1em;
+}
+.__postOptions_Item {
   border: none;
   outline: none;
   display: block;
@@ -432,21 +442,111 @@
   font-weight: 300;
   position: relative;
 }
-.__postOptions_Item:first-child{
+
+.__postOptions_Item:first-child {
   color: #ED4956;
   font-weight: 600;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-top: none;
 }
-.__postOptions_Item:last-child{
+
+.__postOptions_Item:last-child {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-.__postOptions_Item:hover{
+
+.__postOptions_Item:hover {
   cursor: pointer;
   background-color: rgba(128, 128, 128, 0.2);
+}
 
+.__aboutAccountBox {
+  width: 375px;
+  background-color: white;
+  border-radius: 5px;
+  height: fit-content;
+  position: relative;
+}
+
+.__userProfile {
+  display: block;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 20px auto;
+}
+
+.__aboutAccount_userName {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 0px auto;
+  margin-bottom: 5px;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0.5em;
+}
+
+.__aboutAccount_BIO {
+  font-size: 14px;
+  color: grey;
+  font-weight: 300;
+  text-align: center;
+}
+
+.__aboutAccount__itmes {
+  border-top: 1px solid rgba(128, 128, 128, 0.234);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.234);
+  width: 100%;
+  padding: 0.7em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  margin: 0px auto;
+  margin-top: 10px;
+}
+
+.__aboutAccount_ItemICON {
+  font-size: 24px;
+}
+
+.__aboutAccount_ItemText {
+  width: calc(100% - 50px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 400;
+  color: grey;
+  font-size: 18px;
+}
+
+.__aboutAccount_itemCount {
+  font-weight: 600;
+  color: black;
+  font-size: 16px;
+}
+.__aboutAccount__button{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+  height: 55px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ed3548;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.__aboutAccount__button:hover{
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.1);
 }
 
 /*! Responsive Styles */
@@ -489,7 +589,8 @@
     width: 40px;
     height: 40px;
   }
-  .__postOptions_Box{
+
+  .__postOptions_Box,.__aboutAccountBox {
     width: 100%;
   }
 }

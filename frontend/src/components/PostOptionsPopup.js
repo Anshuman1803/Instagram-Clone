@@ -1,9 +1,10 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userFollow, UserLoggedOut, userRemoveSavePost, userSavePost, userUnFollow } from "../Redux/ReduxSlice";
+import AboutAccount from "./AboutAccount";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function PostOptionsPopup({ CbClosePopup, userID, postID }) {
   const { instaTOKEN, instaUserID, instaSavedPost, instaFollowing, instaFollowers } = useSelector(
@@ -12,6 +13,9 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
+  const [toggleAboutAccount, setToggleAboutAccount] = useState(false);
+
+  // close popup
   const handleClosePopup = (e) => {
     e.preventDefault();
     CbClosePopup(false);
@@ -117,60 +121,70 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
     e.preventDefault();
     navigateTO(`/${userID}`);
   };
+  //   show about account
+  const handleAboutAccount = (e) => {
+    e.preventDefault();
+    setToggleAboutAccount(true);
+  };
+
   return (
     <div className="__postOptionsContainer">
-      <article className="__postOptions_Box">
-        {userID === instaUserID && (
-          <button type="button" className="__postOptions_Item">
-            Delete
+      {!toggleAboutAccount && (
+        <article className="__postOptions_Box">
+          {userID === instaUserID && (
+            <button type="button" className="__postOptions_Item">
+              Delete
+            </button>
+          )}
+
+          {userID !== instaUserID && (
+            <>
+              {instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
+                <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
+                  Follow Back
+                </button>
+              )}
+              {instaFollowing?.includes(userID) && (
+                <button
+                  type="button"
+                  className="__postOptions_Item __likeListPopup_secondaryButtons"
+                  onClick={handleUnfollowButtonClick}
+                >
+                  Unfollow
+                </button>
+              )}
+              {!instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
+                <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
+                  Follow
+                </button>
+              )}
+            </>
+          )}
+          {instaSavedPost?.includes(postID) ? (
+            <button type="button" className="__postOptions_Item" onClick={handleRemoveSavePost}>
+              Remove from favorites
+            </button>
+          ) : (
+            <button type="button" className="__postOptions_Item" onClick={handleSavePost}>
+              Add to favorites
+            </button>
+          )}
+
+          <button type="button" className="__postOptions_Item" onClick={handleAboutAccount}>
+            About this account
           </button>
-        )}
 
-        {userID !== instaUserID && (
-          <>
-            {instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
-              <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
-                Follow Back
-              </button>
-            )}
-            {instaFollowing?.includes(userID) && (
-              <button
-                type="button"
-                className="__postOptions_Item __likeListPopup_secondaryButtons"
-                onClick={handleUnfollowButtonClick}
-              >
-                Unfollow
-              </button>
-            )}
-            {!instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
-              <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
-                Follow
-              </button>
-            )}
-          </>
-        )}
-        {instaSavedPost?.includes(postID) ? (
-          <button type="button" className="__postOptions_Item" onClick={handleRemoveSavePost}>
-            Remove from favorites
+          <button type="button" className="__postOptions_Item" onClick={handleGoToProfile}>
+            Go to profile
           </button>
-        ) : (
-          <button type="button" className="__postOptions_Item" onClick={handleSavePost}>
-            Add to favorites
+
+          <button type="button" onClick={handleClosePopup} className="__postOptions_Item">
+            Cancle
           </button>
-        )}
+        </article>
+      )}
 
-        <button type="button" className="__postOptions_Item">
-          About this account
-        </button>
-
-        <button type="button" className="__postOptions_Item" onClick={handleGoToProfile}>
-          Go to profile
-        </button>
-
-        <button type="button" onClick={handleClosePopup} className="__postOptions_Item">
-          Cancle
-        </button>
-      </article>
+      {toggleAboutAccount && <AboutAccount userID={userID} closePopup={handleClosePopup} />}
     </div>
   );
 }
