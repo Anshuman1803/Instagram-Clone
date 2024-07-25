@@ -1,4 +1,3 @@
-const Mongoose = require("mongoose")
 const { emailSender } = require("../helper/Email");
 const bcrypt = require("bcrypt");
 const { userCollection } = require("../model/user.model");
