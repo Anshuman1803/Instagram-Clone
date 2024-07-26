@@ -306,7 +306,6 @@ const getUser = async (request, response) => {
       {
         $match: { _id: new Mongoose.Types.ObjectId(id) },
       },
-
       {
         $lookup: {
           from: "posts",
@@ -318,7 +317,7 @@ const getUser = async (request, response) => {
               $lookup: {
                 from: "comments",
                 localField: "_id",
-                foreignField: "post",
+                foreignField: "postID",
                 as: "comments",
               },
             },

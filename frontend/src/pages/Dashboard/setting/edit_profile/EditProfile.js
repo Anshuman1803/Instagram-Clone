@@ -141,7 +141,7 @@ function EditProfile() {
 
           <div className={`${editProfileStyle.__EditProfile__formRow}`}>
             <label htmlFor='userName' className={`${editProfileStyle.__EditProfile_formLabel}`}>User name</label>
-            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={15} />
+            <input type="text" id='userName' onChange={handleInputOnChange} value={userDetails?.userName} name='userName' placeholder='userName' className={`${editProfileStyle.__EditProfile_formInputItem}`} autoComplete='off' maxLength={15} readOnly />
           </div>
 
           <div className={`${editProfileStyle.__EditProfile__formRow}`}>

@@ -220,7 +220,7 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
                 ))}
             </div>
             <div className={`${settingStyle.__DeleteAccoutPopup_ButtonContainer}`}>
-                <button type='button' onClick={() => CbTogglePopup(false)} className={`${settingStyle.__DeleteAccoutPopup_Buttons} ${buttonLoading && 'Unactive'}`}>Cancle</button>
+                <button type='button' onClick={() => CbTogglePopup(false)} className={`${settingStyle.__DeleteAccoutPopup_Buttons} ${buttonLoading && 'Unactive'}`}>Cancel</button>
                 <button type='button' onClick={handleDeleteAccount} className={`${settingStyle.__DeleteAccoutPopup_Buttons} ${buttonLoading && 'Unactive'}`}>
                     {
                         buttonLoading ? <ButtonLoader /> : ' Delete Account'

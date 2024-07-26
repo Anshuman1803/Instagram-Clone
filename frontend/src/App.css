@@ -420,16 +420,18 @@
   height: fit-content;
   background-color: white;
 }
-.__aboutAccountBox_heading{
+
+.__aboutAccountBox_heading {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-border-bottom: 1px solid rgba(128, 128, 128, 0.18);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.18);
   width: 100%;
   text-align: center;
   font-weight: 600;
   font-size: 18px;
   padding: 1em;
 }
+
 .__postOptions_Item {
   border: none;
   outline: none;
@@ -466,6 +468,7 @@ border-bottom: 1px solid rgba(128, 128, 128, 0.18);
   background-color: white;
   border-radius: 5px;
   height: fit-content;
+  min-height: 425px;
   position: relative;
 }
 
@@ -531,7 +534,8 @@ border-bottom: 1px solid rgba(128, 128, 128, 0.18);
   color: black;
   font-size: 16px;
 }
-.__aboutAccount__button{
+
+.__aboutAccount__button {
   border: none;
   outline: none;
   background-color: transparent;
@@ -544,7 +548,8 @@ border-bottom: 1px solid rgba(128, 128, 128, 0.18);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-.__aboutAccount__button:hover{
+
+.__aboutAccount__button:hover {
   cursor: pointer;
   background-color: rgba(128, 128, 128, 0.1);
 }
@@ -590,7 +595,8 @@ border-bottom: 1px solid rgba(128, 128, 128, 0.18);
     height: 40px;
   }
 
-  .__postOptions_Box,.__aboutAccountBox {
+  .__postOptions_Box,
+  .__aboutAccountBox {
     width: 100%;
   }
 }
