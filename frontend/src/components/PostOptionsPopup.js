@@ -209,7 +209,7 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
           </button>
 
           <button type="button" onClick={handleClosePopup} className="__postOptions_Item">
-            Cancle
+            Cancel
           </button>
         </article>
       )}
