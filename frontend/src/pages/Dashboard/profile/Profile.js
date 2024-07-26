@@ -46,13 +46,13 @@ export default function Profile() {
       }
     }).catch((error) => {
       setButtonLoading(false);
-      if (!error.response.data.success) {
-        toast.error(error.response.data.msg);
-        navigateTO("/user/auth/signin");
-        dispatch(UserLoggedOut());
-      } else {
-        toast.error(`Server error: ${error.message}`);
-      }
+     if (error.response.status === 401) {
+          dispatch(UserLoggedOut());
+           navigateTO("/user/auth/signin")
+          toast.error("Your session has expired. Please login again.");
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
     })
   }
 
@@ -70,13 +70,13 @@ export default function Profile() {
       }
     }).catch((error) => {
       setButtonLoading(false);
-      if (!error.response.data.success) {
-        toast.error(error.response.data.msg);
-        navigateTO("/user/auth/signin");
-        dispatch(UserLoggedOut());
-      } else {
-        toast.error(`Server error: ${error.message}`);
-      }
+     if (error.response.status === 401) {
+          dispatch(UserLoggedOut());
+           navigateTO("/user/auth/signin")
+          toast.error("Your session has expired. Please login again.");
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
     })
   }
 

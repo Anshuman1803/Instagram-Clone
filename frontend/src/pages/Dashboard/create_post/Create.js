@@ -77,14 +77,14 @@ export default function Create() {
             setLoading(false);
           }
         })
-        .catch((err) => {
-          if (!err.response.data.success) {
-            toast.error(err.response.data.msg);
-            navigateTO("/user/auth/signin");
-            dispatch(UserLoggedOut())
-            return;
+        .catch((error) => {
+          if (error.response.status === 401) {
+            dispatch(UserLoggedOut());
+             navigateTO("/user/auth/signin")
+            toast.error("Your session has expired. Please login again.");
+          } else {
+            toast.error(`Server error: ${error.message}`);
           }
-          toast.error(`${err.message}`);
           setPost({
             postPoster: "",
             postCaption: "",

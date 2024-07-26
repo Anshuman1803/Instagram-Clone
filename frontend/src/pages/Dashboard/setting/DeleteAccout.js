@@ -60,13 +60,13 @@ export default function UserDeleteComponent() {
                 }
 
             }).catch((error) => {
-                if (error.response && !error.response.data.success) {
-                    toast.error(error.response.data.msg);
-                    navigateTO("/user/auth/signin");
+                if (error.response.status === 401) {
                     dispatch(UserLoggedOut());
-                } else {
+                     navigateTO("/user/auth/signin")
+                    toast.error("Your session has expired. Please login again.");
+                  } else {
                     toast.error(`Server error: ${error.message}`);
-                }
+                  }
                 setButtonLoading(false);
             })
         }
@@ -178,13 +178,13 @@ function DeleteAccoutPopup({ CbTogglePopup }) {
                 setbuttonLoading(false);
             }
         }).catch((error) => {
-            if (error.response && !error.response.data.success) {
-                toast.error(error.response.data.msg);
-                navigateTO("/user/auth/signin");
+            if (error.response.status === 401) {
                 dispatch(UserLoggedOut());
-            } else {
+                 navigateTO("/user/auth/signin")
+                toast.error("Your session has expired. Please login again.");
+              } else {
                 toast.error(`Server error: ${error.message}`);
-            }
+              }
             setbuttonLoading(false);
         })
     }

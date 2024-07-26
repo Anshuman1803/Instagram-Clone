@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Notification() {
   return (
-    <div>Notification</div>
+    <div style={{"display" :'flex', 'alignItems': 'center', "justifyContent" : "center"}}>COMMING SOON</div>
   )
 }
