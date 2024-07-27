@@ -8,12 +8,14 @@ import lockPng from "../../../Assets/lockPNG.png"
 import { PiLinkSimple } from "react-icons/pi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut, userFollow, userUnFollow } from '../../../Redux/ReduxSlice';
+import { UserLoggedOut} from '../../../Redux/ReduxSlice';
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import profileStyle from "./profile.module.css"
 import { ProfileLoader } from "./ProfileLoader";
 import { UserList } from "../../../components/UsersList"
+import { useUserFollow } from "../../../hooks/useUserFollow";
+import { useUserUnfollow } from "../../../hooks/useUserUnfollow";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function Profile() {
@@ -27,59 +29,11 @@ export default function Profile() {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [showUserList, setshowUserList] = useState("");
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
-
+  const { handleFollowButtonClick } = useUserFollow(setButtonLoading);
+  const { handleUnfollowButtonClick } = useUserUnfollow(setButtonLoading);
   const handleEdit = () => {
     navigateTO('/Accout/setting/edit-profile')
   }
-
-  const handleFollowButtonClick = (e, followingUserID) => {
-    e.preventDefault();
-    setButtonLoading(true)
-    axios.patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID }, { headers }).then((response) => {
-      if (response.data.success) {
-        toast.success(response.data.msg)
-        dispatch(userFollow(followingUserID));
-        setButtonLoading(false);
-      } else {
-        toast.error(response.data.msg);
-        setButtonLoading(false);
-      }
-    }).catch((error) => {
-      setButtonLoading(false);
-     if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-    })
-  }
-
-  const handleUnfollowButtonClick = (e, unfollowUserID) => {
-    e.preventDefault();
-    setButtonLoading(true)
-    axios.patch(`${BACKEND_URL}users/unfollow/${instaUserID}`, { unfollowUserID }, { headers }).then((response) => {
-      if (response.data.success) {
-        toast.success(response.data.msg)
-        dispatch(userUnFollow(unfollowUserID));
-        setButtonLoading(false);
-      } else {
-        toast.error(response.data.msg)
-        setButtonLoading(false);
-      }
-    }).catch((error) => {
-      setButtonLoading(false);
-     if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-    })
-  }
-
 
   // load the current USer
   const loadeUserDetails = () => {
@@ -96,12 +50,14 @@ export default function Profile() {
         }
       })
       .catch((error) => {
-        if (error.response && !error.response.data.success) {
-          toast.error(error.response.data.msg);
-          navigateTO("/user/auth/signin");
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
+          navigateTO("/user/auth/signin");
+          toast.error("Your session has expired. Please login again.");
+        } else if (error.response.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
         } else {
-          toast.error(`Server error: ${error.message}`);
+          toast.error("Failed to load");
         }
         setLoading(false);
       });

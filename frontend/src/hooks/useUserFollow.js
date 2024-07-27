@@ -4,25 +4,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userFollow, UserLoggedOut } from "../Redux/ReduxSlice";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export function useUserFollow() {
-  const { instaTOKEN, instaUserID} = useSelector((state) => state.Instagram);
+export function useUserFollow(setButtonLoading) {
+  const { instaTOKEN, instaUserID } = useSelector((state) => state.Instagram);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
 
   const handleFollowButtonClick = (e, userID) => {
     e.preventDefault();
+    if (typeof setButtonLoading === "function") {
+      setButtonLoading(true);
+    }
     axios
       .patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID: userID }, { headers })
       .then((response) => {
         if (response.data.success) {
           toast.success(response.data.msg);
           dispatch(userFollow(userID));
+          if (typeof setButtonLoading === "function") {
+            setButtonLoading(false);
+          }
         } else {
           toast.error(response.data.msg);
+          if (typeof setButtonLoading === "function") {
+            setButtonLoading(false);
+          }
         }
       })
       .catch((error) => {
+        if (typeof setButtonLoading === "function") {
+          setButtonLoading(false);
+        }
         if (error.response.status === 401) {
           dispatch(UserLoggedOut());
           navigateTO("/user/auth/signin");
@@ -34,5 +46,5 @@ export function useUserFollow() {
         }
       });
   };
-  return {handleFollowButtonClick}
+  return { handleFollowButtonClick };
 }
