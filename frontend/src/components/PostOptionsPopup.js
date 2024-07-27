@@ -1,17 +1,19 @@
-import axios from "axios";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userFollow, UserLoggedOut, userRemoveSavePost, userSavePost, userUnFollow } from "../Redux/ReduxSlice";
 import AboutAccount from "./AboutAccount";
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { usePostSave } from "../hooks/usePostSave";
+import { useRemoveSavePost } from "../hooks/useRemoveSavePost";
+import { useUserFollow } from "../hooks/useUserFollow";
+import { useUserUnfollow } from "../hooks/useUserUnfollow";
+import { usePostDelete } from "../hooks/usePostDelete";
 function PostOptionsPopup({ CbClosePopup, userID, postID }) {
-  const { instaTOKEN, instaUserID, instaSavedPost, instaFollowing, instaFollowers } = useSelector(
-    (state) => state.Instagram
-  );
-  const headers = { Authorization: `Bearer ${instaTOKEN}` };
-  const dispatch = useDispatch();
+  const { instaUserID, instaSavedPost, instaFollowing, instaFollowers } = useSelector((state) => state.Instagram);
+  const { handleRemoveSavePost } = useRemoveSavePost();
+  const { handleSavePost } = usePostSave();
+  const { handleFollowButtonClick } = useUserFollow();
+  const { handleUnfollowButtonClick } = useUserUnfollow();
+  const { handleDeletePost } = usePostDelete();
   const navigateTO = useNavigate();
   const [toggleAboutAccount, setToggleAboutAccount] = useState(false);
 
@@ -19,106 +21,6 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
   const handleClosePopup = (e) => {
     e.preventDefault();
     CbClosePopup(false);
-  };
-
-  // Saving the post
-  const handleSavePost = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/save-post/${postID}`, { instaUserID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userSavePost(postID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  // Removing Saving the post
-  const handleRemoveSavePost = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/delete/save-post/${postID}`, { instaUserID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userRemoveSavePost(postID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  //   Follow user
-  const handleFollowButtonClick = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}users/add-to-following-list/${instaUserID}`, { followingUserID: userID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userFollow(userID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else if (error.response.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-        } else {
-          toast.error("Failed to load");
-        }
-      });
-  };
-
-  //   UnFollow user
-  const handleUnfollowButtonClick = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}users/unfollow/${instaUserID}`, { unfollowUserID: userID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userUnFollow(userID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else if (error.response.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-        }else {
-          toast.error("Failed to load");
-        }
-      });
   };
 
   //   go to profile
@@ -133,36 +35,16 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
     setToggleAboutAccount(true);
   };
 
-  const handleDeletePost = (e)=>{
-    e.preventDefault();
-    axios
-     .delete(`${BACKEND_URL}posts/delete-post/${postID}`, { headers })
-     .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          CbClosePopup();
-          navigateTO(`/${userID}`);
-        } else {
-          toast.error(response.data.msg);
-          CbClosePopup();
-        }
-      })
-     .catch((error) => {
-      if (error.response.status === 401) {
-        dispatch(UserLoggedOut());
-         navigateTO("/user/auth/signin")
-        toast.error("Your session has expired. Please login again.");
-      } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  }
   return (
     <div className="__postOptionsContainer">
       {!toggleAboutAccount && (
         <article className="__postOptions_Box">
           {userID === instaUserID && (
-            <button type="button" className="__postOptions_Item" onClick={handleDeletePost}>
+            <button
+              type="button"
+              className="__postOptions_Item"
+              onClick={(e) => handleDeletePost(e, postID, userID, CbClosePopup)}
+            >
               Delete
             </button>
           )}
@@ -170,7 +52,11 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
           {userID !== instaUserID && (
             <>
               {instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
-                <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
+                <button
+                  type="button"
+                  className="__postOptions_Item"
+                  onClick={(e) => handleFollowButtonClick(e, userID)}
+                >
                   Follow Back
                 </button>
               )}
@@ -178,24 +64,29 @@ function PostOptionsPopup({ CbClosePopup, userID, postID }) {
                 <button
                   type="button"
                   className="__postOptions_Item __likeListPopup_secondaryButtons"
-                  onClick={handleUnfollowButtonClick}
+                  onClick={(e) => handleUnfollowButtonClick(e, userID)}
                 >
                   Unfollow
                 </button>
               )}
               {!instaFollowers?.includes(userID) && !instaFollowing?.includes(userID) && (
-                <button type="button" className="__postOptions_Item" onClick={handleFollowButtonClick}>
+                <button
+                  type="button"
+                  className="__postOptions_Item"
+                  onClick={(e) => handleFollowButtonClick(e, userID)}
+                >
                   Follow
                 </button>
               )}
             </>
           )}
+
           {instaSavedPost?.includes(postID) ? (
-            <button type="button" className="__postOptions_Item" onClick={handleRemoveSavePost}>
+            <button type="button" className="__postOptions_Item" onClick={(e) => handleRemoveSavePost(e, postID)}>
               Remove from favorites
             </button>
           ) : (
-            <button type="button" className="__postOptions_Item" onClick={handleSavePost}>
+            <button type="button" className="__postOptions_Item" onClick={(e) => handleSavePost(e, postID)}>
               Add to favorites
             </button>
           )}
