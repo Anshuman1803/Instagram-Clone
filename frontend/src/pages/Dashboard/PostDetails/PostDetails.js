@@ -9,33 +9,38 @@ import { BsThreeDots } from "react-icons/bs";
 import { CalculateTimeAgo } from "../../../utility/TimeAgo";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa"; // when the user like the post
+import { FaHeart } from "react-icons/fa";
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut, userSavePost, userRemoveSavePost, userLikeUnlikePost } from "../../../Redux/ReduxSlice";
+import { UserLoggedOut} from "../../../Redux/ReduxSlice";
 import { CommentsLoader } from "./CommentsLoader";
 import { UserList } from "../../../components/UsersList";
 import PostOptionsPopup from "../../../components/PostOptionsPopup";
+import { useLikeUnlike } from "../../../hooks/useLikeUnlike";
+import { usePostSave } from "../../../hooks/usePostSave";
+import { useRemoveSavePost } from "../../../hooks/useRemoveSavePost";
+import {usePostComment} from "../../../hooks/usePostComment";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function PostDetails() {
   const { instaUserID, instaTOKEN, instaSavedPost, instaLikes } = useSelector((state) => state.Instagram);
-  const { state } = useLocation();
   const { id } = useParams();
+  const inputRef = useRef();
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
-  const inputRef = useRef();
+  const {handleSavePost} = usePostSave();
+  const [showLikeList, setLikeList] = useState("");
+  const [allComments, setAllComments] = useState([]);
   const [showPopup, setTogglePopup] = useState(false);
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
-  const [newComment, setNewComment] = useState("");
-  const [allComments, setAllComments] = useState([]);
+  const {handleRemoveSavePost} = useRemoveSavePost();
   const [allCommentsLoader, setallCommentsLoader] = useState(false);
-  const [postCommentLoading, setcommentLoader] = useState(false);
-  const [tempLikeCounter, setTemplikeCounter] = useState(state?.postLikes);
-  const [showLikeList, setLikeList] = useState("");
+  const {handleLikePostClick,handleUnLikePostClick, tempLikeCounter} = useLikeUnlike(state?.postLikes);
+  const {handlePostComment,handleDeleteComment,newComment,setNewComment, postCommentLoading} = usePostComment(0,loadNewComments)
   
   // !Back to previous page
   const handleCloseButtonClick = (e) => {
@@ -43,182 +48,9 @@ function PostDetails() {
     window.history.back();
   };
 
-  // ! post like
-  const handleLikePostClick = (e, postID) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/like-post/${instaUserID}`, { postID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          setTemplikeCounter((prevState) => prevState + 1);
-          dispatch(
-            userLikeUnlikePost({
-              type: "like",
-              postID: postID,
-            })
-          );
-        } else {
-          toast(`${response.data.msg}`, {
-            icon: "ⓘ",
-          });
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  // ! remove like from post
-  const handleUnLikePostClick = (e, postID) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/unlike-post/${instaUserID}`, { postID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          setTemplikeCounter((prevState) => prevState - 1);
-          dispatch(
-            userLikeUnlikePost({
-              type: "unlike",
-              postID: postID,
-            })
-          );
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  //! handle delete comment
-  const handleDeleteComment = (e, commentId) => {
-    setallCommentsLoader(true);
-    e.preventDefault();
-    axios
-      .delete(`${BACKEND_URL}comments/delete-comment/${commentId}`, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          loadNewComments();
-        } else {
-          toast.error(response.data.msg);
-          loadNewComments();
-        }
-      })
-      .catch((error) => {
-       if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  //! Saving the post
-  const handleSavePost = (e, postID) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/save-post/${postID}`, { instaUserID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userSavePost(postID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-       if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  //! Removing Saving the post
-  const handleRemoveSavePost = (e, postID) => {
-    e.preventDefault();
-    axios
-      .patch(`${BACKEND_URL}posts/delete/save-post/${postID}`, { instaUserID }, { headers })
-      .then((response) => {
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          dispatch(userRemoveSavePost(postID));
-        } else {
-          toast.error(response.data.msg);
-        }
-      })
-      .catch((error) => {
-       if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-      });
-  };
-
-  //! Creating new comments for the post
-  const handlePostComment = (e, posts) => {
-    e.preventDefault();
-    setcommentLoader(true);
-    const tempNewComments = {
-      postID: posts?._id,
-      commentText: newComment,
-      userID: instaUserID,
-    };
-
-    axios
-      .post(`${BACKEND_URL}comments/create-new-comments`, tempNewComments, {
-        headers,
-      })
-      .then((response) => {
-        inputRef.current.focus();
-        if (response.data.success) {
-          toast.success(response.data.msg);
-          setNewComment("");
-          setcommentLoader(false);
-          loadNewComments();
-        } else {
-          toast.error(response.data.msg);
-          setNewComment("");
-          setcommentLoader(false);
-        }
-      })
-      .catch((error) => {
-       if (error.response.status === 401) {
-          dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
-          toast.error("Your session has expired. Please login again.");
-        } else {
-          toast.error(`Server error: ${error.message}`);
-        }
-        setNewComment("");
-        setcommentLoader(false);
-      });
-  };
-
   // load all new comments of current post
-  const loadNewComments = () => {
+  function loadNewComments() {
+    setallCommentsLoader(true);
     axios
       .get(`${BACKEND_URL}comments/get-all-comments/${id}`, {
         headers,
