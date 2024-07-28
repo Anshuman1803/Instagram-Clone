@@ -503,8 +503,11 @@ const getUser = async (request, response) => {
 const getSuggestedUser = async (request, response) => {
   const { id } = request.params;
   try {
+    const currentUser = await userCollection.findById(id);
+    const {userFollowing, userFollowers} = currentUser;
+    const combineLists = userFollowing.concat(userFollowers)
     const mongooseResponse = await userCollection
-      .find({ _id: { $ne: id } })
+      .find({ _id: { $ne: id, $nin: combineLists } })
       .sort({ createdAt: -1 })
       .limit(7)
       .select("_id userName userProfile ");
