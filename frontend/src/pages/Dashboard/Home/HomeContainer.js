@@ -19,13 +19,14 @@ export default function HomeContainer() {
   }, [pathname, navigateTO]);
 
   useEffect(() => {
-    if (instaUserID) {
-      io(`${SECONDARY_BACKEND_URL}`,{
+    const socket = io(`${SECONDARY_BACKEND_URL}`,{
         query : {instaUserID}
       });
-    }
+    return () => {
+      socket.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [instaUserID]);
+  }, []);
     return (
         <div className={`${homeStyle.homeContainer}`}>
             <Header CbShowReport= {setShowHideReport}/>
