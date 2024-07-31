@@ -52,9 +52,26 @@ io.on("connection", async (socket) => {
   const { instaUserID } = socket.handshake.query;
   try {
     await userCollection.findByIdAndUpdate(instaUserID, { socketId: socket.id }, { upsert: true });
+    console.log(`Connected user ${instaUserID} ${socket.id}`);
   } catch (error) {
     console.log("Error while connecting user", error.message);
   }
+
+  // sending the notification to the postOwner
+  socket.on("sendNotificationFromUser", async (data) => {
+    const { postOwner } = data;
+    try {
+      const findOwner = await userCollection.findById(postOwner);
+
+      if (findOwner?.socketId) {
+        io.to(findOwner.socketId).emit("receiveNotificationFromUser", data);
+      } else {
+        console.error(`User with ID ${postOwner} not found or socketId missing.`);
+      }
+    } catch (error) {
+      console.error("Error sending notification:", error);
+    }
+  });
 
   socket.on("disconnect", async () => {
     try {

@@ -35,7 +35,7 @@ export const HomePostCard = ({ posts }) => {
     e.preventDefault();
     navigateTO(`/post/${posts?._id}`, { state: posts });
   };
-
+  
   return (
     <>
       <article className={`${homeStyle.HomeSection__homePostCard}`}>
@@ -81,7 +81,7 @@ export const HomePostCard = ({ posts }) => {
                 )}
                 <FaRegHeart
                   className={`${homeStyle.homePostCard__iconButton}`}
-                  onClick={(e) => handleLikePostClick(e, posts?._id)}
+                  onClick={(e) => handleLikePostClick(e, posts?._id, posts?.user)}
                 />
               </span>
             )}

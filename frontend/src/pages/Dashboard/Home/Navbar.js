@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../../Assets/Logo.png";
 import instaIcon from "../../../Assets/insta_Icon.svg";
@@ -15,6 +15,7 @@ import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import toast from "react-hot-toast";
 import MorePopup from "./MorePopup";
 import homeStyle from "./home.module.css";
+import socket from "../../../utility/socket";
 export default function Navbar({ CbShowReport }) {
     const navigateTO = useNavigate();
     const dispatch = useDispatch();
@@ -35,6 +36,14 @@ export default function Navbar({ CbShowReport }) {
         }, 1000);
     };
 
+
+    useEffect(()=>{
+        socket.on("receiveNotificationFromUser", (data) => {
+            console.log(`NOTIFICATION RECEIVED ${JSON.stringify(data)}`)
+        })
+        console.log("CACLLED")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     return (
         <div className={`${homeStyle.__appNavbar_Container}`}>
             <Link to={"/home"} className={`${homeStyle.__appNavbar__LOGO_Box}`}>
