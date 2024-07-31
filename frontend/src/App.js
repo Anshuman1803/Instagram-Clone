@@ -13,7 +13,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
+    if(instaUserID){
+      axios
       .get(`${BACKEND_URL}users/get-user-updated-details/${instaUserID}`)
       .then((response) => {
         if (response.data.success) {
@@ -35,8 +36,11 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
+    }
+   
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname,instaUserID ]);
+
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />

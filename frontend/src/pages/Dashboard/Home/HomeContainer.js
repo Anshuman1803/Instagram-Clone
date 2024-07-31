@@ -4,7 +4,11 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from './Header'
 import homeStyle from "./home.module.css"
 import { ProblemReport } from './ProblemReport';
+import { io } from "socket.io-client"
+import { useSelector } from 'react-redux';
+const SECONDARY_BACKEND_URL = process.env.REACT_APP_SECONDARY_BACKEND_URL;
 export default function HomeContainer() {
+  const { instaUserID} = useSelector((state) => state.Instagram);
   const { pathname } = useLocation();
   const navigateTO = useNavigate();
   const [ToggleReport, setShowHideReport] = useState(false)
@@ -13,6 +17,15 @@ export default function HomeContainer() {
       navigateTO("/home");
     }
   }, [pathname, navigateTO]);
+
+  useEffect(() => {
+    if (instaUserID) {
+      io(`${SECONDARY_BACKEND_URL}`,{
+        query : {instaUserID}
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [instaUserID]);
     return (
         <div className={`${homeStyle.homeContainer}`}>
             <Header CbShowReport= {setShowHideReport}/>
