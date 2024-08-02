@@ -41,7 +41,6 @@ export default function Navbar({ CbShowReport }) {
         socket.on("receiveNotificationFromUser", (data) => {
             console.log(`NOTIFICATION RECEIVED ${JSON.stringify(data)}`)
         })
-        console.log("CACLLED")
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
@@ -69,11 +68,13 @@ export default function Navbar({ CbShowReport }) {
                 <NavLink onClick={()=>setPopup(false)} to={'/messages'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
                     <PiMessengerLogoFill className={`${homeStyle.__appNavbar_Items_ICONS}`} />
                     <span className={`${homeStyle.__appNavbar_Item_Text}`}>Messages</span>
+                    <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>0</span>
                 </NavLink>
 
                 <NavLink onClick={()=>setPopup(false)} to={'/notification'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
                     <FaHeart className={`${homeStyle.__appNavbar_Items_ICONS}`} />
                     <span className={`${homeStyle.__appNavbar_Item_Text}`}>Notifications</span>
+                    <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>0</span>
                 </NavLink>
 
                 <NavLink onClick={()=>setPopup(false)} to={'/create'} className={({ isActive }) => (isActive ? `${homeStyle.__appNavbar_Items} ${homeStyle.active}` : `${homeStyle.__appNavbar_Items}`)}>
