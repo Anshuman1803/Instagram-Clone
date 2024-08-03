@@ -58,7 +58,7 @@ export default function Navbar({ CbShowReport }) {
     })
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadNotificationCount,[instaUserID]);
+  useEffect(loadNotificationCount,[]);
 
   useEffect(() => {
     socket.on("receiveNotificationFromUser", () => {

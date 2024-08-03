@@ -32,7 +32,6 @@ export default function Notification() {
         if (response.data.success) {
           setAllNotification(response.data.notifications);
           setLoading(false);
-          console.log(response.data.notifications);
         } else {
           setAllNotification(response.data.notifications);
           setLoading(false);
