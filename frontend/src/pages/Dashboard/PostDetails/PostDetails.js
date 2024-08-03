@@ -207,12 +207,12 @@ function PostDetails() {
                   {instaLikes?.includes(state?._id) ? (
                     <FaHeart
                       className={`${postDetailsStyle.__PostDetails__ICONBUTTON} post__LIKEDICONS`}
-                      onClick={(e) => handleUnLikePostClick(e, state?._id)}
+                      onClick={(e) => handleUnLikePostClick(e, state?._id, state?.user)}
                     />
                   ) : (
                     <FaRegHeart
                       className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`}
-                      onClick={(e) => handleLikePostClick(e, state?._id)}
+                      onClick={(e) => handleLikePostClick(e, state?._id, state?.user)}
                     />
                   )}
                   <FaRegComment className={`${postDetailsStyle.__PostDetails__ICONBUTTON}`} />

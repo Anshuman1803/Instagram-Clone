@@ -71,7 +71,7 @@ export const HomePostCard = ({ posts }) => {
                 )}
                 <FaHeart
                   className={`${homeStyle.homePostCard__iconButton} post__LIKEDICONS`}
-                  onClick={(e) => handleUnLikePostClick(e, posts?._id)}
+                  onClick={(e) => handleUnLikePostClick(e, posts?._id, posts?.user)}
                 />
               </span>
             ) : (

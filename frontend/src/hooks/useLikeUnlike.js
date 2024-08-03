@@ -8,14 +8,14 @@ import socket from "../utility/socket";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const useLikeUnlike = (likeCounter) => {
-  const { instaUserID, instaTOKEN,instaUserName } = useSelector((state) => state.Instagram);
+  const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const headers = { Authorization: `Bearer ${instaTOKEN}` };
   const [buttonLoading, setButtonLoading] = useState(false);
   const [tempLikeCounter, setTempLikeCounter] = useState(likeCounter);
 
-  const handleLikePostClick = async (e, postID, postOwner) => {
+  const handleLikePostClick = async (e, postID, owner) => {
     e.preventDefault();
     setButtonLoading(true);
     try {
@@ -25,14 +25,20 @@ export const useLikeUnlike = (likeCounter) => {
         setTempLikeCounter((prevState) => prevState + 1);
         dispatch(userLikeUnlikePost({ type: "like", postID }));
 
-        socket.emit("sendNotificationFromUser", {
-          postOwner : postOwner,
-          postID : postID,
-          likedByuserID : instaUserID,
-          NotificatioNText: `${instaUserName} liked your post`,
-          notificationStatus : 'Unread',
-          updatedAt: Date.now(),
-        });
+        // send notification tempObj
+        const tempNotificationObj = {
+          owner: owner,
+          postID: postID,
+          userID: instaUserID,
+          notificationText: `liked your post`,
+          notificationStatus: "unread",
+          notificationType: "like",
+          createdAt: Date.now(),
+        };
+
+        // send the notification to the server
+        socket.emit("sendNotificationFromUser", tempNotificationObj);
+        axios.post(`${BACKEND_URL}notifications/create/new-notification`, tempNotificationObj, { headers });
 
       } else {
         setButtonLoading(false);

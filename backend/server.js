@@ -13,6 +13,7 @@ const session = require("express-session");
 const passport = require("passport");
 const { googleRoute } = require("./router/google.routes");
 const { userCollection } = require("./model/user.model");
+const { notificationRoutes } = require("./router/notification.routes");
 dotENV.config();
 appServer.use(express.json());
 appServer.use(
@@ -37,6 +38,7 @@ appServer.use("/api/v1", googleRoute);
 appServer.use("/api/v1/users", userRoute);
 appServer.use("/api/v1/posts", postRoute);
 appServer.use("/api/v1/comments", commentsRoute);
+appServer.use("/api/v1/notifications", notificationRoutes);
 appServer.post("/api/v1/verify-OTP", verifyOTP);
 appServer.post("/api/v1/send/reportorfeedback/:currentuser", reportProblem);
 
@@ -62,11 +64,11 @@ io.on("connection", async (socket) => {
     const { postOwner } = data;
     try {
       const findOwner = await userCollection.findById(postOwner);
-
       if (findOwner?.socketId) {
         io.to(findOwner.socketId).emit("receiveNotificationFromUser", data);
       } else {
-        console.error(`User with ID ${postOwner} not found or socketId missing.`);
+        // user is not active so we send the notification on registered mail
+
       }
     } catch (error) {
       console.error("Error sending notification:", error);

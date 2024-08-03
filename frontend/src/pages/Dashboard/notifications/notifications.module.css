@@ -43,11 +43,13 @@
     border: 1px solid rgba(128, 128, 128, 0.333);
     background-color: transparent;
 }
-.__notificationFilter__items:hover{
+
+.__notificationFilter__items:hover {
     cursor: pointer;
     border: 1px solid #0867ff9d;
     color: #0866ff;
 }
+
 .__activeItemButton {
     background-color: #0867ff17;
     border: 1px solid #0867ff9d;
@@ -81,7 +83,7 @@
 }
 
 .__notificationbox {
-    width: 85%;
+    width: 70%;
     min-height: 250px;
     margin: 0px auto;
     padding: 1em;
@@ -92,7 +94,7 @@
     border-radius: 2px;
     border: 1px solid rgba(128, 128, 128, 0.226);
     width: 100%;
-    height: 90px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -100,16 +102,19 @@
     padding: 0.5em 1em;
     margin-bottom: 15px;
 }
-.__notificationsCard:hover{
-    cursor: pointer;
-    background-color: #0867ff17;
+
+.__notificationsCard:hover {
     border: 1px solid #0867ff9d;
+}
+
+.__unreadNotification {
+    background-color: #0867ff17;
 }
 
 .__notification__userProfile {
     border: 1px solid rgba(128, 128, 128, 0.404);
-    width: 65px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -124,25 +129,13 @@
 }
 
 .__notification__content {
-    width: calc(100% - 155px);
+    width: calc(100% - 140px);
     height: 100%;
 }
 
-.__notification_userName {
-    display: inline-block;
-    margin-right: 2px;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none;
-}
-
-.__notification_userName:hover {
-    cursor: pointer;
-    color: grey;
-}
 
 .__notification_text {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
     color: black;
 }
@@ -151,20 +144,96 @@
     display: block;
     font-weight: 600;
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
-.__notification__PostPoster{
-    /* border: 2px solid red; */
-    width: 90px;
+
+.__notificationOption {
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.__notificationOption:hover {
+    cursor: pointer;
+    color: grey;
+}
+
+.__notification__PostPoster {
+    width: 80px;
     height: 100%;
-    border-radius: 5px;
     overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.267);
 }
-.__notification__PostPoster img{
+
+.__notification__PostPoster img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+}
+
+.__notificationActionContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0em 0.5em;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.218);
+    transition: all 0.5s ease-in-out;
+}
+
+.__actionBox {
     border-radius: 5px;
+    background-color: white;
+    width: 325px;
+}
+.__actionBoxHeading{
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.513);
+
+}
+.__notificationActionButton {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0em 1em;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: 1px solid rgba(128, 128, 128, 0.308);
+}
+
+.__notificationActionButton:nth-child(2) {
+    border: none;
+    color: #e5532d;
+}
+
+.__notificationActionButton:nth-child(5) {
+    color: #e5532d;
+}
+
+.__notificationActionICON {
+    font-size: 22px;
+    transition: all 400ms ease-in;
+    color: black;
+}
+.__notificationActionButton:hover{
+    cursor: pointer;
+    background-color: rgba(128, 128, 128, 0.15);
 }
 
 @media screen and (max-width: 756px) {
@@ -182,15 +251,17 @@
     .__notificationFilter__items:last-child {
         font-size: 14px;
     }
+
     .__notification__userProfile {
         width: 40px;
         height: 40px;
     }
-    
+
     .__notification__content {
         width: calc(100% - 110px);
     }
-    .__notification__PostPoster{
+
+    .__notification__PostPoster {
         width: 70px;
         height: 100%;
     }
