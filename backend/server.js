@@ -82,9 +82,12 @@ io.on("connection", async (socket) => {
     }
   });
 
+  // trigger the notification method on the frontend
   socket.on("sendLoadNotification", () => {
     socket.emit("loadNotification");
   });
+
+  // send Email & Notification to the followers when the user post something
 
   socket.on("disconnect", async () => {
     try {

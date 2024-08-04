@@ -61,20 +61,8 @@ export default function Create() {
         .then((response) => {
           if (response.data.success) {
             toast.success("Post created successfully");
-            setPost({
-              postPoster: "",
-              postCaption: "",
-            });
-            setSelectedImage("");
-            setLoading(false);
           } else {
             toast.error("Try again");
-            setPost({
-              postPoster: "",
-              postCaption: "",
-            });
-            setSelectedImage(null);
-            setLoading(false);
           }
         })
         .catch((error) => {
@@ -85,13 +73,15 @@ export default function Create() {
           } else {
             toast.error(`Server error: ${error.message}`);
           }
+         
+        }).finally(()=>{
           setPost({
             postPoster: "",
             postCaption: "",
           });
           setSelectedImage(null);
           setLoading(false);
-        });
+        })
     }
   };
 
