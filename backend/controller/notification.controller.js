@@ -12,7 +12,7 @@ const addNewNotifications = async (request, response) => {
         postID,
         userID,
         notificationStatus,
-        notificationType,
+        notificationType: 'like',
       },
       //   updated fields
       {
