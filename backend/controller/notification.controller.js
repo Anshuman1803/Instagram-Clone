@@ -4,33 +4,16 @@ const Mongoose = require("mongoose");
 // new notifications add to the database
 const addNewNotifications = async (request, response) => {
   try {
-    const { owner, postID, userID, notificationText, notificationStatus, notificationType, createdAt } = request.body;
-    const savedNotification = await notificationCollection.findOneAndUpdate(
-      // filter documents based on these fields
-      {
-        owner,
-        postID,
-        userID,
-        notificationStatus,
-        notificationType: 'like',
-      },
-      //   updated fields
-      {
-        owner,
-        postID,
-        userID,
-        notificationText,
-        notificationStatus,
-        notificationType,
-        createdAt,
-      },
-      //   options
-      {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true,
-      }
-    );
+    const { owner, postID, userID, notificationText, notificationStatus, notificationType } = request.body;
+    const savedNotification = await notificationCollection.create({
+      owner,
+      postID,
+      userID,
+      notificationText,
+      notificationStatus,
+      notificationType,
+      createdAt: Date.now(),
+    });
     if (savedNotification) {
       response.status(201).json({
         success: true,

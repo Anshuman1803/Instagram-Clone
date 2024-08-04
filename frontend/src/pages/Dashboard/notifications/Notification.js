@@ -31,6 +31,7 @@ export default function Notification() {
 
   // Load all the notifications
   const loadNotifications = () => {
+    setLoading(true)
     axios
       .get(`${BACKEND_URL}notifications/get-notifications/${instaUserID}`,{headers})
       .then((response) => {
@@ -261,8 +262,8 @@ const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
         toast.error(`Server error: ${error.message}`);
       }
     }).finally(()=>{
-      CbClosePopup(e);
       socket.emit("sendLoadNotification", "load")
+      CbClosePopup(e);
     })
   };
 
