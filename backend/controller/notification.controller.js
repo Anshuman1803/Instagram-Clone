@@ -4,8 +4,7 @@ const Mongoose = require("mongoose");
 // new notifications add to the database
 const addNewNotifications = async (request, response) => {
   try {
-    const { owner, postID, userID, notificationText, notificationStatus, notificationType, createdAt } =
-      request.body;
+    const { owner, postID, userID, notificationText, notificationStatus, notificationType, createdAt } = request.body;
     const savedNotification = await notificationCollection.findOneAndUpdate(
       // filter documents based on these fields
       {
@@ -49,7 +48,7 @@ const getNotifications = async (request, response) => {
     const allNotifications = await notificationCollection.aggregate([
       {
         $match: {
-            owner: new Mongoose.Types.ObjectId(currentUser),
+          owner: new Mongoose.Types.ObjectId(currentUser),
         },
       },
       {
@@ -83,8 +82,8 @@ const getNotifications = async (request, response) => {
             $cond: {
               if: { $eq: ["$notificationType", "like"] },
               then: { $concat: ["$user.userName", " liked your post"] },
-              else: { $concat: ["$user.userName", " commented on your post"] }
-            }
+              else: { $concat: ["$user.userName", " commented on your post"] },
+            },
           },
           "post._id": 1,
           "post.postPoster": 1,
@@ -133,7 +132,7 @@ const getNotificationCount = async (request, response) => {
         notificationCount: totalNotification[0].totalCount,
       });
     } else {
-      response.status(404).json({
+      response.status(200).json({
         success: false,
         notificationCount: 0,
       });
@@ -143,4 +142,80 @@ const getNotificationCount = async (request, response) => {
   }
 };
 
-module.exports = { addNewNotifications, getNotifications, getNotificationCount };
+// mark the individual notification as read
+const markNotificationAsRead = async (request, response) => {
+  try {
+    const { notificationID } = request.params;
+    const findNotification = await notificationCollection.findOneAndUpdate(
+      {
+        _id: notificationID,
+      },
+      {
+        notificationStatus: "read",
+      }
+    );
+    if (findNotification) {
+      response.status(200).json({
+        success: true,
+        msg: "Notification mark as read",
+      });
+    }
+  } catch (error) {
+    response.status(500).send(`Server failed to load! Try again ${error.message}`);
+  }
+};
+
+// mark all notification as read
+const markAllNotificationAsRead = async (request, response) => {
+  try {
+    const { owner } = request.params;
+
+    const updatedNotification = await notificationCollection.updateMany(
+      {
+        owner: owner,
+      },
+      {
+        notificationStatus: "read",
+      }
+    );
+
+    if (updatedNotification.modifiedCount > 0) {
+      response.status(200).json({
+        success: true,
+        msg: "All notifications mark as read",
+      });
+    }
+  } catch (error) {
+    response.status(500).send(`Server failed to load! Try again ${error.message}`);
+  }
+};
+
+// delete individual notification delete
+const deleteNotification = async (request, response) => {
+  try {
+    const { notificationID } = request.params;
+    const mongooseResponse = await notificationCollection.findByIdAndDelete(notificationID);
+    if (mongooseResponse) {
+      response.status(200).json({
+        success: true,
+        msg: "Notification deleted",
+      });
+    } else {
+      response.status(400).json({
+        success: false,
+        msg: "Failed to delete notification",
+      });
+    }
+  } catch (error) {
+    response.status(500).send(`Server failed to load! Try again ${error.message}`);
+  }
+};
+
+module.exports = {
+  addNewNotifications,
+  getNotifications,
+  getNotificationCount,
+  markNotificationAsRead,
+  markAllNotificationAsRead,
+  deleteNotification,
+};

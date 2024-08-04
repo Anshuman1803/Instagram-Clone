@@ -38,35 +38,39 @@ export default function Navbar({ CbShowReport }) {
   };
 
   const loadNotificationCount = () => {
-    axios.get(`${BACKEND_URL}notifications/get/notification-count/${instaUserID}`).then((response) => {
-      if (response.data.success) {
-        setNotificationCounter(response.data.notificationCount);
-      } else {
-        setNotificationCounter(response.data.notificationCount);
-      }
-    }).catch((error)=>{
+    axios
+      .get(`${BACKEND_URL}notifications/get/notification-count/${instaUserID}`)
+      .then((response) => {
+        if (response.data.success) {
+          setNotificationCounter(response.data.notificationCount);
+        } else {
+          setNotificationCounter(response.data.notificationCount);
+        }
+      })
+      .catch((error) => {
         if (error.response?.status === 401) {
-            dispatch(UserLoggedOut());
-            navigateTO("/user/auth/signin");
-            toast.error("Your session has expired. Please login again.");
-          } else if (error.response?.status === 404) {
-            setNotificationCounter(error.response.data.notificationCount);
-          } 
-          else {
-            toast.error(`Server error: ${error.message}`);
-          }
-    })
+          dispatch(UserLoggedOut());
+          navigateTO("/user/auth/signin");
+          toast.error("Your session has expired. Please login again.");
+        } else if (error.response?.status === 404) {
+          setNotificationCounter(error.response.data.notificationCount);
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
+      });
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadNotificationCount,[]);
+  useEffect(loadNotificationCount, []);
 
   useEffect(() => {
     socket.on("receiveNotificationFromUser", () => {
       loadNotificationCount();
     });
+    socket.on("loadNotification", () => {
+      loadNotificationCount();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <div className={`${homeStyle.__appNavbar_Container}`}>
@@ -117,7 +121,7 @@ export default function Navbar({ CbShowReport }) {
         >
           <PiMessengerLogoFill className={`${homeStyle.__appNavbar_Items_ICONS}`} />
           <span className={`${homeStyle.__appNavbar_Item_Text}`}>Messages</span>
-          <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>0</span>
+          {/* <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>0</span> */}
         </NavLink>
 
         <NavLink
@@ -129,7 +133,9 @@ export default function Navbar({ CbShowReport }) {
         >
           <FaHeart className={`${homeStyle.__appNavbar_Items_ICONS}`} />
           <span className={`${homeStyle.__appNavbar_Item_Text}`}>Notifications</span>
-          <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>{notificationCounter}</span>
+          {notificationCounter !== 0 && (
+            <span className={`${homeStyle.__appNavbar_ItemNotificationCounter}`}>{notificationCounter}</span>
+          )}
         </NavLink>
 
         <NavLink

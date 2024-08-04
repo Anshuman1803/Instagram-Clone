@@ -12,7 +12,9 @@ import { MdMarkEmailRead } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
-
+import Loader from "../../../Assets/postCommentLoader.gif";
+import Notification404 from "./Notification404";
+import socket from "../../../utility/socket";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export default function Notification() {
   const navigateTO = useNavigate();
@@ -20,12 +22,12 @@ export default function Notification() {
   const { instaUserID } = useSelector((state) => state.Instagram);
   const [notificationFilter, setNotificationFilter] = useState("all");
   const [allNotification, setAllNotification] = useState([]);
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState({});
 
   // Load all the notifications
   const loadNotifications = () => {
-    setLoading(true);
     axios
       .get(`${BACKEND_URL}notifications/get-notifications/${instaUserID}`)
       .then((response) => {
@@ -51,9 +53,16 @@ export default function Notification() {
       });
   };
 
+  // toggle the optiong popup
   const handleToggleOptions = useCallback(
-    (e) => {
+    (e, notificationID, userID, postID,notificationStatus) => {
       e.preventDefault();
+      setSelectedNotification({
+        notificationID: notificationID,
+        userID: userID,
+        postID: postID,
+        notificationStatus : notificationStatus
+      });
       setShowOptions(!showOptions);
     },
     [showOptions]
@@ -66,23 +75,80 @@ export default function Notification() {
     if (filter === "all") {
       loadNotifications();
     } else {
-      setAllNotification(allNotification?.filter((notification) => notification.notificationStatus === "Unread"));
+      setAllNotification(allNotification?.filter((notification) => notification.notificationStatus === "unread"));
     }
   };
 
-  // initial notificationLoading
+  // sorting based on notification time oldest or newest
+  const handleNotificationSorting = (e) => {
+    const { value } = e.target;
+    let sortedNotifications;
+    switch (value) {
+      case "oldest": {
+        sortedNotifications = [...allNotification].sort((a, b) => a.createdAt - b.createdAt);
+        break;
+      }
+      case "newest": {
+        sortedNotifications = [...allNotification].sort((a, b) => b.createdAt - a.createdAt);
+        break;
+      }
+      default: {
+        loadNotifications();
+      }
+    }
+    setAllNotification(sortedNotifications);
+  };
+
+  // Mark all the notifications as read
+  const handleMarkAllAsRead = (e) => {
+    e.preventDefault();
+    axios
+    .patch(`${BACKEND_URL}notifications/mark-All-notification-as-read/${instaUserID}`)
+      .then((response) => {
+        if (response.data.success) {
+          toast.success(`${response.data.msg}`);
+          socket.emit("sendLoadNotification", "load")
+        } else {
+          toast.error(`${response.data.msg}`);
+        }
+      })
+      .catch((error) => {
+        if (error.response?.status === 401) {
+          dispatch(UserLoggedOut());
+          navigateTO("/user/auth/signin");
+          toast.error("Your session has expired. Please login again.");
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
+      });
+  };
+
+  useEffect(() => {
+    socket.on("receiveNotificationFromUser", () => {
+      loadNotifications();
+    });
+
+    socket.on("loadNotification", () => {
+      loadNotifications();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(loadNotifications, []);
+
   return (
     <section className={`${pageStyle.__notificationContainer}`}>
       <h1 className={`${pageStyle.__notificationHeading}`}>
         Notifications
-        <select className={`${pageStyle.__notificationSort}`}>
-          <option value="">Sort by</option>
-          <option value="oldest">oldest</option>
-          <option value="newest">newest</option>
-        </select>
+        {allNotification.length > 0 && (
+          <select className={`${pageStyle.__notificationSort}`} onChange={handleNotificationSorting}>
+            <option value="oldest">oldest</option>
+            <option value="newest">newest</option>
+          </select>
+        )}
       </h1>
+
       <div className={`${pageStyle.__notification_FilterBox}`}>
         <button
           className={`${pageStyle.__notificationFilter__items} ${
@@ -100,16 +166,21 @@ export default function Notification() {
         >
           Unread
         </button>
-        <button className={`${pageStyle.__notificationFilter__items}`}>Mark all as read</button>
+       
+       {
+        allNotification?.some((data)=>data.notificationStatus === 'unread') && <button onClick={handleMarkAllAsRead} className={`${pageStyle.__notificationFilter__items} ${pageStyle.__markAllAsReadButton}`}>Mark all as read</button>
+       }
       </div>
 
       <div className={`${pageStyle.__notificationbox}`}>
         {Loading ? (
-          <p></p>
+         <img src={Loader} alt="Loader" className={`${pageStyle.__notificationLoader}`}/>
         ) : (
           <>
             {allNotification.length === 0 ? (
-              <p></p>
+              <>
+             <Notification404 notificationFilter={notificationFilter}/>
+              </>
             ) : (
               <>
                 {allNotification?.map((notification) => {
@@ -128,7 +199,9 @@ export default function Notification() {
                         <span className={`${pageStyle.__notification_timing}`}>
                           <CalculateTimeAgo time={notification?.createdAt} />
                           <PiDotsThreeOutlineFill
-                            onClick={handleToggleOptions}
+                            onClick={(e) =>
+                              handleToggleOptions(e, notification._id, notification?.user?._id, notification?.post?._id,notification?.notificationStatus )
+                            }
                             className={`${pageStyle.__notificationOption}`}
                           />
                         </span>
@@ -137,15 +210,6 @@ export default function Notification() {
                       <div className={`${pageStyle.__notification__PostPoster}`}>
                         <img src={notification?.post?.postPoster} alt={`post poster`} />
                       </div>
-
-                      {showOptions && (
-                        <NotificationActionPopup
-                          notificationID={notification._id}
-                          userID={notification?.user?._id}
-                          postID={notification?.post?._id}
-                          CbClosePopup={handleToggleOptions}
-                        />
-                      )}
                     </article>
                   );
                 })}
@@ -154,27 +218,68 @@ export default function Notification() {
           </>
         )}
       </div>
+      {showOptions && (
+        <NotificationActionPopup
+          selectedNotification={selectedNotification}
+          CbClosePopup={handleToggleOptions}
+        />
+      )}
     </section>
   );
 }
 
-const NotificationActionPopup = ({ CbClosePopup, notificationID, userID }) => {
+const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
   const navigateTO = useNavigate();
+  const dispatch = useDispatch();
 
   // go to user profile
   const handleGotoProfile = (e) => {
     CbClosePopup(e);
-    navigateTO(`/${userID}`);
+    navigateTO(`/${selectedNotification.userID}`);
   };
 
   // delete notification
   const handleDeleteNotification = (e) => {
     e.preventDefault();
+    axios.delete(`${BACKEND_URL}notifications/delete-notification/${selectedNotification.notificationID}`).then((response)=>{
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        socket.emit("sendLoadNotification", "load")
+      }
+      CbClosePopup(e);
+
+    }).catch((error)=>{
+      if (error.response?.status === 401) {
+        dispatch(UserLoggedOut());
+        navigateTO("/user/auth/signin");
+        toast.error("Your session has expired. Please login again.");
+      } else {
+        toast.error(`Server error: ${error.message}`);
+      }
+    })
   };
 
   // marked notification as read
   const handleMarkAsRead = (e) => {
     e.preventDefault();
+    axios
+      .patch(`${BACKEND_URL}notifications/mark-notification-as-read/${selectedNotification.notificationID}`)
+      .then((response) => {
+        if (response.data.success) {
+          toast.success(response.data.msg);
+          CbClosePopup(e);
+          socket.emit("sendLoadNotification", "load")
+        }
+      })
+      .catch((error) => {
+        if (error.response?.status === 401) {
+          dispatch(UserLoggedOut());
+          navigateTO("/user/auth/signin");
+          toast.error("Your session has expired. Please login again.");
+        } else {
+          toast.error(`Server error: ${error.message}`);
+        }
+      });
   };
 
   return (
@@ -189,7 +294,7 @@ const NotificationActionPopup = ({ CbClosePopup, notificationID, userID }) => {
           <MdDelete className={`${pageStyle.__notificationActionICON}`} />
           Delete notification
         </button>
-        <button onClick={handleMarkAsRead} title="Mark as read" className={`${pageStyle.__notificationActionButton}`}>
+        <button onClick={handleMarkAsRead} title="Mark as read" className={`${pageStyle.__notificationActionButton} ${selectedNotification.notificationStatus === "read" && pageStyle.__notificationActionUnacitve}`}>
           <MdMarkEmailRead className={`${pageStyle.__notificationActionICON}`} />
           Mark as read
         </button>

@@ -61,20 +61,21 @@ io.on("connection", async (socket) => {
 
   // sending the notification to the postOwner
   socket.on("sendNotificationFromUser", async (data) => {
-    const { postOwner } = data;
+    const { owner } = data;
     try {
-      const findOwner = await userCollection.findById(postOwner);
+      const findOwner = await userCollection.findById(owner);
       if (findOwner?.socketId) {
         io.to(findOwner.socketId).emit("receiveNotificationFromUser", data);
       } else {
         // user is not active so we send the notification on registered mail
-
       }
     } catch (error) {
       console.error("Error sending notification:", error);
     }
   });
-
+  socket.on("sendLoadNotification", () => {
+    socket.emit("loadNotification");
+  });
   socket.on("disconnect", async () => {
     try {
       await userCollection.findByIdAndUpdate(instaUserID, { socketId: "" }, { upsert: true });
