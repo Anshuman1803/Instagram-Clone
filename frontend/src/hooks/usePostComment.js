@@ -45,7 +45,6 @@ export function usePostComment(commentCounter, loadComments) {
             notificationText: `commented on your post`,
             notificationStatus: "unread",
             notificationType: "comment",
-            createdAt: Date.now(),
           };
           // send the notification to the server
           socket.emit("sendNotificationFromUser", tempNotificationObj);

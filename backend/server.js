@@ -14,6 +14,7 @@ const passport = require("passport");
 const { googleRoute } = require("./router/google.routes");
 const { userCollection } = require("./model/user.model");
 const { notificationRoutes } = require("./router/notification.routes");
+const { emailSender } = require("./helper/Email");
 dotENV.config();
 appServer.use(express.json());
 appServer.use(
@@ -67,15 +68,24 @@ io.on("connection", async (socket) => {
       if (findOwner?.socketId) {
         io.to(findOwner.socketId).emit("receiveNotificationFromUser", data);
       } else {
-        // user is not active so we send the notification on registered mail
+        const emailSubject = `Someone ${
+          data.notificationType === "like" ? "liked your post" : "commented on your post"
+        } on Instagram-Clone`;
+        await emailSender(
+          findOwner.userEmail,
+          emailSubject,
+          `Hi ${findOwner?.userName},\n\nWe wanted to let you know that ${emailSubject}!\n\nThank you for being an active member of our community. If you have any questions or need assistance, please do not hesitate to contact us.\nSincerely,\nThe Instagram-Clone support team\nContact: +917061751101`
+        );
       }
     } catch (error) {
       console.error("Error sending notification:", error);
     }
   });
+
   socket.on("sendLoadNotification", () => {
     socket.emit("loadNotification");
   });
+
   socket.on("disconnect", async () => {
     try {
       await userCollection.findByIdAndUpdate(instaUserID, { socketId: "" }, { upsert: true });

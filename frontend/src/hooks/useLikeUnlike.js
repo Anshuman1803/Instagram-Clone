@@ -33,13 +33,21 @@ export const useLikeUnlike = (likeCounter) => {
           notificationText: `liked your post`,
           notificationStatus: "unread",
           notificationType: "like",
-          createdAt: Date.now(),
         };
 
         // send the notification to the server
         socket.emit("sendNotificationFromUser", tempNotificationObj);
-        axios.post(`${BACKEND_URL}notifications/create/new-notification`, tempNotificationObj, { headers });
-
+        axios
+          .post(`${BACKEND_URL}notifications/create/new-notification`, tempNotificationObj, { headers })
+          .catch((error) => {
+            if (error.response?.status === 401) {
+              dispatch(UserLoggedOut());
+              navigate("/user/auth/signin");
+              toast.error("Your session has expired. Please login again.");
+            } else {
+              toast.error(`Server error: ${error.message}`);
+            }
+          });
       } else {
         setButtonLoading(false);
         toast(`${response.data.msg}`, { icon: "ⓘ" });
