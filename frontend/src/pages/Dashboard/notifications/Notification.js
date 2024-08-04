@@ -19,28 +19,28 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export default function Notification() {
   const navigateTO = useNavigate();
   const dispatch = useDispatch();
-  const { instaUserID } = useSelector((state) => state.Instagram);
+  const { instaUserID,instaTOKEN } = useSelector((state) => state.Instagram);
   const [notificationFilter, setNotificationFilter] = useState("all");
   const [allNotification, setAllNotification] = useState([]);
   const [Loading, setLoading] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState({});
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`,
+  };
 
   // Load all the notifications
   const loadNotifications = () => {
     axios
-      .get(`${BACKEND_URL}notifications/get-notifications/${instaUserID}`)
+      .get(`${BACKEND_URL}notifications/get-notifications/${instaUserID}`,{headers})
       .then((response) => {
         if (response.data.success) {
           setAllNotification(response.data.notifications);
-          setLoading(false);
         } else {
           setAllNotification(response.data.notifications);
-          setLoading(false);
         }
       })
       .catch((error) => {
-        setLoading(false);
         if (error.response?.status === 401) {
           dispatch(UserLoggedOut());
           navigateTO("/user/auth/signin");
@@ -50,7 +50,9 @@ export default function Notification() {
         } else {
           toast.error(`Server error: ${error.message}`);
         }
-      });
+      }).finally(()=>{
+        setLoading(false);
+      })
   };
 
   // toggle the optiong popup
@@ -103,11 +105,10 @@ export default function Notification() {
   const handleMarkAllAsRead = (e) => {
     e.preventDefault();
     axios
-    .patch(`${BACKEND_URL}notifications/mark-All-notification-as-read/${instaUserID}`)
+    .patch(`${BACKEND_URL}notifications/mark-All-notification-as-read/${instaUserID}`,{},{headers})
       .then((response) => {
         if (response.data.success) {
           toast.success(`${response.data.msg}`);
-          socket.emit("sendLoadNotification", "load")
         } else {
           toast.error(`${response.data.msg}`);
         }
@@ -120,7 +121,9 @@ export default function Notification() {
         } else {
           toast.error(`Server error: ${error.message}`);
         }
-      });
+      }).finally(()=>{
+        socket.emit("sendLoadNotification", "load")
+      })
   };
 
   useEffect(() => {
@@ -231,6 +234,10 @@ export default function Notification() {
 const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
   const navigateTO = useNavigate();
   const dispatch = useDispatch();
+  const {instaTOKEN } = useSelector((state) => state.Instagram);
+  const headers = {
+    Authorization: `Bearer ${instaTOKEN}`,
+  };
 
   // go to user profile
   const handleGotoProfile = (e) => {
@@ -241,13 +248,10 @@ const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
   // delete notification
   const handleDeleteNotification = (e) => {
     e.preventDefault();
-    axios.delete(`${BACKEND_URL}notifications/delete-notification/${selectedNotification.notificationID}`).then((response)=>{
+    axios.delete(`${BACKEND_URL}notifications/delete-notification/${selectedNotification.notificationID}`,{headers}).then((response)=>{
       if (response.data.success) {
         toast.success(response.data.msg);
-        socket.emit("sendLoadNotification", "load")
       }
-      CbClosePopup(e);
-
     }).catch((error)=>{
       if (error.response?.status === 401) {
         dispatch(UserLoggedOut());
@@ -256,6 +260,9 @@ const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
       } else {
         toast.error(`Server error: ${error.message}`);
       }
+    }).finally(()=>{
+      CbClosePopup(e);
+      socket.emit("sendLoadNotification", "load")
     })
   };
 
@@ -263,12 +270,10 @@ const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
   const handleMarkAsRead = (e) => {
     e.preventDefault();
     axios
-      .patch(`${BACKEND_URL}notifications/mark-notification-as-read/${selectedNotification.notificationID}`)
+      .patch(`${BACKEND_URL}notifications/mark-notification-as-read/${selectedNotification.notificationID}`,{},{headers})
       .then((response) => {
         if (response.data.success) {
           toast.success(response.data.msg);
-          CbClosePopup(e);
-          socket.emit("sendLoadNotification", "load")
         }
       })
       .catch((error) => {
@@ -279,7 +284,10 @@ const NotificationActionPopup = ({ CbClosePopup, selectedNotification }) => {
         } else {
           toast.error(`Server error: ${error.message}`);
         }
-      });
+      }).finally(()=>{
+        CbClosePopup(e);
+        socket.emit("sendLoadNotification", "load")
+      })
   };
 
   return (
