@@ -13,6 +13,7 @@ export default function HomeContainer() {
       navigateTO("/home");
     }
   }, [pathname, navigateTO]);
+
     return (
         <div className={`${homeStyle.homeContainer}`}>
             <Header CbShowReport= {setShowHideReport}/>

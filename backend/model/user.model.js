@@ -75,6 +75,9 @@ const userModel = mongoose.Schema({
   token: {
     type: String,
   },
+  socketId: {
+    type: String,
+  },
 });
 const userCollection = mongoose.model("users", userModel);
 

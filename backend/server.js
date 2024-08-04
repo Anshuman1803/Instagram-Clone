@@ -1,6 +1,6 @@
-const {userRoute} = require("./router/user.route");
+const { userRoute } = require("./router/user.route");
 const { postRoute } = require("./router/post.route");
-const {commentsRoute} = require('./router/comments.route')
+const { commentsRoute } = require("./router/comments.route");
 const express = require("express");
 const cors = require("cors");
 const appServer = express();
@@ -12,6 +12,8 @@ const { reportProblem } = require("./controller/report.conroller");
 const session = require("express-session");
 const passport = require("passport");
 const { googleRoute } = require("./router/google.routes");
+const { userCollection } = require("./model/user.model");
+const { notificationRoutes } = require("./router/notification.routes");
 dotENV.config();
 appServer.use(express.json());
 appServer.use(
@@ -31,17 +33,59 @@ appServer.use(
 appServer.use(passport.initialize());
 appServer.use(passport.session());
 
-
-appServer.use("/api/v1/auth",authRoute);
-appServer.use("/api/v1", googleRoute)
-appServer.use("/api/v1/users",userRoute);
-appServer.use("/api/v1/posts",postRoute);
-appServer.use("/api/v1/comments",commentsRoute);
+appServer.use("/api/v1/auth", authRoute);
+appServer.use("/api/v1", googleRoute);
+appServer.use("/api/v1/users", userRoute);
+appServer.use("/api/v1/posts", postRoute);
+appServer.use("/api/v1/comments", commentsRoute);
+appServer.use("/api/v1/notifications", notificationRoutes);
 appServer.post("/api/v1/verify-OTP", verifyOTP);
-appServer.post("/api/v1/send/reportorfeedback/:currentuser", reportProblem)
+appServer.post("/api/v1/send/reportorfeedback/:currentuser", reportProblem);
 
+const httpServer = require("http").createServer(appServer);
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "*",
+    methods: "GET, POST, PATCH, DELETE, PUT",
+    credentials: true,
+  },
+});
+io.on("connection", async (socket) => {
+  const { instaUserID } = socket.handshake.query;
+  try {
+    await userCollection.findByIdAndUpdate(instaUserID, { socketId: socket.id }, { upsert: true });
+    console.log(`Connected user ${instaUserID} ${socket.id}`);
+  } catch (error) {
+    console.log("Error while connecting user", error.message);
+  }
 
-appServer.listen(5000, async () => {
+  // sending the notification to the postOwner
+  socket.on("sendNotificationFromUser", async (data) => {
+    const { owner } = data;
+    try {
+      const findOwner = await userCollection.findById(owner);
+      if (findOwner?.socketId) {
+        io.to(findOwner.socketId).emit("receiveNotificationFromUser", data);
+      } else {
+        // user is not active so we send the notification on registered mail
+      }
+    } catch (error) {
+      console.error("Error sending notification:", error);
+    }
+  });
+  socket.on("sendLoadNotification", () => {
+    socket.emit("loadNotification");
+  });
+  socket.on("disconnect", async () => {
+    try {
+      await userCollection.findByIdAndUpdate(instaUserID, { socketId: "" }, { upsert: true });
+    } catch (error) {
+      console.log("Error while connecting user", error.message);
+    }
+  });
+});
+
+httpServer.listen(5000, async () => {
   try {
     await mongooseConnection();
     console.log(`SERVER STARED  : http://localhost:${process.env.PORT}`);

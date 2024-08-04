@@ -40,7 +40,6 @@ function AboutAccount({ userID, closePopup }) {
         } else {
           toast.error("Failed to load user's about account.");
         }
-        console.log(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);

@@ -63,8 +63,25 @@
     text-decoration: none;
     border-radius: 10px;
     transition: 400ms;
+    position: relative;
+    /* border: 2px solid red; */
 }
-
+.__appNavbar_ItemNotificationCounter{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    background-color: #ed3548;
+    border-radius: 50%;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
 .__appNavbar_Items_ICONS {
     transition: 400ms;
     font-size: 26px;
@@ -708,11 +725,19 @@
         bottom: 40px;
         right: -275px;
     }
+    .__appNavbar_ItemNotificationCounter{
+        position: absolute;
+        top: -12px;
+        transform: none;
+        right: 9px;
+        width: 22px;
+        height: 22px;
+    }
 }
 
 @media screen and (max-width: 681px) {
     .HomeSection__homePostCard {
-        width: 98%;
+        width: 95%;
     }
 }
 
@@ -795,12 +820,19 @@
         height: 100%;
         padding: 0em 0.2em;
     }
+    .__appNavbar_ItemNotificationCounter{
+        position: absolute;
+        top: -9px;
+        transform: none;
+        right: -5px;
+        width: 22px;
+        height: 22px;
+    }
     .homePostCard__iconButton_Box{
         width: 100%;
         padding: 0em 0.2em;
 
     }
-
 
 }
 

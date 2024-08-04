@@ -7,12 +7,12 @@ import { Provider } from "react-redux";
 import ReduxStore from "./Redux/ReduxStore";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <Provider store={ReduxStore}>
         <App />
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>
+  // {/* </React.StrictMode> */}
 );
 reportWebVitals();

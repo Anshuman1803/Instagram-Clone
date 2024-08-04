@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoggedOut } from "../Redux/ReduxSlice";
+import socket from "../utility/socket";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export function usePostComment(commentCounter, loadComments) {
   const { instaUserID, instaTOKEN } = useSelector((state) => state.Instagram);
@@ -36,6 +37,19 @@ export function usePostComment(commentCounter, loadComments) {
           if (typeof loadComments === "function") {
             loadComments();
           }
+          // send notification tempObj
+          const tempNotificationObj = {
+            owner: posts?.user,
+            postID: posts?._id,
+            userID: instaUserID,
+            notificationText: `commented on your post`,
+            notificationStatus: "unread",
+            notificationType: "comment",
+            createdAt: Date.now(),
+          };
+          // send the notification to the server
+          socket.emit("sendNotificationFromUser", tempNotificationObj);
+          axios.post(`${BACKEND_URL}notifications/create/new-notification`, tempNotificationObj, { headers });
         } else {
           toast.error(response.data.msg);
           setNewComment("");
@@ -72,9 +86,9 @@ export function usePostComment(commentCounter, loadComments) {
         }
       })
       .catch((error) => {
-       if (error.response.status === 401) {
+        if (error.response.status === 401) {
           dispatch(UserLoggedOut());
-           navigateTO("/user/auth/signin")
+          navigateTO("/user/auth/signin");
           toast.error("Your session has expired. Please login again.");
         } else {
           toast.error(`Server error: ${error.message}`);
@@ -82,5 +96,5 @@ export function usePostComment(commentCounter, loadComments) {
       });
   };
 
-  return { tempCommentsCounter, handlePostComment,handleDeleteComment, newComment, setNewComment, postCommentLoading };
+  return { tempCommentsCounter, handlePostComment, handleDeleteComment, newComment, setNewComment, postCommentLoading };
 }

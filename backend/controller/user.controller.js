@@ -373,7 +373,7 @@ const getUser = async (request, response) => {
               $lookup: {
                 from: "comments",
                 localField: "_id",
-                foreignField: "post",
+                foreignField: "postID",
                 as: "comments",
               },
             },

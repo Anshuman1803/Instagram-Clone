@@ -1,0 +1,311 @@
+.__notificationContainer {
+    width: 100%;
+}
+
+.__notificationHeading {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 0.5em;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    
+}
+
+.__notification_FilterBox {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.28);
+    padding: 0.5em 1em;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    background-color: white;
+    position: sticky;
+    top: 60px;
+    z-index: 2;
+}
+
+.__notificationFilter__items {
+    padding: 0.3em 0.6em;
+    border-radius: 5px;
+    width: 90px;
+    font-size: 16px;
+    font-weight: 400;
+    border: 1px solid rgba(128, 128, 128, 0.333);
+    background-color: transparent;
+}
+
+.__notificationFilter__items:hover {
+    cursor: pointer;
+    border: 1px solid #0867ff9d;
+    color: #0866ff;
+}
+
+.__activeItemButton {
+    background-color: #0867ff17;
+    border: 1px solid #0867ff9d;
+    color: #0866ff;
+}
+
+.__markAllAsReadButton {
+    border: none;
+    width: fit-content;
+    padding: 0;
+    background-color: transparent;
+    color: #0866ff;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+
+.__notificationSort {
+    border: 1px solid rgba(128, 128, 128, 0.4);
+    padding: 0.4em 1em;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+    outline: none;
+    cursor: pointer;
+}
+
+.__notificationbox {
+    width: 70%;
+    min-height: 350px;
+    margin: 0px auto;
+    padding: 1em;
+    position: relative;
+}
+.__notificationLoader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55px;
+}
+
+.__notificationsCard {
+    border-radius: 2px;
+    border: 1px solid rgba(128, 128, 128, 0.226);
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0.5em 1em;
+    margin-bottom: 15px;
+}
+
+.__notificationsCard:hover {
+    border: 1px solid #0867ff9d;
+}
+
+.__unreadNotification {
+    background-color: #0867ff17;
+}
+
+.__notification__userProfile {
+    border: 1px solid rgba(128, 128, 128, 0.404);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.__notification__userProfile img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.__notification__content {
+    width: calc(100% - 140px);
+    height: 100%;
+}
+
+
+.__notification_text {
+    font-size: 18px;
+    font-weight: 400;
+    color: black;
+}
+
+.__notification_timing {
+    display: block;
+    font-weight: 600;
+    margin-top: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.__notificationOption {
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.__notificationOption:hover {
+    cursor: pointer;
+    color: grey;
+}
+
+.__notification__PostPoster {
+    width: 80px;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.267);
+}
+
+.__notification__PostPoster img {
+    width: 100%;
+    height: 100%;
+}
+
+.__notificationActionContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0em 0.5em;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.218);
+    transition: all 0.5s ease-in-out;
+    z-index: 5;
+}
+
+.__actionBox {
+    border-radius: 5px;
+    background-color: white;
+    width: 325px;
+}
+.__actionBoxHeading{
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.513);
+
+}
+.__notificationActionButton {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0em 1em;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: 1px solid rgba(128, 128, 128, 0.308);
+}
+
+.__notificationActionButton:nth-child(2) {
+    border: none;
+    color: #e5532d;
+}
+
+.__notificationActionButton:nth-child(5) {
+    color: #e5532d;
+}
+
+.__notificationActionICON {
+    font-size: 22px;
+    transition: all 400ms ease-in;
+    color: black;
+}
+.__notificationActionButton:hover{
+    cursor: pointer;
+    background-color: rgba(128, 128, 128, 0.15);
+}
+.__notificationActionUnacitve{
+    pointer-events: none;
+    background-color: #e5522d83;
+}
+
+/* No NOtification component */
+.__noNotificationBox{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1.5em 0.5em;
+}
+.__noNotificationPoster{
+    width: 120px;
+
+}
+.__noNotificationHeading{
+    font-size: 25px;
+    font-weight: 700;
+    margin: 15px auto;
+
+}
+.__noNotificationSecondary_Heading{
+    font-size: 20px;
+    font-weight: 400;
+    color: grey;
+    text-align: center;
+
+}
+
+@media screen and (max-width: 810px) {
+    .__notificationbox {
+        width: 100%;
+        padding: 1em 0.3em;
+    }
+    .__notification_text {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .__notificationHeading {
+        font-size: 22px;
+    }
+
+    .__notificationFilter__items:last-child {
+        font-size: 14px;
+    }
+    .__noNotificationSecondary_Heading{
+        font-size: 18px;
+    }
+
+    .__notification__userProfile {
+        width: 40px;
+        height: 40px;
+    }
+
+    .__notification__content {
+        width: calc(100% - 110px);
+    }
+
+    .__notification__PostPoster {
+        width: 70px;
+        height: 100%;
+    }
+}
