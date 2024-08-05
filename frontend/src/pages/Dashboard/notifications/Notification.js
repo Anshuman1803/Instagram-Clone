@@ -15,6 +15,7 @@ import { RxCross2 } from "react-icons/rx";
 import Loader from "../../../Assets/postCommentLoader.gif";
 import Notification404 from "./Notification404";
 import socket from "../../../utility/socket";
+import notificationSound from "./notification.mp3";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export default function Notification() {
   const navigateTO = useNavigate();
@@ -28,6 +29,7 @@ export default function Notification() {
   const headers = {
     Authorization: `Bearer ${instaTOKEN}`,
   };
+
 
   // Load all the notifications
   const loadNotifications = () => {
@@ -130,6 +132,10 @@ export default function Notification() {
   useEffect(() => {
     socket.on("receiveNotificationFromUser", () => {
       loadNotifications();
+      if (document.hasFocus()) {
+        const newNotification = new Audio(notificationSound);
+        newNotification.play();
+      }
     });
 
     socket.on("loadNotification", () => {
@@ -211,9 +217,11 @@ export default function Notification() {
                         </span>
                       </p>
 
-                      <div className={`${pageStyle.__notification__PostPoster}`}>
-                        <img src={notification?.post?.postPoster} alt={`post poster`} />
-                      </div>
+                     {
+                      notification?.notificationType!=="follow" &&  <div className={`${pageStyle.__notification__PostPoster}`}>
+                      <img src={notification?.post?.postPoster} alt={`post poster`} />
+                    </div>
+                     }
                     </article>
                   );
                 })}

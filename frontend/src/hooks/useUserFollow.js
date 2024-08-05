@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userFollow, UserLoggedOut } from "../Redux/ReduxSlice";
+import socket from "../utility/socket";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export function useUserFollow(setButtonLoading) {
   const { instaTOKEN, instaUserID } = useSelector((state) => state.Instagram);
@@ -24,6 +25,29 @@ export function useUserFollow(setButtonLoading) {
           if (typeof setButtonLoading === "function") {
             setButtonLoading(false);
           }
+
+          // notify the user someone started following him
+          const tempNotificationObj = {
+            owner: userID,
+            userID: instaUserID,
+            notificationText: `Started following you`,
+            notificationStatus: "unread",
+            notificationType: "follow",
+          };
+  
+          // send the notification to the server
+          socket.emit("sendNotificationFromUser", tempNotificationObj);
+          axios
+            .post(`${BACKEND_URL}notifications/create/new-notification`, tempNotificationObj, { headers })
+            .catch((error) => {
+              if (error.response?.status === 401) {
+                dispatch(UserLoggedOut());
+                navigateTO("/user/auth/signin");
+                toast.error("Your session has expired. Please login again.");
+              } else {
+                toast.error(`Server error: ${error.message}`);
+              }
+            });
         } else {
           toast.error(response.data.msg);
           if (typeof setButtonLoading === "function") {

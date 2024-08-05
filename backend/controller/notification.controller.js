@@ -4,14 +4,9 @@ const Mongoose = require("mongoose");
 // new notifications add to the database
 const addNewNotifications = async (request, response) => {
   try {
-    const { owner, postID, userID, notificationText, notificationStatus, notificationType } = request.body;
+    const newNotification = request.body;
     const savedNotification = await notificationCollection.create({
-      owner,
-      postID,
-      userID,
-      notificationText,
-      notificationStatus,
-      notificationType,
+      ...newNotification,
       createdAt: Date.now(),
     });
     if (savedNotification) {
@@ -46,6 +41,17 @@ const getNotifications = async (request, response) => {
         $unwind: "$user",
       },
       {
+        $addFields: {
+          postLookup: {
+            $cond: {
+              if: { $or: [{ $eq: ["$notificationType", "like"] }, { $eq: ["$notificationType", "comment"] },{ $eq: ["$notificationType", "post"] }] },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+      {
         $lookup: {
           from: "posts",
           localField: "postID",
@@ -54,18 +60,45 @@ const getNotifications = async (request, response) => {
         },
       },
       {
-        $unwind: "$post",
+        $addFields: {
+          post: {
+            $cond: {
+              if: "$postLookup",
+              then: { $arrayElemAt: ["$post", 0] },
+              else: "$$REMOVE",
+            },
+          },
+        },
       },
       {
         $project: {
           _id: 1,
           notificationStatus: 1,
+          notificationType: 1,
           createdAt: 1,
           notificationText: {
             $cond: {
               if: { $eq: ["$notificationType", "like"] },
               then: { $concat: ["$user.userName", " liked your post"] },
-              else: { $concat: ["$user.userName", " commented on your post"] },
+              else: {
+                $cond: {
+                  if: { $eq: ["$notificationType", "comment"] },
+                  then: { $concat: ["$user.userName", " commented on your post"] },
+                  else: { 
+                    $cond: {
+                      if: { $eq: ["$notificationType", "follow"] },
+                      then: {$concat: ["$user.userName", " started following you"] },
+                      else: {
+                        $cond: {
+                          if: { $eq: ["$notificationType", "post"] },
+                          then: {$concat: ["$user.userName", " posts new picture"] },
+                          else: null,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
           "post._id": 1,

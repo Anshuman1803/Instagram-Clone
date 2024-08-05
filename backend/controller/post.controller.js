@@ -20,7 +20,7 @@ const createPost = async (request, response) => {
     });
 
     if (mongooseResponse) {
-      response.send({ success: true });
+      response.send({ success: true, postID : mongooseResponse._id });
     } else {
       response.send({ success: false });
     }

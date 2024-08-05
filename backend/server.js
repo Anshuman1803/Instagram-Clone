@@ -15,6 +15,7 @@ const { googleRoute } = require("./router/google.routes");
 const { userCollection } = require("./model/user.model");
 const { notificationRoutes } = require("./router/notification.routes");
 const { emailSender } = require("./helper/Email");
+const { notificationCollection } = require("./model/notification.model");
 dotENV.config();
 appServer.use(express.json());
 appServer.use(
@@ -88,6 +89,36 @@ io.on("connection", async (socket) => {
   });
 
   // send Email & Notification to the followers when the user post something
+  socket.on("sendNotificationFromUserToFollowers", (data) => {
+    try {
+      const { postCreator, postCreatorUserName, postID, followersList } = data;
+      followersList.length > 0 &&
+        followersList.forEach(async (followers) => {
+          notificationCollection.create({
+            owner: followers,
+            postID: postID,
+            userID: postCreator,
+            notificationText: "post new picture",
+            notificationStatus: "unread",
+            notificationType: "post",
+            createdAt: new Date(),
+          });
+          let findFollowersUser = await userCollection.findById(followers).select("userEmail userName _id socketId");
+
+          if (findFollowersUser.socketId) {
+            io.to(findFollowersUser.socketId).emit("receiveNotificationFromUser", data);
+          } else {
+            await emailSender(
+              findFollowersUser.userEmail,
+              `${postCreatorUserName} post a new picture`,
+              `Hi ${followers?.userName},\n\nWe wanted to let you know that ${postCreatorUserName} post a new picture!\n\nThank you for being an active member of our community. If you have any questions or need assistance, please do not hesitate to contact us.\nSincerely,\nThe Instagram-Clone support team\nContact: +917061751101`
+            );
+          }
+        });
+    } catch (error) {
+      console.error("Error sending notification:", error);
+    }
+  });
 
   socket.on("disconnect", async () => {
     try {
