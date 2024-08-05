@@ -211,9 +211,11 @@ export default function Notification() {
                         </span>
                       </p>
 
-                      <div className={`${pageStyle.__notification__PostPoster}`}>
-                        <img src={notification?.post?.postPoster} alt={`post poster`} />
-                      </div>
+                     {
+                      notification?.notificationType!=="follow" &&  <div className={`${pageStyle.__notification__PostPoster}`}>
+                      <img src={notification?.post?.postPoster} alt={`post poster`} />
+                    </div>
+                     }
                     </article>
                   );
                 })}
