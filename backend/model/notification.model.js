@@ -24,7 +24,7 @@ const notificationModel = mongoose.Schema({
       },
       notificationType : {
         type : String,
-        enum : ["like", "comment","follow"],
+        enum : ["like", "comment","follow","post"],
       },
       createdAt : {
         type : Number,

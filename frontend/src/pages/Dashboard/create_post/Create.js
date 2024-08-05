@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoggedOut } from '../../../Redux/ReduxSlice';
+import { UserLoggedOut } from "../../../Redux/ReduxSlice";
 import noPreviewPoster from "../../../Assets/noPreviewPoster.png";
 import defaultProfile from "../../../Assets/DefaultProfile.png";
 import selectImageICON from "../../../Assets/selectImageICON.png";
@@ -8,16 +8,17 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import LazyLoader from "../../../components/LazyLoader";
 import { useNavigate } from "react-router-dom";
-import createPostStyle from "./create.module.css"
+import createPostStyle from "./create.module.css";
+import socket from "../../../utility/socket";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function Create() {
-  const { instaUserID, instaUserName, instaProfle, instaTOKEN} = useSelector((state) => state.Instagram);
+  const { instaUserID, instaUserName, instaProfle, instaTOKEN,instaFollowers } = useSelector((state) => state.Instagram);
   const dispatch = useDispatch();
   const navigateTO = useNavigate();
   const [Loading, setLoading] = useState(false);
   const imgRef = useRef();
-  const [post, setPost] = useState({ postPoster: "", postCaption: "", });
+  const [post, setPost] = useState({ postPoster: "", postCaption: "" });
   const [selectedImage, setSelectedImage] = useState(null);
   const handleOnChangeInput = (e) => {
     if (e.target.name === "postPoster") {
@@ -37,13 +38,16 @@ export default function Create() {
 
   const handleCreateNewPost = (e) => {
     e.preventDefault();
-
+    // socket.emit("sendNotificationFromUserToFollowers", {
+    //   postCreator: instaUserID,
+    //   // postID: response.data.postID,
+    //   followersList : instaFollowers
+    // });
     if (post.postPoster === "") {
       toast.error("Select an image for post");
     } else if (post.postCaption.length > 75) {
       toast.error("Caption should be only 75 characters.");
-    }
-    else {
+    } else {
       const formData = new FormData();
       formData.set("user", instaUserID);
       formData.set("userName", instaUserName);
@@ -54,13 +58,18 @@ export default function Create() {
       setLoading(true);
       axios
         .post(`${BACKEND_URL}posts/create-post`, formData, {
-          headers: { "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${instaTOKEN}`,
-           },
+          headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${instaTOKEN}` },
         })
         .then((response) => {
           if (response.data.success) {
             toast.success("Post created successfully");
+            // send the notification to the server
+            socket.emit("sendNotificationFromUserToFollowers", {
+              postCreator: instaUserID,
+              postID: response.data.postID,
+              followersList : instaFollowers,
+              postCreatorUserName : instaUserName,
+            });
           } else {
             toast.error("Try again");
           }
@@ -68,20 +77,20 @@ export default function Create() {
         .catch((error) => {
           if (error.response.status === 401) {
             dispatch(UserLoggedOut());
-             navigateTO("/user/auth/signin")
+            navigateTO("/user/auth/signin");
             toast.error("Your session has expired. Please login again.");
           } else {
             toast.error(`Server error: ${error.message}`);
           }
-         
-        }).finally(()=>{
+        })
+        .finally(() => {
           setPost({
             postPoster: "",
             postCaption: "",
           });
           setSelectedImage(null);
           setLoading(false);
-        })
+        });
     }
   };
 
@@ -102,11 +111,7 @@ export default function Create() {
         <form className={`${createPostStyle.createPost__form}`} onSubmit={handleCreateNewPost}>
           <h1 className={`${createPostStyle.createPost__formHeading}`}>
             Create new post
-            <button
-              type="submit"
-              className={`${createPostStyle.createPost__ShareButton}`}
-              value={"Share"}
-            >
+            <button type="submit" className={`${createPostStyle.createPost__ShareButton}`} value={"Share"}>
               Share
             </button>
           </h1>
@@ -135,14 +140,7 @@ export default function Create() {
             value={post.postCaption}
           ></textarea>
 
-          <input
-            type="file"
-            hidden
-            ref={imgRef}
-            accept="image/*"
-            name="postPoster"
-            onChange={handleOnChangeInput}
-          />
+          <input type="file" hidden ref={imgRef} accept="image/*" name="postPoster" onChange={handleOnChangeInput} />
 
           <img
             src={selectImageICON}

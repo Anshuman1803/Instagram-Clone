@@ -44,7 +44,7 @@ const getNotifications = async (request, response) => {
         $addFields: {
           postLookup: {
             $cond: {
-              if: { $or: [{ $eq: ["$notificationType", "like"] }, { $eq: ["$notificationType", "comment"] }] },
+              if: { $or: [{ $eq: ["$notificationType", "like"] }, { $eq: ["$notificationType", "comment"] },{ $eq: ["$notificationType", "post"] }] },
               then: true,
               else: false,
             },
@@ -88,7 +88,13 @@ const getNotifications = async (request, response) => {
                     $cond: {
                       if: { $eq: ["$notificationType", "follow"] },
                       then: {$concat: ["$user.userName", " started following you"] },
-                      else: null,
+                      else: {
+                        $cond: {
+                          if: { $eq: ["$notificationType", "post"] },
+                          then: {$concat: ["$user.userName", " posts new picture"] },
+                          else: null,
+                        },
+                      },
                     },
                   },
                 },
