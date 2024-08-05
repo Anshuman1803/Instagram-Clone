@@ -92,7 +92,6 @@ io.on("connection", async (socket) => {
   socket.on("sendNotificationFromUserToFollowers", (data) => {
     try {
       const { postCreator, postCreatorUserName, postID, followersList } = data;
-
       followersList.length > 0 &&
         followersList.forEach(async (followers) => {
           notificationCollection.create({

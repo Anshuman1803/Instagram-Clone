@@ -38,11 +38,6 @@ export default function Create() {
 
   const handleCreateNewPost = (e) => {
     e.preventDefault();
-    // socket.emit("sendNotificationFromUserToFollowers", {
-    //   postCreator: instaUserID,
-    //   // postID: response.data.postID,
-    //   followersList : instaFollowers
-    // });
     if (post.postPoster === "") {
       toast.error("Select an image for post");
     } else if (post.postCaption.length > 75) {
