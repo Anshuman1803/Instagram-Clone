@@ -1,13 +1,18 @@
 .__ExploreContainer {
     min-height: 100dvh;
     width: 100%;
+    position: relative;
+}
+
+.__Explore__postCardBox {
     padding: 1em 0.8em;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
     align-items: flex-start;
     justify-content: center;
     gap: 10px;
-    position: relative;
+    min-height: 100dvh;
+    width: 100%;
 }
 
 .__ExplorePostCard__ShimmerEffect {
@@ -94,6 +99,19 @@
     display: flex;
 }
 
+.__loadMoreButton {
+    display: block;
+    padding: 0.8em;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    width: 175px;
+    margin: 20px auto;
+    background: linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7);
+    color: white;
+    cursor: pointer;
+}
 
 /*! Responsive Styles */
 

@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2")
+
 const postModel = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,6 +37,8 @@ const postModel = mongoose.Schema({
     type: Number,
   }
 });
+
+postModel.plugin(aggregatePaginate);
 const postCollection = mongoose.model("posts", postModel);
 
 module.exports = { postCollection };

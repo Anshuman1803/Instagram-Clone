@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2")
+
 const commentModel = mongoose.Schema({
     postID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,5 +22,7 @@ const commentModel = mongoose.Schema({
         required: true,
     }
 });
+
+commentModel.plugin(aggregatePaginate);
 const commentCollection = mongoose.model("comments", commentModel);
 module.exports = { commentCollection }

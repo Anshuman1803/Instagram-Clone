@@ -5,6 +5,7 @@ const { userCollection } = require("../model/user.model");
 const { uploadOnCloudnary } = require("../service/cloudinary");
 const Mongoose = require("mongoose");
 
+
 const createPost = async (request, response) => {
   const { user, postCreatedAt, postCaption } = request.body;
   try {
@@ -102,8 +103,9 @@ const deleteSavePostFromCollection = async (request, response) => {
 const explorerPosts = async (request, response) => {
   try {
     const { instaUserID } = request.params;
+    const {page} = request.query
     const currentUser = await userCollection.findById(instaUserID).select("userFollowing");
-    const postData = await userCollection.aggregate([
+    const postData = userCollection.aggregate([
       {
         $match: {
           isPrivate: false,
@@ -170,11 +172,25 @@ const explorerPosts = async (request, response) => {
       },
     ]);
 
-    if (postData.length > 0) {
-      response.send({ success: true, posts: postData });
-    } else {
-      response.send({ success: false, posts: postData });
-    }
+    const options = {
+      page: parseInt(page) || 1,
+      limit: 6,
+      lean: true,
+      customLabels: {
+        docs: 'data',
+        meta: 'meta',
+      },
+    };
+
+    userCollection.aggregatePaginate(postData, options).then((result)=>{
+      if(result.data.length > 0){
+        response.send({ success: true, posts: result.data, meta : result.meta });
+      }else{
+        response.send({ success: false, posts: result.data, meta : result.meta });
+      }
+    }).catch((error)=>{
+      response.send({ success: false, msg: error.message });
+    })
   } catch (err) {
     response.send({ success: false, msg: err.message });
   }
@@ -239,7 +255,8 @@ const unLikePosts = async (request, response) => {
 const getAllPosts = async (request, response) => {
   try {
     const { userID } = request.params;
-    const postData = await userCollection.aggregate([
+
+    const postData = userCollection.aggregate([
       {
         $match: {
           $or: [
@@ -309,11 +326,26 @@ const getAllPosts = async (request, response) => {
         },
       },
     ]);
-    if (postData.length > 0) {
-      response.send({ success: true, posts: postData });
-    } else {
-      response.send({ success: false, posts: postData });
-    }
+
+    const options = {
+      page: 1,
+      limit: 10,
+      lean: true,
+      customLabels: {
+        docs: 'data',
+        meta: 'meta',
+      },
+    };
+
+    userCollection.aggregatePaginate(postData, options).then((result)=>{
+      if(result.data.length > 0){
+        response.send({ success: true, posts: result.data, meta : result.meta });
+      }else{
+        response.send({ success: false, posts: result.data, meta : result.meta });
+      }
+    }).catch((error)=>{
+      response.send({ success: false, msg: error.message });
+    })
   } catch (err) {
     response.send({ success: false, msg: err.message });
   }

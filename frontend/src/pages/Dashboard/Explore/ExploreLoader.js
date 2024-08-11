@@ -10,16 +10,7 @@ function ExploreLoader() {
     <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
     <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
     <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-    <div className={`${exploreStyle.__ExplorePostCard__ShimmerEffect}`}></div>
-   </>
+    </>
   )
 }
 
