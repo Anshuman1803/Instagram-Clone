@@ -10,6 +10,8 @@ import { CalculateTimeAgo } from "../../../utility/TimeAgo";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
+
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
@@ -41,23 +43,30 @@ function PostDetails() {
   const [allCommentsLoader, setallCommentsLoader] = useState(false);
   const {handleLikePostClick,handleUnLikePostClick, tempLikeCounter} = useLikeUnlike(state?.postLikes);
   const {handlePostComment,handleDeleteComment,newComment,setNewComment, postCommentLoading} = usePostComment(0,loadNewComments)
-  
+  const [commentPage, setCommentpage] = useState(1);
+  const [hasMorecomments, sethasMorecomments] = useState(false);
   // !Back to previous page
   const handleCloseButtonClick = (e) => {
     e.preventDefault();
     window.history.back();
   };
 
+  // handle load more comments
+  const loadMoreComments = ()=>{
+    setCommentpage((prevState)=> prevState + 1)
+  }
+
   // load all new comments of current post
   function loadNewComments() {
     setallCommentsLoader(true);
     axios
-      .get(`${BACKEND_URL}comments/get-all-comments/${id}`, {
+      .get(`${BACKEND_URL}comments/get-all-comments/${id}?page=${commentPage || 1}`, {
         headers,
       })
       .then((response) => {
         if (response.data.success) {
-          setAllComments(response.data.comments);
+          setAllComments((prevComments)=> [...prevComments, ...response.data.comments]);
+          sethasMorecomments(response.data.meta.page < response.data.meta.totalPages);
           setallCommentsLoader(false);
         } else {
           setAllComments(response.data.comments);
@@ -75,7 +84,7 @@ function PostDetails() {
       });
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(loadNewComments, [id]);
+  useEffect(loadNewComments, [id,commentPage]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -199,6 +208,9 @@ function PostDetails() {
                   )}
                 </>
               )}
+              {
+                hasMorecomments && <button className={`${postDetailsStyle.__loadMoreCommentsButton}`} onClick={loadMoreComments}><FiPlus /></button>
+              }
             </div>
 
             <div className={`${postDetailsStyle.__PostDetails__PostStatsBox}`}>

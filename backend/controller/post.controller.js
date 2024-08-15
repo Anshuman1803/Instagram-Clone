@@ -445,6 +445,19 @@ const deletePost = async (request, response) => {
   }
 };
 
+// Individual get post for post details page
+const getPostDetails = async(request, response)=>{
+  try{
+    const {postID} = request.params
+
+  }catch(error){
+    response.status(500).json({
+      success: false,
+      msg: `Server failed to get post details, Try again later - ${error.message}`,
+    });
+  }
+}
+
 module.exports = {
   createPost,
   savePost,
@@ -455,4 +468,5 @@ module.exports = {
   explorerPosts,
   getLikedByUserList,
   deletePost,
+  getPostDetails
 };

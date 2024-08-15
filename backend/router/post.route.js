@@ -1,4 +1,4 @@
-const { createPost, getAllPosts, explorerPosts, savePost, deleteSavePostFromCollection, likePosts, unLikePosts, getLikedByUserList, deletePost } = require("../controller/post.controller");
+const { createPost, getAllPosts, explorerPosts, savePost, deleteSavePostFromCollection, likePosts, unLikePosts, getLikedByUserList, deletePost, getPostDetails } = require("../controller/post.controller");
 const { upload } = require("../middleware/uploadImage");
 const { userAuthenticate } = require("../middleware/Authenticate")
 const postRoute = require("express").Router();
@@ -13,6 +13,7 @@ postRoute.patch("/delete/save-post/:postID", userAuthenticate, deleteSavePostFro
 postRoute.get("/get-all/:userID", userAuthenticate, getAllPosts);
 postRoute.get("/get-explore-posts/:instaUserID", userAuthenticate, explorerPosts);
 postRoute.get("/get-likedby-user-list/:postID", userAuthenticate, getLikedByUserList);
+postRoute.get("/get-post-details/:postID", userAuthenticate, getPostDetails);
 postRoute.delete("/delete-post/:postID", userAuthenticate, deletePost);
 
 module.exports = { postRoute }
