@@ -54,6 +54,5 @@ Your privacy is important to us. We will never share your email address or perso
 - Portfolio: [https://anshumankumar.netlify.app/](https://anshumankumar.netlify.app/)
 - LinkedIn: [https://www.linkedin.com/in/anshuman1803/](https://www.linkedin.com/in/anshuman1803/)
 - GitHub: [https://github.com/Anshuman1803](https://github.com/Anshuman1803)
-- Instagram: [https://www.instagram.com/_anshuman_1803/](https://www.instagram.com/_anshuman_1803/)
-- Facebook: [https://www.facebook.com/anshuman1803](https://www.facebook.com/anshuman1803)
+- Instagram: [https://www.instagram.com/_anshuman_1803/](https://www.instagram.com/__anshuman1803/)
 - WhatsApp: [https://api.whatsapp.com/send/?phone=7061751101&text&type=phone_number&app_absent=0](https://api.whatsapp.com/send/?phone=7061751101&text&type=phone_number&app_absent=0)
